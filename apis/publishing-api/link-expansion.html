@@ -1,0 +1,595 @@
+
+<!doctype html>
+<html lang="en" class="govuk-template no-js">
+  <head>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+    <title>publishing-api: Link Expansion - GOV.UK Developer Documentation</title>
+
+    <link href="/stylesheets/manifest.css" rel="stylesheet" />
+
+    <link rel="canonical" href="https://docs.publishing.service.gov.uk/apis/publishing-api/link-expansion.html">
+
+
+      <meta property="og:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
+      <meta property="og:site_name" content="GOV.UK Developer Documentation" />
+      <meta property="og:title" content="publishing-api: Link Expansion" />
+      <meta property="og:type" content="object" />
+      <meta property="og:url" content="https://docs.publishing.service.gov.uk/apis/publishing-api/link-expansion.html" />
+      <meta property="twitter:card" content="summary" />
+      <meta property="twitter:domain" content="docs.publishing.service.gov.uk" />
+      <meta property="twitter:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
+      <meta property="twitter:title" content="publishing-api: Link Expansion - GOV.UK Developer Documentation" />
+      <meta property="twitter:url" content="https://docs.publishing.service.gov.uk/apis/publishing-api/link-expansion.html" />
+
+    
+  </head>
+
+  <body class="govuk-template__body">
+    <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+
+    <div class="app-pane">
+      <div class="app-pane__header toc-open-disabled">
+        <a href="#content" class="govuk-skip-link">Skip to main content</a>
+
+        <header class="govuk-header app-header" role="banner" data-module="govuk-header">
+  <div class="govuk-header__container govuk-header__container--full-width">
+    <div class="govuk-header__logo">
+      <a href="/" class="govuk-header__link govuk-header__link--homepage">
+        <span class="govuk-header__logotype">
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            class="govuk-header__logotype-crown"
+            xmlns="http://www.w3.org/2000/svg"
+            viewbox="0 0 132 97"
+            height="30"
+            width="36"
+          >
+            <path
+              fill="currentColor" fill-rule="evenodd"
+              d="M25 30.2c3.5 1.5 7.7-.2 9.1-3.7 1.5-3.6-.2-7.8-3.9-9.2-3.6-1.4-7.6.3-9.1 3.9-1.4 3.5.3 7.5 3.9 9zM9 39.5c3.6 1.5 7.8-.2 9.2-3.7 1.5-3.6-.2-7.8-3.9-9.1-3.6-1.5-7.6.2-9.1 3.8-1.4 3.5.3 7.5 3.8 9zM4.4 57.2c3.5 1.5 7.7-.2 9.1-3.8 1.5-3.6-.2-7.7-3.9-9.1-3.5-1.5-7.6.3-9.1 3.8-1.4 3.5.3 7.6 3.9 9.1zm38.3-21.4c3.5 1.5 7.7-.2 9.1-3.8 1.5-3.6-.2-7.7-3.9-9.1-3.6-1.5-7.6.3-9.1 3.8-1.3 3.6.4 7.7 3.9 9.1zm64.4-5.6c-3.6 1.5-7.8-.2-9.1-3.7-1.5-3.6.2-7.8 3.8-9.2 3.6-1.4 7.7.3 9.2 3.9 1.3 3.5-.4 7.5-3.9 9zm15.9 9.3c-3.6 1.5-7.7-.2-9.1-3.7-1.5-3.6.2-7.8 3.7-9.1 3.6-1.5 7.7.2 9.2 3.8 1.5 3.5-.3 7.5-3.8 9zm4.7 17.7c-3.6 1.5-7.8-.2-9.2-3.8-1.5-3.6.2-7.7 3.9-9.1 3.6-1.5 7.7.3 9.2 3.8 1.3 3.5-.4 7.6-3.9 9.1zM89.3 35.8c-3.6 1.5-7.8-.2-9.2-3.8-1.4-3.6.2-7.7 3.9-9.1 3.6-1.5 7.7.3 9.2 3.8 1.4 3.6-.3 7.7-3.9 9.1zM69.7 17.7l8.9 4.7V9.3l-8.9 2.8c-.2-.3-.5-.6-.9-.9L72.4 0H59.6l3.5 11.2c-.3.3-.6.5-.9.9l-8.8-2.8v13.1l8.8-4.7c.3.3.6.7.9.9l-5 15.4v.1c-.2.8-.4 1.6-.4 2.4 0 4.1 3.1 7.5 7 8.1h.2c.3 0 .7.1 1 .1.4 0 .7 0 1-.1h.2c4-.6 7.1-4.1 7.1-8.1 0-.8-.1-1.7-.4-2.4V34l-5.1-15.4c.4-.2.7-.6 1-.9zM66 92.8c16.9 0 32.8 1.1 47.1 3.2 4-16.9 8.9-26.7 14-33.5l-9.6-3.4c1 4.9 1.1 7.2 0 10.2-1.5-1.4-3-4.3-4.2-8.7L108.6 76c2.8-2 5-3.2 7.5-3.3-4.4 9.4-10 11.9-13.6 11.2-4.3-.8-6.3-4.6-5.6-7.9 1-4.7 5.7-5.9 8-.5 4.3-8.7-3-11.4-7.6-8.8 7.1-7.2 7.9-13.5 2.1-21.1-8 6.1-8.1 12.3-4.5 20.8-4.7-5.4-12.1-2.5-9.5 6.2 3.4-5.2 7.9-2 7.2 3.1-.6 4.3-6.4 7.8-13.5 7.2-10.3-.9-10.9-8-11.2-13.8 2.5-.5 7.1 1.8 11 7.3L80.2 60c-4.1 4.4-8 5.3-12.3 5.4 1.4-4.4 8-11.6 8-11.6H55.5s6.4 7.2 7.9 11.6c-4.2-.1-8-1-12.3-5.4l1.4 16.4c3.9-5.5 8.5-7.7 10.9-7.3-.3 5.8-.9 12.8-11.1 13.8-7.2.6-12.9-2.9-13.5-7.2-.7-5 3.8-8.3 7.1-3.1 2.7-8.7-4.6-11.6-9.4-6.2 3.7-8.5 3.6-14.7-4.6-20.8-5.8 7.6-5 13.9 2.2 21.1-4.7-2.6-11.9.1-7.7 8.8 2.3-5.5 7.1-4.2 8.1.5.7 3.3-1.3 7.1-5.7 7.9-3.5.7-9-1.8-13.5-11.2 2.5.1 4.7 1.3 7.5 3.3l-4.7-15.4c-1.2 4.4-2.7 7.2-4.3 8.7-1.1-3-.9-5.3 0-10.2l-9.5 3.4c5 6.9 9.9 16.7 14 33.5 14.8-2.1 30.8-3.2 47.7-3.2z"
+            ></path>
+            <image src="/assets/images/govuk-logotype-crown.png" xlink:href="" class="govuk-header__logotype-crown-fallback-image" width="36" height="32"></image>
+          </svg>
+          <span class="govuk-header__logotype-text">
+            GOV.UK
+          </span>
+        </span>
+        <span class="govuk-header__product-name">
+          Developer docs
+        </span>
+      </a>
+    </div>
+    <div class="govuk-header__content">
+      <button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="navigation" aria-label="Show or hide Top Level Navigation">Menu</button>
+      <nav>
+        <ul id="navigation" class="govuk-header__navigation govuk-header__navigation--end" aria-label="Top Level Navigation">
+            <li class="govuk-header__navigation-item">
+              <a class="govuk-header__link" href="/">Dashboard</a>
+            </li>
+            <li class="govuk-header__navigation-item">
+              <a class="govuk-header__link" href="/manual/get-started.html">Get started</a>
+            </li>
+            <li class="govuk-header__navigation-item">
+              <a class="govuk-header__link" href="/apps.html">Apps</a>
+            </li>
+            <li class="govuk-header__navigation-item">
+              <a class="govuk-header__link" href="/manual.html">Manual</a>
+            </li>
+            <li class="govuk-header__navigation-item govuk-header__navigation-item--active">
+              <a class="govuk-header__link" href="/apis.html">APIs</a>
+            </li>
+            <li class="govuk-header__navigation-item">
+              <a class="govuk-header__link" href="/content-schemas.html">Schemas</a>
+            </li>
+            <li class="govuk-header__navigation-item">
+              <a class="govuk-header__link" href="/document-types.html">Document types</a>
+            </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+      </div>
+
+        <div id="toc-heading" class="toc-show fixedsticky">
+          <a href="#toc" class="toc-show__label js-toc-show" aria-controls="toc">
+            Table of contents <span class="toc-show__icon"></span>
+          </a>
+        </div>
+
+      <div class="app-pane__body">
+          <div class="app-pane__toc">
+            <div class="toc" data-module="table-of-contents">
+              <div class="search" data-module="search">
+  <form action="https://www.google.co.uk/search" method="get" role="search">
+    <input type="hidden" name="as_sitesearch" value="https://docs.publishing.service.gov.uk"/>
+    <label class="govuk-label search__label" for="search">
+      Search (via Google)
+    </label>
+    <input class="govuk-input govuk-!-margin-bottom-4" id="search" name="q" type="text" aria-controls="search-results" placeholder="Search">
+  </form>
+  <div id="search-results" class="search-results" aria-hidden="true" role="dialog" aria-labelledby="search-results-title">
+    <div class="search-results__inner">
+      <button class="search-results__close">Close<span class="search-results__close-label"> search results</span></button>
+      <h2 id="search-results-title" class="search-results__title" aria-live="polite">Results</h2>
+      <div class="search-results__content"></div>
+    </div>
+  </div>
+</div>
+
+              <a href="#" class="toc__close js-toc-close" aria-controls="toc" aria-label="Hide table of contents"></a>
+              <nav id="toc" class="js-toc-list toc__list" aria-labelledby="toc-heading">
+                  <ul>
+    <li>
+      <a href="/apps/email-alert-api.html"><span>email-alert-api</span></a>
+      <ul>
+          <li><a href="/apis/email-alert-api/analytics.html"><span>Analytics</span></a></li>
+          <li><a href="/apis/email-alert-api/api.html"><span>Available endpoints</span></a></li>
+          <li><a href="/apis/email-alert-api/env-vars.html"><span>ENV vars</span></a></li>
+          <li><a href="/apis/email-alert-api/matching-content-to-subscriber-lists.html"><span>Matching content to subscriber lists</span></a></li>
+          <li><a href="/apis/email-alert-api/queues.html"><span>Queues</span></a></li>
+          <li><a href="/apis/email-alert-api/support-tasks.html"><span>Support tasks</span></a></li>
+          <li><a href="/apis/email-alert-api/troubleshooting.html"><span>Troubleshooting</span></a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="/apps/link-checker-api.html"><span>link-checker-api</span></a>
+      <ul>
+          <li><a href="/apis/link-checker-api/api.html"><span>Link Checker API's API</span></a></li>
+          <li><a href="/apis/link-checker-api/blitz.html"><span>End of blitz summary - April 2017</span></a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="/apps/publishing-api.html"><span>publishing-api</span></a>
+      <ul>
+          <li><a href="/apis/publishing-api/admin-tasks.html"><span>Admin Tasks</span></a></li>
+          <li><a href="/apis/publishing-api/api.html"><span>Publishing API's API</span></a></li>
+          <li><a href="/apis/publishing-api/dependency-resolution.html"><span>Dependency Resolution</span></a></li>
+          <li><a href="/apis/publishing-api/link-expansion.html" class="toc-link--in-view"><span>Link Expansion</span></a></li>
+          <li><a href="/apis/publishing-api/model.html"><span>Publishing API's Model</span></a></li>
+          <li><a href="/apis/publishing-api/pact_testing.html"><span>Contract testing with Pact</span></a></li>
+          <li><a href="/apis/publishing-api/publishing-application-examples.html"><span>Publishing application examples</span></a></li>
+          <li><a href="/apis/publishing-api/rabbitmq.html"><span>RabbitMQ</span></a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="/apps/search-api.html"><span>search-api</span></a>
+      <ul>
+          <li><a href="/apis/search-api/adding-new-fields.html"><span>Adding new fields to a document type</span></a></li>
+          <li><a href="/apis/search-api/content-api.html"><span>Content API</span></a></li>
+          <li><a href="/apis/search-api/content_overview.html"><span>Content in the search index and where it comes from</span></a></li>
+          <li><a href="/apis/search-api/documents.html"><span>Documents API (to be deprecated)</span></a></li>
+          <li><a href="/apis/search-api/how-search-works.html"><span>How Search Works</span></a></li>
+          <li><a href="/apis/search-api/indexing.html"><span>Indexing</span></a></li>
+          <li><a href="/apis/search-api/learning-to-rank.html"><span>learning-to-rank</span></a></li>
+          <li><a href="/apis/search-api/new-indexing-process.html"><span>Moving a format to the new indexing process</span></a></li>
+          <li><a href="/apis/search-api/popularity.html"><span>Popularity information</span></a></li>
+          <li><a href="/apis/search-api/publishing-finders.html"><span>Publishing finders</span></a></li>
+          <li><a href="/apis/search-api/relevancy.html"><span>Relevancy</span></a></li>
+          <li><a href="/apis/search-api/schemas.html"><span>Schema definitions</span></a></li>
+          <li><a href="/apis/search-api/search-api.html"><span>Using the search API</span></a></li>
+          <li><a href="/apis/search-api/search-quality-metrics.html"><span>Search Quality Metrics</span></a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="/apps/whitehall.html"><span>whitehall</span></a>
+      <ul>
+          <li><a href="/apis/whitehall/api.html"><span>Whitehall API</span></a></li>
+          <li><a href="/apis/whitehall/css.html"><span>Whitehall CSS Styleguide</span></a></li>
+          <li><a href="/apis/whitehall/detailed_setup_guide.html"><span>Detailed setup guide</span></a></li>
+          <li><a href="/apis/whitehall/edition_workflow.html"><span>Edition Workflow</span></a></li>
+          <li><a href="/apis/whitehall/finders.html"><span>Finders</span></a></li>
+          <li><a href="/apis/whitehall/internationalisation_guide.html"><span>Internationalisation guide</span></a></li>
+          <li><a href="/apis/whitehall/javascript.html"><span>Whitehall JavaScript Styleguide</span></a></li>
+          <li><a href="/apis/whitehall/link_checker_api_integration.html"><span>Link Checker API Integrations</span></a></li>
+          <li><a href="/apis/whitehall/search_setup_guide.html"><span>Search setup guide</span></a></li>
+          <li><a href="/apis/whitehall/testing_guide.html"><span>Testing Guide</span></a></li>
+          <li><a href="/apis/whitehall/timestamps.html"><span>Timestamps</span></a></li>
+      </ul>
+    </li>
+  </ul>
+
+              </nav>
+            </div>
+          </div>
+
+        <div class="app-pane__content toc-open-disabled">
+          <main id="content" class="technical-documentation" data-module="anchored-headings">
+              <h1 class="page-title">publishing-api: Link Expansion</h1>
+
+  
+<h2 id="contents">Contents</h2>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#example-output">Example output</a></li>
+<li><a href="#when-it-occurs">When it occurs</a></li>
+<li>
+<a href="#how-links-are-added">How links are added</a>
+<ul>
+<li><a href="#patch-link-set---link-set-links"><code>patch-link-set</code> - Link set links</a></li>
+<li><a href="#put-content---edition-links"><code>put-content</code> - Edition links</a></li>
+</ul>
+</li>
+<li>
+<a href="#types-of-links">Types of links</a>
+<ul>
+<li><a href="#available-translations">Available translations</a></li>
+<li><a href="#direct-links">Direct links</a></li>
+<li><a href="#reverse-links">Reverse links</a></li>
+<li>
+<a href="#recursive-links">Recursive links</a>
+<ul>
+<li><a href="#recursive-link-paths">Recursive link paths</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#link-presentation">Link presentation</a>
+<ul>
+<li><a href="#fields">Fields</a></li>
+</ul>
+</li>
+<li>
+<a href="#developer-gotchas">Developer gotchas</a>
+<ul>
+<li><a href="#why-is-this-link-appearing">Why is this link appearing?</a></li>
+<li><a href="#why-is-this-link-not-appearing">Why is this link <em>not</em> appearing?</a></li>
+<li><a href="#whyhow-does-a-link-have-extra-fields">Why/how does a link have extra fields?</a></li>
+<li><a href="#why-does-this-link-havehave-no-child-links">Why does this link have/have no child links?</a></li>
+</ul>
+</li>
+<li><a href="#debugging">Debugging</a></li>
+</ul>
+<h2 id="introduction">Introduction</h2>
+<p>Link expansion is a concept in the Publishing API which describes the process<br>
+of converting the stored links of an edition into a JSON representation<br>
+containing the details of these links. It is used in the Publishing API<br>
+during the process of sending an edition downstream to the<br>
+<a href="https://github.com/alphagov/content-store">Content Store</a>.</p>
+<p>The process involves determining which editions should and can be linked<br>
+to, the versions of them that are linked, and the fields that will be included<br>
+in the representation. It replaces a process in the Content Store which was<br>
+used to determine and expand links at the point of request.</p>
+<p>A closely related process to this is<br>
+<a href="dependency-resolution.md">dependency-resolution</a>. This is something of a<br>
+reversal in link expansion and has the role of determining which editions<br>
+will need re-presenting to the content store as a result of an update to a<br>
+document.</p>
+<h2 id="example-output">Example Output</h2>
+<p>Below is an abridged example of an edition represented as JSON after link<br>
+expansion has occurred.</p>
+<pre lang="json"><code>{
+  "base_path": "/government/organisations/department-for-transport/about/welsh-language-scheme",
+  "content_id": "5f54d009-7631-11e4-a3cb-005056011aef",
+  ...
+  "links": {
+    "organisations": [{
+      "analytics_identifier": "D9",
+      "api_path": "/api/content/government/organisations/department-for-transport",
+      "base_path": "/government/organisations/department-for-transport",
+      "content_id": "4c717efc-f47b-478e-a76d-ce1ae0af1946",
+      "description": null,
+      "document_type": "organisation",
+      "locale": "en",
+      "public_updated_at": "2015-06-03T13:12:51Z",
+      "schema_name": "placeholder",
+      "title": "Department for Transport",
+      "details": {
+        "brand": "department-for-transport",
+        "logo": {
+          "formatted_title": "Department\u003cbr/\u003efor Transport",
+          "crest": "single-identity"
+        }
+      },
+      "links": {}
+    }],
+    "available_translations": [{
+      "analytics_identifier": null,
+      "api_url": "https://www.gov.uk/api/content/government/organisations/department-for-transport/about/welsh-language-scheme",
+      "base_path": "/government/organisations/department-for-transport/about/welsh-language-scheme",
+      "content_id": "5f54d009-7631-11e4-a3cb-005056011aef",
+      "description": "When conducting public business in Wales, English and Welsh languages are treated equally.",
+      "document_type": "welsh_language_scheme",
+      "locale": "en",
+      "public_updated_at": "2013-06-21T13:22:34Z",
+      "schema_name": "placeholder_corporate_information_page",
+      "title": "Welsh language scheme",
+      "links": {}
+    }, {
+      "analytics_identifier": null,
+      "api_url": "https://www.gov.uk/api/content/government/organisations/department-for-transport/about/welsh-language-scheme.cy",
+      "base_path": "/government/organisations/department-for-transport/about/welsh-language-scheme.cy",
+      "content_id": "5f54d009-7631-11e4-a3cb-005056011aef",
+      "description": "Wrth gynnal busnes cyhoeddus yng Nghymru, ieithoedd Cymraeg a Saesneg yn cael eu trin yn gyfartal.",
+      "document_type": "welsh_language_scheme",
+      "locale": "cy",
+      "public_updated_at": "2013-06-21T13:22:34Z",
+      "schema_name": "placeholder_corporate_information_page",
+      "title": "Cynllun iaith Gymraeg",
+      "links": {}
+    }]
+  },
+}
+</code></pre>
+<p>Within a <code>links</code> JSON object there are keys which indicate the type of link<br>
+(<code>link_type</code>), and at the value of those keys is an array of all links of that<br>
+type. In the above example there are two types of link: <code>organisations</code> and<br>
+<code>available_translations</code> which contain 1 and 2 links respectively.</p>
+<h2 id="when-it-occurs">When it occurs</h2>
+<p>Link expansion occurs at the point an edition is represented to the<br>
+Content Store - which is normally the result of a <a href="http://sidekiq.org/">Sidekiq</a><br>
+worker process such as <a href="../app/workers/downstream_draft_worker.rb">DownstreamDraftWorker</a> or<br>
+<a href="../app/workers/downstream_live_worker.rb">DownstreamLiveWorker</a>.</p>
+<h2 id="how-links-are-added">How links are added</h2>
+<p>There are two ways that links can be added for a document: link set links and<br>
+edition links. These are added by different endpoints.</p>
+<h3 id="patch-link-set-link-set-links">
+<code>patch-link-set</code> - Link set links</h3>
+<p>These links are added via the<br>
+<a href="api.md#patch-v2linkscontent_id"><code>patch-link-set</code></a> endpoint. They are<br>
+associated with a <code>content_id</code>, which therefore associates them with all<br>
+the locales of a document.</p>
+<p>They are typically used for taxonomy based links and aren't related to the<br>
+specific content of an edition.</p>
+<p>They do not follow a draft/published workflow, once added they will apply to<br>
+editions of a document on both draft and live content stores.</p>
+<h3 id="put-content-edition-links">
+<code>put-content</code> - Edition links</h3>
+<p>These links are added via the <a href="api.md#put-v2contentcontent_id"><code>put-content</code></a><br>
+endpoint. They are associated with a particular edition of a document and no<br>
+other editions.</p>
+<p>These are used for links that are associated with the content of an edition.</p>
+<p>In cases when there are edition links and link set links which have the same<br>
+<code>link_type</code>, the edition links will take precedence during link expansion.</p>
+<h2 id="types-of-links">Types of links</h2>
+<h3 id="available-translations">Available translations</h3>
+<p>A document can be available in multiple translations. This will be<br>
+determined by documents sharing the same <a href="model.md#user-content-content_id"><code>content_id</code></a> and<br>
+having different <a href="model.md#user-content-locale"><code>locale</code></a> values.</p>
+<p>The links for an edition will automatically include the available translations<br>
+of editions of documents matching the same <code>content_id</code>, including the current<br>
+locale.</p>
+<p><strong>Example</strong></p>
+<p>For item <code>E</code> which exists in English ("en") and Welsh ("cy") the available<br>
+translations links include a link to the "en" and "cy" variations of the<br>
+document.</p>
+<h3 id="direct-links">Direct links</h3>
+<p>These are the links which have been added via<br>
+<a href="#patch-link-set---link-set-links"><code>patch-link-set</code></a> and<br>
+<a href="#put-content---edition-links"><code>put-content</code></a> for a respective <code>content_id</code><br>
+or edition. They are presented with the <code>link_type</code> provided when creating the<br>
+link.</p>
+<p>These links may be <a href="#recursive-links">recursive</a> depending on their<br>
+<code>link_type</code>.</p>
+<h3 id="reverse-links">Reverse links</h3>
+<p>Certain <code>link_types</code> are considered reverse. When they are added for a<br>
+<code>content_id</code> or edition they are also presented as part of their target.</p>
+<p>A reverse link corresponds with a direct link and has a reverse name. For<br>
+instance <code>parent</code> has a reverse name of <code>children</code>.</p>
+<p><strong>Example</strong></p>
+<p>For item <code>A</code> which has a link to <code>B</code> which is a reverse <code>link_type</code> of parent.<br>
+<code>A</code> will be presented with a link to <code>B</code> of type <code>parent</code>, whereas <code>B</code> will be<br>
+presented with a link to <code>A</code> of type <code>children</code>.</p>
+<p>A quirk of reverse links is that they are presented with their corresponding<br>
+link. For example when presenting a collection of links with a type of<br>
+<code>children</code>, each one of those links will have a link of type <code>parent</code> which<br>
+links to the original content.</p>
+<p>These links may be <a href="#recursive-links">recursive</a> dependant on their <code>link_type</code>,<br>
+they are defined in <a href="../lib/expansion_rules/link_expansion.rb"><code>LinkExpansion::Rules</code></a>.</p>
+<h3 id="recursive-links">Recursive links</h3>
+<p>Some link types are considered recursive which is used to present a tree<br>
+structure of links of specific types. As with many things recursive, these<br>
+link types are frequently a source of confusion.</p>
+<p>These are used in cases where multiple levels of links are needed to render<br>
+content. A common use case for this is breadcrumbs, where we may want to know the<br>
+hierarchy from the root <code>/</code> page to the page we are in. These are represented<br>
+by using a recursive <code>parent</code> link type.</p>
+<p><strong>Example</strong></p>
+<p>Consider the page <a href="https://www.gov.uk/government/collections/apprenticeship-standards">Apprenticeship Standards</a> which<br>
+has breadcrumbs of "Home &gt; Further education and skills &gt; Apprenticeships"</p>
+<ul>
+<li>"Apprenticeship Standards" would have a link to "Apprenticeships" of type<br>
+<code>parent</code>.</li>
+<li>"Apprenticeships" would have a link to "Further education and skills" of type<br>
+<code>parent</code>.</li>
+<li>"Further education and skills" could have a link to "Home" of type <code>parent</code>.</li>
+</ul>
+<p>As <code>parent</code> is a recursive link type each link would include a link to it's<br>
+subsequent parent forming a graph of:</p>
+<pre><code>"Apprenticeship Standards" -parent-&gt; "Apprenticeships" -parent-&gt; "Further education and skills" -parent-&gt; "Home"
+</code></pre>
+<p>From which breadcrumbs can be generated.</p>
+<h4 id="recursive-link-paths">Recursive link paths</h4>
+<p>Recursive links can be defined as a path of link types, which means that only<br>
+a structure of links that matches the defined path will be included in link<br>
+expansion.</p>
+<p>An example of this is the path of <code>ordered_related_items</code>,<br>
+<code>mainstream_browse_pages</code> and <code>parent</code>. Only a tree of links that match this<br>
+path would be included in link expansion.</p>
+<p>This path would be included in the links representation for an item <code>A</code>:</p>
+<pre><code>"Item A" -ordered_related_items-&gt; "Item B" -mainstream_browse_pages-&gt; "Item C" -parent-&gt; "Item D"
+</code></pre>
+<p>However this path would not be:</p>
+<pre><code>"Item A" -mainstream_browse_pages-&gt; "Item B" -ordered_related_items-&gt; "Item C" -parent-&gt; "Item D"
+</code></pre>
+<p>An item in a path of link types can be marked as <em>recurring</em>. This means that<br>
+there can be many items of this type in the path.</p>
+<p>For the path <code>ordered_related_items</code>, <code>mainstream_browse_pages</code> and<br>
+<code>parent.recurring</code> there be any number of <code>parent</code> items, and only 1 instance<br>
+of <code>ordered_related_items</code> and <code>mainstream_browse_pages</code>.</p>
+<p>This is a valid path for <code>ordered_related_items</code>, <code>mainstream_browse_pages</code> and <code>parent</code>:</p>
+<pre><code>"Item A" -ordered_related_items-&gt; "Item B" -mainstream_browse_pages-&gt; "Item C" -parent-&gt; "Item D" -parent-&gt; "Item E" -parent-&gt; "Item F"
+</code></pre>
+<p>Yet this is invalid:</p>
+<pre><code>"Item A" -ordered_related_items-&gt; "Item B" -mainstream_browse_pages-&gt; "Item C" -mainstream_browse_pages-&gt; "Item D" -parent-&gt; "Item E" -parent-&gt; "Item F"
+</code></pre>
+<p>The rules for recursive link types are defined in<br>
+<a href="../lib/expansion_rules/link_expansion.rb"><code>LinkExpansion::Rules</code></a>.</p>
+<h2 id="which-states-are-linked">Which states are linked</h2>
+<p>Whether an item is linked to depends on whether an edition of a document<br>
+being linked to exists in a particular <a href="model.md#state">state</a>. The states that<br>
+are applicable are determined by the state of the content item that link<br>
+expansion is performed for.</p>
+<h3 id="edition-has-a-state-of-published-or-unpublished">Edition has a state of <code>published</code> or <code>unpublished</code>
+</h3>
+<p>Links are included when an editions exists in a <code>published</code> state. Editions<br>
+that are in an <code>unpublished</code> state with type <code>withdrawn</code> are linked to<br>
+depending on their <code>link_type</code>. Editions that are <code>unpublished</code> and are not of<br>
+type <code>withdrawn</code> are not linked.</p>
+<p>The <code>link_types</code> that define whether a withdrawn edition is linked is defined<br>
+in <a href="../lib/link_expansion.rb">LinkExpansion</a>.</p>
+<h3 id="edition-has-a-state-of-draft">Edition has a state of <code>draft</code>
+</h3>
+<p>Editions follow the same rules as those for <code>published</code> or <code>unpublished</code><br>
+however draft items are also included for all link types.</p>
+<h2 id="link-presentation">Link presentation</h2>
+<p>Links are presented as a JSON object where the keys of the object are the link<br>
+types and for each link type there is an array of links.</p>
+<p>The ordering of links is determined by the order in which the links were added<br>
+via <code>patch-link-set</code>. Automatic links do not have a specific ordering.</p>
+<h3 id="fields">Fields</h3>
+<p>By default links contain the following fields:</p>
+<ul>
+<li>
+<code>analytics_identifier</code> - Used to track a content item in analytics software</li>
+<li>
+<code>api_path</code> - The path to the JSON representation of this item</li>
+<li>
+<code>base_path</code> - The public path to this item</li>
+<li>
+<code>content_id</code> - A UUID to represents the document</li>
+<li>
+<code>description</code> - A short description of the content</li>
+<li>
+<code>document_type</code> - This describes a type of document used on GOV.UK and<br>
+allowed by the schema</li>
+<li>
+<code>locale</code> - The language this document is written in</li>
+<li>
+<code>public_updated_at</code> - The date/time that this document  was last changed</li>
+<li>
+<code>schema_name</code> - The <a href="https://github.com/alphagov/govuk-content-schemas">GOV.UK content schema</a> that this<br>
+edition conforms to</li>
+<li>
+<code>title</code> - The title of the edition</li>
+<li>
+<code>links</code> - Any <a href="#recursive-links">recursive links</a> that are presented with a<br>
+link representation of an edition</li>
+</ul>
+<p>The fields can and are customised in some cases. This can be done on a<br>
+<code>link_type</code> basis. These customisations can be performed in<br>
+<a href="../lib/expansion_rules/link_expansion.rb"><code>LinkExpansion::Rules</code></a>.</p>
+<h2 id="developer-gotchas">Developer gotchas</h2>
+<p>Link expansion is complicated and thus can be challenging for developers to<br>
+understand. This section attempts to cover some of the common questions,<br>
+we're always welcome for suggestions to simplify link expansion.</p>
+<h3 id="why-is-this-link-appearing">Why is this link appearing?</h3>
+<p>To understand why a link is presented the following things should be considered:</p>
+<ul>
+<li>If the link is in the <code>available_translations</code> it will be a<br>
+<a href="#available-translations">translation</a> of the document;</li>
+<li>The link could be a <a href="#direct-links">direct link</a> from the<br>
+<a href="model.md#edition"><code>Edition</code></a> or <a href="model.md#linkset"><code>LinkSet</code></a>;</li>
+<li>The link could be a link defined on a different Edition or LinkSet and be<br>
+a <a href="#reverse-links">reverse link</a> and represented reciprocally;</li>
+<li>If the link is defined inside a different link it will be either be a<br>
+<a href="#recursive-links">recursive link</a> or be the automatic link added<br>
+back as part of a <a href="#reverse-links">reverse link</a>.</li>
+</ul>
+<h3 id="why-is-this-link-not-appearing">Why is this link <em>not</em> appearing?</h3>
+<p>A link that you expect to appear might not be appearing due to the following<br>
+reasons:</p>
+<ul>
+<li>The item to be linked to might not be available in a<br>
+<a href="#which-states-are-linked">linkable state</a>;</li>
+<li>There could be <a href="model.md#edition"><code>Edition</code></a> or <a href="model.md#linkset"><code>LinkSet</code></a><br>
+links that are defined with the same <code>link_type</code> which means the edition<br>
+links will take precedence.</li>
+<li>If a recursive link is expected it may not be following a valid<br>
+<a href="#recursive-link-paths">recursive link path</a>.</li>
+</ul>
+<h3 id="whyhow-does-a-link-have-different-fields-to-other-links">Why/how does a link have different fields to other links?</h3>
+<p>Links for a specific <code>link_type</code> can be defined to return<br>
+<a href="#fields">different fields</a> as part of link expansion. These are defined in<br>
+<a href="../lib/expansion_rules/link_expansion.rb"><code>LinkExpansion::Rules</code></a>.</p>
+<h2 id="debugging">Debugging</h2>
+<p>You can explore link expansion in the rails console by creating a<br>
+<a href="../lib/link_expansion.rb"><code>LinkExpansion</code></a> instance.</p>
+<pre><code>&gt; link_expansion = LinkExpansion.by_content_id(content_id, locale: :en, with_drafts: true)
+</code></pre>
+<p>You can then print the <a href="../app/models/link_graph.rb"><code>link_graph</code></a> of the link expansion to view<br>
+the links.</p>
+<pre><code>&gt; link_expansion.link_graph.to_h
+=&gt; {:organisations=&gt;
+  [{:content_id=&gt;"2e7868a8-38f5-4ff6-b62f-9a15d1c22d28", :links=&gt;{}},
+   {:content_id=&gt;"b548a09f-8b35-4104-89f4-f1a40bf3136d", :links=&gt;{}},
+   {:content_id=&gt;"de4e9dc6-cca4-43af-a594-682023b84d6c", :links=&gt;{}},
+   {:content_id=&gt;"e8fae147-6232-4163-a3f1-1c15b755a8a4", :links=&gt;{}}],
+ :related=&gt;[{:content_id=&gt;"78cedbfe-d3aa-41c3-b8c0-aeb5d9035d6a", :links=&gt;{}}]}
+</code></pre>
+<p>You can navigate through the <code>link_graph</code> object for further debugging<br>
+information.</p>
+
+
+            
+          </main>
+
+          <aside>
+              <ul class="contribution-banner">
+                <li><a href="https://github.com/alphagov/publishing-api/blob/master/docs/link-expansion.md">View source</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20''&amp;body=Problem%20with%20''%20(https://docs.publishing.service.gov.uk/apis/publishing-api/link-expansion.html)">Report problem</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs">GitHub Repo</a></li>
+              </ul>
+          </aside>
+
+          <footer class="govuk-footer app-footer" role="contentinfo">
+  <div class="govuk-footer__meta">
+    <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
+
+
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        class="govuk-footer__licence-logo"
+        xmlns="http://www.w3.org/2000/svg"
+        viewbox="0 0 483.2 195.7"
+        height="17"
+        width="41"
+      >
+        <path
+          fill="currentColor"
+          d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+        />
+      </svg>
+      <span class="govuk-footer__licence-description">
+        All content is available under the
+        <a
+          class="govuk-footer__link"
+          href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+          rel="license"
+        >Open Government Licence v3.0</a>, except where otherwise stated
+      </span>
+    </div>
+    <div class="govuk-footer__meta-item">
+      <a
+        class="govuk-footer__link govuk-footer__copyright-logo"
+        href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+      >© Crown copyright</a>
+    </div>
+  </div>
+</footer>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <script src="/javascripts/application.js"></script>
+  </body>
+</html>

@@ -1,0 +1,376 @@
+
+
+
+<!doctype html>
+<html lang="en" class="govuk-template no-js">
+  <head>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+    <title>Manage RabbitMQ - GOV.UK Developer Documentation</title>
+
+    <link href="/stylesheets/manifest.css" rel="stylesheet" />
+
+    <link rel="canonical" href="https://docs.publishing.service.gov.uk/manual/rabbitmq.html">
+
+
+      <meta property="og:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
+      <meta property="og:site_name" content="GOV.UK Developer Documentation" />
+      <meta property="og:title" content="Manage RabbitMQ" />
+      <meta property="og:type" content="object" />
+      <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/rabbitmq.html" />
+      <meta property="twitter:card" content="summary" />
+      <meta property="twitter:domain" content="docs.publishing.service.gov.uk" />
+      <meta property="twitter:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
+      <meta property="twitter:title" content="Manage RabbitMQ - GOV.UK Developer Documentation" />
+      <meta property="twitter:url" content="https://docs.publishing.service.gov.uk/manual/rabbitmq.html" />
+
+    
+  </head>
+
+  <body class="govuk-template__body">
+    <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+
+    <div class="app-pane">
+      <div class="app-pane__header toc-open-disabled">
+        <a href="#content" class="govuk-skip-link">Skip to main content</a>
+
+        <header class="govuk-header app-header" role="banner" data-module="govuk-header">
+  <div class="govuk-header__container govuk-header__container--full-width">
+    <div class="govuk-header__logo">
+      <a href="/" class="govuk-header__link govuk-header__link--homepage">
+        <span class="govuk-header__logotype">
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            class="govuk-header__logotype-crown"
+            xmlns="http://www.w3.org/2000/svg"
+            viewbox="0 0 132 97"
+            height="30"
+            width="36"
+          >
+            <path
+              fill="currentColor" fill-rule="evenodd"
+              d="M25 30.2c3.5 1.5 7.7-.2 9.1-3.7 1.5-3.6-.2-7.8-3.9-9.2-3.6-1.4-7.6.3-9.1 3.9-1.4 3.5.3 7.5 3.9 9zM9 39.5c3.6 1.5 7.8-.2 9.2-3.7 1.5-3.6-.2-7.8-3.9-9.1-3.6-1.5-7.6.2-9.1 3.8-1.4 3.5.3 7.5 3.8 9zM4.4 57.2c3.5 1.5 7.7-.2 9.1-3.8 1.5-3.6-.2-7.7-3.9-9.1-3.5-1.5-7.6.3-9.1 3.8-1.4 3.5.3 7.6 3.9 9.1zm38.3-21.4c3.5 1.5 7.7-.2 9.1-3.8 1.5-3.6-.2-7.7-3.9-9.1-3.6-1.5-7.6.3-9.1 3.8-1.3 3.6.4 7.7 3.9 9.1zm64.4-5.6c-3.6 1.5-7.8-.2-9.1-3.7-1.5-3.6.2-7.8 3.8-9.2 3.6-1.4 7.7.3 9.2 3.9 1.3 3.5-.4 7.5-3.9 9zm15.9 9.3c-3.6 1.5-7.7-.2-9.1-3.7-1.5-3.6.2-7.8 3.7-9.1 3.6-1.5 7.7.2 9.2 3.8 1.5 3.5-.3 7.5-3.8 9zm4.7 17.7c-3.6 1.5-7.8-.2-9.2-3.8-1.5-3.6.2-7.7 3.9-9.1 3.6-1.5 7.7.3 9.2 3.8 1.3 3.5-.4 7.6-3.9 9.1zM89.3 35.8c-3.6 1.5-7.8-.2-9.2-3.8-1.4-3.6.2-7.7 3.9-9.1 3.6-1.5 7.7.3 9.2 3.8 1.4 3.6-.3 7.7-3.9 9.1zM69.7 17.7l8.9 4.7V9.3l-8.9 2.8c-.2-.3-.5-.6-.9-.9L72.4 0H59.6l3.5 11.2c-.3.3-.6.5-.9.9l-8.8-2.8v13.1l8.8-4.7c.3.3.6.7.9.9l-5 15.4v.1c-.2.8-.4 1.6-.4 2.4 0 4.1 3.1 7.5 7 8.1h.2c.3 0 .7.1 1 .1.4 0 .7 0 1-.1h.2c4-.6 7.1-4.1 7.1-8.1 0-.8-.1-1.7-.4-2.4V34l-5.1-15.4c.4-.2.7-.6 1-.9zM66 92.8c16.9 0 32.8 1.1 47.1 3.2 4-16.9 8.9-26.7 14-33.5l-9.6-3.4c1 4.9 1.1 7.2 0 10.2-1.5-1.4-3-4.3-4.2-8.7L108.6 76c2.8-2 5-3.2 7.5-3.3-4.4 9.4-10 11.9-13.6 11.2-4.3-.8-6.3-4.6-5.6-7.9 1-4.7 5.7-5.9 8-.5 4.3-8.7-3-11.4-7.6-8.8 7.1-7.2 7.9-13.5 2.1-21.1-8 6.1-8.1 12.3-4.5 20.8-4.7-5.4-12.1-2.5-9.5 6.2 3.4-5.2 7.9-2 7.2 3.1-.6 4.3-6.4 7.8-13.5 7.2-10.3-.9-10.9-8-11.2-13.8 2.5-.5 7.1 1.8 11 7.3L80.2 60c-4.1 4.4-8 5.3-12.3 5.4 1.4-4.4 8-11.6 8-11.6H55.5s6.4 7.2 7.9 11.6c-4.2-.1-8-1-12.3-5.4l1.4 16.4c3.9-5.5 8.5-7.7 10.9-7.3-.3 5.8-.9 12.8-11.1 13.8-7.2.6-12.9-2.9-13.5-7.2-.7-5 3.8-8.3 7.1-3.1 2.7-8.7-4.6-11.6-9.4-6.2 3.7-8.5 3.6-14.7-4.6-20.8-5.8 7.6-5 13.9 2.2 21.1-4.7-2.6-11.9.1-7.7 8.8 2.3-5.5 7.1-4.2 8.1.5.7 3.3-1.3 7.1-5.7 7.9-3.5.7-9-1.8-13.5-11.2 2.5.1 4.7 1.3 7.5 3.3l-4.7-15.4c-1.2 4.4-2.7 7.2-4.3 8.7-1.1-3-.9-5.3 0-10.2l-9.5 3.4c5 6.9 9.9 16.7 14 33.5 14.8-2.1 30.8-3.2 47.7-3.2z"
+            ></path>
+            <image src="/assets/images/govuk-logotype-crown.png" xlink:href="" class="govuk-header__logotype-crown-fallback-image" width="36" height="32"></image>
+          </svg>
+          <span class="govuk-header__logotype-text">
+            GOV.UK
+          </span>
+        </span>
+        <span class="govuk-header__product-name">
+          Developer docs
+        </span>
+      </a>
+    </div>
+    <div class="govuk-header__content">
+      <button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="navigation" aria-label="Show or hide Top Level Navigation">Menu</button>
+      <nav>
+        <ul id="navigation" class="govuk-header__navigation govuk-header__navigation--end" aria-label="Top Level Navigation">
+            <li class="govuk-header__navigation-item">
+              <a class="govuk-header__link" href="/">Dashboard</a>
+            </li>
+            <li class="govuk-header__navigation-item">
+              <a class="govuk-header__link" href="/manual/get-started.html">Get started</a>
+            </li>
+            <li class="govuk-header__navigation-item">
+              <a class="govuk-header__link" href="/apps.html">Apps</a>
+            </li>
+            <li class="govuk-header__navigation-item govuk-header__navigation-item--active">
+              <a class="govuk-header__link" href="/manual.html">Manual</a>
+            </li>
+            <li class="govuk-header__navigation-item">
+              <a class="govuk-header__link" href="/apis.html">APIs</a>
+            </li>
+            <li class="govuk-header__navigation-item">
+              <a class="govuk-header__link" href="/content-schemas.html">Schemas</a>
+            </li>
+            <li class="govuk-header__navigation-item">
+              <a class="govuk-header__link" href="/document-types.html">Document types</a>
+            </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+      </div>
+
+        <div id="toc-heading" class="toc-show fixedsticky">
+          <a href="#toc" class="toc-show__label js-toc-show" aria-controls="toc">
+            Table of contents <span class="toc-show__icon"></span>
+          </a>
+        </div>
+
+      <div class="app-pane__body">
+          <div class="app-pane__toc">
+            <div class="toc" data-module="table-of-contents">
+              <div class="search" data-module="search">
+  <form action="https://www.google.co.uk/search" method="get" role="search">
+    <input type="hidden" name="as_sitesearch" value="https://docs.publishing.service.gov.uk"/>
+    <label class="govuk-label search__label" for="search">
+      Search (via Google)
+    </label>
+    <input class="govuk-input govuk-!-margin-bottom-4" id="search" name="q" type="text" aria-controls="search-results" placeholder="Search">
+  </form>
+  <div id="search-results" class="search-results" aria-hidden="true" role="dialog" aria-labelledby="search-results-title">
+    <div class="search-results__inner">
+      <button class="search-results__close">Close<span class="search-results__close-label"> search results</span></button>
+      <h2 id="search-results-title" class="search-results__title" aria-live="polite">Results</h2>
+      <div class="search-results__content"></div>
+    </div>
+  </div>
+</div>
+
+              <a href="#" class="toc__close js-toc-close" aria-controls="toc" aria-label="Hide table of contents"></a>
+              <nav id="toc" class="js-toc-list toc__list" aria-labelledby="toc-heading">
+                  <a href='/manual.html' class="toc__back-link govuk-link">&lsaquo; Manual</a>
+  <ul>
+  <li>
+    <a href="#header"><span>Manage RabbitMQ</span></a>
+    <ul>
+      <li>
+        <a href="#how-we-run-rabbitmq"><span>How we run RabbitMQ</span></a>
+        <ul>
+          <li>
+            <a href="#sending-heartbeats"><span>Sending heartbeats</span></a>
+          </li>
+          <li>
+            <a href="#checking-if-the-federation-is-ok"><span>Checking if the federation is ok</span></a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#viewing-rabbitmq-metrics"><span>Viewing RabbitMQ metrics</span></a>
+      </li>
+      <li>
+        <a href="#connecting-to-the-rabbitmq-web-control-panel"><span>Connecting to the RabbitMQ web control panel</span></a>
+      </li>
+      <li>
+        <a href="#inspectingremoving-items-from-a-queue"><span>Inspecting/removing items from a queue</span></a>
+      </li>
+      <li>
+        <a href="#previewing-a-message-for-a-document_type"><span>Previewing a message for a document_type</span></a>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+
+              </nav>
+            </div>
+          </div>
+
+        <div class="app-pane__content toc-open-disabled">
+          <main id="content" class="technical-documentation" data-module="anchored-headings">
+            
+  <p><a href='/manual.html#infrastructure'>Infrastructure</a></p> <h1 id='header'>Manage RabbitMQ</h1><h2 id='how-we-run-rabbitmq'>How we run RabbitMQ</h2><p>We run a RabbitMQ cluster, which is used to trigger events when
+documents are published. The general process is that messages are
+published onto &ldquo;exchanges&rdquo; in RabbitMQ. Applications create &ldquo;queues&rdquo;
+which listen to the exchanges, and gather the messages sent to the
+exchanges together. Applications then run &ldquo;consumers&rdquo; which receive
+messages from the queues.</p>
+<p>While the migration of gov.uk to AWS is in progress we actually run
+two clusters, one in carrenza and one in AWS.
+The published_documents exchange is federated in both directions, which
+means that the cluster in AWS connects as a client to the exchange in 
+Carrenza and forward messages to its own exchange, and the same thing 
+happens the other way around, there is no loop because max-hops is set to 1.
+Each cluster has a list of the other&rsquo;s nodes IPs, those are private IP
+and connection goes through the VPN between Carrenza and AWS.
+Since the nodes in AWS use non fixed IPs, they have additional
+network interfaces with a fixed IP associated to it.
+If a consumer is trying to get to a queue that originates on the other
+side of the VPN and the queue is empty, you should check if the 
+federation is ok.</p>
+<p>In order to ensure that our consumers remain active, we publish
+&ldquo;heartbeat&rdquo; messages to the exchanges every minute. This helps to avoid
+problems with consumers dropping their connections due to inactivity,
+but also allows us to monitor activity easily.</p>
+<h3 id='sending-heartbeats'>Sending heartbeats</h3><p>Heartbeat messages are sent every minute by cron. Currently, we only
+send heartbeat messages to one exchange: the <code>published_documents</code>
+exchange. These heartbeats are sent via a <a href="https://github.com/alphagov/publishing-api/blob/012cb3f1ceb3b18e7059a367cc4030aa0763afb4/lib/tasks/heartbeat_messages.rake">rake task</a>
+in the <code>publishing-api</code> app.</p>
+<h3 id='checking-if-the-federation-is-ok'>Checking if the federation is ok</h3><p>Connect to one of the cluster&rsquo;s nodes through ssh via the jumpbox.
+As root run:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>rabbitmqctl <span class="nb">eval</span> <span class="s1">'rabbit_federation_status:status().'</span>
+</code></pre></div><p>On one of the nodes, you should get: <code>{status,running}</code></p>
+<p>If not something is wrong and the federation is broken.
+Check the logs in /var/log/rabbitmq and verify that the credentials and
+IPs address for the federation are correct by running as root :</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>rabbitmqctl list_parameters
+</code></pre></div><h2 id='viewing-rabbitmq-metrics'>Viewing RabbitMQ metrics</h2><p>Metrics from RabbitMQ are collected with a CollectD plugin, and are
+available in Graphite/Grafana. There is a <a href="https://grafana.publishing.service.gov.uk/dashboard/file/rabbitmq.json">generic RabbitMQ
+dashboard</a> which shows the main metrics for queues
+and exchanges.</p>
+<h2 id='connecting-to-the-rabbitmq-web-control-panel'>Connecting to the RabbitMQ web control panel</h2>
+<ol>
+<li><p>Create an SSH tunnel to access the web control panel</p>
+<p>For Carenza environments:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>ssh rabbitmq-1.backend.staging <span class="nt">-L</span> 15672:127.0.0.1:15672
+</code></pre></div><p>For AWS environments:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>ssh <span class="si">$(</span>ssh integration <span class="s2">"govuk_node_list --single-node -c rabbitmq"</span><span class="si">)</span>.integration <span class="nt">-CNL</span> 15672:127.0.0.1:15672
+</code></pre></div></li>
+<li><p>Log in to the web control panel</p>
+<p>Point your browser at <a href="http://127.0.0.1:15672">http://127.0.0.1:15672</a></p>
+<p>The username is root. The password you can obtain from the govuk-secrets
+repo if you have access. Look for govuk_rabbitmq::root_password in the file for the
+relevant environment in
+<a href="https://github.com/alphagov/govuk-secrets/tree/master/puppet/hieradata">https://github.com/alphagov/govuk-secrets/tree/master/puppet/hieradata</a> or <a href="https://github.com/alphagov/govuk-secrets/tree/master/puppet_aws/hieradata">https://github.com/alphagov/govuk-secrets/tree/master/puppet_aws/hieradata</a></p></li>
+<li><p>Do your business</p></li>
+<li><p>Tidy up</p>
+<p>Close the SSH connection you set up earlier with CTRL+C or by typing
+&ldquo;exit&rdquo;.</p></li>
+</ol>
+<h2 id='inspectingremoving-items-from-a-queue'>Inspecting/removing items from a queue</h2><p>We had an instance where an application was unable to process a message
+in the queue, but left the message on the queue. This meant it was
+backing up. Removing the message from the queue was the right solution
+in our case.</p>
+
+<ol>
+<li><p>Find the queue</p>
+<p>Click on the &ldquo;Queues&rdquo; tab. Then click on the name of the queue.</p></li>
+<li><p>Find the messages</p>
+<p>Scroll down and click &ldquo;Get messages&rdquo;. Clicking the &ldquo;Get Message(s)&rdquo;
+button that appears will fetch however many messages you ask for.</p>
+
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Fetching messages actually removes them from the queue. By leaving
+the &ldquo;Requeue&rdquo; option set to &ldquo;Yes&rdquo;, they will be added back to queue.</p>
+</blockquote></li>
+<li><p>Delete the messages</p>
+
+<blockquote>
+<p><strong>Note</strong></p>
+<p>There is a risk that you might delete the wrong message(s). This
+is because the contents of the queue may have changed.</p>
+</blockquote>
+<p>Repeat, but change the &ldquo;Requeue&rdquo; option to &ldquo;No&rdquo;.</p></li>
+</ol>
+<h2 id='previewing-a-message-for-a-document_type'>Previewing a message for a document_type</h2><p>The publishing API generates messages when content is updated and posts them
+to the rabbitMQ exchange. Each message has a shared format, however the contents
+of the message is affected by the publishing app and what data it sends to the
+publishing API.</p>
+<p>As messages for different formats can vary, we have created a rake task in the
+publishing API app to allow us to easily generate example messages. The example
+message is generated from the most recently published message (based off of
+last public_updated_at) for the entered document type:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>bundle <span class="nb">exec </span>rake queue:preview_recent_message[&lt;document_type&gt;]
+</code></pre></div>
+
+  <div class='related-content'>
+
+    <h3>More in the Infrastructure section</h3>
+
+    <div class='govuk-grid-row'>
+        <div class='govuk-grid-column-one-half'>
+          <h4>Learn</h4>
+
+          <ul class="govuk-list">
+            <li><a href="/manual/govuk-app-domain-handling-during-migration.html">app_domain handling in GOV.UK during migration to AWS</a></li>
+            <li><a href="/manual/concourse.html">Concourse</a></li>
+            <li><a href="/manual/dns.html">Domain Name System (DNS) records</a></li>
+            <li><a href="/manual/vpn.html">GOV.UK and Virtual Private Networks (VPNs)</a></li>
+            <li><a href="/manual/environments.html">GOV.UK's environments (integration, staging, production)</a></li>
+            <li><a href="/manual/load-testing.html">Load Testing</a></li>
+            <li><a href="/manual/upgrade-terraform.html">Upgrade Terraform</a></li>
+          </ul>
+        </div>
+
+        <div class='govuk-grid-column-one-half'>
+          <h4>How to...</h4>
+
+          <ul class="govuk-list">
+            <li><a href="/manual/adding-disks-in-vcloud.html">Add a disk to a vCloud machine (Carrenza only)</a></li>
+            <li><a href="/manual/ruby.html">Add a new Ruby version</a></li>
+            <li><a href="/manual/connect-to-vcloud-director.html">Connect to vCloud Director (Carrenza only)</a></li>
+            <li><a href="/manual/generate-csr.html">Generate a Certificate Signing Request (CSR) for GOV.UK</a></li>
+            <li><a href="/manual/auto-scaling-groups.html">Manually resize ASGs (auto scaling groups)</a></li>
+            <li><a href="/manual/move-apps-between-servers.html">Move apps between servers</a></li>
+            <li><a href="/manual/patching-jenkins.html">Patch Jenkins</a></li>
+            <li><a href="/manual/provision-machines-for-data-science-research.html">Provision machines for data science research</a></li>
+            <li><a href="/manual/alerts/rebooting-machines.html">Reboot a machine</a></li>
+            <li><a href="/manual/remove-machines.html">Remove a machine</a></li>
+            <li><a href="/manual/renew-a-tls-certificate.html">Renew a TLS certificate for GOV.UK</a></li>
+            <li><a href="/manual/reprovision.html">Reprovision a machine</a></li>
+          </ul>
+        </div>
+
+    </div>
+</div>
+
+
+              <div data-module='page-expiry' data-last-reviewed-on="2020-09-11">
+    <div class='page-expiry--not-expired'>
+      This page was last reviewed on 11 March 2020.
+
+        It needs to be reviewed again on 11 September 2020
+        by the page owner <a href="">#govuk-2ndline</a>
+        .
+    </div>
+
+    <div class='page-expiry--expired'>
+      This page was set to be reviewed before 11 September 2020
+       by the page owner <a href="">#govuk-2ndline</a>.
+      This might mean the content is out of date.
+    </div>
+  </div>
+
+          </main>
+
+          <aside>
+              <ul class="contribution-banner">
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/rabbitmq.html.md">View source</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'Manage%20RabbitMQ'&amp;body=Problem%20with%20'Manage%20RabbitMQ'%20(https://docs.publishing.service.gov.uk/manual/rabbitmq.html)">Report problem</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs">GitHub Repo</a></li>
+              </ul>
+          </aside>
+
+          <footer class="govuk-footer app-footer" role="contentinfo">
+  <div class="govuk-footer__meta">
+    <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
+
+
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        class="govuk-footer__licence-logo"
+        xmlns="http://www.w3.org/2000/svg"
+        viewbox="0 0 483.2 195.7"
+        height="17"
+        width="41"
+      >
+        <path
+          fill="currentColor"
+          d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+        />
+      </svg>
+      <span class="govuk-footer__licence-description">
+        All content is available under the
+        <a
+          class="govuk-footer__link"
+          href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+          rel="license"
+        >Open Government Licence v3.0</a>, except where otherwise stated
+      </span>
+    </div>
+    <div class="govuk-footer__meta-item">
+      <a
+        class="govuk-footer__link govuk-footer__copyright-logo"
+        href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+      >© Crown copyright</a>
+    </div>
+  </div>
+</footer>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <script src="/javascripts/application.js"></script>
+  </body>
+</html>

@@ -1,0 +1,602 @@
+
+
+
+<!doctype html>
+<html lang="en" class="govuk-template no-js">
+  <head>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+    <title>COVID-19 Services - GOV.UK Developer Documentation</title>
+
+    <link href="/stylesheets/manifest.css" rel="stylesheet" />
+
+    <link rel="canonical" href="https://docs.publishing.service.gov.uk/manual/covid-19-services.html">
+
+
+      <meta property="og:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
+      <meta property="og:site_name" content="GOV.UK Developer Documentation" />
+      <meta property="og:title" content="COVID-19 Services" />
+      <meta property="og:type" content="object" />
+      <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/covid-19-services.html" />
+      <meta property="twitter:card" content="summary" />
+      <meta property="twitter:domain" content="docs.publishing.service.gov.uk" />
+      <meta property="twitter:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
+      <meta property="twitter:title" content="COVID-19 Services - GOV.UK Developer Documentation" />
+      <meta property="twitter:url" content="https://docs.publishing.service.gov.uk/manual/covid-19-services.html" />
+
+    
+  </head>
+
+  <body class="govuk-template__body">
+    <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+
+    <div class="app-pane">
+      <div class="app-pane__header toc-open-disabled">
+        <a href="#content" class="govuk-skip-link">Skip to main content</a>
+
+        <header class="govuk-header app-header" role="banner" data-module="govuk-header">
+  <div class="govuk-header__container govuk-header__container--full-width">
+    <div class="govuk-header__logo">
+      <a href="/" class="govuk-header__link govuk-header__link--homepage">
+        <span class="govuk-header__logotype">
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            class="govuk-header__logotype-crown"
+            xmlns="http://www.w3.org/2000/svg"
+            viewbox="0 0 132 97"
+            height="30"
+            width="36"
+          >
+            <path
+              fill="currentColor" fill-rule="evenodd"
+              d="M25 30.2c3.5 1.5 7.7-.2 9.1-3.7 1.5-3.6-.2-7.8-3.9-9.2-3.6-1.4-7.6.3-9.1 3.9-1.4 3.5.3 7.5 3.9 9zM9 39.5c3.6 1.5 7.8-.2 9.2-3.7 1.5-3.6-.2-7.8-3.9-9.1-3.6-1.5-7.6.2-9.1 3.8-1.4 3.5.3 7.5 3.8 9zM4.4 57.2c3.5 1.5 7.7-.2 9.1-3.8 1.5-3.6-.2-7.7-3.9-9.1-3.5-1.5-7.6.3-9.1 3.8-1.4 3.5.3 7.6 3.9 9.1zm38.3-21.4c3.5 1.5 7.7-.2 9.1-3.8 1.5-3.6-.2-7.7-3.9-9.1-3.6-1.5-7.6.3-9.1 3.8-1.3 3.6.4 7.7 3.9 9.1zm64.4-5.6c-3.6 1.5-7.8-.2-9.1-3.7-1.5-3.6.2-7.8 3.8-9.2 3.6-1.4 7.7.3 9.2 3.9 1.3 3.5-.4 7.5-3.9 9zm15.9 9.3c-3.6 1.5-7.7-.2-9.1-3.7-1.5-3.6.2-7.8 3.7-9.1 3.6-1.5 7.7.2 9.2 3.8 1.5 3.5-.3 7.5-3.8 9zm4.7 17.7c-3.6 1.5-7.8-.2-9.2-3.8-1.5-3.6.2-7.7 3.9-9.1 3.6-1.5 7.7.3 9.2 3.8 1.3 3.5-.4 7.6-3.9 9.1zM89.3 35.8c-3.6 1.5-7.8-.2-9.2-3.8-1.4-3.6.2-7.7 3.9-9.1 3.6-1.5 7.7.3 9.2 3.8 1.4 3.6-.3 7.7-3.9 9.1zM69.7 17.7l8.9 4.7V9.3l-8.9 2.8c-.2-.3-.5-.6-.9-.9L72.4 0H59.6l3.5 11.2c-.3.3-.6.5-.9.9l-8.8-2.8v13.1l8.8-4.7c.3.3.6.7.9.9l-5 15.4v.1c-.2.8-.4 1.6-.4 2.4 0 4.1 3.1 7.5 7 8.1h.2c.3 0 .7.1 1 .1.4 0 .7 0 1-.1h.2c4-.6 7.1-4.1 7.1-8.1 0-.8-.1-1.7-.4-2.4V34l-5.1-15.4c.4-.2.7-.6 1-.9zM66 92.8c16.9 0 32.8 1.1 47.1 3.2 4-16.9 8.9-26.7 14-33.5l-9.6-3.4c1 4.9 1.1 7.2 0 10.2-1.5-1.4-3-4.3-4.2-8.7L108.6 76c2.8-2 5-3.2 7.5-3.3-4.4 9.4-10 11.9-13.6 11.2-4.3-.8-6.3-4.6-5.6-7.9 1-4.7 5.7-5.9 8-.5 4.3-8.7-3-11.4-7.6-8.8 7.1-7.2 7.9-13.5 2.1-21.1-8 6.1-8.1 12.3-4.5 20.8-4.7-5.4-12.1-2.5-9.5 6.2 3.4-5.2 7.9-2 7.2 3.1-.6 4.3-6.4 7.8-13.5 7.2-10.3-.9-10.9-8-11.2-13.8 2.5-.5 7.1 1.8 11 7.3L80.2 60c-4.1 4.4-8 5.3-12.3 5.4 1.4-4.4 8-11.6 8-11.6H55.5s6.4 7.2 7.9 11.6c-4.2-.1-8-1-12.3-5.4l1.4 16.4c3.9-5.5 8.5-7.7 10.9-7.3-.3 5.8-.9 12.8-11.1 13.8-7.2.6-12.9-2.9-13.5-7.2-.7-5 3.8-8.3 7.1-3.1 2.7-8.7-4.6-11.6-9.4-6.2 3.7-8.5 3.6-14.7-4.6-20.8-5.8 7.6-5 13.9 2.2 21.1-4.7-2.6-11.9.1-7.7 8.8 2.3-5.5 7.1-4.2 8.1.5.7 3.3-1.3 7.1-5.7 7.9-3.5.7-9-1.8-13.5-11.2 2.5.1 4.7 1.3 7.5 3.3l-4.7-15.4c-1.2 4.4-2.7 7.2-4.3 8.7-1.1-3-.9-5.3 0-10.2l-9.5 3.4c5 6.9 9.9 16.7 14 33.5 14.8-2.1 30.8-3.2 47.7-3.2z"
+            ></path>
+            <image src="/assets/images/govuk-logotype-crown.png" xlink:href="" class="govuk-header__logotype-crown-fallback-image" width="36" height="32"></image>
+          </svg>
+          <span class="govuk-header__logotype-text">
+            GOV.UK
+          </span>
+        </span>
+        <span class="govuk-header__product-name">
+          Developer docs
+        </span>
+      </a>
+    </div>
+    <div class="govuk-header__content">
+      <button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="navigation" aria-label="Show or hide Top Level Navigation">Menu</button>
+      <nav>
+        <ul id="navigation" class="govuk-header__navigation govuk-header__navigation--end" aria-label="Top Level Navigation">
+            <li class="govuk-header__navigation-item">
+              <a class="govuk-header__link" href="/">Dashboard</a>
+            </li>
+            <li class="govuk-header__navigation-item">
+              <a class="govuk-header__link" href="/manual/get-started.html">Get started</a>
+            </li>
+            <li class="govuk-header__navigation-item">
+              <a class="govuk-header__link" href="/apps.html">Apps</a>
+            </li>
+            <li class="govuk-header__navigation-item govuk-header__navigation-item--active">
+              <a class="govuk-header__link" href="/manual.html">Manual</a>
+            </li>
+            <li class="govuk-header__navigation-item">
+              <a class="govuk-header__link" href="/apis.html">APIs</a>
+            </li>
+            <li class="govuk-header__navigation-item">
+              <a class="govuk-header__link" href="/content-schemas.html">Schemas</a>
+            </li>
+            <li class="govuk-header__navigation-item">
+              <a class="govuk-header__link" href="/document-types.html">Document types</a>
+            </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+      </div>
+
+        <div id="toc-heading" class="toc-show fixedsticky">
+          <a href="#toc" class="toc-show__label js-toc-show" aria-controls="toc">
+            Table of contents <span class="toc-show__icon"></span>
+          </a>
+        </div>
+
+      <div class="app-pane__body">
+          <div class="app-pane__toc">
+            <div class="toc" data-module="table-of-contents">
+              <div class="search" data-module="search">
+  <form action="https://www.google.co.uk/search" method="get" role="search">
+    <input type="hidden" name="as_sitesearch" value="https://docs.publishing.service.gov.uk"/>
+    <label class="govuk-label search__label" for="search">
+      Search (via Google)
+    </label>
+    <input class="govuk-input govuk-!-margin-bottom-4" id="search" name="q" type="text" aria-controls="search-results" placeholder="Search">
+  </form>
+  <div id="search-results" class="search-results" aria-hidden="true" role="dialog" aria-labelledby="search-results-title">
+    <div class="search-results__inner">
+      <button class="search-results__close">Close<span class="search-results__close-label"> search results</span></button>
+      <h2 id="search-results-title" class="search-results__title" aria-live="polite">Results</h2>
+      <div class="search-results__content"></div>
+    </div>
+  </div>
+</div>
+
+              <a href="#" class="toc__close js-toc-close" aria-controls="toc" aria-label="Hide table of contents"></a>
+              <nav id="toc" class="js-toc-list toc__list" aria-labelledby="toc-heading">
+                  <a href='/manual.html' class="toc__back-link govuk-link">&lsaquo; Manual</a>
+  <ul>
+  <li>
+    <a href="#header"><span>COVID-19 Services</span></a>
+    <ul>
+      <li>
+        <a href="#offer-coronavirus-support-from-your-business"><span>Offer coronavirus support from your business</span></a>
+      </li>
+      <li>
+        <a href="#get-coronavirus-support-as-an-extremely-vulnerable-person"><span>Get coronavirus support as an extremely vulnerable person</span></a>
+      </li>
+      <li>
+        <a href="#find-support-if-you39re-affected-by-coronavirus"><span>Find support if you’re affected by coronavirus</span></a>
+      </li>
+      <li>
+        <a href="#architecture"><span>Architecture</span></a>
+        <ul>
+          <li>
+            <a href="#application-structure"><span>Application structure</span></a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#session-and-data-storage"><span>Session and data storage</span></a>
+        <ul>
+          <li>
+            <a href="#session-storage"><span>Session storage</span></a>
+          </li>
+          <li>
+            <a href="#data-storage"><span>Data storage</span></a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#hosting"><span>Hosting</span></a>
+        <ul>
+          <li>
+            <a href="#paas"><span>PaaS</span></a>
+          </li>
+          <li>
+            <a href="#aws"><span>AWS</span></a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#deployment"><span>Deployment</span></a>
+        <ul>
+          <li>
+            <a href="#zero-downtime-deployment"><span>Zero-Downtime Deployment</span></a>
+          </li>
+          <li>
+            <a href="#cancelling-a-failed-deployment"><span>Cancelling a failed deployment</span></a>
+          </li>
+          <li>
+            <a href="#links-to-staging"><span>Links to Staging</span></a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#monitoring"><span>Monitoring</span></a>
+      </li>
+      <li>
+        <a href="#confirmation-emails"><span>Confirmation emails</span></a>
+        <ul>
+          <li>
+            <a href="#gov-uk-notify"><span>GOV.UK Notify</span></a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#extracting-form-responses-business-volunteering-only"><span>Extracting form responses (business volunteering only)</span></a>
+      </li>
+      <li>
+        <a href="#alerting"><span>Alerting</span></a>
+        <ul>
+          <li>
+            <a href="#service-downtime"><span>Service downtime**</span></a>
+          </li>
+          <li>
+            <a href="#high-5xx-rate"><span>High 5xx rate**</span></a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#troubleshooting"><span>Troubleshooting</span></a>
+        <ul>
+          <li>
+            <a href="#what-things-will-call-you"><span>What things will call you</span></a>
+          </li>
+          <li>
+            <a href="#useful-commands"><span>Useful commands</span></a>
+          </li>
+          <li>
+            <a href="#escalating-to-paas-support"><span>Escalating to PaaS support</span></a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+
+              </nav>
+            </div>
+          </div>
+
+        <div class="app-pane__content toc-open-disabled">
+          <main id="content" class="technical-documentation" data-module="anchored-headings">
+            
+  <p><a href='/manual.html#services'>Services</a></p> <h1 id='header'>COVID-19 Services</h1><p>GOV.UK operates three standalone services for COVID-19 response:</p>
+
+<ul>
+<li>Offer coronavirus support from your business</li>
+<li>Get coronavirus support as an extremely vulnerable person</li>
+<li>Find support if you&rsquo;re affected by coronavirus</li>
+</ul>
+<h2 id='offer-coronavirus-support-from-your-business'>Offer coronavirus support from your business</h2><p>This service allows businesses to tell us how they might be able to
+help with the response to coronavirus.  This may include goods or
+services such as medical equipment, hotel rooms or childcare.</p>
+
+<ul>
+<li><a href="https://www.gov.uk/coronavirus-support-from-business">Start page</a></li>
+<li><a href="https://coronavirus-business-volunteers.service.gov.uk/medical-equipment">Service</a></li>
+<li><a href="https://github.com/alphagov/govuk-coronavirus-business-volunteer-form">GitHub</a></li>
+</ul>
+<h2 id='get-coronavirus-support-as-an-extremely-vulnerable-person'>Get coronavirus support as an extremely vulnerable person</h2><p>This service allows people identified as vulnerable by the NHS to
+tell us if they need help accessing essential supplies and support.
+Users will have received a link to the service in a letter or a text
+message from the NHS, or been advised by their GP to fill in the form.
+They can fill the form in themselves, or someone else can fill it in
+for them.</p>
+<p>There is also an interactive voice response (IVR) automated phone
+service provided by AWS. This is for users who do not have access to
+the internet.</p>
+<p>The service is also known as the Shielded Vulnerable service, or
+SV.</p>
+
+<ul>
+<li><a href="https://www.gov.uk/coronavirus-extremely-vulnerable">Start page</a></li>
+<li><a href="https://coronavirus-vulnerable-people.service.gov.uk/live-in-england">Service</a></li>
+<li><a href="https://github.com/alphagov/govuk-coronavirus-vulnerable-people-form">GitHub</a></li>
+</ul>
+<h2 id='find-support-if-you39re-affected-by-coronavirus'>Find support if you&rsquo;re affected by coronavirus</h2><p>This service allows the public - who may not have been eligible for
+the extremely vulnerable service - to find information about what help
+is available if they&rsquo;re struggling with unemployment, an inability to
+get food, having somewhere to live, or their general wellbeing as a
+result of coronavirus.</p>
+<p>The service is also known as the Non-Shielded Vulnerable service, or
+NSV.</p>
+
+<ul>
+<li><a href="https://www.gov.uk/find-coronavirus-support">Start page</a></li>
+<li><a href="https://find-coronavirus-support.service.gov.uk/urgent-medical-help">Service</a></li>
+<li><a href="https://github.com/alphagov/govuk-coronavirus-find-support">GitHub</a></li>
+</ul>
+<h2 id='architecture'>Architecture</h2><p>All applications have a similar architecture of:</p>
+
+<ul>
+<li><strong>Framework:</strong> Ruby on Rails</li>
+<li><strong>Database:</strong> AWS RDS (business volunteering, find support) and DynamoDB (vulnerable people)</li>
+<li><strong>Hosting:</strong> PaaS</li>
+<li><strong>CDN:</strong> AWS CloudFront</li>
+<li><strong>CI:</strong> GitHub Actions (branches and PRs)</li>
+<li><strong>CD:</strong> Concourse (master builds and production deploys)</li>
+<li><strong>Logging:</strong> Sentry and Logit</li>
+<li><strong>Email</strong>: GOV.UK Notify</li>
+<li><strong>Queuing</strong>: Sidekiq (business volunteering only)</li>
+</ul>
+<h3 id='application-structure'>Application structure</h3><p>Each application is a standard Rails application with:</p>
+
+<ul>
+<li>question pages, each has their own controller, view and route</li>
+<li>a check your answers page (except find support form)</li>
+<li>a confirmation (&ldquo;Thank you&rdquo;) page</li>
+<li>ineligible pages (vulnerable people form only)</li>
+<li>a privacy page</li>
+</ul>
+<p>To run one of the applications locally, see the README in the GitHub repo.</p>
+<h2 id='session-and-data-storage'>Session and data storage</h2><h3 id='session-storage'>Session storage</h3><p>While the user is filling out the form, we use session storage to
+store the user&rsquo;s data.</p>
+<p>For the vulnerable people form and find support form, we store session data for
+4 hours in an encrypted cookie, persisted in the browser and sent back to the
+server for every question.  Cookies have a limit of 4KB, so this approach could
+cause errors if the user submits large inputs.</p>
+<p>For the business volunteering form, we store the following for 4 hours:</p>
+
+<ul>
+<li>the session id in an encrypted cookie</li>
+<li>the session data in Redis</li>
+</ul>
+<h3 id='data-storage'>Data storage</h3><p>For all but the find support form, when the user submits the form on
+the &ldquo;Check your answers&rdquo; page, the application writes user data to the
+database.</p>
+<p>For the find support form, user responses are written to the database
+on submission of the final question. There is no &ldquo;Check your answers&rdquo;
+page.</p>
+<p>The vulnerable people form application only has permission to write
+items to the database. For security and privacy reasons, there&rsquo;s no
+way to read or change already-submitted user data.</p>
+<p>Developers should not have access to the production database for
+the vulnerable people form application.</p>
+<p>The business volunteering form and find support form applications can both read
+and write to their databases as the security and privacy requirements are lower.</p>
+<p>Developers may treat data in the business volunteering form and find support
+form to the same standards as any other GOV.UK personal data store, and are able
+to access it for legitimate development duties.</p>
+<h2 id='hosting'>Hosting</h2><h3 id='paas'>PaaS</h3><p>All applications are hosted on GOV.UK Platform as a Service (PaaS) in
+the Ireland region.  PaaS provides a scalable hosting platform based
+on CloudFoundry managed by GDS.  You can read more in the <a href="https://docs.cloud.service.gov.uk/">PaaS
+technical documentation</a>.</p>
+<h4 id='get-access'>Get access</h4><p>To get access, email
+govuk-senior-tech-members@digital.cabinet-office.gov.uk and ask for an
+invite to the <code>govuk_development</code> organisation.  They need to give you
+a role that lets you access both <code>staging</code> and <code>production</code> spaces and
+the applications inside.</p>
+<h4 id='log-in'>Log in</h4><p>Before you start, <a href="https://docs.cloud.service.gov.uk/get_started.html#set-up-the-cloud-foundry-command-line">install the CloudFoundry CLI</a>.</p>
+
+<ol>
+<li>Log in with <code>cf login -a api.cloud.service.gov.uk --sso</code></li>
+<li>Select staging or production with <code>cf target -s &lt;staging or production&gt;</code></li>
+</ol>
+<p>All applications are Rails applications, and use the
+<a href="https://docs.cloud.service.gov.uk/deploying_apps.html#deploy-a-ruby-on-rails-app"><code>ruby_buildpack</code></a> to build and deploy to PaaS.  You can read more
+about <a href="https://docs.cloud.service.gov.uk/managing_apps.html#managing-apps">managing PaaS applications</a> and <a href="https://docs.cloud.service.gov.uk/monitoring_apps.html#monitoring-apps">monitoring PaaS
+applications</a>.</p>
+<h4 id='manage-backing-services'>Manage backing services</h4><p>The business volunteer application uses PaaS&rsquo;s <a href="https://docs.cloud.service.gov.uk/deploying_services/redis/#redis">Redis backing
+service</a>.  The backing service is attached to the
+application by a setting in the <code>manifest.yml</code> file in the repository
+root.</p>
+<p>The JSON data in the <code>VCAP_SERVICES</code> environment variable exposes
+settings and credentials for the backing service automatically.</p>
+<h3 id='aws'>AWS</h3><p>We have two AWS accounts (staging and production) for CDN and data
+storage. They contain DynamoDB, IAM and CloudFront resources,
+which were provisioned by Terraform in the <a href="https://github.com/alphagov/covid-engineering/blob/master/reliability-engineering/terraform/deployments/corona-data-prod/account/iam.tf#L296-L386">alphagov/covid-engineering
+repository</a>. Members of the GOV.UK Coronavirus
+Services team have access.</p>
+<p>To log in to AWS:</p>
+
+<ol>
+<li><a href="/manual/get-started.html#8-use-your-aws-access">Install and set up the gds-cli</a>, then log in to the AWS Console with either:</li>
+</ol>
+
+<ul>
+<li><code>gds aws govuk-corona-data-staging-poweruser -l</code> for staging</li>
+<li><code>gds aws govuk-corona-data-prod-poweruser -l</code> for production</li>
+</ul>
+<h2 id='deployment'>Deployment</h2><p>Deployment is managed via <a href="https://cd.gds-reliability.engineering/">TechOps shared Concourse</a>.
+CI/CD pipelines are configured under the <code>govuk-tools</code> team. You can
+read about what Concourse is, its access controls, <a href="https://reliability-engineering.cloudapps.digital/continuous-deployment.html#secrets">configuring secrets</a>,
+and how to administer it, on the <a href="/manual/concourse.html">Concourse</a>
+developer docs page.</p>
+<p>In terms of these applications, any changes to application code on the
+master branch are continuously deployed to staging.  Smoke tests are
+set up to run on staging, if these pass the applications are
+automatically deployed to production.  The smoke tests are the feature
+tests within the application repository.</p>
+<p>The Concourse deployment pipeline and task configuration for each
+application is stored in the &ldquo;concourse&rdquo; directory at the root of each
+repository. Changes to these pipelines apply automatically when pushed
+to <code>master</code>.</p>
+<p>Links to Concourse Pipelines:</p>
+
+<ul>
+<li><a href="https://cd.gds-reliability.engineering/teams/govuk-tools/pipelines/govuk-corona-business-volunteer-form"><code>govuk-corona-business-volunteer-form</code></a></li>
+<li><a href="https://cd.gds-reliability.engineering/teams/govuk-tools/pipelines/govuk-corona-vulnerable-people-form"><code>govuk-corona-vulnerable-people-form</code></a></li>
+<li><a href="https://cd.gds-reliability.engineering/teams/govuk-tools/pipelines/govuk-corona-find-support-form"><code>govuk-corona-find-support-form</code></a></li>
+</ul>
+<h3 id='zero-downtime-deployment'>Zero-Downtime Deployment</h3><p>The deployment tasks use the CloudFoundry v3 API commands in order to
+support zero-downtime deployment and various new features.</p>
+<p>When working with the cf cli tool, use the <code>v3</code> prefixed commands.
+For example: <code>cf v3-apps</code>.</p>
+<h3 id='cancelling-a-failed-deployment'>Cancelling a failed deployment</h3><p>Occasionally a zero-downtime deployment may fail.  This can occur if
+the application fails to start, or the required number of app
+instances cannot be created in time.  To cancel and roll back to the
+previous deployment, run: <code>cf v3-cancel-zdt-push &lt;app-name&gt;</code>.</p>
+<h3 id='links-to-staging'>Links to Staging</h3>
+<ul>
+<li><a href="https://govuk-coronavirus-business-volunteer-form-stg.cloudapps.digital/medical-equipment"><code>govuk-coronavirus-business-volunteer-form</code></a></li>
+<li><a href="https://govuk-coronavirus-vulnerable-people-form-stg.cloudapps.digital/live-in-england"><code>govuk-coronavirus-vulnerable-people-form</code></a></li>
+<li><a href="https://govuk-coronavirus-find-support-stg.cloudapps.digital/urgent-medical-help"><code>govuk-coronavirus-find-support-form</code></a></li>
+</ul>
+<p>These are protected by HTTP basic auth.  You can find the credentials
+in govuk-secrets and get them by running:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>cd ~/govuk/govuk-secrets/pass
+./edit.sh 2ndline coronavirus-forms/creds
+</code></pre></div><h2 id='monitoring'>Monitoring</h2><p>There&rsquo;s a <a href="https://gds.splunkcloud.com/en-GB/app/gds-006-govuk/d006_coronavirus">Splunk dashboard</a> for all of these services.  To
+access Splunk, you need to have the <code>GDS-006-GOVUK</code> permission on your
+Google account.  To get this permission, raise an IT Helpdesk ticket
+and post in <code>#cyber-security-help</code> to get them to confirm the request
+is legitimate.</p>
+<p>Application errors are sent to the GOV.UK hosted Sentry:</p>
+
+<ul>
+<li><a href="https://sentry.io/organizations/govuk/issues/?project=5172100"><code>govuk-coronavirus-business-volunteer-form</code></a></li>
+<li><a href="https://sentry.io/organizations/govuk/issues/?project=5170680"><code>govuk-coronavirus-vulnerable-people-form</code></a></li>
+<li><a href="https://sentry.io/organizations/govuk/issues/?project=5192076"><code>govuk-coronavirus-find-support-form</code></a></li>
+</ul>
+<p>These are under the GOV.UK Sentry account and you can sign in with
+your Google Account.</p>
+<p>Logs for all applications are streamed to Logit and can be found in
+following dashboards:</p>
+<p><a href="https://logit.io/a/1c6b2316-16e2-4ca5-a3df-ff18631b0e74/s/04b46992-f653-4c14-965c-236e9a6c2777/kibana/access">GOV.UK Production Corona Forms</a>
+<a href="https://logit.io/a/1c6b2316-16e2-4ca5-a3df-ff18631b0e74/s/7a0be476-6535-4544-8318-4c7a130948e8/kibana/access">GOV.UK Staging Corona Forms</a></p>
+<h2 id='confirmation-emails'>Confirmation emails</h2><h3 id='gov-uk-notify'>GOV.UK Notify</h3><p>The business volunteering service sends confirmation emails on form submission,
+using GOV.UK Notify.</p>
+<p>Sidekiq is used to manage the queuing of email jobs. The application <a href="https://github.com/alphagov/govuk-coronavirus-business-volunteer-form#running-sidekiq">README</a>
+details how to manage the Sidekiq queue.</p>
+<p>To login to the <a href="https://www.notifications.service.gov.uk/sign-in">GOV.UK Notify Dashboard</a>
+obtain the credentials using govuk-secrets:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>cd ~/govuk/govuk-secrets/pass
+pass govuk-notify/govuk-coronavirus-services
+</code></pre></div><p>In staging only, emails are sent to <code>coronavirus-services-smoke-tests@digital.cabinet-office.gov.uk</code>
+rather than the form submitter.</p>
+<h2 id='extracting-form-responses-business-volunteering-only'>Extracting form responses (business volunteering only)</h2><p>Cabinet Office require data exports at regular intervals.  A
+<a href="https://github.com/alphagov/govuk-coronavirus-business-volunteer-form/blob/5aed27777a22035b1b4f7ea9eafe612b105469a1/concourse/pipeline.yml#L99-L107">recurring Concourse job</a>
+exports the data to a S3 bucket each day between midnight and 1am.
+Details of the bucket can be obtained using <code>cf services</code> and <code>cf env</code>.</p>
+<p>Should further exports be required, there is a rake task to export
+the data for a single day in JSON format.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>cf v3-ssh govuk-coronavirus-business-volunteer-form
+$ /tmp/lifecycle/shell
+$ rake export:form_responses["&lt;date&gt;"]
+</code></pre></div><p>Date to be included in the format 2020-03-26.</p>
+<h2 id='alerting'>Alerting</h2><p>GOV.UK on-call operators will be paged for two reasons:</p>
+
+<ul>
+<li>if Pingdom thinks a service is down</li>
+<li>if a service has a high rate of 5xx errors</li>
+</ul>
+<p>You should find the Monitoring and Useful commands sections in this
+document helpful when investigating this issue.</p>
+<p>Useful Slack channels:</p>
+
+<ul>
+<li>#govuk-corona-services-tech (builds the forms)</li>
+<li>#covid-engineering-team (runs the data pipeline)</li>
+<li>#re-prometheus-support (runs the Prometheus infra)</li>
+</ul>
+<h3 id='service-downtime'>Service downtime**</h3><p>The GOV.UK Pingdom account is configured to checks if the first of
+each form service page is up. If it can&rsquo;t reach a page for a
+configured period of time, it will call you.</p>
+<p>The login credentials for the service are in govuk-secrets pass.</p>
+<h3 id='high-5xx-rate'>High 5xx rate**</h3>
+<blockquote>
+<p><strong>Note:</strong> Connect to the VPN to view Prometheus and AlertManager UIs.</p>
+</blockquote>
+<p>These alerts are triggered by <a href="https://prom-1.monitoring.gds-reliability.engineering/alerts">Reliability Engineering&rsquo;s Prometheus</a>
+when the applications are serving a high number of 5xx errors.</p>
+<p>The configuration for the alert is stored in the
+<a href="https://github.com/alphagov/prometheus-aws-configuration-beta/blob/b33139a4ed06fc77e4687f8b6dee20577717fdb8/terraform/modules/prom-ec2/alerts-config/alerts/govuk-coronavirus-services-alerts.yml">prometheus-aws-configuration-beta</a> repository.</p>
+<p>You can also view the alert in <a href="https://alerts.monitoring.gds-reliability.engineering/#/alerts">AlertManager</a>, which sends
+the Prometheus alerts to PagerDuty. You can silence the alert through
+the user interface, or use the <code>amtool</code> cli to end the alert.</p>
+<p>This alert indicates a problem with the application origin servers.</p>
+<p>Steps you could take:</p>
+
+<ul>
+<li>See the monitoring section, to look at some graphs</li>
+<li>Check the logs to see which requests are failing</li>
+<li>Check the commit log to see if there was a recent change</li>
+<li>Check the concourse pipeline to see if there was a recent deploy, or
+if the smoke test is failing</li>
+<li>Check the <code>/metrics</code> endpoints on the apps, to see if they are
+serving metrics to prometheus correctly</li>
+</ul>
+<p><strong>Deactivate Prometheus alerts for these services</strong></p>
+
+<blockquote>
+<p><strong>Note:</strong> you should only do this if you have confirmed that there is
+a problem with the alert.</p>
+</blockquote>
+<p>You can deactivate the alert in the PagerDuty UI.</p>
+
+<ol>
+<li>Go to the <a href="https://governmentdigitalservice.pagerduty.com/rules/rulesets/a63974aa-a89f-439e-93b9-8ff13565799f">PagerDuty ruleset</a></li>
+<li>Disable the Event Rule that is triggering alerts on the GOV.UK COVID-19 Forms service</li>
+</ol>
+<h2 id='troubleshooting'>Troubleshooting</h2><h3 id='what-things-will-call-you'>What things will call you</h3><p>The GOV.UK PagerDuty will page on-call/2ndline if these services
+experience issues. See the Alerting section above.</p>
+<h3 id='useful-commands'>Useful commands</h3>
+<blockquote>
+<p><strong>Note:</strong> Make sure to use the <code>v3-</code> commands for things like
+restarting or deploying apps, to do so in a zero-downtime way.</p>
+</blockquote>
+<p>See the status of all the apps and how many instances are running:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>cf v3-apps
+</code></pre></div><p>Get the logs for an app:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>cf logs &lt;app-name&gt; --recent
+</code></pre></div><p>View detailed information about an app:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>cf app &lt;app-name&gt;
+</code></pre></div><p>Restart an app:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>cf v3-restart &lt;app-name&gt;
+</code></pre></div><p>Access a Postgres console (for business form only):</p>
+<div class="highlight"><pre class="highlight plaintext"><code>cf conduit govuk-coronavirus-business-volunteer-form-db -- psql
+</code></pre></div><h3 id='escalating-to-paas-support'>Escalating to PaaS support</h3><p>PaaS support contact details are in the <a href="https://docs.google.com/document/d/17XUuPaZ5FufyXH00S9qukl6Kf3JbJtAqwHR3eOBVBpI/edit">legacy opsmanual doc</a> under the
+heading &ldquo;PaaS Support (COVID-19 forms)&rdquo;.</p>
+
+
+  <div class='related-content'>
+
+</div>
+
+
+              <div data-module='page-expiry' data-last-reviewed-on="2020-07-03">
+    <div class='page-expiry--not-expired'>
+      This page was last reviewed on 3 June 2020.
+
+        It needs to be reviewed again on 3 July 2020
+        by the page owner <a href="">#govuk-corona-forms-tech</a>
+        .
+    </div>
+
+    <div class='page-expiry--expired'>
+      This page was set to be reviewed before 3 July 2020
+       by the page owner <a href="">#govuk-corona-forms-tech</a>.
+      This might mean the content is out of date.
+    </div>
+  </div>
+
+          </main>
+
+          <aside>
+              <ul class="contribution-banner">
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/covid-19-services.html.md">View source</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'COVID-19%20Services'&amp;body=Problem%20with%20'COVID-19%20Services'%20(https://docs.publishing.service.gov.uk/manual/covid-19-services.html)">Report problem</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs">GitHub Repo</a></li>
+              </ul>
+          </aside>
+
+          <footer class="govuk-footer app-footer" role="contentinfo">
+  <div class="govuk-footer__meta">
+    <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
+
+
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        class="govuk-footer__licence-logo"
+        xmlns="http://www.w3.org/2000/svg"
+        viewbox="0 0 483.2 195.7"
+        height="17"
+        width="41"
+      >
+        <path
+          fill="currentColor"
+          d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+        />
+      </svg>
+      <span class="govuk-footer__licence-description">
+        All content is available under the
+        <a
+          class="govuk-footer__link"
+          href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+          rel="license"
+        >Open Government Licence v3.0</a>, except where otherwise stated
+      </span>
+    </div>
+    <div class="govuk-footer__meta-item">
+      <a
+        class="govuk-footer__link govuk-footer__copyright-logo"
+        href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+      >© Crown copyright</a>
+    </div>
+  </div>
+</footer>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <script src="/javascripts/application.js"></script>
+  </body>
+</html>
