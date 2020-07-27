@@ -8,23 +8,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-    <title>Nginx 5xx rate too high for many apps/boxes - GOV.UK Developer Documentation</title>
+    <title>High Nginx 5xx rate - GOV.UK Developer Documentation</title>
 
     <link href="/stylesheets/manifest.css" rel="stylesheet" />
 
-    <link rel="canonical" href="https://docs.publishing.service.gov.uk/manual/alerts/nginx-5xx-rate-too-high-for-many-apps-boxes.html">
+    <link rel="canonical" href="https://docs.publishing.service.gov.uk/manual/alerts/high-nginx-5xx-rate.html">
 
 
       <meta property="og:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
       <meta property="og:site_name" content="GOV.UK Developer Documentation" />
-      <meta property="og:title" content="Nginx 5xx rate too high for many apps/boxes" />
+      <meta property="og:title" content="High Nginx 5xx rate" />
       <meta property="og:type" content="object" />
-      <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/alerts/nginx-5xx-rate-too-high-for-many-apps-boxes.html" />
+      <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/alerts/high-nginx-5xx-rate.html" />
       <meta property="twitter:card" content="summary" />
       <meta property="twitter:domain" content="docs.publishing.service.gov.uk" />
       <meta property="twitter:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
-      <meta property="twitter:title" content="Nginx 5xx rate too high for many apps/boxes - GOV.UK Developer Documentation" />
-      <meta property="twitter:url" content="https://docs.publishing.service.gov.uk/manual/alerts/nginx-5xx-rate-too-high-for-many-apps-boxes.html" />
+      <meta property="twitter:title" content="High Nginx 5xx rate - GOV.UK Developer Documentation" />
+      <meta property="twitter:url" content="https://docs.publishing.service.gov.uk/manual/alerts/high-nginx-5xx-rate.html" />
 
     
   </head>
@@ -129,7 +129,7 @@
                   <a href='/manual.html' class="toc__back-link govuk-link">&lsaquo; Manual</a>
   <ul>
   <li>
-    <a href="#header"><span>Nginx 5xx rate too high for many apps/boxes</span></a>
+    <a href="#header"><span>High Nginx 5xx rate</span></a>
     <ul>
       <li>
         <a href="#spikes"><span>Spikes</span></a>
@@ -155,12 +155,12 @@
       This page describes what to do in case of an
       <a href='https://docs.publishing.service.gov.uk/manual/tools.html#icinga'>Icinga alert</a>.
       For more information you could
-      <a href='https://github.com/alphagov/govuk-puppet/search?utf8=%E2%9C%93&q=nginx-5xx-rate-too-high-for-many-apps-boxes'>
+      <a href='https://github.com/alphagov/govuk-puppet/search?utf8=%E2%9C%93&q=high-nginx-5xx-rate'>
         search the govuk-puppet repo for the source of the alert
       </a>
     </div>
 
-   <h1 id='header'>Nginx 5xx rate too high for many apps/boxes</h1><p>You can view the 5xx logs across all machines on these two dashboards:
+   <h1 id='header'>High Nginx 5xx rate</h1><p>You can view the 5xx logs across all machines on these two dashboards:
 - <a href="https://grafana.publishing.service.gov.uk/dashboard/file/nginx_requests.json?refresh=1m&amp;orgId=1&amp;var-Machines=All&amp;var-Hostname=All&amp;var-Status=5xx">Nginx 5xx Requests (Carrenza)</a>
 - <a href="https://grafana.blue.production.govuk.digital/dashboard/file/nginx_requests.json?refresh=1m&amp;orgId=1&amp;var-Machines=All&amp;var-Hostname=All&amp;var-Status=5xx">Nginx 5xx Requests (AWS)</a></p>
 <p>Change the hostname to view different apps.</p>
@@ -220,8 +220,8 @@ probably just need to wait for the metric to get created.</p>
 
           <aside>
               <ul class="contribution-banner">
-                <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/alerts/nginx-5xx-rate-too-high-for-many-apps-boxes.html.md">View source</a></li>
-                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'Nginx%205xx%20rate%20too%20high%20for%20many%20apps/boxes'&amp;body=Problem%20with%20'Nginx%205xx%20rate%20too%20high%20for%20many%20apps/boxes'%20(https://docs.publishing.service.gov.uk/manual/alerts/nginx-5xx-rate-too-high-for-many-apps-boxes.html)">Report problem</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/alerts/high-nginx-5xx-rate.html.md">View source</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'High%20Nginx%205xx%20rate'&amp;body=Problem%20with%20'High%20Nginx%205xx%20rate'%20(https://docs.publishing.service.gov.uk/manual/alerts/high-nginx-5xx-rate.html)">Report problem</a></li>
                 <li><a href="https://github.com/alphagov/govuk-developer-docs">GitHub Repo</a></li>
               </ul>
           </aside>
