@@ -359,7 +359,7 @@ Enter token <span class="k">for </span>arn:aws:iam::123456789012:mfa/firstname.l
 <h3 id='re-initialising'>Re-initialising</h3><p>If you forget your <code>aws-vault</code> password:</p>
 
 <ol>
-<li>Delete the aws-vault keychain with <code>rm ~/Library/Keychains/aws-vault-keychain-db</code></li>
+<li>Delete the aws-vault keychain with <code>rm ~/Library/Keychains/aws-vault.keychain-db</code></li>
 <li>Re-initialise the <code>gds-cli</code> by changing <code>initialised: true</code> in <code>~/.gds/config.yml</code> to <code>initialised: false</code>.</li>
 <li>Then re-run the &ldquo;First run&rdquo; commands above.</li>
 </ol>
