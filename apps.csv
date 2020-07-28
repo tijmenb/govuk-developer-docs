@@ -50,7 +50,7 @@ mapit,#govuk-platform-health,#govuk-platform-health,https://docs.publishing.serv
 maslow,#govuk-platform-health,#govuk-platform-health,https://docs.publishing.service.gov.uk/apps/maslow.html,https://github.com/alphagov/maslow,aws
 publisher,#govuk-platform-health,#govuk-platform-health,https://docs.publishing.service.gov.uk/apps/publisher.html,https://github.com/alphagov/publisher,aws
 publishing-api,#govuk-platform-health,#govuk-platform-health,https://docs.publishing.service.gov.uk/apps/publishing-api.html,https://github.com/alphagov/publishing-api,aws
-release,#govuk-platform-health,#govuk-platform-health,https://docs.publishing.service.gov.uk/apps/release.html,https://github.com/alphagov/release,carrenza
+release,#govuk-platform-health,#govuk-platform-health,https://docs.publishing.service.gov.uk/apps/release.html,https://github.com/alphagov/release,aws
 router,#govuk-platform-health,#govuk-platform-health,https://docs.publishing.service.gov.uk/apps/router.html,https://github.com/alphagov/router,aws
 router-api,#govuk-platform-health,#govuk-platform-health,https://docs.publishing.service.gov.uk/apps/router-api.html,https://github.com/alphagov/router-api,aws
 seal,,,https://docs.publishing.service.gov.uk/apps/seal.html,https://github.com/alphagov/seal,heroku
