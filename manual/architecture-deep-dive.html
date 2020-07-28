@@ -442,9 +442,9 @@ such as whether branches must be up to date with &lsquo;master&rsquo; before mer
 <a href="https://github.com/alphagov/govuk-jenkinslib/blob/dab23c591306d9f497f1c89651f7b7c0c6cc6967/vars/govuk.groovy#L132-L135">sends a message</a> to the <a href="https://deploy.integration.publishing.service.gov.uk/">deploy Jenkins</a> environment
 to build the <a href="https://github.com/alphagov/govuk-app-deployment">govuk-app-deployment</a> job. This clones the repository, checks out
 the tag and deploys the code to the corresponding nodes on Integration using
-<a href="a%20Ruby-based%20server%20automation%20and%20deployment%20tool">Capistrano</a>. Capistrano
-does deployments only by default, but can also do deployments &lsquo;with migration&rsquo;
-or &lsquo;with hard restart&rsquo;, etc, depending on the nature of the change.</p>
+<a href="https://capistranorb.com/">Capistrano</a> (a Ruby-based server automation and deployment tool).
+Capistrano does deployments only by default, but can also do deployments &lsquo;with
+migration&rsquo; or &lsquo;with hard restart&rsquo;, etc, depending on the nature of the change.</p>
 <p>A developer must manually trigger a deployment to Staging and Production through
 the <a href="https://github.com/alphagov/release">release</a> app. This uses the same Jenkins/Capistrano pipeline as for
 Integration, but on the Staging and Production Jenkins environments respectively.</p>
