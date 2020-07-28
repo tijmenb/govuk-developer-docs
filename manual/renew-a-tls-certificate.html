@@ -149,6 +149,8 @@ by Reliability Engineering.</p>
 <a href="https://github.com/alphagov/govuk-secrets/blob/master/pass/2ndline/fastly">2nd line password store</a>.</p>
 
 <ol>
+<li><a href="/manual/generate-csr.html">Generate a Certificate Signing Request (CSR)</a> for a
+<em>renewal</em>.</li>
 <li>Log into Gandi <a href="https://github.com/alphagov/govuk-secrets/blob/master/pass/infra/gandi/govuk.gpg">using the credentials in the infra password
 store</a>.</li>
 <li>Go to the account dashboard and find the list of TLS certificates on the
@@ -157,21 +159,26 @@ account.</li>
 request a wildcard certificate (for example, <code>*.publishing.service.gov.uk</code>).</li>
 <li>Go through the steps on the renewal form until you reach a page requesting a
 Certificate Signing Request.</li>
-<li><a href="/manual/generate-csr.html">Generate a Certificate Signing Request (CSR)</a> for a
-<em>renewal</em>.</li>
 <li>Upload the CSR to Gandi by pasting the contents of the .csr file into the
 text box.</li>
 <li>Next, choose DNS validation to validate it and follow the instructions to add
 the relevant DNS records.</li>
 <li>Pay for it - we don&rsquo;t have a stored payment method, so find the person with
-the GDS credit card.</li>
+the GDS credit card. Or raise a request for temporary credit card details from
+PMO by sending an email to pmo@digital.cabinet-office.gov.uk.</li>
 <li>Once the certificate has been renewed, paste the contents of the resulting
-.crt file into Puppet hiera data for the relevant environment in the
-<a href="https://github.com/alphagov/govuk-secrets">govuk-secrets</a> repository.</li>
+.crt file into Puppet hieradata for the relevant environment in the
+<a href="https://github.com/alphagov/govuk-secrets/puppet">govuk-secrets</a> repository.</li>
 <li>Deploy Puppet to update the certificate in the relevant environment.</li>
+<li>Import the certificate to AWS ACM. Login to the AWS console in the appropriate
+environment and follow the instructions <a href="https://docs.aws.amazon.com/acm/latest/userguide/import-certificate-api-cli.html">here</a>.
+The chain cert is the second certificate under &ldquo;wildcard_publishing_certificate&rdquo;
+in <a href="https://github.com/alphagov/govuk-secrets/puppet">govuk-secrets</a>.</li>
 <li><em>For staging and integration only:</em>
 Go to the Fastly interface and then to Configure -&gt; HTTPS and network.
-Go to TLS certificates and upload your new cert.</li>
+Go to TLS certificates and upload your new cert.
+(You do not need to do this for production because we use a different certificate
+there)</li>
 <li><em>For staging and integration only:</em>
 In TLS domains click on more details and then select your new certificate
 under CERTIFICATE BEING USED.</li>
@@ -220,17 +227,17 @@ under CERTIFICATE BEING USED.</li>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-12-02">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-01-24">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 2 June 2020.
+      This page was last reviewed on 24 July 2020.
 
-        It needs to be reviewed again on 2 December 2020
+        It needs to be reviewed again on 24 January 2021
         by the page owner <a href="">#re-govuk</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 2 December 2020
+      This page was set to be reviewed before 24 January 2021
        by the page owner <a href="">#re-govuk</a>.
       This might mean the content is out of date.
     </div>
