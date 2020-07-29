@@ -190,13 +190,14 @@ selected provider.</p>
 <h3 id='deployment'>Deployment</h3><p><strong>Always <code>plan</code> first, check that the output is what you expect, then <code>apply</code>.</strong></p>
 <p>When the changes have been reviewed and merged, you can deploy them in your terminal
 by using at least version <code>v2.15.0</code> of <a href="https://github.com/alphagov/gds-cli"><code>gds-cli</code></a>.</p>
+<p><strong>You MUST deploy to BOTH DNS providers. We use both for redundancy.</strong></p>
 <p>You should <strong>always</strong>:</p>
 
 <ol>
 <li><code>plan</code> in each DNS provider and check the console output is what you expect.</li>
 <li><code>apply</code> in each DNS provider until you see that your changes has been applied.
-There are circumstances where terraform is not able to apply the changes in 1
-run and need <strong>multiple</strong> runs.</li>
+There are <a href="#google-based-caveats">circumstances where terraform is not able to apply the changes</a>
+in 1 run and need <strong>multiple</strong> runs.</li>
 </ol>
 <p>Deployment is done by first obtaining (first time set up) your GitHub credentials
 by creating a read-only GitHub personal access token. This <a href="https://github.com/settings/tokens">GitHub personal access token</a> should be created with the <code>read:org</code>
@@ -217,8 +218,8 @@ gds govuk dns <span class="nt">-p</span> &lt;dns_provider&gt; <span class="nt">-
 <li><code>&lt;github_token&gt;</code> is the GitHub token that you created as described above</li>
 <li><code>&lt;dns_provider&gt;</code> is one of the 2 DNS provider of govuk, i.e. <code>gcp</code> or <code>aws</code></li>
 <li><code>&lt;dns_zone&gt;</code> is the govuk DNS zone to be deployed. E.g. <code>direct.gov.uk</code></li>
-<li><code>&lt;action&gt;</code> is the terraform action you want to perform. E.g. <code>plan</code>, <code>apply</code></li>
-<li><code>&lt;aws_role&gt;</code> is the govuk aws role you want to use for terraforming. E.g. <code>govuk-production-admin</code></li>
+<li><code>&lt;action&gt;</code> is the terraform action you want to perform. i.e. <code>plan</code> or <code>apply</code></li>
+<li><code>&lt;aws_role&gt;</code> is the govuk aws role you want to use for terraforming. i.e. <code>govuk-production-admin</code> or <code>govuk-production-poweruser</code></li>
 </ol>
 <p>After you deploy, you can visit the <a href="https://deploy.publishing.service.gov.uk/job/Deploy_DNS/">Jenkins job</a> to see the job running or queued.</p>
 
@@ -233,8 +234,9 @@ both Amazon and Google.</li>
 <li>You will not require credentials for Google Cloud. These credentials are stored
 in Jenkins itself.</li>
 </ul>
-<p><strong>Google-based caveats</strong></p>
-
+</blockquote>
+<h4 id='google-based-caveats'>Google-based caveats</h4>
+<blockquote>
 <ul>
 <li>When deploying to Google it&rsquo;s normal to see changes in TXT records
 relating to escaping of quotes. You can safely ignore these if
