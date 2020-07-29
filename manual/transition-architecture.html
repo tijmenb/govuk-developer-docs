@@ -164,25 +164,30 @@
             
   <p><a href='/manual.html#transition'>Transition</a></p> <h1 id='header'>Transition architecture</h1><p>The Transition system is built to transition government websites to GOV.UK. The
 main work around this <a href="https://insidegovuk.blog.gov.uk/2014/12/19/300-websites-to-just-1-in-15-months">happened in 2014</a>, but we still take on websites.</p>
-<p>All the repositories involved in transition have been <a href="https://github.com/search?q=topic%3Agovuk-transition+org%3Aalphagov">tagged with govuk-transition on GitHub</a>.</p>
+<p>All the repositories involved in transition have been <a href="https://github.com/search?q=topic%3Agovuk-transition+org%3Aalphagov">tagged with govuk-transition
+on GitHub</a>.</p>
 <h2 id='high-level-overview'>High level overview</h2><p><a href="images/transition-architecture.png" target="_blank" rel="noopener noreferrer"><img src="/manual/images/transition-architecture.png" alt="Overview of the elements involved in transition" /></a></p>
 <p><em>Source diagram in the <a href="https://drive.google.com/drive/folders/0B7zRJZy-BNyUS2lMMzJHLUpYM00">GOV.UK architecture folder</a>.</em></p>
 <h3 id='components'>Components</h3>
 <ul>
-<li><a href="/apps/transition.html">transition</a> is the admin app that departments use to transition</li>
-<li><a href="https://github.com/alphagov/transition-config">transition-config</a> contains YAML files to configure transitioning websites. It&rsquo;s imported into the Transition database by the <a href="https://deploy.blue.production.govuk.digital/job/Transition_load_site_config">Transition_load_site_config job</a></li>
-<li>The <a href="https://github.com/alphagov/govuk-aws/tree/master/terraform/projects/infra-fastly-logs">cloudwatch / athena / lambda</a> trio process the logs from Fastly to produce the statistics. Those are then loaded into Transition by the <a href="https://deploy.blue.production.govuk.digital/job/Transition_load_all_data/">Transition_load_all_data job</a></li>
-<li><a href="/apps/bouncer.html">bouncer</a> is the application that does the actual redirecting</li>
-<li><a href="https://github.com/alphagov/govuk-cdn-config">govuk-cdn-config</a> contains the script that the <a href="https://deploy.blue.production.govuk.digital/job/Bouncer_CDN/">Bouncer_CDN job</a> uses to send the <a href="https://transition.publishing.service.gov.uk/hosts.json">hosts from transition</a> to Fastly</li>
+<li><a href="/apps/transition.html">transition</a> is the admin app that departments use to transition.</li>
+<li><a href="https://github.com/alphagov/transition-config">transition-config</a> contains YAML files to configure transitioning
+websites. It&rsquo;s imported into the Transition database by the
+<a href="https://deploy.blue.production.govuk.digital/job/Transition_load_site_config">Transition_load_site_config job</a>.</li>
+<li>The <a href="https://github.com/alphagov/govuk-aws/tree/master/terraform/projects/infra-fastly-logs">cloudwatch / athena / lambda</a> trio process the logs
+from Fastly to produce the statistics. Those are then loaded into Transition
+by the <a href="https://deploy.blue.production.govuk.digital/job/Transition_load_all_data/">Transition_load_all_data job</a>.</li>
+<li><a href="/apps/bouncer.html">bouncer</a> is the application that does the actual redirecting.</li>
+<li><a href="https://github.com/alphagov/govuk-cdn-config">govuk-cdn-config</a> contains the script that the <a href="https://deploy.blue.production.govuk.digital/job/Bouncer_CDN/">Bouncer_CDN job</a> uses
+to send the <a href="https://transition.publishing.service.gov.uk/hosts.json">hosts from transition</a> to Fastly.</li>
 </ul>
-<h2 id='transition-data-sources'>Transition data sources</h2><p>Site configuration is automatically imported every hour via <a href="https://deploy.blue.production.govuk.digital/job/Transition_load_site_config">a Jenkins job</a>
-from <a href="https://github.com/alphagov/transition-config">transition-config</a>.</p>
+<h2 id='transition-data-sources'>Transition data sources</h2><p>Site configuration is automatically imported every hour via
+<a href="https://deploy.blue.production.govuk.digital/job/Transition_load_site_config">a Jenkins job</a> from <a href="https://github.com/alphagov/transition-config">transition-config</a>.</p>
 <p>Traffic data is automatically imported every day via <a href="https://deploy.blue.production.govuk.digital/job/Transition_load_all_data/">a Jenkins
-job</a>.  This import puts a high load on the database. CDN
-logs for the &ldquo;Production Bouncer&rdquo; Fastly service are sent (by Fastly)
-to the <code>govuk-production-fastly-logs</code> S3 bucket and processed by a
-lambda function defined in the <a href="https://github.com/alphagov/govuk-aws/tree/master/terraform/projects/infra-fastly-logs">infra-fastly-logs</a> Terraform
-project.</p>
+job</a>.  This import puts a high load on the database. CDN logs
+for the &ldquo;Production Bouncer&rdquo; Fastly service are sent (by Fastly) to the
+<code>govuk-production-fastly-logs</code> S3 bucket and processed by a lambda function
+defined in the <a href="https://github.com/alphagov/govuk-aws/tree/master/terraform/projects/infra-fastly-logs">infra-fastly-logs</a> Terraform project.</p>
 <h2 id='bouncer'>Bouncer</h2><p><a href="/apps/bouncer.html">Bouncer</a> is a Ruby/Rack web app that receives requests for the URLs of government
 sites that have either been transitioned to GOV.UK, archived or removed. It queries
 the database it shares with Transition and replies with a redirect, an archive page
@@ -238,7 +243,10 @@ on the Bouncer machines. The assets live in <a href="https://github.com/alphagov
 rsynced</a>
 to the machines when Bouncer is deployed.</li>
 </ul>
-<h4 id='https-support-for-transitioned-sites'>HTTPS support for transitioned sites</h4><p>Bouncer does not support HTTPS for transitioned sites. This functionality is under investigation as of December 2018. This limitation should be investigated as part of any site transition, especially if the existing site uses HSTS to force secure connections.</p>
+<h4 id='https-support-for-transitioned-sites'>HTTPS support for transitioned sites</h4><p>Bouncer does not support HTTPS for transitioned sites. This functionality is under
+investigation as of December 2018. This limitation should be investigated as part
+of any site transition, especially if the existing site uses HSTS to force secure
+connections.</p>
 
 
   <div class='related-content'>
@@ -267,17 +275,17 @@ to the machines when Bouncer is deployed.</li>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-06-17">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-07-14">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 17 December 2019.
+      This page was last reviewed on 14 July 2020.
 
-        It needs to be reviewed again on 17 June 2020
+        It needs to be reviewed again on 14 July 2021
         by the page owner <a href="">#govuk-platform-health</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 17 June 2020
+      This page was set to be reviewed before 14 July 2021
        by the page owner <a href="">#govuk-platform-health</a>.
       This might mean the content is out of date.
     </div>
