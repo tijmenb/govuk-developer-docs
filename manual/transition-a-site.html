@@ -192,8 +192,7 @@ on GOV.UK. These mappings are stored in a database and used by <a href="/apps/bo
 handle requests to those old domains.</p>
 <p>This page covers adding a site so that we can handle traffic to
 it, or changing the configuration of an existing site in the Transition app.</p>
-<h2 id='changing-the-configuration-of-a-site-that-is-already-in-the-transition-app'>Changing the configuration of a site that is already in the Transition app</h2><p>The <a href="https://github.com/alphagov/transition-config/blob/master/README.md">transition-config README</a> gives more details on how to
-edit the relevant <a href="https://github.com/alphagov/transition-config/tree/master/data/transition-sites">transition configuration file</a>.</p>
+<h2 id='changing-the-configuration-of-a-site-that-is-already-in-the-transition-app'>Changing the configuration of a site that is already in the Transition app</h2><p>Edit the relevant <a href="https://github.com/alphagov/transition-config/tree/master/data/transition-sites">transition configuration file</a>. The <a href="https://github.com/alphagov/transition-config/blob/master/README.md">transition-config README</a> gives more details.</p>
 <h2 id='checklist-for-transitioning-a-new-site'>Checklist for transitioning a new site</h2><h3 id='1-ensure-the-department-is-aware-of-the-technical-limitation-of-https-enabled-sites'>1) Ensure the department is aware of the technical limitation of HTTPS enabled sites</h3><p>Unless the domain being transitioned is a subdomain of one of our wildcard
 <a href="https://en.wikipedia.org/wiki/Subject_Alternative_Name">SANs</a>, we <a href="/manual/transition-architecture.html#https-support-for-transitioned-sites">do not support HTTPS</a> for transitioned sites.</p>
 <p>If a domain is not in our SAN but wants to keep HTTPS integrity, the best
@@ -210,8 +209,7 @@ preview according to the following pattern:</p>
 <li>www.domain.gov.uk → aka.domain.gov.uk</li>
 <li>sub.domain.gov.uk → aka-sub.domain.gov.uk</li>
 </ul>
-<p>There are lots of examples of these in <a href="https://transition.publishing.service.gov.uk/hosts">hosts currently configured in
-Transition</a>.</p>
+<p>There are lots of examples of these in <a href="https://transition.publishing.service.gov.uk/hosts">hosts currently configured in Transition</a></p>
 <p>These AKA domains should be CNAMEd to: <code>redirector-cdn.production.govuk.service.gov.uk</code></p>
 <h3 id='4-get-a-list-of-old-urls'>4) Get a list of old URLs</h3><p>In order for us to redirect anything but the homepage, we need a list of URLs
 for the old site so that they can be mapped. In the past, this is something
@@ -292,8 +290,8 @@ the day after.</p>
 <h3 id='9-point-the-domain-at-us'>9) Point the domain at us</h3><p>Once the site has been imported successfully, the domain can be pointed
 at us by the organisation. For hostnames which can have a <code>CNAME</code>
 record, this is <code>redirector-cdn.production.govuk.service.gov.uk</code>.
-Domains at the root of their zone can&rsquo;t use <code>CNAME</code> records, so must use
-an <code>A</code> record and point at one of the <a href="https://github.com/alphagov/transition/blob/016c3d30e190c41eaa912ed554384a49f3418a91/app/models/host.rb#L22">Fastly GOV.UK IP
+Domains at the root of their zone can&rsquo;t use <code>CNAME</code> records, so must use an <code>A</code>
+record and point at one of the <a href="https://github.com/alphagov/transition/blob/016c3d30e190c41eaa912ed554384a49f3418a91/app/models/host.rb#L22">Fastly GOV.UK IP
 addresses</a>.</p>
 <p>If the site is one that was <a href="https://github.com/alphagov/gds-dns-config/tree/master/zones">administered by GDS</a>
 (e.g. theorytest.direct.gov.uk), you will need to <a href="/manual/dns.html#making-changes-to-publishing-service-gov-uk">update and re-deploy the DNS config</a>.</p>
@@ -339,17 +337,17 @@ should perhaps be redirected instead</li>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2021-07-28">
+              <div data-module='page-expiry' data-last-reviewed-on="2020-04-30">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 28 July 2020.
+      This page was last reviewed on 30 October 2019.
 
-        It needs to be reviewed again on 28 July 2021
+        It needs to be reviewed again on 30 April 2020
         by the page owner <a href="">#govuk-platform-health</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 28 July 2021
+      This page was set to be reviewed before 30 April 2020
        by the page owner <a href="">#govuk-platform-health</a>.
       This might mean the content is out of date.
     </div>
