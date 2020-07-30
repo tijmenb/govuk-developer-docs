@@ -155,9 +155,6 @@
           <li>
             <a href="#6-remove-the-old-key"><span>6. Remove the old key</span></a>
           </li>
-          <li>
-            <a href="#7-record-where-the-key-is-used"><span>7. Record where the key is used</span></a>
-          </li>
         </ul>
       </li>
       <li>
@@ -217,7 +214,11 @@ and rotate the other key (keep reading to see how).</p>
 <li>If it&rsquo;s <code>N/A</code>, you can safely <a href="#6-remove-the-old-key">remove the key</a> as it
 isn&rsquo;t used.</li>
 </ul>
-<h3 id='3-find-where-the-key-is-used'>3. Find where the key is used</h3><p>When searching for keys, keep in consideration that they may be present in
+<h3 id='3-find-where-the-key-is-used'>3. Find where the key is used</h3><p>The first place you should look is the <a href="https://docs.google.com/spreadsheets/d/1L6H3-wh9J1p18fjnODmit2WbGOA8wZgr5wL-5wN0IgE/edit#gid=0">GOV.UK AWS User Keys spreadsheet</a>.
+Someone may already have done the work of logging where the key is used.
+If they haven&rsquo;t, you&rsquo;ll need to follow the manual steps below (and should
+update the spreadsheet with your findings when you&rsquo;re done).</p>
+<p>When searching for keys, keep in consideration that they may be present in
 <a href="https://github.com/alphagov/govuk-secrets">govuk-secrets</a> or in the control panel of 3rd party services, such as Fastly or
 Logit. Keys may also be shared across AWS and Carrenza environments.</p>
 <p>Firstly, search for the key in <a href="https://github.com/alphagov/govuk-secrets">govuk-secrets</a>:</p>
@@ -285,11 +286,6 @@ In production systems, this could prevent minor outages scaling into incidents.<
 <li>Notify <a href="/manual/2nd-line.html">2ndline</a> that you are about to delete a key or make a key inactive.</li>
 <li>Click <code>Make inactive</code> to inactivate the key or click the <code>X</code> to delete it.</li>
 </ul>
-<h3 id='7-record-where-the-key-is-used'>7. Record where the key is used</h3>
-<ul>
-<li>Record your findings of where the key is used in the
-<a href="https://docs.google.com/spreadsheets/d/1L6H3-wh9J1p18fjnODmit2WbGOA8wZgr5wL-5wN0IgE/edit#gid=0">GOV.UK AWS User Keys spreadsheet</a>.</li>
-</ul>
 <h2 id='command-line-interface'>Command Line Interface</h2><p>It&rsquo;s also possible to view and update access keys with the <a href="https://aws.amazon.com/blogs/security/how-to-rotate-access-keys-for-iam-users/">AWS CLI</a>.</p>
 
 
@@ -319,17 +315,17 @@ In production systems, this could prevent minor outages scaling into incidents.<
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-07-20">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-01-29">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 20 January 2020.
+      This page was last reviewed on 29 July 2020.
 
-        It needs to be reviewed again on 20 July 2020
+        It needs to be reviewed again on 29 January 2021
         by the page owner <a href="">#govuk-developers</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 20 July 2020
+      This page was set to be reviewed before 29 January 2021
        by the page owner <a href="">#govuk-developers</a>.
       This might mean the content is out of date.
     </div>

@@ -212,9 +212,10 @@ it will query the authoritative name servers for the domain.</p>
 authoritative servers are hosted by <a href="https://www.jisc.ac.uk/domain-registry">Jisc</a>. Unusually for a ccSLD, <code>gov.uk</code> is
 also a website, and hosts the redirect from <code>gov.uk</code> to <code>www.gov.uk</code>. The records
 for these two domains are within the <code>gov.uk</code> second-level zone hosted by Jisc.</p>
-<p>GDS hosts several third-level domains under <code>gov.uk</code> on <a href="https://aws.amazon.com/route53/">Amazon Route53</a>, for
-example <code>service.gov.uk</code>. The configuration for these is in the
-<a href="https://github.com/alphagov/govuk-dns-config">govuk-dns-config repo</a> and is deployed using code from the <a href="https://github.com/alphagov/govuk-dns">govuk-dns repo</a>.</p>
+<p>GDS hosts the DNS for third-level domains under <code>gov.uk</code> (for example <code>service.gov.uk</code>)
+on both <a href="https://aws.amazon.com/route53/">Amazon Route53</a> and Google Cloud Platform, for redundancy. The configuration
+for these domains is in the <a href="https://github.com/alphagov/govuk-dns-config">govuk-dns-config repo</a>, which is deployed via the
+<a href="https://deploy.publishing.service.gov.uk/job/Deploy_DNS/">Deploy_DNS Jenkins job</a>, which in turn references the <a href="https://github.com/alphagov/govuk-dns">govuk-dns repo</a>.</p>
 <p><code>www.gov.uk</code> is a CNAME record which ultimately points to <code>www-gov-uk.map.fastly.net.</code>
 The <code>fastly.net</code> domain name is hosted by special nameservers at the Fastly content
 delivery network, which aim to respond with the IP address of the Fastly cache node
