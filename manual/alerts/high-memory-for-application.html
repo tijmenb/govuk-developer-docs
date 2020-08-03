@@ -160,16 +160,19 @@
       </a>
     </div>
 
-   <h1 id='header'>High memory for application</h1><p>This alert triggers when the application process uses too much memory.</p>
+   <h1 id='header'>High memory for application</h1><p>This alert triggers when the application process uses too much memory. If this
+alert triggers either with a warning or critical state then Icinga is
+configured to automatically restart the application, the command that is run is
+<a href="https://github.com/alphagov/govuk-puppet/blob/master/modules/monitoring/files/usr/local/bin/event_handlers/govuk_app_high_memory.sh">here</a>.</p>
 <p>For more info, you can also read <a href="/manual/alerts/free-memory-warning-on-backend.html">the page for the alert that triggers
 when a machine is out of memory</a>.</p>
-<p><strong>If you&rsquo;re having trouble with Mapit, see <a href="/manual/alerts/high-memory-for-mapit.html">the Mapit specific page</a></strong></p>
 <h2 id='fix-memory-leaks'>Fix memory leaks</h2><p>A common cause of the alerts are memory leaks. For Rails applications you
 can try diagnosing the error with <a href="https://github.com/schneems/derailed_benchmarks">the derailed gem</a>.</p>
 <h2 id='restart-the-application'>Restart the application</h2><p>If you can&rsquo;t find the source of the memory leak you can
 <a href="/manual/restart-application.html">restart the application</a>.</p>
-<h2 id='increase-the-alerting-threshold'>Increase the alerting threshold</h2><p>Sometimes the alerting thresholds are too low. You can change them in
-<a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata_aws/common.yaml">hieradata_aws/common.yaml</a> or
+<h2 id='increase-the-alerting-threshold'>Increase the alerting threshold</h2><p>Each application has it&rsquo;s own thresholds and sometimes these can be too low
+which can cause an app getting into a cycle of constant restarting. You can
+change them in <a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata_aws/common.yaml">hieradata_aws/common.yaml</a> or
 <a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata/common.yaml">hieradata/common.yaml</a>.</p>
 <div class="highlight"><pre class="highlight yaml"><code><span class="s">govuk::apps::the_warning::nagios_memory_warning: </span><span class="m">2500</span>
 <span class="s">govuk::apps::the_warning::nagios_memory_critical: </span><span class="m">2500</span>
@@ -181,17 +184,17 @@ can try diagnosing the error with <a href="https://github.com/schneems/derailed_
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2021-04-22">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-07-31">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 22 April 2020.
+      This page was last reviewed on 31 July 2020.
 
-        It needs to be reviewed again on 22 April 2021
+        It needs to be reviewed again on 31 July 2021
         by the page owner <a href="">#govuk-2ndline</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 22 April 2021
+      This page was set to be reviewed before 31 July 2021
        by the page owner <a href="">#govuk-2ndline</a>.
       This might mean the content is out of date.
     </div>
