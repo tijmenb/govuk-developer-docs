@@ -365,13 +365,13 @@ Services team have access.</p>
 <p>To log in to AWS:</p>
 
 <ol>
-<li><a href="/manual/get-started.html#8-use-your-aws-access">Install and set up the gds-cli</a>, then log in to the AWS Console with either:</li>
-</ol>
+<li><a href="/manual/get-started.html#8-use-your-aws-access">Install and set up the gds-cli</a>, then log in to the AWS Console with either:
 
 <ul>
 <li><code>gds aws govuk-corona-data-staging-poweruser -l</code> for staging</li>
 <li><code>gds aws govuk-corona-data-prod-poweruser -l</code> for production</li>
-</ul>
+</ul></li>
+</ol>
 <h2 id='deployment'>Deployment</h2><p>Deployment is managed via <a href="https://cd.gds-reliability.engineering/">TechOps shared Concourse</a>.
 CI/CD pipelines are configured under the <code>govuk-tools</code> team. You can
 read about what Concourse is, its access controls, <a href="https://reliability-engineering.cloudapps.digital/continuous-deployment.html#secrets">configuring secrets</a>,
@@ -460,9 +460,9 @@ document helpful when investigating this issue.</p>
 <p>Useful Slack channels:</p>
 
 <ul>
-<li>#govuk-corona-services-tech (builds the forms)</li>
-<li>#covid-engineering-team (runs the data pipeline)</li>
-<li>#re-prometheus-support (runs the Prometheus infra)</li>
+<li><code>#govuk-corona-services-tech</code> (builds the forms)</li>
+<li><code>#covid-engineering-team</code> (runs the data pipeline)</li>
+<li><code>#re-prometheus-support</code> (runs the Prometheus infra)</li>
 </ul>
 <h3 id='service-downtime'>Service downtime**</h3><p>The GOV.UK Pingdom account is configured to checks if the first of
 each form service page is up. If it can&rsquo;t reach a page for a
@@ -491,8 +491,7 @@ if the smoke test is failing</li>
 <li>Check the <code>/metrics</code> endpoints on the apps, to see if they are
 serving metrics to prometheus correctly</li>
 </ul>
-<p><strong>Deactivate Prometheus alerts for these services</strong></p>
-
+<h4 id='deactivate-prometheus-alerts-for-these-services'>Deactivate Prometheus alerts for these services</h4>
 <blockquote>
 <p><strong>Note:</strong> you should only do this if you have confirmed that there is
 a problem with the alert.</p>

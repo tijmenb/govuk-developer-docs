@@ -306,8 +306,8 @@ to reboot overnight:</p>
 </code></pre></div><p>The general approach for rebooting machines in a MongoDB cluster is:</p>
 
 <ul>
-<li>  Check cluster status with <code>fab $environment -H $hostname mongo.status</code></li>
-<li>  Using <code>fab $environment -H $hostname mongo.safe_reboot</code>
+<li>Check cluster status with <code>fab $environment -H $hostname mongo.status</code></li>
+<li>Using <code>fab $environment -H $hostname mongo.safe_reboot</code>
 
 <ul>
 <li>Reboot the secondaries</li>
@@ -337,11 +337,10 @@ the <code>safe_reboot</code> script will not reboot anything, and you&rsquo;ll n
 take manual action to resolve the problem.</p>
 
 <ul>
-<li><p>Reboot the nodes in the cluster:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>fab &lt;environment&gt; class:rabbitmq rabbitmq.safe_reboot
-</code></pre></div></li>
+<li>Reboot the nodes in the cluster:</li>
 </ul>
-<p>If any applications start alerting due to <code>rabbitmq-1</code> being rebooted
+<div class="highlight"><pre class="highlight plaintext"><code>fab &lt;environment&gt; class:rabbitmq rabbitmq.safe_reboot
+</code></pre></div><p>If any applications start alerting due to <code>rabbitmq-1</code> being rebooted
 then either add a note here about how to make that application recover,
 or get the team responsible to make it point to the cluster.</p>
 <h3 id='rebooting-asset-master-and-slave-machines'>Rebooting asset master and slave machines</h3><p>Unless there are urgent updates to apply the master machine should not be
@@ -362,10 +361,10 @@ sync to fail.</p>
 <h3 id='rebooting-backend-lb-machines-carrenza-only'>Rebooting backend-lb machines (Carrenza only)</h3><p>In order to safely reboot these machines you&rsquo;ll need access to <a href="/manual/connect-to-vcloud-director.html">vCloud Director</a>, in order to switch traffic away from backend-lb-1 before rebooting it - all traffic goes through this machine unless it fails.</p>
 
 <ul>
-<li><p>Reboot backend-lb-2 and wait for it to recover.</p>
-<p>fab <environment> -H backend-lb-2.backend vm.reboot</p></li>
+<li>Reboot backend-lb-2 and wait for it to recover.</li>
 </ul>
-
+<div class="highlight"><pre class="highlight plaintext"><code>  fab &lt;environment&gt; -H backend-lb-2.backend vm.reboot
+</code></pre></div>
 <blockquote>
 <p>Doing this may trigger a PagerDuty alert and trigger 5xx errors on Fastly.</p>
 </blockquote>
@@ -384,24 +383,28 @@ repo</a>.</li>
 <li>Click the NAT tab.</li>
 <li>Find the rule corresponding to the rule defined in the vcloud-launcher file, and update the DNAT rules to point to the IP address of backend-lb-2 by clicking edit, and updating the &ldquo;Translated (Internal) IP/range&rdquo; field and click OK to save these rules.</li>
 </ul></li>
-<li><p>Reboot backend-lb-1 and wait for it to recover</p>
-<p>fab <environment> -H backend-lb-1.backend vm.reboot</p></li>
-<li><p>Use <a href="/manual/connect-to-vcloud-director.html">vCloud Director</a> to update the NAT rule to point back to the IP address of backend-lb-1.</p></li>
+<li>Reboot backend-lb-1 and wait for it to recover</li>
+</ul>
+<div class="highlight"><pre class="highlight plaintext"><code>  fab &lt;environment&gt; -H backend-lb-1.backend vm.reboot
+</code></pre></div>
+<ul>
+<li>Use <a href="/manual/connect-to-vcloud-director.html">vCloud Director</a> to update the NAT rule to point back to the IP address of backend-lb-1.</li>
 </ul>
 <h3 id='rebooting-mysql-backup-machines-carrenza-only'>Rebooting MySQL backup machines (Carrenza only)</h3><p>The MySQL backup machines <a href="https://github.com/alphagov/govuk-puppet/commit/0e1615bf31f714994b43142ecf915330d4d46af5">create a file during the backup
 process</a>.
 If that file exists, the machine isn&rsquo;t safe to reboot.</p>
 
 <ul>
-<li><p>Check if the file exists:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>fab &lt;environment&gt; -H mysql-backup-1.backend sdo:'test -e /var/lock/mysql-backup.lock'
-</code></pre></div></li>
-<li><p>If the file doesn&rsquo;t exist (that command returns non-0), reboot the
-machine:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>fab &lt;environment&gt; -H mysql-backup-1.backend vm.reboot
-</code></pre></div></li>
+<li>Check if the file exists:</li>
 </ul>
-<h3 id='rebooting-mysql-master-and-slave-machines-carrenza-only'>Rebooting MySQL master and slave machines (Carrenza only)</h3><p>Unless there are urgent updates to apply, these machines should not be
+<div class="highlight"><pre class="highlight plaintext"><code>  fab &lt;environment&gt; -H mysql-backup-1.backend sdo:'test -e /var/lock/mysql-backup.lock'
+</code></pre></div>
+<ul>
+<li>If the file doesn&rsquo;t exist (that command returns non-0), reboot the
+machine:</li>
+</ul>
+<div class="highlight"><pre class="highlight plaintext"><code>  fab &lt;environment&gt; -H mysql-backup-1.backend vm.reboot
+</code></pre></div><h3 id='rebooting-mysql-master-and-slave-machines-carrenza-only'>Rebooting MySQL master and slave machines (Carrenza only)</h3><p>Unless there are urgent updates to apply, these machines should not be
 rebooted during working hours in production. Applications write to the
 masters and read from the slaves (with the exception of the slave within
 the Disaster Recovery environment).</p>

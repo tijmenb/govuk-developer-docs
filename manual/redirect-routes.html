@@ -190,16 +190,16 @@ and using non-default values for the <code>segments_mode</code>.</p>
 <h2 id='fixing-incorrect-corporate-information-page-redirects'>Fixing incorrect Corporate Information page redirects</h2><p>There have been a few occasions where Corporate Information pages have
 started redirecting the English version to a translation. Should this
 happen, the redirects can be identified with:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>&gt; Route.where(incoming_path: /\/about/).each do |route|
-&gt;   puts "#{route.id} #{route.incoming_path} -&gt; #{route.redirect_to}" if route.handler == "redirect"
-&gt; end
+<div class="highlight"><pre class="highlight ruby"><code><span class="no">Route</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="ss">incoming_path: </span><span class="sr">/\/about/</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">route</span><span class="o">|</span>
+  <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">route</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">route</span><span class="p">.</span><span class="nf">incoming_path</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">#{</span><span class="n">route</span><span class="p">.</span><span class="nf">redirect_to</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">route</span><span class="p">.</span><span class="nf">handler</span> <span class="o">==</span> <span class="s2">"redirect"</span>
+<span class="k">end</span>
 </code></pre></div><p>That will list the id and paths for each redirect. Redirects from the
 English version to a translation, for example:</p>
 <div class="highlight"><pre class="highlight plaintext"><code>579a109cd068b406250014e4 /government/organisations/companies-house/about/access-and-opening -&gt; /government/organisations/companies-house/about/access-and-opening.cy
 </code></pre></div><p>&hellip;can be deleted with</p>
-<div class="highlight"><pre class="highlight plaintext"><code>&gt; Route.find('579a109cd068b406250014e4').destroy
+<div class="highlight"><pre class="highlight ruby"><code><span class="no">Route</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="s1">'579a109cd068b406250014e4'</span><span class="p">).</span><span class="nf">destroy</span>
 </code></pre></div><p>For the deleted routes to take effect, you need to reload the router.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>&gt; RouterReloader.reload
+<div class="highlight"><pre class="highlight ruby"><code><span class="no">RouterReloader</span><span class="p">.</span><span class="nf">reload</span>
 </code></pre></div><h2 id='redirects-for-hmrc-manuals'>Redirects for HMRC manuals</h2><p>There are rake tasks for redirecting HMRC manuals and HMRC manual sections, which can be <a href="https://github.com/alphagov/hmrc-manuals-api/tree/master/lib/tasks">found in the hmrc-manuals-api repo</a>. These can be run via the <code>Run rake task</code> jenkins job.</p>
 <p><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=hmrc-manuals-api&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=redirect_hmrc_section[original-parent-manual-slug,original-section-slug,new-parent-manual-slug,new-section-slug]">See example of redirecting a HMRC manual section to another section</a></p>
 <h2 id='redirects-from-campaign-sites'>Redirects from campaign sites</h2><p>The campaigns platform is a WordPress site managed by dxw. Redirects from a

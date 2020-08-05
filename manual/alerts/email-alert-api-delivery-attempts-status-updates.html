@@ -134,7 +134,7 @@
       <li>
         <ul>
           <li>
-            <a href="#check-which-delivery-attempts-are-affected"><span> Check which delivery attempts are affected</span></a>
+            <a href="#check-which-delivery-attempts-are-affected"><span>Check which delivery attempts are affected</span></a>
           </li>
           <li>
             <a href="#monitor-the-dashboard"><span>Monitor the dashboard</span></a>
@@ -167,7 +167,7 @@ sent successfully. You can read more about them in <a href="https://docs.notific
 and we have not received the status updates from Notify within the past hour.
 This could mean there is a problem with our system, or there could be a problem
 with Notify.</p>
-<h3 id='check-which-delivery-attempts-are-affected'> Check which delivery attempts are affected</h3><div class="highlight"><pre class="highlight ruby"><code>  <span class="no">DeliveryAttempt</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="s2">"created_at &gt; ?"</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="nf">hour</span> <span class="o">+</span> <span class="mi">10</span><span class="p">.</span><span class="nf">minutes</span><span class="p">).</span><span class="nf">ago</span><span class="p">).</span><span class="nf">where</span><span class="p">(</span><span class="ss">status: </span><span class="mi">0</span><span class="p">)</span>
+<h3 id='check-which-delivery-attempts-are-affected'>Check which delivery attempts are affected</h3><div class="highlight"><pre class="highlight ruby"><code>  <span class="no">DeliveryAttempt</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="s2">"created_at &gt; ?"</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="nf">hour</span> <span class="o">+</span> <span class="mi">10</span><span class="p">.</span><span class="nf">minutes</span><span class="p">).</span><span class="nf">ago</span><span class="p">).</span><span class="nf">where</span><span class="p">(</span><span class="ss">status: </span><span class="mi">0</span><span class="p">)</span>
 </code></pre></div><h3 id='monitor-the-dashboard'>Monitor the dashboard</h3><p>You can also check the <a href="https://grafana.staging.govuk.digital/dashboard/file/email_alert_api.json?refresh=10s&amp;orgId=1">Email Alert API Metrics dashboard</a> to see if
 we are still receiving updates from Notify.</p>
 <p>See the <a href="/manual/email-troubleshooting.html">General troubleshooting tips</a> section for more information.</p>

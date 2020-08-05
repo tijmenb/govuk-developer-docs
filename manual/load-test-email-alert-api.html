@@ -152,7 +152,7 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#emails'>Emails</a></p> <h1 id='header'>Load Test Email Alert API</h1><p>You may wish to load test email-alert-api to get a realistic idea of how the system performs under high load, or if your&rsquo;re making changes to how emails are processed to ensure your changes have the desired effect.</p>
+  <p><a href='/manual.html#emails'>Emails</a></p> <h1 id='header'>Load Test Email Alert API</h1><p>You may wish to load test email-alert-api to get a realistic idea of how the system performs under high load, or if you&rsquo;re making changes to how emails are processed to ensure your changes have the desired effect.</p>
 <p>Before you begin, you should post in the #2nd-line channel that you’re about to do some load testing and that as part of that you’ll be disabling puppet runs on Staging for email-alert-api.</p>
 
 <blockquote>
@@ -162,20 +162,20 @@
 
 <ul>
 <li><p>Deploy <a href="https://github.com/alphagov/govuk-puppet/pull/10412">this PR or similar</a> to the Staging environment.</p></li>
-<li><p>Run Puppet on each of the machines.
-<code>
-fab -P staging_aws class:email_alert_api puppet
-</code></p></li>
-<li><p>Disable Puppet to persist the temporary change.
-<code>
-fab -P staging_aws class:email_alert_api &#39;puppet.disable:&quot;&lt;date&gt; load testing&quot;&#39;
-</code></p></li>
-<li><p>Manually restart the workers to pick up the change.
-<code>
-fab -P staging_aws class:email_alert_api app.restart:email-alert-api-procfile-worker
-</code></p></li>
+<li><p>Run Puppet on each of the machines.</p></li>
 </ul>
-<h2 id='testing-with-notify'>Testing with Notify</h2>
+<div class="highlight"><pre class="highlight plaintext"><code>  fab -P staging_aws class:email_alert_api puppet
+</code></pre></div>
+<ul>
+<li>Disable Puppet to persist the temporary change.</li>
+</ul>
+<div class="highlight"><pre class="highlight plaintext"><code>  fab -P staging_aws class:email_alert_api 'puppet.disable:"&lt;date&gt; load testing"'
+</code></pre></div>
+<ul>
+<li>Manually restart the workers to pick up the change.</li>
+</ul>
+<div class="highlight"><pre class="highlight plaintext"><code>  fab -P staging_aws class:email_alert_api app.restart:email-alert-api-procfile-worker
+</code></pre></div><h2 id='testing-with-notify'>Testing with Notify</h2>
 <blockquote>
 <p>Let the Notify team know if you’re planning on doing a large scale test (anything more than a few thousand emails) and they can scale it up as necessary.</p>
 </blockquote>
@@ -184,20 +184,20 @@ fab -P staging_aws class:email_alert_api app.restart:email-alert-api-procfile-wo
 <ul>
 <li><p>Update <a href="https://deploy.blue.staging.govuk.digital/job/Deploy_Puppet/configure">the Puppet Deploy job</a> to use <a href="https://github.com/alphagov/govuk-secrets/pull/993">a branch of govuk-secrets with the required API key</a>. The API key is stored in <a href="https://github.com/alphagov/govuk-secrets/blob/master/pass/infra/.gpg-id">the <strong>infra</strong> pass store</a> in govuk-secrets under <code>govuk-notify/test-api-key</code>.</p></li>
 <li><p>Deploy <a href="https://github.com/alphagov/govuk-puppet/pull/10413">this PR or similar</a> to the Staging environment.</p></li>
-<li><p>Run Puppet on each of the machines.
-<code>
-fab -P staging_aws class:email_alert_api puppet
-</code></p></li>
-<li><p>Disable Puppet to persist the temporary change.
-<code>
-fab -P staging_aws class:email_alert_api &#39;puppet.disable:&quot;&lt;date&gt; load testing&quot;&#39;
-</code></p></li>
-<li><p>Manually restart the workers to pick up the change.
-<code>
-fab -P staging_aws class:email_alert_api app.restart:email-alert-api-procfile-worker
-</code></p></li>
+<li><p>Run Puppet on each of the machines.</p></li>
 </ul>
-<h2 id='after-the-test'>After the test</h2><p>Once you&rsquo;ve finished the test and the queues have been cleared, re-enable puppet runs, run puppet in order to overwrite the environment variables you&rsquo;ve set and restart the workers again.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>  fab -P staging_aws class:email_alert_api puppet
+</code></pre></div>
+<ul>
+<li>Disable Puppet to persist the temporary change.</li>
+</ul>
+<div class="highlight"><pre class="highlight plaintext"><code>  fab -P staging_aws class:email_alert_api 'puppet.disable:"&lt;date&gt; load testing"'
+</code></pre></div>
+<ul>
+<li>Manually restart the workers to pick up the change.</li>
+</ul>
+<div class="highlight"><pre class="highlight plaintext"><code>  fab -P staging_aws class:email_alert_api app.restart:email-alert-api-procfile-worker
+</code></pre></div><h2 id='after-the-test'>After the test</h2><p>Once you&rsquo;ve finished the test and the queues have been cleared, re-enable puppet runs, run puppet in order to overwrite the environment variables you&rsquo;ve set and restart the workers again.</p>
 <p>You can manually clear a large backlog of content changes by running the <a href="https://github.com/alphagov/email-alert-api/blob/25fdc3be525170ad44bce5e8f6aa1529994af143/lib/tasks/load_testing.rake#L40">clear_emails rake task</a>, and then wiping all active jobs with <code>fab -P class:email_alert_api sdo:&quot;pkill -9 --full sidekiq&quot;</code>.</p>
 <p>Let 2nd line and Notify know you&rsquo;ve finished, and if you were using Notify, let them know too.</p>
 

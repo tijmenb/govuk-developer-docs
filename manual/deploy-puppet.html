@@ -197,23 +197,29 @@ future so that it&rsquo;s not inconsistent with its configuration.</p>
 </blockquote>
 
 <ol>
-<li><p>Disable normal Puppet runs on the affected nodes:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>fab $environment class:mysql_master puppet.disable:'Preventing service restart'
-</code></pre></div></li>
-<li><p>Change the file content to match what Puppet wants it to be. If it&rsquo;s
+<li>Disable normal Puppet runs on the affected nodes:</li>
+</ol>
+<div class="highlight"><pre class="highlight plaintext"><code>   fab $environment class:mysql_master puppet.disable:'Preventing service restart'
+</code></pre></div>
+<ol>
+<li>Change the file content to match what Puppet wants it to be. If it&rsquo;s
 a plain file you can probably apply the diff from git using
 <code>sudo patch source.diff dest</code>. If it&rsquo;s a template then you may need
-to refer to an existing environment or figure it out yourself.</p></li>
-<li><p>Verify that Puppet won&rsquo;t change the file or notify the service by
+to refer to an existing environment or figure it out yourself.</li>
+<li>Verify that Puppet won&rsquo;t change the file or notify the service by
 running it in <code>noop</code> mode. You will need to provide a different lock
-path to bypass the disable:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>govuk_puppet --noop --test --agent_disabled_lockfile=/tmp/puppet.noop
-</code></pre></div></li>
-<li><p>If you&rsquo;re happy with the results then re-enable Puppet and run it
-again:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>fab $environment class:mysql_master puppet.enable puppet
-</code></pre></div></li>
-<li><p>Schedule a time to actually restart the service if necessary.</p></li>
+path to bypass the disable:</li>
+</ol>
+<div class="highlight"><pre class="highlight plaintext"><code>   govuk_puppet --noop --test --agent_disabled_lockfile=/tmp/puppet.noop
+</code></pre></div>
+<ol>
+<li>If you&rsquo;re happy with the results then re-enable Puppet and run it
+again:</li>
+</ol>
+<div class="highlight"><pre class="highlight plaintext"><code>   fab $environment class:mysql_master puppet.enable puppet
+</code></pre></div>
+<ol>
+<li>Schedule a time to actually restart the service if necessary.</li>
 </ol>
 
 

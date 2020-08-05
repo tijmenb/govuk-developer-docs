@@ -232,12 +232,10 @@ might take several hours. This will give you a list of URLs for a domain:</p>
 <blockquote>
 <p><strong>Note:</strong> This will include 404s, 301s, etc.</p>
 </blockquote>
-<h3 id='5-clean-up-urls'>5) Clean up URLs</h3><p><strong>Strip paths and pattern</strong></p>
-<p>There are lots of file formats we don&rsquo;t want to provide mappings for, like
+<h3 id='5-clean-up-urls'>5) Clean up URLs</h3><h4 id='strip-paths-and-pattern'>Strip paths and pattern</h4><p>There are lots of file formats we don&rsquo;t want to provide mappings for, like
 static assets, images, or common spammy/malicious crawlers. These can be
 stripped using the <a href="https://github.com/alphagov/transition-config/blob/master/tools/strip_mappings.sh">strip_mappings.sh</a> script.</p>
-<p><strong>Query parameter analysis</strong></p>
-<p>From your set of URLs, you can attempt to identify significant query string
+<h4 id='query-parameter-analysis'>Query parameter analysis</h4><p>From your set of URLs, you can attempt to identify significant query string
 parameter names and then add them to the site configuration file in
 <code>transition-config</code>. A query string parameter is considered significant if it
 significantly changes the content seen on the old site and/or it would be
@@ -245,22 +243,22 @@ mapped to a different new URL.</p>
 <p>There are some transition-config scripts to help analyse query param usage:</p>
 
 <ul>
-<li>  <a href="https://github.com/alphagov/transition-config/blob/master/tools/analyse_query_params.sh">analyse_query_params.sh</a></li>
-<li>  <a href="https://github.com/alphagov/transition-config/blob/master/tools/analyse_query_usage.sh">analyse_query_usage.sh</a></li>
+<li><a href="https://github.com/alphagov/transition-config/blob/master/tools/analyse_query_params.sh">analyse_query_params.sh</a></li>
+<li><a href="https://github.com/alphagov/transition-config/blob/master/tools/analyse_query_usage.sh">analyse_query_usage.sh</a></li>
 </ul>
 <p>Some common examples of significant parameters:</p>
 
 <ul>
-<li>  article ID</li>
-<li>  attachment ID</li>
-<li>  document ID</li>
+<li>article ID</li>
+<li>attachment ID</li>
+<li>document ID</li>
 </ul>
 <p>Some common examples of non-significant parameters:</p>
 
 <ul>
-<li>  pagination</li>
-<li>  analytics</li>
-<li>  search queries</li>
+<li>pagination</li>
+<li>analytics</li>
+<li>search queries</li>
 </ul>
 <h3 id='6-add-the-old-urls-as-mappings'>6) Add the old URLs as mappings</h3><p>Ideally, any significant query string parameters should be identified and
 added to the site before adding the mappings. This is because URLs are
@@ -300,8 +298,8 @@ addresses</a>.</p>
 <h3 id='10-get-the-organisation-to-monitor-the-traffic-data-in-the-transition-app'>10) Get the organisation to monitor the traffic data in the Transition app</h3><p>There are two things that need to be responded to:</p>
 
 <ul>
-<li>  high numbers of 404s - this means a mapping is missing</li>
-<li>  high numbers hitting 410s - this means the old page is popular and
+<li>high numbers of 404s - this means a mapping is missing</li>
+<li>high numbers hitting 410s - this means the old page is popular and
 should perhaps be redirected instead</li>
 </ul>
 <h2 id='further-reading'>Further reading</h2><p>The transition checklist covers the whole process of transitioning a site from the technical side. There’s a <a href="https://docs.google.com/document/d/1SiBwYtV_d_D9pPcqzpqvRWs0kscUtB7yqxN8Ub_uRSA/edit">full version for complex sites</a> and a <a href="https://docs.google.com/document/d/1gIJBUuPaZqtYsrgwqMBSrU4lpr2e93tuhQcgylnSHb4/edit">slightly simplified one</a> - we probably only need the simpler one for upcoming transitions.</p>

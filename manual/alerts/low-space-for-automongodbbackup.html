@@ -165,9 +165,9 @@ Another cause of us running out of space is that we keep backups around for the 
 
 <ol>
 <li>SSH into the box</li>
-<li>Run <code>df -h</code>. The output should look something like this:
-<code>
-Filesystem                   Size  Used Avail Use% Mounted on                                                                  │
+<li>Run <code>df -h</code>. The output should look something like this:</li>
+</ol>
+<div class="highlight"><pre class="highlight plaintext"><code>Filesystem                   Size  Used Avail Use% Mounted on                                                                  │
 /dev/mapper/os-root           47G  2.7G   42G   6% /                                                                           │
 none                         4.0K     0  4.0K   0% /sys/fs/cgroup                                                              │
 udev                         3.9G   12K  3.9G   1% /dev                                                                        │
@@ -179,7 +179,8 @@ none                         100M     0  100M   0% /run/user                    
 /dev/mapper/backup-mongodb    32G   17G   16G  52% /var/lib/automongodbbackup                                                  │
 /dev/mapper/mongodb-data      63G   45G   19G  71% /var/lib/mongodb                                                            │
 /dev/mapper/mongo-s3backups   50G   52M   50G   1% /var/lib/s3backup
-</code></li>
+</code></pre></div>
+<ol>
 <li>The number next to <code>/var/lib/automongodbbackup</code> is probably 100% if you&rsquo;re getting out of space alerts in Icinga.</li>
 <li>Go to <code>/var/lib/automongodbbackup</code> and visit the <code>daily</code> folder</li>
 <li>Check the size of the backups in that folder: <code>ls -ls</code>. The latest zipped backup should be smaller than the rest. You should also have an unzipped version of the backup lying around. Remove the zipped version and start zipping again. In order to be sure you are doing the compression the right way, you need to check what the script currently does and respect the <a href="https://github.com/alphagov/govuk-puppet/blob/master/modules/mongodb/templates/automongodbbackup#L364">naming convention</a>.</li>

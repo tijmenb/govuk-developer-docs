@@ -169,7 +169,7 @@
   <p><a href='/manual.html#ab-testing'>A/B testing</a></p> <h1 id='header'>How A/B testing works</h1><p>GOV.UK uses our <a href="https://docs.publishing.service.gov.uk/manual/cdn.html">Content Delivery Network (Fastly)</a> to run A/B and multivariate tests.</p>
 <p>For a general introduction to A/B testing from a content design perspective, see the <a href="https://bit.ly/AB-testing-GOVUK">Confluence Wiki</a>.</p>
 <p><a href="https://docs.google.com/drawings/d/e/2PACX-1vR67bcDfNDaa4buyKGKQev0xUsjcD9RzjNCjWGhr0HJtXRmSNaltPJotXjwmKUmZj0ZH_B2xAymEYbV/pub?w=1330&h=517" target="_blank" rel="noopener noreferrer"><img src="https://docs.google.com/drawings/d/e/2PACX-1vR67bcDfNDaa4buyKGKQev0xUsjcD9RzjNCjWGhr0HJtXRmSNaltPJotXjwmKUmZj0ZH_B2xAymEYbV/pub?w=1330&amp;h=517" alt="" /></a></p>
-<p><em>Source: <a href="https://docs.google.com/drawings/d/1rx4brKZBzj-9q3evkiUw2MbqwqTYWkc0Lku6u3cLXqU/edit">GOV.UK Architecture Google Drive</a></em></p>
+<p>Source: <a href="https://docs.google.com/drawings/d/1rx4brKZBzj-9q3evkiUw2MbqwqTYWkc0Lku6u3cLXqU/edit">GOV.UK Architecture Google Drive</a></p>
 <h2 id='how-ab-testing-works'>How A/B testing works</h2><p><strong>A/B tests are only enabled for users who have opted in to analytics cookies.</strong></p>
 <h3 id='fastly-receives-the-request'>Fastly receives the request</h3><p>When the user requests a GOV.UK page that has A/B testing enabled, they will reach Fastly first.</p>
 <p>Fastly appends the <code>GOVUK-ABTest-Example</code> header to the request for downstream apps:</p>

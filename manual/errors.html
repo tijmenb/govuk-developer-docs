@@ -167,21 +167,15 @@
 <li><p><strong>CDN</strong>. There are a few scenarios here:</p>
 
 <ul>
-<li>When the origin servers are offline, we:
-
-<ul>
+<li>When the origin servers are offline, we:</li>
 <li><a href="https://varnish-cache.org/docs/trunk/users-guide/vcl-built-in-subs.html#vcl-backend-error">Skip normal request handling and begin error handling</a></li>
 <li>Try to <a href="https://github.com/alphagov/govuk-cdn-config/blob/d77313abdb5098e2b350de7a0992375e50ff03a3/vcl_templates/www.vcl.erb#L274">serve the page from a sequence of static mirrors</a></li>
 <li>Serve <a href="https://github.com/alphagov/govuk-cdn-config/blob/d77313abdb5098e2b350de7a0992375e50ff03a3/vcl_templates/www.vcl.erb#L531">a basic inline error page</a> if <a href="https://github.com/alphagov/govuk-cdn-config/blob/d77313abdb5098e2b350de7a0992375e50ff03a3/vcl_templates/www.vcl.erb#L363">all the mirrors fail</a> (uh oh!)</li>
-</ul></li>
 <li>When the origin servers are online but return a 5xx response:</li>
 <li>For <a href="https://github.com/alphagov/govuk-cdn-config/blob/d77313abdb5098e2b350de7a0992375e50ff03a3/vcl_templates/www.vcl.erb#L339">GET or HEAD requests</a>, we try the mirrors, or else serve an error (as above)</li>
 <li>For <a href="https://github.com/alphagov/govuk-cdn-config/blob/d77313abdb5098e2b350de7a0992375e50ff03a3/vcl_templates/www.vcl.erb#L367">other requests</a>, we <a href="https://github.com/alphagov/govuk-cdn-config/blob/d77313abdb5098e2b350de7a0992375e50ff03a3/vcl_templates/www.vcl.erb#L374">serve the response as-is from the origin</a> (see below)</li>
-<li>When the origin servers return a 4xx response, we:
-
-<ul>
+<li>When the origin servers return a 4xx response, we:</li>
 <li>Serve the response as-is from the origin (no special handling)</li>
-</ul></li>
 </ul></li>
 <li><p><strong>Origin</strong>. When a request fails in an upstream app, we:</p>
 

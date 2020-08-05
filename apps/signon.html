@@ -318,17 +318,15 @@
 
   <p>Single sign-on service for GOV.UK</p>
 <h2 id='ownership'>Ownership</h2><p><strong>#govuk-platform-health</strong> owns the application and is responsible for updating its dependencies.</p>
-<h2 id='hosting'>Hosting</h2><p>The production version of this application is hosted on <strong>Carrenza</strong>.</p>
-<h3 id='ssh-access-carrenza-amp-aws'>SSH Access (Carrenza &amp; AWS)</h3><p>This application lives on <code>backend</code> machines in Carrenza.</p>
-<div class="highlight"><pre class="highlight shell"><code>gds govuk connect ssh <span class="nt">-e</span> staging carrenza/backend
-gds govuk connect ssh <span class="nt">-e</span> production carrenza/backend
-</code></pre></div><p>This application lives on <code>backend</code> machines on the integration environment in AWS.</p>
-<div class="highlight"><pre class="highlight shell"><code>gds govuk connect ssh <span class="nt">-e</span> integration backend
+<h2 id='hosting'>Hosting</h2><p>The production version of this application is hosted on <strong>AWS</strong>.</p>
+<h3 id='ssh-access-aws'>SSH Access (AWS)</h3><div class="highlight"><pre class="highlight shell"><code>gds govuk connect ssh <span class="nt">-e</span> integration backend
+gds govuk connect ssh <span class="nt">-e</span> staging aws/backend
+gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 </code></pre></div><h2 id='run-a-rake-task'>Run a rake task</h2>
 <ul>
   <li><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=signon&MACHINE_CLASS=backend&RAKE_TASK=">Run a Rake task on Integration</a></li>
-<li><a href="https://deploy.staging.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=signon&MACHINE_CLASS=backend&RAKE_TASK=">Run a Rake task on Staging</a></li>
-<li><a href="https://deploy.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=signon&MACHINE_CLASS=backend&RAKE_TASK=">⚠️ Run a Rake task on Production ⚠️</a></li>
+<li><a href="https://deploy.blue.staging.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=signon&MACHINE_CLASS=backend&RAKE_TASK=">Run a Rake task on Staging</a></li>
+<li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=signon&MACHINE_CLASS=backend&RAKE_TASK=">⚠️ Run a Rake task on Production ⚠️</a></li>
 </ul>
 <h2 id='links'>Links</h2>
 <ul>
@@ -341,7 +339,7 @@ gds govuk connect ssh <span class="nt">-e</span> production carrenza/backend
 
     <li><a href="https://github.com/alphagov/govuk-app-deployment/blob/master/signon/config/deploy.rb">Deploy scripts</a></li>
 
-    <li><a href="https://grafana.publishing.service.gov.uk/dashboard/file/signon.json">Deployment dashboard</a></li>
+    <li><a href="https://grafana.production.govuk.digital/dashboard/file/signon.json">Deployment dashboard</a></li>
 
 
 

@@ -224,8 +224,8 @@ you&rsquo;ve saved the VPN client certificate.</li>
 <li>The first password is your machine password (requested by sudo).</li>
 <li>The second password (the PEM passphrase) is the certificate passphrase from
 the password store.</li>
-<li>The third password is the 2FA code (use <code>oathtool -b
-&lt;MFA-key-from-password-store&gt; --totp</code>).</li>
+<li>The third password is the 2FA code (use
+<code>oathtool -b &lt;MFA-key-from-password-store&gt; --totp</code>).</li>
 <li>The fourth password is the password from the password store.</li>
 </ol>
 <h2 id='accessing-vcloud-director'>Accessing vCloud Director</h2>
@@ -244,15 +244,11 @@ entry.</p></li>
 <li><p>Log in with the username and password from the password store entry.</p></li>
 </ol>
 <h2 id='backup-vpn-account'>Backup VPN account</h2><p>There is a backup VPN account to be used primarily by reliability engineers.</p>
-<p>The VPN certificate can be obtained from the infra pass, e.g.
-<code>sh
-PASSWORD_STORE_DIR=~/govuk/govuk-secrets/pass/infra pass carrenza/vpn-backup-certificate
-</code></p>
-<p>The VPN credentials can be obtained from the infra pass, e.g.
-<code>sh
-PASSWORD_STORE_DIR=~/govuk/govuk-secrets/pass/infra pass carrenza/vpn-backup-credentials
-</code></p>
-<p>You should not import the certificate into your macOS login keychain because this
+<p>The VPN certificate can be obtained from the infra pass, e.g.</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">PASSWORD_STORE_DIR</span><span class="o">=</span>~/govuk/govuk-secrets/pass/infra pass carrenza/vpn-backup-certificate
+</code></pre></div><p>The VPN credentials can be obtained from the infra pass, e.g.</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">PASSWORD_STORE_DIR</span><span class="o">=</span>~/govuk/govuk-secrets/pass/infra pass carrenza/vpn-backup-credentials
+</code></pre></div><p>You should not import the certificate into your macOS login keychain because this
 can cause confusion for the Cisco AnyConnect VPN client. The certificate will
 work with OpenConnect VPN client without importing in your macOS keychain.</p>
 <p>The rest of the instructions remain the same as for the primary VPN account.</p>

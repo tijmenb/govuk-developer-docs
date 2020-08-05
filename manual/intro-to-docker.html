@@ -189,10 +189,10 @@
 <p>Before you start, make sure you:</p>
 
 <ul>
-<li>  <a href="https://www.docker.com/get-started">Download Docker</a></li>
-<li>  <a href="https://github.com/alphagov/content-publisher">Clone the content-publisher repo</a></li>
-<li>  <a href="https://docs.docker.com/docker-for-mac/">Take a quick look at the Docker for Mac intro</a></li>
-<li>  <a href="https://www.youtube.com/watch?v=i7yoXqlg48M">Take a look at this video: Docker, FROM scratch</a> - first 30 minutes</li>
+<li><a href="https://www.docker.com/get-started">Download Docker</a></li>
+<li><a href="https://github.com/alphagov/content-publisher">Clone the content-publisher repo</a></li>
+<li><a href="https://docs.docker.com/docker-for-mac/">Take a quick look at the Docker for Mac intro</a></li>
+<li><a href="https://www.youtube.com/watch?v=i7yoXqlg48M">Take a look at this video: Docker, FROM scratch</a> - first 30 minutes</li>
 </ul>
 
 <blockquote>
@@ -250,12 +250,12 @@ Docker version 18.09.2, build 6247962
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$mac</span> docker volume create content-publisher-bundle
 </code></pre></div>
 <ul>
-<li>  Run docker with that volume by using the <code>-v</code> flag and passing it the name of the volume:</li>
+<li>Run docker with that volume by using the <code>-v</code> flag and passing it the name of the volume:</li>
 </ul>
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$mac</span> docker run <span class="nt">-it</span> <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>:/app <span class="nt">-v</span> content-publisher-bundle:/usr/local/bundle ruby:2.6.3 bash
 </code></pre></div>
 <ul>
-<li>  Then install the gems again:</li>
+<li>Then install the gems again:</li>
 </ul>
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$dev</span> <span class="nb">cd</span> /app
 <span class="nv">$dev</span> bundle <span class="nb">install</span>
@@ -274,7 +274,7 @@ Docker version 18.09.2, build 6247962
 </blockquote>
 
 <ul>
-<li>  Create a <code>Dockerfile</code> in the root of the <a href="https://github.com/alphagov/content-publisher">content-publisher</a> project:</li>
+<li>Create a <code>Dockerfile</code> in the root of the <a href="https://github.com/alphagov/content-publisher">content-publisher</a> project:</li>
 </ul>
 <div class="highlight"><pre class="highlight docker"><code><span class="k">FROM</span><span class="s"> ruby:2.6.3</span>
 
@@ -284,7 +284,7 @@ Docker version 18.09.2, build 6247962
 <span class="k">RUN </span>apt-get update <span class="nt">-qq</span> <span class="o">&amp;&amp;</span> apt-get <span class="nb">install</span> <span class="nt">-y</span> yarn nodejs
 </code></pre></div>
 <ul>
-<li>  Build our new image:</li>
+<li>Build our new image:</li>
 </ul>
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$mac</span> docker build <span class="nt">-t</span> content-publisher-demo <span class="nb">.</span>
 </code></pre></div>
@@ -297,7 +297,7 @@ log
 <p>This creates an image based on the Dockerfile we just added. <code>-t</code> tags, or names it, as <code>content-publisher</code>.</p>
 
 <ul>
-<li>  Now we can start a container with our new image:</li>
+<li>Now we can start a container with our new image:</li>
 </ul>
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$mac</span> docker run <span class="nt">-it</span> <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>:/app <span class="nt">-v</span> content-publisher-bundle:/usr/local/bundle content-publisher-demo bash
 <span class="nv">$mac</span> <span class="nb">cd</span> /app
@@ -330,7 +330,7 @@ log
 <p>Docker containers are quick to start and it&rsquo;s possible for them to talk to each other with internal IPs. This approach also follows the Docker way, which is to have one container per process.</p>
 
 <ul>
-<li> In another terminal, run the following to start a new container based on the <code>postgres</code> image:</li>
+<li>In another terminal, run the following to start a new container based on the <code>postgres</code> image:</li>
 </ul>
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$mac</span> docker run <span class="nt">-it</span> postgres
 </code></pre></div>
@@ -353,7 +353,7 @@ a7b87be3e1bc        postgres            <span class="s2">"docker-entrypoint.s…
 ...
 </code></pre></div>
 <ul>
-<li>  Set these environment variables in the content-publisher container:</li>
+<li>Set these environment variables in the content-publisher container:</li>
 </ul>
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$dev</span> <span class="nb">export </span><span class="nv">DATABASE_URL</span><span class="o">=</span>postgres://postgres@172.17.0.3/content-publisher
 <span class="nv">$dev</span> <span class="nb">export </span><span class="nv">TEST_DATABASE_URL</span><span class="o">=</span>postgres://postgres@172.17.0.3/content-publisher-test
@@ -363,13 +363,13 @@ a7b87be3e1bc        postgres            <span class="s2">"docker-entrypoint.s…
 </blockquote>
 
 <ul>
-<li>  We can now setup the database from the content-publisher container:</li>
+<li>We can now setup the database from the content-publisher container:</li>
 </ul>
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$dev</span> bundle <span class="nb">exec </span>rake db:setup
 </code></pre></div><p>We now have a database, but it&rsquo;s not permanent! Just like with the gems, we&rsquo;ll have to do <code>rake db:setup</code> every time we restart the postgres container. We can use the same technique to fix that.</p>
 
 <ul>
-<li>  Create a volume to persist to for the data:</li>
+<li>Create a volume to persist to for the data:</li>
 </ul>
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$mac</span> docker volume create content-publisher-postgres
 </code></pre></div>
@@ -380,24 +380,24 @@ a7b87be3e1bc        postgres            <span class="s2">"docker-entrypoint.s…
 </code></pre></div><h2 id='step-5-mostly-passing-tests'>Step 5: (Mostly) passing tests!</h2><p>We&rsquo;re nearly there! If we run the tests again, we&rsquo;ll get a somewhat unintuitive error about Chrome. Debugging this error is quite hard - a simple Google search won&rsquo;t turn up much - so let&rsquo;s skip to the solution:</p>
 
 <ul>
-<li>  Run our tests (and thus Chrome) as a non-root user</li>
+<li>Run our tests (and thus Chrome) as a non-root user</li>
 </ul>
 <div class="highlight"><pre class="highlight docker"><code><span class="c"># In the Dockerfile</span>
 <span class="k">RUN </span>useradd <span class="nt">-m</span> build
 <span class="k">USER</span><span class="s"> build</span>
 </code></pre></div>
 <ul>
-<li>  Re-build content-publisher container (Dockerfile changed)</li>
+<li>Re-build content-publisher container (Dockerfile changed)</li>
 </ul>
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$mac</span> docker build <span class="nt">-t</span> content-publisher-demo <span class="nb">.</span>
 </code></pre></div>
 <ul>
-<li>  Give the content-publisher container <a href="privileged">low-level privileges</a></li>
+<li>Give the content-publisher container <a href="privileged">low-level privileges</a></li>
 </ul>
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$mac</span> docker run <span class="nt">-it</span> <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>:/app <span class="nt">-v</span> content-publisher-bundle:/usr/local/bundle <span class="nt">--privileged</span> content-publisher-demo bash
 </code></pre></div>
 <ul>
-<li>  Run the tests and watch (most of) them pass!</li>
+<li>Run the tests and watch (most of) them pass!</li>
 </ul>
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$dev</span> <span class="nb">export </span><span class="nv">DATABASE_URL</span><span class="o">=</span>postgres://postgres@172.17.0.3/content-publisher
 <span class="nv">$dev</span> <span class="nb">export </span><span class="nv">TEST_DATABASE_URL</span><span class="o">=</span>postgres://postgres@172.17.0.3/content-publisher-test

@@ -175,15 +175,15 @@ messages from the queues.</p>
 <p>While the migration of gov.uk to AWS is in progress we actually run
 two clusters, one in carrenza and one in AWS.
 The published_documents exchange is federated in both directions, which
-means that the cluster in AWS connects as a client to the exchange in 
-Carrenza and forward messages to its own exchange, and the same thing 
+means that the cluster in AWS connects as a client to the exchange in
+Carrenza and forward messages to its own exchange, and the same thing
 happens the other way around, there is no loop because max-hops is set to 1.
 Each cluster has a list of the other&rsquo;s nodes IPs, those are private IP
 and connection goes through the VPN between Carrenza and AWS.
 Since the nodes in AWS use non fixed IPs, they have additional
 network interfaces with a fixed IP associated to it.
 If a consumer is trying to get to a queue that originates on the other
-side of the VPN and the queue is empty, you should check if the 
+side of the VPN and the queue is empty, you should check if the
 federation is ok.</p>
 <p>In order to ensure that our consumers remain active, we publish
 &ldquo;heartbeat&rdquo; messages to the exchanges every minute. This helps to avoid
@@ -207,49 +207,59 @@ dashboard</a> which shows the main metrics for queues
 and exchanges.</p>
 <h2 id='connecting-to-the-rabbitmq-web-control-panel'>Connecting to the RabbitMQ web control panel</h2>
 <ol>
-<li><p>Create an SSH tunnel to access the web control panel</p>
+<li>Create an SSH tunnel to access the web control panel</li>
+</ol>
 <p>For Carenza environments:</p>
-<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>ssh rabbitmq-1.backend.staging <span class="nt">-L</span> 15672:127.0.0.1:15672
+<div class="highlight"><pre class="highlight shell"><code>   <span class="nv">$ </span>ssh rabbitmq-1.backend.staging <span class="nt">-L</span> 15672:127.0.0.1:15672
 </code></pre></div><p>For AWS environments:</p>
-<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>ssh <span class="si">$(</span>ssh integration <span class="s2">"govuk_node_list --single-node -c rabbitmq"</span><span class="si">)</span>.integration <span class="nt">-CNL</span> 15672:127.0.0.1:15672
-</code></pre></div></li>
-<li><p>Log in to the web control panel</p>
+<div class="highlight"><pre class="highlight shell"><code>   <span class="nv">$ </span>ssh <span class="si">$(</span>ssh integration <span class="s2">"govuk_node_list --single-node -c rabbitmq"</span><span class="si">)</span>.integration <span class="nt">-CNL</span> 15672:127.0.0.1:15672
+</code></pre></div>
+<ol>
+<li>Log in to the web control panel</li>
+</ol>
 <p>Point your browser at <a href="http://127.0.0.1:15672">http://127.0.0.1:15672</a></p>
 <p>The username is root. The password you can obtain from the govuk-secrets
-repo if you have access. Look for govuk_rabbitmq::root_password in the file for the
-relevant environment in
-<a href="https://github.com/alphagov/govuk-secrets/tree/master/puppet/hieradata">https://github.com/alphagov/govuk-secrets/tree/master/puppet/hieradata</a> or <a href="https://github.com/alphagov/govuk-secrets/tree/master/puppet_aws/hieradata">https://github.com/alphagov/govuk-secrets/tree/master/puppet_aws/hieradata</a></p></li>
-<li><p>Do your business</p></li>
-<li><p>Tidy up</p>
-<p>Close the SSH connection you set up earlier with CTRL+C or by typing
-&ldquo;exit&rdquo;.</p></li>
+   repo if you have access. Look for govuk_rabbitmq::root_password in the file for the
+   relevant environment in
+   <a href="https://github.com/alphagov/govuk-secrets/tree/master/puppet/hieradata">https://github.com/alphagov/govuk-secrets/tree/master/puppet/hieradata</a> or <a href="https://github.com/alphagov/govuk-secrets/tree/master/puppet_aws/hieradata">https://github.com/alphagov/govuk-secrets/tree/master/puppet_aws/hieradata</a></p>
+
+<ol>
+<li>Do your business</li>
+<li>Tidy up</li>
 </ol>
+<p>Close the SSH connection you set up earlier with CTRL+C or by typing &ldquo;exit&rdquo;.</p>
 <h2 id='inspectingremoving-items-from-a-queue'>Inspecting/removing items from a queue</h2><p>We had an instance where an application was unable to process a message
 in the queue, but left the message on the queue. This meant it was
 backing up. Removing the message from the queue was the right solution
 in our case.</p>
 
 <ol>
-<li><p>Find the queue</p>
-<p>Click on the &ldquo;Queues&rdquo; tab. Then click on the name of the queue.</p></li>
-<li><p>Find the messages</p>
+<li>Find the queue</li>
+</ol>
+<p>Click on the &ldquo;Queues&rdquo; tab. Then click on the name of the queue.</p>
+
+<ol>
+<li>Find the messages</li>
+</ol>
 <p>Scroll down and click &ldquo;Get messages&rdquo;. Clicking the &ldquo;Get Message(s)&rdquo;
-button that appears will fetch however many messages you ask for.</p>
+   button that appears will fetch however many messages you ask for.</p>
 
 <blockquote>
 <p><strong>Note</strong></p>
 <p>Fetching messages actually removes them from the queue. By leaving
 the &ldquo;Requeue&rdquo; option set to &ldquo;Yes&rdquo;, they will be added back to queue.</p>
-</blockquote></li>
-<li><p>Delete the messages</p>
+</blockquote>
+
+<ol>
+<li>Delete the messages</li>
+</ol>
 
 <blockquote>
 <p><strong>Note</strong></p>
 <p>There is a risk that you might delete the wrong message(s). This
 is because the contents of the queue may have changed.</p>
 </blockquote>
-<p>Repeat, but change the &ldquo;Requeue&rdquo; option to &ldquo;No&rdquo;.</p></li>
-</ol>
+<p>Repeat, but change the &ldquo;Requeue&rdquo; option to &ldquo;No&rdquo;.</p>
 <h2 id='previewing-a-message-for-a-document_type'>Previewing a message for a document_type</h2><p>The publishing API generates messages when content is updated and posts them
 to the rabbitMQ exchange. Each message has a shared format, however the contents
 of the message is affected by the publishing app and what data it sends to the

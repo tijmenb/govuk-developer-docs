@@ -150,22 +150,20 @@ case.</p>
 <p>Possible causes of errors on the canary route include:</p>
 
 <ul>
-<li>  DNS problems for <code>www.direct.gov.uk</code> or
+<li>DNS problems for <code>www.direct.gov.uk</code> or
 <code>bouncer.publishing.service.gov.uk</code> - check Bouncer&rsquo;s Nginx
 logs via the <a href="https://logit.io">logit.io dashboard</a>
 to see which requests are getting through</li>
-<li>  CDN problems resulting in requests for <code>www.direct.gov.uk</code> not being
+<li>CDN problems resulting in requests for <code>www.direct.gov.uk</code> not being
 correctly passed to <code>https://bouncer.publishing.service.gov.uk</code></li>
-<li>  <code>bouncer-*</code> or <code>transition-postgresql-slave-1</code> machines being
+<li><code>bouncer-*</code> or <code>transition-postgresql-slave-1</code> machines being
 unavailable</li>
-<li>  Bouncer&rsquo;s dependencies being missing or having errors in its
+<li>Bouncer&rsquo;s dependencies being missing or having errors in its
 configuration</li>
-<li>  <a href="https://graphite.publishing.service.gov.uk/render/?width=600&amp;height=300&amp;target=alias(dashed(constantLine(6442450944)),%22critical%22)&amp;target=alias(dashed(constantLine(4294967296)),%22warning%22)&amp;target=bouncer-*_redirector.processes-app-bouncer.ps_rss&amp;from=-2days">memory</a>
-leaks in Bouncer</li>
-<li>  the app being unable to connect or authorise to the database</li>
-<li>  the database or the required tables being missing or empty</li>
-<li>  the <code>bouncer</code> role not having <code>SELECT</code> privileges on the required
-tables</li>
+<li><a href="https://graphite.publishing.service.gov.uk/render/?width=600&amp;height=300&amp;target=alias(dashed(constantLine(6442450944)),%22critical%22)&amp;target=alias(dashed(constantLine(4294967296)),%22warning%22)&amp;target=bouncer-*_redirector.processes-app-bouncer.ps_rss&amp;from=-2days">memory leaks in Bouncer</a></li>
+<li>the app being unable to connect or authorise to the database</li>
+<li>the database or the required tables being missing or empty</li>
+<li>the <code>bouncer</code> role not having <code>SELECT</code> privileges on the required tables</li>
 </ul>
 <p>The database tables checked by the canary route (in order) and the
 effect on requests for transitioned sites of errors when querying them:</p>

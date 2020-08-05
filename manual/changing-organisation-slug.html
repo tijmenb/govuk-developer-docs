@@ -168,9 +168,12 @@
 </blockquote>
 <p>The organisation slug is used as a foreign key for organisations across
 multiple apps.</p>
-<h3 id='1-change-the-organisation39s-slug-in-whitehall'>1. Change the organisation&rsquo;s slug in Whitehall</h3><p>Run the appropriate rake task:
-- <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/122585/rebuild/parameterized">Organisation</a>
-- <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/122581/rebuild/parameterized">Worldwide Organisation</a></p>
+<h3 id='1-change-the-organisation39s-slug-in-whitehall'>1. Change the organisation&rsquo;s slug in Whitehall</h3><p>Run the appropriate rake task:</p>
+
+<ul>
+<li><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/122585/rebuild/parameterized">Organisation</a></li>
+<li><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/122581/rebuild/parameterized">Worldwide Organisation</a></li>
+</ul>
 <h3 id='2-update-the-organisation-in-transitiontransition-config'>2. Update the organisation in transition/transition-config:</h3><p>The <a href="https://github.com/alphagov/transition-config">transition-config repo</a> may
 contain slugs. Change any references to the old slug:</p>
 

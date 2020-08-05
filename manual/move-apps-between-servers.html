@@ -198,14 +198,13 @@ are left for reference purposes only and will be removed in a few months.</p>
 <li>Add <a href="https://github.com/alphagov/govuk-provisioning/pull/41">vCloud configuration</a> for the new servers for production and staging (you can choose any IP addresses that are not currently used as long as they use the same prefix as others in the same file).</li>
 <li>Add the IP addresses for the new servers and a new Puppet node class in <a href="https://github.com/alphagov/govuk-puppet/pull/7294">govuk-puppet</a>.</li>
 <li>Deploy puppet in staging.</li>
-<li>SSH to the puppetmaster in staging and run a loop to sign SSL certificates for the new servers as they&rsquo;re created:
-<code>bash
-$ ssh puppetmaster-1.management.staging
-$ while true; do sudo puppet cert sign --all; sleep 10; done
-</code></li>
-<li>Run the <a href="https://deploy.staging.publishing.service.gov.uk/job/Launch_VMs/">Launch VMs</a> Jenkins job, using the <a href="https://github.com/alphagov/govuk-secrets/blob/master/pass/2ndline/carrenza/vcloud-staging.gpg">Carrenza staging username and password</a>, to create the new servers.</li>
-<li>Once the job has completed, terminate the loop on the puppetmaster.</li>
-<li>Re-run everything in production once you&rsquo;ve checked everything works.</li>
+<li><p>SSH to the puppetmaster in staging and run a loop to sign SSL certificates for the new servers as they&rsquo;re created:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>ssh puppetmaster-1.management.staging
+<span class="nv">$ </span><span class="k">while </span><span class="nb">true</span><span class="p">;</span> <span class="k">do </span><span class="nb">sudo </span>puppet cert sign <span class="nt">--all</span><span class="p">;</span> <span class="nb">sleep </span>10<span class="p">;</span> <span class="k">done</span>
+</code></pre></div></li>
+<li><p>Run the <a href="https://deploy.staging.publishing.service.gov.uk/job/Launch_VMs/">Launch VMs</a> Jenkins job, using the <a href="https://github.com/alphagov/govuk-secrets/blob/master/pass/2ndline/carrenza/vcloud-staging.gpg">Carrenza staging username and password</a>, to create the new servers.</p></li>
+<li><p>Once the job has completed, terminate the loop on the puppetmaster.</p></li>
+<li><p>Re-run everything in production once you&rsquo;ve checked everything works.</p></li>
 </ol>
 <h3 id='add-the-relevant-apps-to-the-new-servers'>Add the relevant app(s) to the new servers</h3><p>Once the servers are created, they will run puppet to apply relevant configuration, but there will be no apps on them.</p>
 

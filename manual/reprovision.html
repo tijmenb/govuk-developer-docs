@@ -155,46 +155,45 @@ potential downtime. In particular, removing a single-point-of-failure
 machine will result in downtime.</p>
 <h2 id='aws'>AWS</h2>
 <ol>
-<li> Log into the AWS console, select the correct environment and go to the EC2 service</li>
-<li> Locate the instance and confirm it&rsquo;s the correct one by either instance ID or private IP address</li>
-<li> Select Terminate from the Actions -&gt; Instance State menu</li>
-<li> The AWS Auto Scaling Group will reprovision the instance automatically</li>
+<li>Log into the AWS console, select the correct environment and go to the EC2 service</li>
+<li>Locate the instance and confirm it&rsquo;s the correct one by either instance ID or private IP address</li>
+<li>Select Terminate from the Actions -&gt; Instance State menu</li>
+<li>The AWS Auto Scaling Group will reprovision the instance automatically</li>
 </ol>
 <h2 id='carrenza'>Carrenza</h2>
 <ol>
 <li><p>Schedule downtime for your host in Icinga using our <a href="https://github.com/alphagov/fabric-scripts">Fabric
 scripts</a>. This will
 prevent Icinga from alerting while you reprovision the machine:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>fab $environment nagios.schedule_downtime:mybox-2.somevdc.production,20
-</code></pre></div></li>
+<p>fab $environment nagios.schedule_downtime:mybox-2.somevdc.production,20</p></li>
 <li><p>Stop the machine in the vCloud Director.</p></li>
 <li><p>Delete the machine in the vCloud Director.</p></li>
 <li><p>Remove the certificate for the relevant machine on the
 organisation&rsquo;s Puppet master, e.g.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo puppet cert clean mybox-2.somevdc.production
-</code></pre></div></li>
+<p>sudo puppet cert clean mybox-2.somevdc.production</p></li>
 <li><p>Ensure that the Puppet master will sign the certificate for the
 newly reprovisoned VM; after 5 minutes the Puppet client will
 timeout and you would need to initiate the signing request
-again manually.</p>
+again manually.</p></li>
+</ol>
 <p>An easy way to do this is to run the following loop on
-<code>puppetmaster-1.management</code> and monitor the output:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>screen
-while true; do sudo puppet cert sign --all; sleep 10; done
-</code></pre></div><p>Don&rsquo;t forget to kill the screen session when you&rsquo;re done.</p></li>
-<li><p>Reprovision the box using the &ldquo;Launch VMs&rdquo; Jenkins job in the
-enviroment&rsquo;s <code>deploy</code> Jenkins instance.</p></li>
-<li><p>Remove any entries for the box from your SSH
-<code>~/.ssh/known_hosts</code> file.</p></li>
+   <code>puppetmaster-1.management</code> and monitor the output:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>   screen
+   while true; do sudo puppet cert sign --all; sleep 10; done
+</code></pre></div><p>Don&rsquo;t forget to kill the screen session when you&rsquo;re done.</p>
+
+<ol>
+<li>Reprovision the box using the &ldquo;Launch VMs&rdquo; Jenkins job in the
+enviroment&rsquo;s <code>deploy</code> Jenkins instance.</li>
+<li>Remove any entries for the box from your SSH
+<code>~/.ssh/known_hosts</code> file.</li>
 <li><p>Wait for the box to run Puppet so you can log in. It make take a few
 minutes before you can SSH into the box:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>until ssh mybox-2.somevdc.production; do sleep 10; done
-</code></pre></div></li>
+<p>until ssh mybox-2.somevdc.production; do sleep 10; done</p></li>
 <li><p>Check <code>/var/log/userdata.log</code> for Puppet run errors, and perhaps
 re-run Puppet manually to assert that all&rsquo;s well:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo less /var/log/userdata.log
-govuk_puppet -v
-</code></pre></div></li>
+<p>sudo less /var/log/userdata.log
+   govuk_puppet -v</p></li>
 <li><p>Check all the services are running as expected, and if so, remove
 the downtime from Nagios (this can be done from the &ldquo;Downtime&rdquo; link
 in the left-hand sidebar).</p></li>

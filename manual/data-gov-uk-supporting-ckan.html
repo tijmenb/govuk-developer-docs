@@ -328,7 +328,7 @@ root     29503  0.0  0.0  59652  2040 ?        Ss   06:04   0:00 <span class="nb
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">sudo </span>service pycsw_web-procfile_worker restart
 </code></pre></div><p>It is worth checking the <code>pycsw</code> logs to investigate why it failed:</p>
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">tail</span> <span class="nt">-f</span> /var/log/ckan/pycsw.err.log
-</code></pre></div><p>You can get a summary of <code>csw</code> records available from this url https://ckan.publishing.service.gov.uk/csw?service=CSW&amp;version=2.0.2&amp;request=GetRecords&amp;typenames=csw:Record&amp;elementsetname=brief</p>
+</code></pre></div><p>You can get a summary of <code>csw</code> records available from this url <a href="https://ckan.publishing.service.gov.uk/csw?service=CSW&version=2.0.2&request=GetRecords&typenames=csw:Record&elementsetname=brief">https://ckan.publishing.service.gov.uk/csw?service=CSW&amp;version=2.0.2&amp;request=GetRecords&amp;typenames=csw:Record&amp;elementsetname=brief</a></p>
 <h4 id='syncing-the-csw-records-with-ckan-datasets'>Syncing the <code>csw</code> records with <code>ckan</code> datasets</h4><p>Normally the sync between <code>csw</code> and <code>ckan</code> will start at 6 each day, but in
 case it should fail or if the sync needs to happen sooner you can manually
 trigger the sync after Solr has been reindexed.</p>
@@ -419,43 +419,43 @@ it for you. It will only restart if it detects the harvesting process is no long
 running, so is safe to run immediately if you suspect the process has crashed:</p>
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>fab aws_production class:ckan ckan.restart_harvester
 </code></pre></div><h3 id='ckan-publisher-on-staging-environment-responds-with-nginx-504-timeout'>CKAN publisher on Staging environment responds with Nginx 504 timeout:</h3><p>Sometimes CKAN publisher on Staging environment responds with a 504 from Nginx, this is due to it timing out when connecting to the database as there are too many connections, current limit is 1000, though under normal working the number of connections should be under 100 if the system is not under load testing.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>SELECT rolname, rolconnlimit FROM pg_roles WHERE rolname='ckan';`
-</code></pre></div><h4 id='changing-the-connection-limit'>Changing the connection limit</h4><p>The connection limit can be updated, but should not exceed the hard limit which is around 3000.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>ALTER USER ckan WITH CONNECTION LIMIT 1001;
+<div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">rolname</span><span class="p">,</span> <span class="n">rolconnlimit</span> <span class="k">FROM</span> <span class="n">pg_roles</span> <span class="k">WHERE</span> <span class="n">rolname</span><span class="o">=</span><span class="s1">'ckan'</span><span class="p">;</span><span class="nv">`
+</span></code></pre></div><h4 id='changing-the-connection-limit'>Changing the connection limit</h4><p>The connection limit can be updated, but should not exceed the hard limit which is around 3000.</p>
+<div class="highlight"><pre class="highlight sql"><code><span class="k">ALTER</span> <span class="k">USER</span> <span class="n">ckan</span> <span class="k">WITH</span> <span class="k">CONNECTION</span> <span class="k">LIMIT</span> <span class="mi">1001</span><span class="p">;</span>
 </code></pre></div><h4 id='trying-to-log-on-to-the-database-will-result-in-this-error'>Trying to log on to the database will result in this error:</h4><div class="highlight"><pre class="highlight plaintext"><code>FATAL:  too many connections for role "ckan"
 </code></pre></div><h4 id='log-in-as-another-user'>Log in as another user:</h4><div class="highlight"><pre class="highlight plaintext"><code>sudo psql -U aws_db_admin -h postgresql-primary --no-password -d ckan_production
-</code></pre></div><h4 id='view-the-number-of-connections-and-types-of-queries'>View the number of connections and types of queries:</h4><div class="highlight"><pre class="highlight plaintext"><code>SELECT COUNT(*) FROM pg_stat_activity WHERE datname = 'ckan_production';
+</code></pre></div><h4 id='view-the-number-of-connections-and-types-of-queries'>View the number of connections and types of queries:</h4><div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">pg_stat_activity</span> <span class="k">WHERE</span> <span class="n">datname</span> <span class="o">=</span> <span class="s1">'ckan_production'</span><span class="p">;</span>
 </code></pre></div><h4 id='it-has-been-observed-that-during-an-overnight-sync-one-of-the-queries-caused-a-large-number-of-db-connections'>It has been observed that during an overnight sync one of the queries caused a large number of db connections:</h4><p>The following query captures part of that query and uses it to target the pid:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>SELECT pid FROM pg_stat_activity WHERE datname = 'ckan_production' and query LIKE 'SELECT "user".password AS user_password%';
-</code></pre></div><h4 id='to-cancel-these-queries'>To cancel these queries</h4><div class="highlight"><pre class="highlight plaintext"><code>SELECT pg_cancel_backend(pid)
-FROM pg_stat_activity
-WHERE pid IN
-(SELECT pid
-FROM pg_stat_activity
-WHERE datname = 'ckan_production' and query LIKE 'SELECT "user".password AS user_password%');
-</code></pre></div><h4 id='to-identify-long-running-queries'>To identify long running queries</h4><div class="highlight"><pre class="highlight plaintext"><code>SELECT
-pid,
-now() - pg_stat_activity.query_start AS duration,
-query,
-state
-FROM pg_stat_activity
-WHERE
-(now() - pg_stat_activity.query_start) &gt; interval '5 minutes' AND
-datname = 'ckan_production';
+<div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">pid</span> <span class="k">FROM</span> <span class="n">pg_stat_activity</span> <span class="k">WHERE</span> <span class="n">datname</span> <span class="o">=</span> <span class="s1">'ckan_production'</span> <span class="k">and</span> <span class="n">query</span> <span class="k">LIKE</span> <span class="s1">'SELECT "user".password AS user_password%'</span><span class="p">;</span>
+</code></pre></div><h4 id='to-cancel-these-queries'>To cancel these queries</h4><div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">pg_cancel_backend</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+<span class="k">FROM</span> <span class="n">pg_stat_activity</span>
+<span class="k">WHERE</span> <span class="n">pid</span> <span class="k">IN</span>
+<span class="p">(</span><span class="k">SELECT</span> <span class="n">pid</span>
+<span class="k">FROM</span> <span class="n">pg_stat_activity</span>
+<span class="k">WHERE</span> <span class="n">datname</span> <span class="o">=</span> <span class="s1">'ckan_production'</span> <span class="k">and</span> <span class="n">query</span> <span class="k">LIKE</span> <span class="s1">'SELECT "user".password AS user_password%'</span><span class="p">);</span>
+</code></pre></div><h4 id='to-identify-long-running-queries'>To identify long running queries</h4><div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span>
+<span class="n">pid</span><span class="p">,</span>
+<span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">pg_stat_activity</span><span class="p">.</span><span class="n">query_start</span> <span class="k">AS</span> <span class="n">duration</span><span class="p">,</span>
+<span class="n">query</span><span class="p">,</span>
+<span class="k">state</span>
+<span class="k">FROM</span> <span class="n">pg_stat_activity</span>
+<span class="k">WHERE</span>
+<span class="p">(</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">pg_stat_activity</span><span class="p">.</span><span class="n">query_start</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">interval</span> <span class="s1">'5 minutes'</span> <span class="k">AND</span>
+<span class="n">datname</span> <span class="o">=</span> <span class="s1">'ckan_production'</span><span class="p">;</span>
 </code></pre></div><h4 id='cancel-long-running-queries'>Cancel long running queries</h4><p>This will take a few seconds to be processed</p>
-<div class="highlight"><pre class="highlight plaintext"><code>SELECT pg_cancel_backend(pid)
-FROM pg_stat_activity
-WHERE
-(now() - pg_stat_activity.query_start) &gt; interval '5 minutes' AND
-state = 'active' AND
-datname = 'ckan_production';
+<div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">pg_cancel_backend</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+<span class="k">FROM</span> <span class="n">pg_stat_activity</span>
+<span class="k">WHERE</span>
+<span class="p">(</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">pg_stat_activity</span><span class="p">.</span><span class="n">query_start</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">interval</span> <span class="s1">'5 minutes'</span> <span class="k">AND</span>
+<span class="k">state</span> <span class="o">=</span> <span class="s1">'active'</span> <span class="k">AND</span>
+<span class="n">datname</span> <span class="o">=</span> <span class="s1">'ckan_production'</span><span class="p">;</span>
 </code></pre></div><h4 id='if-cancelling-does-not-work-you-can-terminate-the-query'>If cancelling does not work you can terminate the query</h4><p>Note - this must be used with caution as may cause the database to restart to recover consistency.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>SELECT pg_terminate_backend(pid)
-FROM pg_stat_activity
-WHERE
-(now() - pg_stat_activity.query_start) &gt; interval '5 minutes' AND
-state = 'active' AND
-datname = 'ckan_production';
+<div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">pg_terminate_backend</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+<span class="k">FROM</span> <span class="n">pg_stat_activity</span>
+<span class="k">WHERE</span>
+<span class="p">(</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">pg_stat_activity</span><span class="p">.</span><span class="n">query_start</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">interval</span> <span class="s1">'5 minutes'</span> <span class="k">AND</span>
+<span class="k">state</span> <span class="o">=</span> <span class="s1">'active'</span> <span class="k">AND</span>
+<span class="n">datname</span> <span class="o">=</span> <span class="s1">'ckan_production'</span><span class="p">;</span>
 </code></pre></div>
 
   <div class='related-content'>

@@ -138,6 +138,16 @@
         <a href="#if-documents-aren39t-in-the-publishing-api"><span>If documents aren’t in the Publishing API</span></a>
         <ul>
           <li>
+            <a href="#whitehall"><span>Whitehall</span></a>
+          </li>
+          <li>
+            <a href="#publisher"><span>Publisher</span></a>
+          </li>
+          <li>
+            <a href="#travel-advice-publisher"><span>Travel Advice Publisher</span></a>
+          </li>
+          <li>
+            <a href="#specialist-publisher"><span>Specialist Publisher</span></a>
           </li>
         </ul>
       </li>
@@ -172,13 +182,13 @@ Publishing API that will check where the content is currently available.</p>
 correctly to the Publishing API. These fix here varies per publishing app, but
 you can start by trying to republish the document from within the user
 interface. If that doesn&rsquo;t work, there are some other things you can try:</p>
-<h5 id='whitehall'>Whitehall</h5><div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>bundle <span class="nb">exec </span>rake publishing_api:republish_document[slug]
+<h3 id='whitehall'>Whitehall</h3><div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>bundle <span class="nb">exec </span>rake publishing_api:republish_document[slug]
 </code></pre></div><p><a href="https://deploy.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=whitehall&amp;MACHINE_CLASS=whitehall_backend&amp;RAKE_TASK=publishing_api:republish_document[slug]">Run this job in production Jenkins ⚠️</a></p>
-<h5 id='publisher'>Publisher</h5><div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>bundle <span class="nb">exec </span>rake publishing_api:republish_edition[slug]
+<h3 id='publisher'>Publisher</h3><div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>bundle <span class="nb">exec </span>rake publishing_api:republish_edition[slug]
 </code></pre></div><p><a href="https://deploy.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=publisher&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=publishing_api:republish_edition[slug]">Run this job in production Jenkins ⚠️</a></p>
-<h5 id='travel-advice-publisher'>Travel Advice Publisher</h5><div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>bundle <span class="nb">exec </span>rake publishing_api:republish_edition[country_slug]
+<h3 id='travel-advice-publisher'>Travel Advice Publisher</h3><div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>bundle <span class="nb">exec </span>rake publishing_api:republish_edition[country_slug]
 </code></pre></div><p><a href="https://deploy.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=travel-advice-publisher&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=publishing_api:republish_edition[country_slug]">Run this job in production Jenkins ⚠️</a></p>
-<h5 id='specialist-publisher'>Specialist Publisher</h5><p>The datastore for Specialist Publisher is the Publishing API directly.
+<h3 id='specialist-publisher'>Specialist Publisher</h3><p>The datastore for Specialist Publisher is the Publishing API directly.
 Therefore if the content isn&rsquo;t in the Publishing API, it means the content will
 also not be in Specialist Publisher and need redrafting.</p>
 <h2 id='if-documents-aren39t-in-the-content-store'>If documents aren&rsquo;t in the Content Store</h2><p>There is a Rake task available in the Publishing API that will represent the

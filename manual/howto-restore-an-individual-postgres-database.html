@@ -174,9 +174,9 @@
 <ol>
 <li>To find the command you need to run to restore a specific database, list the the govuk-backup user&rsquo;s cronjobs, then grep for the database name you need:</li>
 </ol>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo -iu govuk-backup crontab -l | grep &lt;database_name&gt;
+<div class="highlight"><pre class="highlight plaintext"><code>  sudo -iu govuk-backup crontab -l | grep &lt;database_name&gt;
 </code></pre></div><p>E.g.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo -iu govuk-backup crontab -l | grep publishing_api
+<div class="highlight"><pre class="highlight plaintext"><code>  sudo -iu govuk-backup crontab -l | grep publishing_api
 </code></pre></div>
 <ol>
 <li>Copy the command that starts with &ldquo;pull&rdquo;. For example, if you were restoring the publishing_api database you&rsquo;d need this line:</li>

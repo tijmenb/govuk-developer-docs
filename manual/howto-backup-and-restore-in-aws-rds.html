@@ -137,7 +137,7 @@
             <a href="#restore-an-rds-instance-via-the-aws-console"><span>Restore an RDS instance via the AWS Console</span></a>
           </li>
           <li>
-            <a href="#restore-an-rds-instance-via-the-aws-cli"><span> Restore an RDS instance via the AWS CLI</span></a>
+            <a href="#restore-an-rds-instance-via-the-aws-cli"><span>Restore an RDS instance via the AWS CLI</span></a>
           </li>
         </ul>
       </li>
@@ -158,7 +158,7 @@ nightly</a>.
 They are stored in Amazon S3. SQL dumps are also taken nightly from <code>db_admin</code>
 and <code>transition_db_admin</code>, encompassing all the databases on those instances.</p>
 <h3 id='restore-an-rds-instance-via-the-aws-console'>Restore an RDS instance via the AWS Console</h3><p>Follow <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RestoreFromSnapshot.html">the AWS documentation on Restoring from a DB Snapshot</a>.</p>
-<h3 id='restore-an-rds-instance-via-the-aws-cli'> Restore an RDS instance via the AWS CLI</h3><p>Retrieve the ARNs (unique identifiers) of the snapshots into a variable.</p>
+<h3 id='restore-an-rds-instance-via-the-aws-cli'>Restore an RDS instance via the AWS CLI</h3><p>Retrieve the ARNs (unique identifiers) of the snapshots into a variable.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>SNAPSHOTS=$(aws rds describe-db-snapshots --query 'DBSnapshots[].DBSnapshotArn' | jq -r '@csv' | tr ',' ' ' | tr -d '"')
 </code></pre></div><p>Loop through the snapshot ARN list and use the <code>list-tags-for-resource</code>
 parameter to get the tags for the snapshot. The tags have

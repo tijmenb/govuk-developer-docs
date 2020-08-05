@@ -287,10 +287,12 @@ create a Debian package.</p>
 <li>The Jenkins job will produce a <code>.deb</code> package in the <code>Build Artifacts</code>.</li>
 <li>With Packager cloned to your local <code>govuk</code> folder, download your new package to
 the Packager root folder.</li>
-<li><p>Start the VM, move to the Packager project and run:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>  $ sudo dpkg -i ./your_package_name.deb`
-</code></pre></div></li>
-<li><p>Ensure your package has been successfully installed.</p></li>
+<li>Start the VM, move to the Packager project and run:</li>
+</ul>
+<div class="highlight"><pre class="highlight plaintext"><code>    $ sudo dpkg -i ./your_package_name.deb`
+</code></pre></div>
+<ul>
+<li>Ensure your package has been successfully installed.</li>
 </ul>
 <p>If successful, you can copy this package to the aptly machine and then add the
 deb file to aptly.</p>
@@ -328,7 +330,6 @@ by checking the diff. You can find the previous snapshot by running <code>sudo a
 <div class="highlight"><pre class="highlight plaintext"><code>  $ sudo aptly snapshot diff rbenv-ruby-20181023 $snapshot
     Arch   | Package          | Version in A  | Version in B
   + amd64  | rbenv-ruby-2.6.1 | -             | 1
-
 </code></pre></div></li>
 <li><p>Publish the new snapshot, you will be prompted to enter the passphrase for our
 APT account which is in <a href="https://github.com/alphagov/govuk-secrets/tree/master/pass">govuk-secrets</a> <code>./edit.sh 2ndline apt/passphrase</code></p>
@@ -372,9 +373,9 @@ serve aptly repos.</p>
 <p>We only manage <em>some</em> parts of aptly using Puppet, because it requires
 GPG keys and passwords, and updating repositories is something that
 should be done ad-hoc rather than on a regular schedule.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>$ PASSWORD_STORE_DIR=~/govuk/deployment/pass/2ndline pass apt/key &gt; apt-1.management.key
+<div class="highlight"><pre class="highlight plaintext"><code>PASSWORD_STORE_DIR=~/govuk/deployment/pass/2ndline pass apt/key &gt; apt-1.management.key
 </code></pre></div><p>Copy the <code>apt-1.management.key</code> file and import it on the aptly machine:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>$ sudo -i gpg --import apt-1.management.key
+<div class="highlight"><pre class="highlight plaintext"><code>sudo -i gpg --import apt-1.management.key
 </code></pre></div><p>When doing any of the <code>publish</code> actions below you will be prompted for
 the password. This can be found in the same place. You will need to use
 <code>sudo -i</code> for such actions, in order to reference root&rsquo;s GPG files.</p>
@@ -421,10 +422,10 @@ content in the UI:</p>
 
 <blockquote>
 <ol>
-<li> Log in at <a href="https://app.fastly.com">https://app.fastly.com</a></li>
-<li> Click the &lsquo;Configure&rsquo; tab along the top</li>
-<li> Choose the &lsquo;Production Apt&rsquo; service from the dropdown</li>
-<li> Click &lsquo;Purge&rsquo;, then &lsquo;Purge All&rsquo;</li>
+<li>Log in at <a href="https://app.fastly.com">https://app.fastly.com</a></li>
+<li>Click the &lsquo;Configure&rsquo; tab along the top</li>
+<li>Choose the &lsquo;Production Apt&rsquo; service from the dropdown</li>
+<li>Click &lsquo;Purge&rsquo;, then &lsquo;Purge All&rsquo;</li>
 </ol>
 </blockquote>
 <p>Note that whilst - typically - purging all is an expensive operation

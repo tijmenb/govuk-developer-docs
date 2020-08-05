@@ -189,10 +189,13 @@ The recipe will require the <a href="https://emn178.github.io/online-tools/sha25
 <li><p>Once the Packager change is merged, <a href="https://ci.integration.publishing.service.gov.uk/job/build_fpm_package">build the package</a>.</p></li>
 </ul>
 <p>Use the VM to <a href="/manual/debian-packaging.html#test-the-recipe">test the recipe</a></p>
-<p>To make sure it has been successful
- - <code>rbenv versions</code> to make sure your version is available
- - <code>rbenv local X.X.X</code> to use your new version
- - <code>ruby -v</code> to make sure your version is in use</p>
+<p>To make sure it has been successful:</p>
+
+<ul>
+<li><code>rbenv versions</code> to make sure your version is available</li>
+<li><code>rbenv local X.X.X</code> to use your new version</li>
+<li><code>ruby -v</code> to make sure your version is in use</li>
+</ul>
 <h3 id='copying-to-aptly'>Copying to Aptly</h3><p>See <a href="/manual/debian-packaging.html#uploading-a-new-package">Uploading a new package</a></p>
 <h3 id='add-to-puppet'>Add to Puppet</h3><p>Once it&rsquo;s available as a package in Aptly you can
 <a href="https://github.com/alphagov/govuk-puppet/blob/master/modules/govuk_rbenv/manifests/all.pp">install it everywhere using Puppet</a>. Machines only run

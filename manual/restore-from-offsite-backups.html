@@ -157,6 +157,7 @@
         <a href="#restore-assets-from-offsite-backups"><span>Restore assets from offsite backups</span></a>
         <ul>
           <li>
+            <a href="#clean-up"><span>Clean up</span></a>
           </li>
         </ul>
       </li>
@@ -298,7 +299,7 @@ files that already exist in that directory.</p></li>
 <div class="highlight"><pre class="highlight shell"><code>duplicity restore <span class="nt">--file-to-restore</span> mnt/uploads/whitehall/ s3://s3-eu-west-1.amazonaws.com/govuk-offsite-backups-production/assets-whitehall/ /mnt/uploads/whitehall
 </code></pre></div></li>
 </ol>
-<h4 id='clean-up'>Clean up</h4><p>Once the backup has restored correctly, make sure you revert all the manual
+<h3 id='clean-up'>Clean up</h3><p>Once the backup has restored correctly, make sure you revert all the manual
 actions you&rsquo;ve taken. These may include:</p>
 
 <ol>

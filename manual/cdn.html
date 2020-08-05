@@ -136,6 +136,11 @@
       </li>
       <li>
         <a href="#fastly-caching"><span>Fastly Caching</span></a>
+        <ul>
+          <li>
+            <a href="#testing-vcl"><span>Testing VCL</span></a>
+          </li>
+        </ul>
       </li>
       <li>
         <a href="#fastly39s-ip-ranges"><span>Fastly’s IP ranges</span></a>
@@ -186,8 +191,7 @@
 <p>We also set a grace period of 24 hours. So if the homepage server is down, we&rsquo;ll continue to serve a stale homepage for 24 hours.</p>
 <p>These are the GET request status codes that Varnish caches automatically: 200, 203, 300, 301, 302, 404 or 410. (See the <a href="https://varnish-cache.org/docs/2.1/reference/vcl.html#variables">Varnish docs</a> for more detail.)</p>
 <p>We have added to these - see the <a href="https://github.com/alphagov/govuk-cdn-config/">GOV.UK CDN Config repo</a> VCL for special handling of certain status codes, and for the most up-to-date version of what we&rsquo;re running in Fastly. Refer to the Varnish 2.1 documentation when looking at the VCL code.</p>
-<p><strong>Testing VCL</strong></p>
-<p>VCL can be tricky to get right. When making changes to the VCL, add smoke tests <a href="https://github.com/alphagov/smokey/blob/master/features/caching.feature">to smokey</a> and check that they don&rsquo;t fail in staging.</p>
+<h3 id='testing-vcl'>Testing VCL</h3><p>VCL can be tricky to get right. When making changes to the VCL, add smoke tests <a href="https://github.com/alphagov/smokey/blob/master/features/caching.feature">to smokey</a> and check that they don&rsquo;t fail in staging.</p>
 <p>You can also use Fastly&rsquo;s <a href="https://fiddle.fastlydemo.net/">Fiddle tool</a> to manually test, and you can also test your changes with cURL by including a debug header:</p>
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>curl <span class="nt">-svo</span> /dev/null <span class="nt">-H</span> <span class="s2">"Fastly-Debug:1"</span> https://www.gov.uk
 </code></pre></div><p>This will give you various debugging headers that may be useful:</p>
@@ -273,10 +277,10 @@ done</span>
 <p>Configuring a new site in Transition generally adds at least 4 domains to the service, including the <code>aka</code> domain for each real domain. For example:</p>
 
 <ul>
-<li>  <code>www.foo.gov.uk</code></li>
-<li>  <code>aka.foo.gov.uk</code></li>
-<li>  <code>foo.gov.uk</code></li>
-<li>  <code>aka-foo.gov.uk</code></li>
+<li><code>www.foo.gov.uk</code></li>
+<li><code>aka.foo.gov.uk</code></li>
+<li><code>foo.gov.uk</code></li>
+<li><code>aka-foo.gov.uk</code></li>
 </ul>
 <h3 id='new-solution-for-bouncer-and-fastly'>New solution for Bouncer and Fastly</h3><p>Fastly&rsquo;s new solution to get around the domain limit is a &ldquo;service pinned map&rdquo;.</p>
 <p>They have created a map which we access using <code>bouncer-cdn.production.govuk.service.gov.uk</code>. Domains that need to be transitioned can <code>CNAME</code> to this domain. It also has 4 IP addresses assigned, which at the time of writing are the same as the <code>A</code> records at that hostname:</p>

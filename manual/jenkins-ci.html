@@ -203,7 +203,7 @@ status of CI and the supporting infrastructure.</li>
 in to the environment and run any other adhoc tasks.</li>
 <li><a href="https://ci-graphite.integration.publishing.service.gov.uk">Graphite</a> and <a href="https://ci-grafana.integration.publishing.service.gov.uk">Grafana</a>
 for metrics in the environment.</li>
-<li>Puppetmaster which deploys the latest version of [https://github.com/alphagov/govuk-puppet].</li>
+<li>Puppetmaster which deploys the latest version of <a href="https://github.com/alphagov/govuk-puppet">https://github.com/alphagov/govuk-puppet</a>.</li>
 <li>Apt instance for Gemstash</li>
 </ul></li>
 </ul>
@@ -275,20 +275,17 @@ can manage credentials via Jenkins CLI, but currently not all types of credentia
 <h4 id='set-up-github-repositories'>Set up GitHub repositories</h4><p>We use this with the GitHub and GitHub Branch Source plugins to define the source code repositories of
 our jobs.</p>
 
-<ol>
-<li> Manage Jenkins -&gt; Configure Global Security
+<ul>
+<li>Manage Jenkins -&gt; Configure Global Security
 
 <ul>
-<li>  GitHub -&gt; Add GitHub Server
-
-<ul>
-<li>  API URL: &lsquo;https://api.github.com&rsquo;</li>
-<li>  Credentials: select &lsquo;GitHub token for govuk-ci&rsquo;</li>
-<li>  Untick &lsquo;Manage hooks&rsquo;</li>
-<li>  Click &lsquo;Test connection&rsquo; to confirm the settings</li>
+<li>GitHub -&gt; Add GitHub Server</li>
+<li>API URL: &lsquo;https://api.github.com&rsquo;</li>
+<li>Credentials: select &lsquo;GitHub token for govuk-ci&rsquo;</li>
+<li>Untick &lsquo;Manage hooks&rsquo;</li>
+<li>Click &lsquo;Test connection&rsquo; to confirm the settings</li>
 </ul></li>
-</ul></li>
-</ol>
+</ul>
 <p>With this configuration, in our jobs we can use &lsquo;GitHub&rsquo; API endpoints to
 access the source code repository. The API endpoint name is referenced in
 Puppet to configure jobs automatically so we shouldn&rsquo;t update it.</p>

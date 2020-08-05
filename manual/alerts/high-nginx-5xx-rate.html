@@ -160,9 +160,12 @@
       </a>
     </div>
 
-   <h1 id='header'>High Nginx 5xx rate</h1><p>You can view the 5xx logs across all machines on these two dashboards:
-- <a href="https://grafana.publishing.service.gov.uk/dashboard/file/nginx_requests.json?refresh=1m&amp;orgId=1&amp;var-Machines=All&amp;var-Hostname=All&amp;var-Status=5xx">Nginx 5xx Requests (Carrenza)</a>
-- <a href="https://grafana.blue.production.govuk.digital/dashboard/file/nginx_requests.json?refresh=1m&amp;orgId=1&amp;var-Machines=All&amp;var-Hostname=All&amp;var-Status=5xx">Nginx 5xx Requests (AWS)</a></p>
+   <h1 id='header'>High Nginx 5xx rate</h1><p>You can view the 5xx logs across all machines on these two dashboards:</p>
+
+<ul>
+<li><a href="https://grafana.publishing.service.gov.uk/dashboard/file/nginx_requests.json?refresh=1m&amp;orgId=1&amp;var-Machines=All&amp;var-Hostname=All&amp;var-Status=5xx">Nginx 5xx Requests (Carrenza)</a></li>
+<li><a href="https://grafana.blue.production.govuk.digital/dashboard/file/nginx_requests.json?refresh=1m&amp;orgId=1&amp;var-Machines=All&amp;var-Hostname=All&amp;var-Status=5xx">Nginx 5xx Requests (AWS)</a></li>
+</ul>
 <p>Change the hostname to view different apps.</p>
 <h2 id='spikes'>Spikes</h2><p>The alert should link to a graphite graph - often certain applications
 such as Whitehall can have spikes - if you can determine this is a spike

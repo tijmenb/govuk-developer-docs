@@ -183,11 +183,11 @@
 </ul>
 <h2 id='overview'>Overview</h2>
 <ol>
-<li> Lock the original slave, preventing writes to it</li>
-<li> Copy the data from original slave to your folder on the new slave</li>
-<li> Unlock the original slave and tidy up</li>
-<li> Move the data on the new slave</li>
-<li> Start the new slave</li>
+<li>Lock the original slave, preventing writes to it</li>
+<li>Copy the data from original slave to your folder on the new slave</li>
+<li>Unlock the original slave and tidy up</li>
+<li>Move the data on the new slave</li>
+<li>Start the new slave</li>
 </ol>
 <h2 id='1-lock-the-original-slave-to-prevent-writes'>1. Lock the original slave to prevent writes</h2><p>First, find out the MySQL root password. This is in hieradata in the govuk-secrets repo (look for the <code>mysql_root</code> key).</p>
 <p>Open an SSH connection to slave (this connection will remain open for the duration of the operation so it makes sense to do it in screen or tmux):</p>
@@ -221,11 +221,9 @@ slave:mysql&gt; FLUSH TABLES WITH READ LOCK;
 <h2 id='3-unlock-the-original-slave-and-tidy-up'>3. Unlock the original slave and tidy up</h2><p>When it is finished, switch back to your first terminal. You should still be at the MySQL prompt. Unlock it:</p>
 <div class="highlight"><pre class="highlight plaintext"><code>slave:mysql&gt; UNLOCK TABLES;
 slave:mysql&gt; SLAVE START;
-</code></pre></div><p>The original slave should then begin to catch up with master. You can monitor this with:
-<code>mysql
-slave:mysql&gt; SHOW SLAVE STATUS\G
-</code></p>
-<p>You should see that seconds_behind_master drops to 0.</p>
+</code></pre></div><p>The original slave should then begin to catch up with master. You can monitor this with:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>slave:mysql&gt; SHOW SLAVE STATUS\G
+</code></pre></div><p>You should see that seconds_behind_master drops to 0.</p>
 <h2 id='4-move-the-data-on-the-new-slave'>4. Move the data on the new slave</h2><p>Login to the new slave server via SSH and stop MySQL:</p>
 <div class="highlight"><pre class="highlight shell"><code>backup<span class="nv">$:</span> govuk_puppet <span class="nt">--disable</span>
 backup<span class="nv">$:</span> <span class="nb">sudo </span>service mysql stop

@@ -63,7 +63,7 @@ service-manual-publisher,#govuk-platform-health,#govuk-platform-health,https://d
 short-url-manager,#govuk-platform-health,#govuk-platform-health,https://docs.publishing.service.gov.uk/apps/short-url-manager.html,https://github.com/alphagov/short-url-manager,aws
 side-by-side-browser,,,https://docs.publishing.service.gov.uk/apps/side-by-side-browser.html,https://github.com/alphagov/side-by-side-browser,none
 side-by-side-browser,,,https://docs.publishing.service.gov.uk/apps/side-by-side-browser.html,https://github.com/alphagov/side-by-side-browser,heroku
-signon,#govuk-platform-health,#govuk-platform-health,https://docs.publishing.service.gov.uk/apps/signon.html,https://github.com/alphagov/signon,carrenza
+signon,#govuk-platform-health,#govuk-platform-health,https://docs.publishing.service.gov.uk/apps/signon.html,https://github.com/alphagov/signon,aws
 smart-answers,#govuk-platform-health,#govuk-platform-health,https://docs.publishing.service.gov.uk/apps/smart-answers.html,https://github.com/alphagov/smart-answers,aws
 specialist-publisher,#govuk-platform-health,#govuk-platform-health,https://docs.publishing.service.gov.uk/apps/specialist-publisher.html,https://github.com/alphagov/specialist-publisher,aws
 static,#govuk-platform-health,#govuk-platform-health,https://docs.publishing.service.gov.uk/apps/static.html,https://github.com/alphagov/static,aws

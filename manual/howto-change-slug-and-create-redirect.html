@@ -226,10 +226,13 @@ Whitehall appears to put the redirect in the high priority queue, so there can
 be a delay between the redirect being applied and the content being republished.</p>
 <p>This should resolve itself over time, but if you need to process the content
 change more quickly, run <code>represent_downstream:high_priority:content_id[CONTENT_ID]</code>
-to put it in the high priority queue:
-- in <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?delay=0sec&amp;TARGET_APPLICATION=publishing-api&amp;MACHINE_CLASS=publishing_api&amp;RAKE_TASK=represent_downstream:high_priority:content_id[CONTENT_ID]">integration</a>
-- in <a href="https://deploy.blue.staging.govuk.digital/job/run-rake-task/parambuild/?delay=0sec&amp;TARGET_APPLICATION=publishing-api&amp;MACHINE_CLASS=publishing_api&amp;RAKE_TASK=represent_downstream:high_priority:content_id[CONTENT_ID]">staging</a>
-- in <a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?delay=0sec&amp;TARGET_APPLICATION=publishing-api&amp;MACHINE_CLASS=publishing_api&amp;RAKE_TASK=represent_downstream:high_priority:content_id[CONTENT_ID]">⚠️ production ⚠️</a></p>
+to put it in the high priority queue:</p>
+
+<ul>
+<li>in <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?delay=0sec&amp;TARGET_APPLICATION=publishing-api&amp;MACHINE_CLASS=publishing_api&amp;RAKE_TASK=represent_downstream:high_priority:content_id[CONTENT_ID]">integration</a></li>
+<li>in <a href="https://deploy.blue.staging.govuk.digital/job/run-rake-task/parambuild/?delay=0sec&amp;TARGET_APPLICATION=publishing-api&amp;MACHINE_CLASS=publishing_api&amp;RAKE_TASK=represent_downstream:high_priority:content_id[CONTENT_ID]">staging</a></li>
+<li>in <a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?delay=0sec&amp;TARGET_APPLICATION=publishing-api&amp;MACHINE_CLASS=publishing_api&amp;RAKE_TASK=represent_downstream:high_priority:content_id[CONTENT_ID]">⚠️ production ⚠️</a></li>
+</ul>
 
 
   <div class='related-content'>

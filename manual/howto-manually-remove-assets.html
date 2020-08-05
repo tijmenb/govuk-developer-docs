@@ -145,27 +145,24 @@
 follow these steps:</p>
 
 <ol>
-<li>Mark the asset as deleted. Sometimes it may be necessary to completely scrub an asset from our systems e.g. if it contains secret information. In this case, add <code>,true</code> to the appropriate rake task:</li>
-</ol>
+<li>Mark the asset as deleted. Sometimes it may be necessary to completely scrub an asset from our systems e.g. if it contains secret information. In this case, add <code>,true</code> to the appropriate rake task:
 
 <ul>
 <li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:whitehall_delete[]"><code>rake assets:delete[&lt;asset.id&gt;]</code></a> (non-Whitehall assets)</li>
 <li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:delete[]"><code>rake assets:whitehall_delete[&lt;legacy URL path&gt;]</code></a> (Whitehall assets)</li>
-</ul>
-
-<ol>
+</ul></li>
 <li>Add a cache bust and check that the asset responds with a 404 not found</li>
 <li>Wait 20 minutes for the cache to clear, or <a href="https://docs.publishing.service.gov.uk/manual/purge-cache.html#assets">purge it yourself</a></li>
 <li>Verify that the asset is not there</li>
 <li>Request removal of the asset using the <a href="https://www.google.com/webmasters/tools/removals">Google Search Console</a></li>
-<li>Remove the asset from the mirrors.
+<li>Remove the asset from the mirrors
 
-<ol>
+<ul>
 <li>Remove from AWS: <code>gds aws govuk-production-poweruser aws s3 rm s3://govuk-production-mirror/assets.publishing.service.gov.uk/&lt;slug&gt;</code></li>
 <li>Log into the <a href="https://console.cloud.google.com/">GCP console</a></li>
 <li>Go to the GOVUK Production project under the DIGITAL.CABINET-OFFICE.GOV.UK organisation</li>
 <li>Select Storage -&gt; Browser, manually delete the asset in the govuk-production-mirror bucket</li>
-</ol></li>
+</ul></li>
 </ol>
 
 

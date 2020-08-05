@@ -210,8 +210,7 @@ of event it is; you do not need to determine the type of event yourself.</p>
 instructed to do so either by the GOV.UK on-call escalations contact or the
 Head of GOV.UK.</p>
 <p>Contact numbers for those people are in the <a href="https://docs.google.com/document/d/17XUuPaZ5FufyXH00S9qukl6Kf3JbJtAqwHR3eOBVBpI/edit">legacy Ops manual</a>.</p>
-<h2 id='adding-emergency-publishing-banners'>Adding emergency publishing banners</h2><p><a name="prerequisites"></a></p>
-<h3 id='1-get-the-content-you-will-need'>1. Get the content you will need</h3><p>The GOV.UK on-call escalations contact will supply you with:</p>
+<h2 id='adding-emergency-publishing-banners'>Adding emergency publishing banners</h2><h3 id='1-get-the-content-you-will-need'>1. Get the content you will need</h3><p>The GOV.UK on-call escalations contact will supply you with:</p>
 
 <ul>
 <li>The emergency banner type or campaign class (one of <code>notable-death</code>,
@@ -224,16 +223,13 @@ Head of GOV.UK.</p>
 <h3 id='2-deploy-the-banner-using-jenkins'>2. Deploy the banner using Jenkins</h3><p>The data for the emergency banner is stored in Redis. Jenkins is used to set the variables.</p>
 
 <ol>
-<li>Go to the Jenkins task:</li>
-</ol>
+<li><p>Go to the Jenkins task:</p>
 
 <ul>
 <li><a href="https://deploy.integration.publishing.service.gov.uk/job/deploy-emergency-banner/">Deploy the emergency banner on Integration</a></li>
 <li><a href="https://deploy.blue.staging.govuk.digital/job/deploy-emergency-banner/">Deploy the emergency banner on Staging</a></li>
 <li><a href="https://deploy.blue.production.govuk.digital/job/deploy-emergency-banner/">⚠️ Deploy the emergency banner on Production ⚠️</a></li>
-</ul>
-
-<ol>
+</ul></li>
 <li><p>Fill in the appropriate variables using the form presented by Jenkins</p></li>
 <li><p>Click <code>Build</code>.</p></li>
 </ol>
@@ -243,7 +239,6 @@ Head of GOV.UK.</p>
 <p><strong>Note</strong></p>
 <p>The Jenkins job will also clear all caches. The main page updates immediately, however whitehall and travel advice can take a couple of minutes before the banner appears.</p>
 </blockquote>
-<p><a name="test-with-cache-bust"></a></p>
 <h3 id='3-test-with-cache-bust-strings'>3. Test with cache bust strings</h3><p>Test the changes by visiting pages and adding a cache-bust string. Remember to change the URL based on the environment you are testing in (integration, staging, production).</p>
 <p>For each page:</p>
 
@@ -358,7 +353,7 @@ following information:</p>
 <li>Type: Death</li>
 <li>Heading: Alas poor Yorick</li>
 <li>Short description: I knew him Horatio</li>
-<li>URL: https://www.gov.uk</li>
+<li>URL: <a href="https://www.gov.uk">https://www.gov.uk</a></li>
 <li>Link text: Click for more information</li>
 </ul>
 <p>You would enter the following command:</p>

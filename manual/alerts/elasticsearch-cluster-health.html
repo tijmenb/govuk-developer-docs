@@ -205,7 +205,7 @@ and go from there.</p>
 </span></code></pre></div><p>A tunnel to Elasticsearch in a specific environment (e.g staging) can be created
 using the following:</p>
 <div class="highlight"><pre class="highlight plaintext"><code>ssh -At jumpbox.staging.govuk.digital -L 9200:localhost:9200 "ssh -q \`govuk_node_list --single-node -c search\` -L 9200:elasticsearch6.blue.staging.govuk-internal.digital:80"
-</code></pre></div><p>Elasticsearch will then be available at http://localhost:9200.</p>
+</code></pre></div><p>Elasticsearch will then be available at <a href="http://localhost:9200">http://localhost:9200</a>.</p>
 <h4 id='logging'>Logging</h4><p>Access to logs is detailed in the <a href="/manual/logging.html#elasticsearch">logging documentation</a>.</p>
 <h3 id='fixing-issues-with-the-cluster'>Fixing issues with the cluster</h3><p>GOV.UK have a Enterprise level support plan with AWS for staging and
 production. Since we are using a managed service, AWS should be the first point

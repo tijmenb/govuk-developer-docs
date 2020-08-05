@@ -184,7 +184,7 @@ sudo -i aptly publish switch stable govuk-jenkins govuk-jenkins-$(date +%Y%m%d)
 <h3 id='manual-test-upgrade'>Manual test upgrade</h3><p>You can manually test a new version before doing the steps outlined above to get
 it officially into Puppet.</p>
 <p>Find the latest version on the Jenkins site and set appropriately below:
-https://jenkins.io/download/</p>
+<a href="https://jenkins.io/download/">https://jenkins.io/download/</a></p>
 <div class="highlight"><pre class="highlight plaintext"><code>export VERSION='2.46.2'
 wget http://updates.jenkins-ci.org/download/war/$VERSION/jenkins.war
 sudo cp /usr/share/jenkins/jenkins.war /usr/share/jenkins/jenkins.war-$(date +%F)

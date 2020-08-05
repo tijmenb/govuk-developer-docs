@@ -177,7 +177,7 @@ Then become the PostgreSQL user (it shouldn&rsquo;t need a password):</p>
 </code></pre></div><h2 id='import-the-backup-to-overwrite-your-postgresql-database'>Import the backup to overwrite your PostgreSQL database</h2><p>SSH into the machine, and then move the backup away from <code>/tmp</code>:</p>
 <div class="highlight"><pre class="highlight shell"><code><span class="nb">sudo mv</span> /tmp/name_of_database.bak /var/lib/postgresql/
 </code></pre></div><p>Pass ownership over to the PostgreSQL user:</p>
-<div class="highlight"><pre class="highlight shell"><code><span class="nb">sudo chown </span>postgres:postgres /var/lib/postgresql/name_of_database.bak 
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">sudo chown </span>postgres:postgres /var/lib/postgresql/name_of_database.bak
 </code></pre></div><p>Stop any services that are relying on the database, e.g.:</p>
 <div class="highlight"><pre class="highlight shell"><code><span class="nb">sudo </span>service mapit stop
 </code></pre></div><p>Assume the PostgreSQL user role:</p>
@@ -199,7 +199,7 @@ Then become the PostgreSQL user (it shouldn&rsquo;t need a password):</p>
 </code></pre></div><p>Restart whatever services you stopped, e.g.:</p>
 <div class="highlight"><pre class="highlight shell"><code><span class="nb">sudo </span>service mapit start
 </code></pre></div><p>Tidy up after yourself:</p>
-<div class="highlight"><pre class="highlight shell"><code><span class="nb">sudo rm</span> /var/lib/postgresql/name_of_database.bak 
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">sudo rm</span> /var/lib/postgresql/name_of_database.bak
 </code></pre></div>
 
   <div class='related-content'>

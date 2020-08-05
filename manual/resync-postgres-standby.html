@@ -167,44 +167,48 @@ there are 2 methods:</p>
 <h2 id='resync-methods'>Resync methods</h2><h3 id='restore-from-wal-e-backups-stored-in-s3'>Restore from WAL-E Backups stored in S3</h3><p>Follow the following steps on the Postgresql standby machine:</p>
 
 <ol>
-<li><p>Disable puppet by running:
-<code>
-govuk_puppet --disable &quot;resyncing postgresql from wal-e S3 backups&quot;
-</code></p></li>
-<li><p>Follow the steps in this <a href="/manual/postgresql-backups.html#wal-e-failing-with-errors-about-gpg">doc</a> to remove the password from the GPG key so that the WAL-E restoration process
-can automatically decrypt the backups from S3.</p></li>
+<li>Disable puppet by running:</li>
+</ol>
+<div class="highlight"><pre class="highlight plaintext"><code>   govuk_puppet --disable "resyncing postgresql from wal-e S3 backups"
+</code></pre></div>
+<ol>
+<li>Follow the steps in this <a href="/manual/postgresql-backups.html#wal-e-failing-with-errors-about-gpg">doc</a>
+to remove the password from the GPG key so that the WAL-E restoration process
+can automatically decrypt the backups from S3.</li>
 </ol>
 <p>The passphrase is in the pass store of the GOV.UK secrets under:
    <code>postgresql-backups/&lt;environment&gt;/postgresql-primary</code>
    where <code>&lt;environment&gt;</code> is the GOV.UK environment where you are doing the restoration.</p>
 
 <ol>
-<li><p>Edit the file <code>/var/lib/postgresql/9.3/main/recovery.conf</code> by appending the
-following line:
-<code>
-restore_command = &#39;envdir /etc/wal-e/env.d /usr/local/bin/wal-e wal-fetch %f %p&#39;
-</code></p></li>
-<li><p>Restart Postgresql service by running:
-<code>
-sudo /etc/init.d/postgresql restart
-</code></p></li>
-<li><p>Tail the log to see if the process of restoration is working and when
-it has finished. Run:
-<code>
-tail -f /var/log/postgresql/postgresql-9.3-main.log
-</code></p></li>
-<li><p>After the restoration has finished, remove the appended line from <code>/var/lib/postgresql/9.3/main/recovery.conf</code> and restart Postgresql:
-<code>
-sudo /etc/init.d/postgresql restart
-</code></p></li>
+<li>Edit the file <code>/var/lib/postgresql/9.3/main/recovery.conf</code> by appending the
+following line:</li>
+</ol>
+<div class="highlight"><pre class="highlight plaintext"><code>   restore_command = 'envdir /etc/wal-e/env.d /usr/local/bin/wal-e wal-fetch %f %p'
+</code></pre></div>
+<ol>
+<li>Restart Postgresql service by running:</li>
+</ol>
+<div class="highlight"><pre class="highlight plaintext"><code>   sudo /etc/init.d/postgresql restart
+</code></pre></div>
+<ol>
+<li>Tail the log to see if the process of restoration is working and when
+it has finished. Run:</li>
+</ol>
+<div class="highlight"><pre class="highlight plaintext"><code>   tail -f /var/log/postgresql/postgresql-9.3-main.log
+</code></pre></div>
+<ol>
+<li>After the restoration has finished, remove the appended line from <code>/var/lib/postgresql/9.3/main/recovery.conf</code> and restart Postgresql:</li>
+</ol>
+<div class="highlight"><pre class="highlight plaintext"><code>   sudo /etc/init.d/postgresql restart
+</code></pre></div>
+<ol>
 <li><p><strong>Re-protect the GPG key</strong>. Reset the passphrase from a blank value to use the original GPG passphrase by following the steps in this <a href="/manual/postgresql-backups.html#wal-e-failing-with-errors-about-gpg">doc</a>.</p></li>
 <li><p>You can restart <code>collectd</code> by following the steps in the <a href="#restarting-collectd">Restarting collectd section</a>.</p></li>
-<li><p>Re-enable puppet:
-<code>
-govuk_puppet --enable
-</code></p></li>
+<li><p>Re-enable puppet:</p></li>
 </ol>
-<h3 id='using-the-command-pg_resync_slave'>Using the command pg_resync_slave</h3><p>To resync a standby from a primary run this on the affected standby:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>   govuk_puppet --enable
+</code></pre></div><h3 id='using-the-command-pg_resync_slave'>Using the command pg_resync_slave</h3><p>To resync a standby from a primary run this on the affected standby:</p>
 <div class="highlight"><pre class="highlight plaintext"><code>sudo pg_resync_slave
 </code></pre></div><p>It will ask you for a password. You can find this in the password store under <code>govuk::node::s_postgresql_primary::standby_password</code>.</p>
 <p>You will see something like this:</p>

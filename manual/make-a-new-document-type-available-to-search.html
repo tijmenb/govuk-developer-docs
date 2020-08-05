@@ -185,15 +185,18 @@ Modify this if there is anything special you want search to do with your
 documents (for example: appending additional information to the title).</p>
 <h3 id='2-add-the-document-type-to-migrated_formats-yaml'>2. Add the document type to migrated_formats.yaml</h3><p>Add the document_type name to the <a href="https://github.com/alphagov/search-api/blob/master/config/govuk_index/migrated_formats.yaml"><code>migrated</code> list</a> in Search
 API.</p>
-<h3 id='3-reindex'>3. Reindex</h3><p><strong>If your new document uses an existing schema this is not necessary</strong></p>
+<h3 id='3-reindex'>3. Reindex</h3><p>If your new document uses an existing schema, <strong>this is not necessary</strong>.</p>
 <p>Reindex the <code>govuk</code> index following the instructions in
 <a href="/manual/reindex-elasticsearch.html">Reindex an Elasticsearch index</a>.</p>
 <h3 id='4-republish-all-the-documents'>4. Republish all the documents</h3><p>Republish all the documents. If they have been published already, you can
 republish them with the <a href="https://github.com/alphagov/publishing-api/blob/master/lib/tasks/represent_downstream.rake">Publishing API represent_downstream</a> rake task:</p>
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>rake represent_downstream:document_type[new_document_type]
-</code></pre></div><p>You can test that the documents appear in search through the API using a query such as:
-- <a href="https://www.gov.uk/api/search.json?count=0&amp;filter_content_store_document_type=guide">https://www.gov.uk/api/search.json?count=0&amp;filter_content_store_document_type=guide</a>
-- <a href="https://www-origin.integration.publishing.service.gov.uk/api/search.json?count=0&amp;filter_content_store_document_type=guide">https://www-origin.integration.publishing.service.gov.uk/api/search.json?count=0&amp;filter_content_store_document_type=guide</a></p>
+</code></pre></div><p>You can test that the documents appear in search through the API using a query such as:</p>
+
+<ul>
+<li><a href="https://www.gov.uk/api/search.json?count=0&amp;filter_content_store_document_type=guide">https://www.gov.uk/api/search.json?count=0&amp;filter_content_store_document_type=guide</a></li>
+<li><a href="https://www-origin.integration.publishing.service.gov.uk/api/search.json?count=0&amp;filter_content_store_document_type=guide">https://www-origin.integration.publishing.service.gov.uk/api/search.json?count=0&amp;filter_content_store_document_type=guide</a></li>
+</ul>
 
 
   <div class='related-content'>

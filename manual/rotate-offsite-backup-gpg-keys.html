@@ -162,7 +162,7 @@ access/unencrypted previous diffs.</p>
 <li>Ensure you make a copy of the password you use.</li>
 <li>Get the key ID you just generated with <code>gpg2 --list-keys --fingerprint</code>, and make a copy of the full fingerprint ID.</li>
 <li>Export <em>secret</em> key: Copy the output of <code>gpg2 --export-secret-key --armor &lt;key id&gt;</code></li>
-<li>Export <em>public</em> key: Copy the output of <code>gpg2 --export --armor &lt;key id&gt;</code> to a public key server, for instance https://pgp.mit.edu/</li>
+<li>Export <em>public</em> key: Copy the output of <code>gpg2 --export --armor &lt;key id&gt;</code> to a public key server, for instance <a href="https://pgp.mit.edu/">https://pgp.mit.edu/</a></li>
 </ol>
 
 <blockquote>
@@ -172,11 +172,11 @@ access/unencrypted previous diffs.</p>
 <h2 id='what-do-i-need-to-update'>What do I need to update?</h2><p>The following files need to be updated with the new key details:</p>
 
 <ul>
-<li><p>Update the <a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata/production.yaml">govuk-puppet hieradata</a>,
-updating the <code>_: &amp;offsite_gpg_key</code> key with the new fingerprint value.</p></li>
-<li><p>Update the <a href="https://github.com/alphagov/govuk-secrets/blob/master/puppet/hieradata/production_credentials.yaml">encrypted govuk-secrets repo hieradata</a>,
+<li>Update the <a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata/production.yaml">govuk-puppet hieradata</a>,
+updating the <code>_: &amp;offsite_gpg_key</code> key with the new fingerprint value.</li>
+<li>Update the <a href="https://github.com/alphagov/govuk-secrets/blob/master/puppet/hieradata/production_credentials.yaml">encrypted govuk-secrets repo hieradata</a>,
 updating both <code>backup::assets::backup_private_gpg_key</code> and <code>backup::assets::backup_private_gpg_key_passphrase</code> with
-the relevant values.</p></li>
+the relevant values.</li>
 </ul>
 
 

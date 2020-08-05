@@ -190,10 +190,10 @@ doesn&rsquo;t conflict with any existing records, then you can use
 <p>The following arguments are necessary:</p>
 
 <ul>
-<li>  <code>-h</code>: Hostname of the current <code>PRIMARY</code> node, from <code>rs.status()</code>.</li>
-<li>  <code>-d</code>: Name of the database, from the BSON filename.</li>
-<li>  <code>-c</code>: Name of the collection, from the BSON filename.</li>
-<li>  <code>--objcheck</code>: Validate BSON. Not the default in MongoDB 2.2</li>
+<li><code>-h</code>: Hostname of the current <code>PRIMARY</code> node, from <code>rs.status()</code>.</li>
+<li><code>-d</code>: Name of the database, from the BSON filename.</li>
+<li><code>-c</code>: Name of the collection, from the BSON filename.</li>
+<li><code>--objcheck</code>: Validate BSON. Not the default in MongoDB 2.2</li>
 </ul>
 <p>For example:</p>
 <div class="highlight"><pre class="highlight plaintext"><code>dcarley@production-licensing-mongo-1:/var/lib/mongodb/rollback$ mongorestore -h licensing-mongo-2 -d licensify-audit -c audit --objcheck licensify-audit.audit.2013-05-30T12-45-42.1.bson
