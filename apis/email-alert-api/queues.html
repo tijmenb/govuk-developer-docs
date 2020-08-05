@@ -217,8 +217,8 @@
 <p>Used to send digest emails to users who have requested either daily or weekly updates to content.</p>
 <h2 id="email_generation_digest"><code>email_generation_digest</code></h2>
 <p>Used to generate the emails for each content change to users who have requested daily or weekly updates to content. The jobs on this queue are scheduled to run every day at 8:30am for daily updates and every Saturday at 8:30am for weekly updates.</p>
-<h2 id="cleanup"><code>cleanup</code></h2>
-<p>Used to perform various operations related to monitoring or tidying up the database. There are jobs which <a href="analytics.md">archives emails to Athena</a> and others which calculates the number of unprocessed content changes or subscription contents and sends that data to Statsd for monitoring.</p>
+<h2 id="default"><code>default</code></h2>
+<p>Default queue for Sidekiq which we use to perform various miscellaneous operations. This currently includes initiating digest runs (daily and weekly) and then marking them as complete, monitoring and tidying up the database and recovering lost Sidekiq jobs.</p>
 
 
             

@@ -269,6 +269,17 @@ you can safely <a href="#6-remove-the-old-key">remove the key</a>.</p>
 <code>govuk_puppet --verbose</code> in the machine that uses that key.</li>
 </ul></li>
 </ul>
+<h4 id='rotating-ses-smtp-credentials'>Rotating SES SMTP credentials</h4><p>The SMTP credentials for SES are connected to a user in IAM, but they are
+separate to the security credentials. As of August 2020, to rotate SMTP
+credentials, the user needs to be re-created and the new credentials will
+be displayed. They cannot be rotated after that point.</p>
+<p>When creating the new user, it&rsquo;s sensible to append the current date
+(such as <code>.YYYYMMDD</code>) to the username so it&rsquo;s easy to see when the user
+was created and the username won&rsquo;t conflict with the existing user. This
+allows both credentials to be available at the same time while switching over.
+The old user can be deleted once the app is using the new credentials.</p>
+<p>See <a href="https://github.com/alphagov/govuk-secrets/pull/1032">this PR</a> for an example and the relevant <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/smtp-credentials.html">AWS documentation
+on obtaining SES credentials</a>.</p>
 <h3 id='5-ensure-new-key-is-being-used'>5. Ensure new key is being used</h3><p>Ensure that the <code>Last used</code> values change to show that the new key is being
 used and the old key is not used. Keys that are used infrequently may take a
 while to update and updates can take a few minutes to show in the control panel.</p>
