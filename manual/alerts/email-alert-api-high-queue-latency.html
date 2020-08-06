@@ -158,12 +158,27 @@
       </a>
     </div>
 
-   <h1 id='header'>Email Alert API: high latency for sidekiq queue</h1><h3 id='high-queue-latency-queue_latency'>High queue latency (queue_latency)</h3><p>This means the time it takes for a job to be processed is unusually high. This
-may indicate a problem down the line which is preventing workers from being
-processed. It may also imply the threshold is too low if a large number of
-emails have being sent out due to a content change.</p>
-<p>See the <a href="/manual/sidekiq.html">sidekiq</a> section for more information about the Sidekiq queues,
-or read <a href="/manual/email-troubleshooting.html">email troubleshooting</a>.</p>
+   <h1 id='header'>Email Alert API: high latency for sidekiq queue</h1><h3 id='high-queue-latency-queue_latency'>High queue latency (queue_latency)</h3><p>This means the time it takes for a job to be processed is unusually high. See
+the Sidekiq <a href="https://grafana.blue.production.govuk.digital/dashboard/file/sidekiq.json?refresh=1m&amp;orgId=1&amp;var-Application=email-alert-api&amp;var-Queues=All&amp;from=now-3h&amp;to=now">&lsquo;Queue Latency&rsquo;</a> graph for more detail.</p>
+<p>For more information on the individual queues and what they do, see
+<a href="https://docs.publishing.service.gov.uk/apis/email-alert-api/queues.html">here</a>.</p>
+<p>Some diagnostic steps you could take are below:</p>
+
+<ul>
+<li>Check the Sidekiq <a href="https://grafana.blue.production.govuk.digital/dashboard/file/sidekiq.json?refresh=1m&amp;orgId=1&amp;var-Application=email-alert-api&amp;var-Queues=All&amp;from=now-3h&amp;to=now">&lsquo;Queue Length&rsquo;</a> graph to see if we have a
+high number of emails queued up.</li>
+<li>If there is a high amount of emails in the queue, are we processing them at a
+normal speed? Under high load we regularly send requests to Notify at a rate
+of ~300 email requests per second. To check this, look at the <a href="https://grafana.blue.production.govuk.digital/dashboard/file/email_alert_api_technical.json">&lsquo;Email Send
+Attempts&rsquo;</a> graph.</li>
+<li>If we&rsquo;re sending email requests slower than usual, refer to the <a href="https://grafana.blue.production.govuk.digital/dashboard/file/machine.json?refresh=1m&amp;orgId=1&amp;var-hostname=email_alert_api*&amp;var-cpmetrics=cpu-system&amp;var-cpmetrics=cpu-user&amp;var-filesystem=All&amp;var-disk=All&amp;var-tcpconnslocal=All&amp;var-tcpconnsremote=All">Email Alert
+API machine metrics dashboard</a> or the <a href="https://grafana.production.govuk.digital/dashboard/file/aws-rds.json?orgId=1&amp;var-region=eu-west-1&amp;var-dbinstanceidentifier=blue-postgresql-primary&amp;from=now-3h&amp;to=now">AWS RDS postgres
+dashboard</a> to see if we&rsquo;re experiencing resourcing issues.</li>
+<li>Are the workers reporting any problems or any issues being raised in
+<a href="https://sentry.io/organizations/govuk/issues/?project=202220&amp;statsPeriod=12h">Sentry</a>?</li>
+<li>Check <a href="https://kibana.logit.io/s/2dd89c13-a0ed-4743-9440-825e2e52329e/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-1h,mode:quick,to:now))&amp;_a=(columns:!('@message',host),index:'*-*',interval:auto,query:(query_string:(query:'@type:%20sidekiq%20AND%20application:%20email-alert-api')),sort:!('@timestamp',desc))">Kibana</a> to see our Sidekiq logs for Email Alert API.</li>
+</ul>
+<p>See <a href="https://docs.publishing.service.gov.uk/manual/sidekiq.html">here</a> for more information about Sidekiq.</p>
 
 
   <div class='related-content'>
@@ -190,17 +205,17 @@ or read <a href="/manual/email-troubleshooting.html">email troubleshooting</a>.<
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2021-01-21">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-02-05">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 21 July 2020.
+      This page was last reviewed on 5 August 2020.
 
-        It needs to be reviewed again on 21 January 2021
+        It needs to be reviewed again on 5 February 2021
         by the page owner <a href="">#govuk-2ndline</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 21 January 2021
+      This page was set to be reviewed before 5 February 2021
        by the page owner <a href="">#govuk-2ndline</a>.
       This might mean the content is out of date.
     </div>
