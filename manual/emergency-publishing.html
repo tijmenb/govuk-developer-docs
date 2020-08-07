@@ -230,7 +230,8 @@ Head of GOV.UK.</p>
 <li><a href="https://deploy.blue.staging.govuk.digital/job/deploy-emergency-banner/">Deploy the emergency banner on Staging</a></li>
 <li><a href="https://deploy.blue.production.govuk.digital/job/deploy-emergency-banner/">⚠️ Deploy the emergency banner on Production ⚠️</a></li>
 </ul></li>
-<li><p>Fill in the appropriate variables using the form presented by Jenkins</p></li>
+<li><p>Click <code>Build with Parameters</code>.</p></li>
+<li><p>Fill in the appropriate variables using the form presented by Jenkins.</p></li>
 <li><p>Click <code>Build</code>.</p></li>
 </ol>
 <p><a href="images/emergency_publishing/deploy_emergency_banner_job.png" target="_blank" rel="noopener noreferrer"><img src="/manual/images/emergency_publishing/deploy_emergency_banner_job.png" alt="Jenkins Deploy Emergency Banner" /></a></p>
@@ -270,17 +271,14 @@ Head of GOV.UK.</p>
 <hr>
 <h2 id='removing-emergency-publishing-banners'>Removing emergency publishing banners</h2><h3 id='remove-the-banner-using-jenkins'>Remove the banner using Jenkins</h3>
 <ol>
-<li>Navigate to the appropriate deploy Jenkins environment (integration, staging or production):</li>
-</ol>
+<li><p>Navigate to the appropriate deploy Jenkins environment (integration, staging or production):</p>
 
 <ul>
 <li><a href="https://deploy.integration.publishing.service.gov.uk/job/remove-emergency-banner/">Remove the emergency banner from Integration</a></li>
 <li><a href="https://deploy.blue.staging.govuk.digital/job/remove-emergency-banner/">Remove the emergency banner from Staging</a></li>
 <li><a href="https://deploy.blue.production.govuk.digital/job/remove-emergency-banner/">⚠️ Remove the emergency banner from Production ⚠️</a></li>
-</ul>
-
-<ol>
-<li>Click <code>Build now</code> in the left hand menu.</li>
+</ul></li>
+<li><p>Click <code>Build now</code> in the left hand menu.</p></li>
 </ol>
 <p><a href="images/emergency_publishing/remove_emergency_banner_job.png" target="_blank" rel="noopener noreferrer"><img src="/manual/images/emergency_publishing/remove_emergency_banner_job.png" alt="Jenkins Remove Emergency Banner" /></a></p>
 <p>Caches will clear automatically.</p>
@@ -304,20 +302,15 @@ we need to tweak the scripts to clear new caches that have been set up.</li>
 <h3 id='manually-testing-the-redis-key'>Manually testing the Redis key</h3><p>You can manually check whether the data has been stored in Redis by the Jenkins job on one of the frontend machines.</p>
 
 <ol>
-<li>From your development machine, SSH into a frontend machine appropriate to the environment you want to check.</li>
+<li>Load a Rails console for the static application on the frontend machine in the relevant environment.</li>
 </ol>
-<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>ssh <span class="si">$(</span>ssh staging-aws <span class="s2">"govuk_node_list --single-node -c frontend"</span><span class="si">)</span>.staging-aws
-</code></pre></div>
-<ol>
-<li>Load a Rails console for static:</li>
-</ol>
-<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>govuk_app_console static
+<div class="highlight"><pre class="highlight shell"><code>   <span class="nv">$ </span>gds govuk connect <span class="nt">-e</span> staging app-console frontend/static
 </code></pre></div>
 <ol>
 <li>Check the Redis key exists:</li>
 </ol>
-<div class="highlight"><pre class="highlight ruby"><code><span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mo">001</span><span class="p">:</span><span class="mi">0</span><span class="o">&gt;</span> <span class="no">Redis</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">hgetall</span><span class="p">(</span><span class="s2">"emergency_banner"</span><span class="p">)</span>
-<span class="c1">#&gt; {}</span>
+<div class="highlight"><pre class="highlight ruby"><code>   <span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mo">001</span><span class="p">:</span><span class="mi">0</span><span class="o">&gt;</span> <span class="no">Redis</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">hgetall</span><span class="p">(</span><span class="s2">"emergency_banner"</span><span class="p">)</span>
+   <span class="c1">#&gt; {}</span>
 </code></pre></div><p>In the above example, the key has not been set. A successfully set key would return a result similar to the following:</p>
 <div class="highlight"><pre class="highlight ruby"><code><span class="n">irb</span><span class="p">(</span><span class="n">main</span><span class="p">):</span><span class="mo">001</span><span class="p">:</span><span class="mi">0</span><span class="o">&gt;</span> <span class="no">Redis</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">hgetall</span><span class="p">(</span><span class="s2">"emergency_banner"</span><span class="p">)</span>
 <span class="o">=&gt;</span> <span class="p">{</span><span class="s2">"campaign_class"</span><span class="o">=&gt;</span><span class="s2">"notable-death"</span><span class="p">,</span> <span class="s2">"heading"</span><span class="o">=&gt;</span><span class="s2">"The heading"</span><span class="p">,</span> <span class="s2">"short_description"</span><span class="o">=&gt;</span><span class="s2">"The short description"</span><span class="p">,</span> <span class="s2">"link"</span><span class="o">=&gt;</span><span class="s2">"https://www.gov.uk"</span><span class="p">,</span> <span class="s2">"link_text"</span><span class="o">=&gt;</span><span class="s2">"More information about the emergency"</span><span class="p">}</span>
@@ -327,18 +320,18 @@ we need to tweak the scripts to clear new caches that have been set up.</li>
 <li>SSH into a <code>frontend</code> machine appropriate to the environment you are
 deploying the banner on. For example:</li>
 </ol>
-<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>ssh <span class="si">$(</span>ssh staging-aws <span class="s2">"govuk_node_list --single-node -c frontend"</span><span class="si">)</span>.staging-aws
+<div class="highlight"><pre class="highlight shell"><code>   <span class="nv">$ </span>gds govuk connect <span class="nt">-e</span> staging ssh frontend
 </code></pre></div>
 <ol>
 <li>Change into the directory for <code>static</code>:</li>
 </ol>
-<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">cd</span> /var/apps/static
+<div class="highlight"><pre class="highlight shell"><code>   <span class="nv">$ </span><span class="nb">cd</span> /var/apps/static
 </code></pre></div>
 <ol>
 <li>Run the rake task to create the emergency banner hash in Redis, substituting
 the quoted data for the parameters:</li>
 </ol>
-<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">sudo</span> <span class="nt">-u</span> deploy govuk_setenv static bundle <span class="nb">exec </span>rake emergency_banner:deploy[campaign_class,heading,short_description,link,link_text]
+<div class="highlight"><pre class="highlight shell"><code>   <span class="nv">$ </span><span class="nb">sudo</span> <span class="nt">-u</span> deploy govuk_setenv static bundle <span class="nb">exec </span>rake emergency_banner:deploy[campaign_class,heading,short_description,link,link_text]
 </code></pre></div><p>The <code>campaign_class</code> is directly injected into the HTML as a <code>class</code> and must be one of</p>
 
 <ul>
@@ -365,22 +358,22 @@ following information:</p>
 <ol>
 <li>SSH into a frontend machine:</li>
 </ol>
-<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>ssh <span class="si">$(</span>ssh staging-aws <span class="s2">"govuk_node_list --single-node -c frontend"</span><span class="si">)</span>.staging-aws
+<div class="highlight"><pre class="highlight shell"><code>   <span class="nv">$ </span>gds govuk connect <span class="nt">-e</span> staging ssh frontend
 </code></pre></div>
 <ol>
 <li>Change into the directory for <code>static</code>:</li>
 </ol>
-<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">cd</span> /var/apps/static
+<div class="highlight"><pre class="highlight shell"><code>   <span class="nv">$ </span><span class="nb">cd</span> /var/apps/static
 </code></pre></div>
 <ol>
 <li>Run the rake task to remove the emergency banner hash from Redis:</li>
 </ol>
-<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">sudo</span> <span class="nt">-u</span> deploy govuk_setenv static bundle <span class="nb">exec </span>rake emergency_banner:remove
+<div class="highlight"><pre class="highlight shell"><code>   <span class="nv">$ </span><span class="nb">sudo</span> <span class="nt">-u</span> deploy govuk_setenv static bundle <span class="nb">exec </span>rake emergency_banner:remove
 </code></pre></div>
 <ol>
 <li>Quit your SSH session</li>
 </ol>
-<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">exit</span>
+<div class="highlight"><pre class="highlight shell"><code>   <span class="nv">$ </span><span class="nb">exit</span>
 </code></pre></div>
 <hr>
 <h2 id='types-of-emergency-banners'>Types of emergency banners</h2><h3 id='death-of-a-notable-person'>Death of a notable person</h3><p>A large <strong>black</strong> banner is displayed on all GOV.UK pages, including the homepage.</p>
@@ -448,17 +441,17 @@ deceased and the years of their life, for example &lsquo;His Royal Highness Henr
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-10-20">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-02-07">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 20 April 2020.
+      This page was last reviewed on 7 August 2020.
 
-        It needs to be reviewed again on 20 October 2020
+        It needs to be reviewed again on 7 February 2021
         by the page owner <a href="">#govuk-2ndline</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 20 October 2020
+      This page was set to be reviewed before 7 February 2021
        by the page owner <a href="">#govuk-2ndline</a>.
       This might mean the content is out of date.
     </div>
