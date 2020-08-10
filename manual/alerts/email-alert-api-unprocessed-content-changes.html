@@ -158,26 +158,35 @@
       </a>
     </div>
 
-   <h1 id='header'>Email Alert API: Unprocessed content changes</h1><p>This alert is triggered when content changes are not processed within the time we would expect.</p>
+   <h1 id='header'>Email Alert API: Unprocessed content changes</h1><p>This alert indicates that Email Alert API has <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/process_content_change_worker.rb">content changes that were not
+processed</a> within 2 hours. Processing a content change
+is the means to establish which subscriber lists should be notified when GOV.UK
+content changes and the process to generate individual emails for the change in
+content.</p>
+<p>We generally expect a content change to be have processed within 30 minutes of
+it&rsquo;s creation. At 30 minute intervals a job, <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/recover_lost_jobs_worker.rb">RecoverLostJobsWorker</a>, will try
+to requeue any content changes that have not been processed within an hour.</p>
+<p>Thus, seeing this alert indicates that we likely have a problem that needs
+manual intervention. Potential causes would be:</p>
 
 <ul>
-<li><code>warning</code> - <code>content_changes</code> unprocessed for over 90 minutes</li>
-<li><code>critical</code> - <code>content_changes</code> unprocessed for over 120 minutes</li>
+<li><p><a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/process_content_change_worker.rb">ProcessContentChangeWorker</a> is failing to process content changes due to
+some error</p></li>
+<li><p>Sidekiq not running or not operating correctly</p></li>
+<li><p>Content changes taking an abormally long time to process, which may indicate
+degraded system performance or an unexpectedly large task as part of
+processing. This scenario may resolve automatically.</p></li>
 </ul>
-<p>Every 30 minutes, <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/recover_lost_jobs_worker.rb">RecoverLostJobsWorker</a> automatically requeues jobs for any
-unprocessed content changes and messages that are over 1-hour old.</p>
-<p>If you see this alert it is likely that something has broken in Email Alert API
-that is either blocking one or all recovery attempts.</p>
-<p>To diagnose this problem, consult <a href="https://sentry.io/organizations/govuk/issues/?project=202220">Sentry</a>
-to see if there are errors reported.</p>
-<p>If you find nothing conclusive in Sentry, go to <a href="https://docs.publishing.service.gov.uk/manual/logging.html#kibana">Email Alert API sidekiq logs</a> and check the jobs are running correctly.</p>
-<p>If the problem persists, run the <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/recover_lost_jobs_worker.rb">RecoverLostJobsWorker</a> and/or <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/process_content_change_worker.rb">ProcessContentChangeWorker</a> <a href="https://stackoverflow.com/a/48543738">directly</a>
-to see if any problems occur.</p>
+<p>To diagnose this problem, consult <a href="https://sentry.io/organizations/govuk/issues/?project=202220&amp;statsPeriod=6h">Sentry</a> to see if there are errors reported.</p>
+<p>If you find nothing conclusive in Sentry, go to the <a href="https://kibana.logit.io/s/2dd89c13-a0ed-4743-9440-825e2e52329e/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-1h,mode:quick,to:now))&amp;_a=(columns:!('@message',host),index:'*-*',interval:auto,query:(query_string:(query:'@type:%20sidekiq%20AND%20application:%20email-alert-api%20AND%20@fields.worker:%20ProcessContentChangeWorker')),sort:!('@timestamp',desc))">ProcessContentChangeWorker
+sidekiq logs</a> and check the jobs are running correctly.</p>
+<p>If the problem persists, run the <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/recover_lost_jobs_worker.rb">RecoverLostJobsWorker</a> and/or
+<a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/process_content_change_worker.rb">ProcessContentChangeWorker</a> directly to see if any problems occur in real-time.</p>
 <h3 id='still-stuck'>Still stuck?</h3>
 <ul>
-<li><a href="/manual/email-troubleshooting.html">General troubleshooting tips</a></li>
 <li><a href="/apis/email-alert-api/troubleshooting.html">Email Alert API troubleshooting</a> for more information</li>
-<li><a href="https://grafana.production.govuk.digital/dashboard/file/email_alert_api.json?refresh=10s&amp;orgId=1">Email Alert API Metrics dashboard</a> to check if emails are going out</li>
+<li><a href="https://grafana.production.govuk.digital/dashboard/file/sidekiq.json?refresh=1m&amp;orgId=1&amp;var-Application=email-alert-api&amp;var-Queues=All&amp;from=now-3h&amp;to=now">Email Alert API Sidekiq dashboard</a> to check if jobs are being processed</li>
+<li><a href="https://grafana.production.govuk.digital/dashboard/file/email_alert_api_technical.json?refresh=1m&amp;orgId=1">Email Alert API Technical dashboard</a> to check if emails are going out</li>
 </ul>
 
 
@@ -205,17 +214,17 @@ to see if any problems occur.</p>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2021-01-16">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-02-07">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 16 July 2020.
+      This page was last reviewed on 7 August 2020.
 
-        It needs to be reviewed again on 16 January 2021
+        It needs to be reviewed again on 7 February 2021
         by the page owner <a href="">#govuk-2ndline</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 16 January 2021
+      This page was set to be reviewed before 7 February 2021
        by the page owner <a href="">#govuk-2ndline</a>.
       This might mean the content is out of date.
     </div>
