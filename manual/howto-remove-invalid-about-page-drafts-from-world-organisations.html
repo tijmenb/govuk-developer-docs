@@ -8,23 +8,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-    <title>Updating content in the Brexit/Transition Checker - GOV.UK Developer Documentation</title>
+    <title>Remove invalid WorldwideOrganisation draft CorporateInformationPages - GOV.UK Developer Documentation</title>
 
     <link href="/stylesheets/manifest.css" rel="stylesheet" />
 
-    <link rel="canonical" href="https://docs.publishing.service.gov.uk/manual/updating-brexit-transition-checker.html">
+    <link rel="canonical" href="https://docs.publishing.service.gov.uk/manual/howto-remove-invalid-about-page-drafts-from-world-organisations.html">
 
 
       <meta property="og:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
       <meta property="og:site_name" content="GOV.UK Developer Documentation" />
-      <meta property="og:title" content="Updating content in the Brexit/Transition Checker" />
+      <meta property="og:title" content="Remove invalid WorldwideOrganisation draft CorporateInformationPages" />
       <meta property="og:type" content="object" />
-      <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/updating-brexit-transition-checker.html" />
+      <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/howto-remove-invalid-about-page-drafts-from-world-organisations.html" />
       <meta property="twitter:card" content="summary" />
       <meta property="twitter:domain" content="docs.publishing.service.gov.uk" />
       <meta property="twitter:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
-      <meta property="twitter:title" content="Updating content in the Brexit/Transition Checker - GOV.UK Developer Documentation" />
-      <meta property="twitter:url" content="https://docs.publishing.service.gov.uk/manual/updating-brexit-transition-checker.html" />
+      <meta property="twitter:title" content="Remove invalid WorldwideOrganisation draft CorporateInformationPages - GOV.UK Developer Documentation" />
+      <meta property="twitter:url" content="https://docs.publishing.service.gov.uk/manual/howto-remove-invalid-about-page-drafts-from-world-organisations.html" />
 
     
   </head>
@@ -129,23 +129,7 @@
                   <a href='/manual.html' class="toc__back-link govuk-link">&lsaquo; Manual</a>
   <ul>
   <li>
-    <a href="#header"><span>Updating content in the Brexit/Transition Checker</span></a>
-    <ul>
-      <li>
-        <a href="#updates-to-actions"><span>Updates to actions</span></a>
-      </li>
-      <li>
-        <a href="#adding-notifications"><span>Adding notifications</span></a>
-        <ul>
-          <li>
-            <a href="#notifying-a-subset-of-subscribers"><span>Notifying a subset of subscribers</span></a>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <a href="#if-the-csv-is-available-as-a-standalone-file"><span>If the CSV is available as a standalone file</span></a>
-      </li>
-    </ul>
+    <a href="#header"><span>Remove invalid WorldwideOrganisation draft CorporateInformationPages</span></a>
   </li>
 </ul>
 
@@ -157,100 +141,15 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#publishing'>Publishing</a></p> <h1 id='header'>Updating content in the Brexit/Transition Checker</h1><p>The Transition Checker is a question and answer tool which informs a user of actions to take related to the Transition period. It can be found at <a href="https://www.gov.uk/transition-check">https://www.gov.uk/transition-check</a>.</p>
-
-<p>Content editors request changes to the actions, questions, and criteria via Zendesk.</p>
-
-<h2 id="updates-to-actions">Updates to actions</h2>
-
-<p>Actions are defined in <a href="https://github.com/alphagov/finder-frontend/blob/master/lib/brexit_checker/actions.yaml">an <code>actions.yaml</code> file</a>, which is automatically populated from a Google Sheet. To add or change an action, you&rsquo;ll need to complete the following steps:</p>
-
-<ol>
-<li>
-<p>The content designer requesting the change should provide you with a link to the Google Sheet.</p>
-</li>
-<li>
-<p>Make sure you have finder-frontend checked out locally. Create a <code>.env</code> file in the root of the finder-frontend repo. Your file should look like this:</p>
-</li>
-</ol>
-
-<pre><code># EXAMPLE: for given sheet https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-# id="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms"
-GOOGLE_SHEET_ID="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms"
-</code></pre>
-
-<ol start="3">
-<li>
-<p>Enable the Google Drive API by generating a <code>credentials.json</code> file from the API and saving it in the root directory of the repo.  Instructions for this can be found <a href="https://developers.google.com/drive/api/v3/quickstart/ruby">here</a>.  You will not need to do this again when running the rake task in future as long as you have <code>credentials.json</code>.</p>
-</li>
-<li>
-<p>Run this rake task:</p>
-</li>
-</ol>
-
-<pre><code>bundle exec rake brexit_checker:convert_csv_to_yaml:actions_from_google_drive
-</code></pre>
-
-<ol start="5">
-<li>
-<p>Sometimes changes are made to the Google Sheet which are not ready to deploy yet. Double check the diff against the changes that have been requested. Only commit changes that have been requested.</p>
-</li>
-<li>
-<p>Run <code>bundle exec rspec spec/integration/brexit_checker_spec.rb</code> to validate the yaml locally, before raising a PR</p>
-</li>
-<li>
-<p>A heroku review app should be automatically generated when you raise the PR. Share this with the content designer requesting the change so they can review the changes before they are deployed.</p>
-</li>
-</ol>
-
-<p><strong>NOTE: Additions or changes to actions may require a <a href="#adding-notifications">notification</a>. Check with the person who requested the change.</strong></p>
-
-<h2 id="adding-notifications">Adding notifications</h2>
-
-<p>Additions or changes to actions may require a notification, which sends an email to alert subscribers to a change. Notifications should only be created for this purpose.</p>
-
-<p>Notifications are defined in the <a href="https://github.com/alphagov/finder-frontend/blob/master/lib/brexit_checker/notifications.yaml">notifications.yaml file</a>. You should check with the person who requested the change, to determine if a notification is appropriate.</p>
-
-<p>If a notification is needed, add the relevant details to the <a href="https://github.com/alphagov/finder-frontend/blob/master/lib/brexit_checker/notifications.yaml">notifications.yaml file</a>. You will need to generate a UUID for each notification. You can do this in an interactive Ruby shell (IRB):</p>
-
-<pre><code>&gt; irb
-&gt; require 'securerandom'
-&gt; SecureRandom.uuid
-</code></pre>
-
-<p>To send a notification, run the following rake task. The notification email will be sent to all subscribers who would see this action on their results page:</p>
-
-<p><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=finder-frontend&amp;MACHINE_CLASS=calculators_frontend&amp;RAKE_TASK=brexit_checker:change_notification%5BUUID%5D">https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=finder-frontend&amp;MACHINE_CLASS=calculators_frontend&amp;RAKE_TASK=brexit_checker:change_notification[UUID]</a></p>
-
-<h3 id="notifying-a-subset-of-subscribers">Notifying a subset of subscribers</h3>
-
-<p>Sometimes you will only want to notify a subset of subscribers. For example when content remains the same but the criteria for an action has changed.</p>
-
-<p>Notifications have an optional attribute <code>criteria</code>. The structure and format of this criteria is the same as criteria from an action, for example:</p>
-
-<pre lang="yaml"><code>uuid: "f37f8452-c81d-4cd6-82ce-6930a8a50b6d"
-type: addition
-action_id: S011
-date: 2019-10-07
-criteria:
-- all_of:
-  - nationality-uk
-  - any_of:
-    - living-ie
-    - living-eu
-  - visiting-eu
-</code></pre>
-
-<p>You can add criteria to a notification in <code>notifications.yaml</code>. If a record has criteria the rake file will <a href="https://github.com/alphagov/finder-frontend/blob/0979c94ec51ba38f8d574569ffd51ffea55f13a6/lib/tasks/brexit_checker/change_notifications.rake#L10">use these values</a> to notify subscribers. This will override the default of notifying users based on criteria from the action.</p>
-
-<h2 id="if-the-csv-is-available-as-a-standalone-file">If the CSV is available as a standalone file</h2>
-
-<p>In some cases you may be required to upload content changes from a Google Sheet that&rsquo;s separate from the main sheet. This is advised against as the main sheet should always be up to date.</p>
-
-<p>However, if this is needed, you can run the following rake task:</p>
-
-<pre><code>bundle exec rake brexit_checker:convert_csv_to_yaml:actions[path/to/actions.csv]`
-</code></pre>
+  <p><a href='/manual.html#publishing'>Publishing</a></p> <h1 id='header'>Remove invalid WorldwideOrganisation draft CorporateInformationPages</h1><p>A CorporateInformationPage is a Whitehall document that is attached to Organisation and WorldwideOrganisation models. For Organisations, it is accessed as the organisations <code>/about</code> page.</p>
+<p>For WorldwideOrganisations, this document is presented directly on the organisation&rsquo;s home page.
+As there is not a distinct page to visit directly, Whitehall can send a CorporateInformationPage to the Publishing API with the same base_path as the associated WorldwideOrganisation.</p>
+<p>This can cause invalid drafts to be present in Publishing API, and may throw:</p>
+<p><code>GdsApi::HTTPUnprocessableEntity (Admin::WorldwideOfficesController)</code></p>
+<p>Whilst these invalid drafts are present users are unable to make any further edits.</p>
+<p>A rake task exists in Publishing API that will clear the invalid drafts.</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>bundle <span class="nb">exec</span> <span class="s1">'data_hygiene:remove_invalid_worldorg_drafts'</span>
+</code></pre></div><p><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?delay=0sec&amp;TARGET_APPLICATION=publishing-api&amp;MACHINE_CLASS=publishing_api&amp;RAKE_TASK=data_hygiene:remove_invalid_worldorg_drafts">Jenkins - integration</a></p>
 
 
   <div class='related-content'>
@@ -291,11 +190,11 @@ criteria:
             <li><a href="/manual/howto-redirect-html-attachment-urls-from-whitehall.html">Redirect an HTML attachment's URL in Whitehall</a></li>
             <li><a href="/manual/reindex-elasticsearch.html">Reindex an Elasticsearch index</a></li>
             <li><a href="/manual/howto-remove-change-note-from-whitehall.html">Remove a change note in Whitehall</a></li>
-            <li><a href="/manual/howto-remove-invalid-about-page-drafts-from-world-organisations.html">Remove invalid WorldwideOrganisation draft CorporateInformationPages</a></li>
             <li><a href="/manual/rename-a-country.html">Rename a country</a></li>
             <li><a href="/manual/republishing-content.html">Republish content</a></li>
             <li><a href="/manual/government-changes.html">Support government changes</a></li>
             <li><a href="/manual/update-promo-boxes.html">Update homepage promotion slots</a></li>
+            <li><a href="/manual/updating-brexit-transition-checker.html">Updating content in the Brexit/Transition Checker</a></li>
             <li><a href="/manual/hmrc-paye-files.html">Upload HMRC PAYE files</a></li>
           </ul>
         </div>
@@ -304,17 +203,17 @@ criteria:
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-10-20">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-02-06">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 20 April 2020.
+      This page was last reviewed on 6 August 2020.
 
-        It needs to be reviewed again on 20 October 2020
+        It needs to be reviewed again on 6 February 2021
         by the page owner <a href="">#govuk-2ndline</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 20 October 2020
+      This page was set to be reviewed before 6 February 2021
        by the page owner <a href="">#govuk-2ndline</a>.
       This might mean the content is out of date.
     </div>
@@ -324,8 +223,8 @@ criteria:
 
           <aside>
               <ul class="contribution-banner">
-                <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/updating-brexit-transition-checker.html.md.erb">View source</a></li>
-                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'Updating%20content%20in%20the%20Brexit/Transition%20Checker'&amp;body=Problem%20with%20'Updating%20content%20in%20the%20Brexit/Transition%20Checker'%20(https://docs.publishing.service.gov.uk/manual/updating-brexit-transition-checker.html)">Report problem</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/howto-remove-invalid-about-page-drafts-from-world-organisations.html.md">View source</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'Remove%20invalid%20WorldwideOrganisation%20draft%20CorporateInformationPages'&amp;body=Problem%20with%20'Remove%20invalid%20WorldwideOrganisation%20draft%20CorporateInformationPages'%20(https://docs.publishing.service.gov.uk/manual/howto-remove-invalid-about-page-drafts-from-world-organisations.html)">Report problem</a></li>
                 <li><a href="https://github.com/alphagov/govuk-developer-docs">GitHub Repo</a></li>
               </ul>
           </aside>
