@@ -167,9 +167,9 @@ see if it is present and has the expected fields:</p>
 
 <ol>
 <li><p>SSH to a search box:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>ssh $(ssh integration "govuk_node_list --single-node -c search").integration
+<div class="highlight"><pre class="highlight plaintext"><code>gds govuk connect ssh -e integration search
 </code></pre></div></li>
-<li><p>Send a <code>POST</code> request to elasticsearch:</p>
+<li><p>Send a request to elasticsearch:</p>
 <div class="highlight"><pre class="highlight plaintext"><code>govuk_setenv search-api \
 bash -c 'curl "$ELASTICSEARCH_URI/detailed,government,govuk/_search" -H "content-type: application/json" -d "
 {
@@ -248,17 +248,17 @@ using <a href="https://search-admin.publishing.service.gov.uk/">search admin</a>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-08-04">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-02-10">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 4 February 2020.
+      This page was last reviewed on 10 August 2020.
 
-        It needs to be reviewed again on 4 August 2020
+        It needs to be reviewed again on 10 February 2021
         by the page owner <a href="">#govuk-searchandnav</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 4 August 2020
+      This page was set to be reviewed before 10 February 2021
        by the page owner <a href="">#govuk-searchandnav</a>.
       This might mean the content is out of date.
     </div>
