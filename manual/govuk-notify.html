@@ -191,10 +191,11 @@ for each environment):</p>
 <p>You can either use your own credentials (if you have them) or you can use the
 credentials in <a href="https://github.com/alphagov/govuk-secrets">govuk-secrets</a> (found in the <code>govuk-notify/2nd-line-support</code>
 entry).</p>
-<h2 id='receiving-emails-from-gov-uk-notify'>Receiving emails from GOV.UK Notify</h2><p>GOV.UK Notify services have two modes: live and <a href="https://www.notifications.service.gov.uk/using-notify/trial-mode">trial</a>. Only our
-production services are in live mode, the others are in trial mode. In this
-mode emails will only be sent to members of the service or email address in the
-allow-list, any request to send an email to another email address will fail.</p>
+<h2 id='receiving-emails-from-gov-uk-notify'>Receiving emails from GOV.UK Notify</h2><p>GOV.UK Notify services have two modes: live and <a href="https://www.notifications.service.gov.uk/using-notify/trial-mode">trial</a>. Our
+production services are all in live mode; most other services are in trial
+mode. In this mode emails will only be sent to members of the service or email
+address in the allow-list, any request to send an email to another email
+address will fail.</p>
 <p>To receive emails in integration and staging through GOV.UK Notify, you should
 add yourself to the service:</p>
 
@@ -207,6 +208,12 @@ able to add you to this team.</p></li>
 <p><strong>Note:</strong> some of our applications, notably Email Alert API, has an extra level
 of protection and <a href="/manual/receiving-emails-from-email-alert-api-in-integration-and-staging.html">there is an extra step</a>
 before you can receive emails through Email Alert API.</p>
+<p>The GOV.UK Publishing services are a special case: for these services,
+integration and staging also run in production mode. This is because
+<a href="/apps/signon.html">Signon</a> needs to be able to send emails to all users,
+even in integration and production. However, most of the apps using this
+service use a team-only API key with the same restriction; only Signon has a
+live key.</p>
 
 
   <div class='related-content'>
