@@ -132,12 +132,13 @@
     <a href="#header"><span>Publisher: Unprocessed fact-check emails</span></a>
     <ul>
       <li>
+        <a href="#dealing-with-the-alert"><span>Dealing with the alert</span></a>
         <ul>
           <li>
-            <a href="#unprocessed-fact-check-emails"><span>Unprocessed fact-check emails</span></a>
+            <a href="#log-in-to-the-inbox"><span>Log in to the inbox</span></a>
           </li>
           <li>
-            <a href="#log-into-the-fact-check-inbox"><span>Log into the fact-check inbox</span></a>
+            <a href="#investigate-the-unprocessed-emails"><span>Investigate the unprocessed emails</span></a>
           </li>
         </ul>
       </li>
@@ -161,32 +162,42 @@
       </a>
     </div>
 
-   <h1 id='header'>Publisher: Unprocessed fact-check emails</h1><h3 id='unprocessed-fact-check-emails'>Unprocessed fact-check emails</h3><p>This means there are unprocessed emails in the <a href="https://github.com/alphagov/publisher/blob/d0ab32c10c5d22ffb9b6edccb84f5345bd766cf4/doc/fact-checking.md">fact-check</a> inbox (currently
-<code>factcheck@alphagov.co.uk</code> but soon to change to
-<code>govuk-fact-check@digital.cabinet-office.gov.uk</code>).
-Publisher has a <a href="script">script (<code>mail_fetcher</code>)</a> that checks the inbox
-<a href="schedule">every 5 minutes</a> and <a href="process">processes all emails present</a>.</p>
-<p>If emails are not processed or deleted, this alert is triggered. The level of
-the <a href="https://github.com/alphagov/govuk-puppet/blob/68507dba280dd6e2fd4e5663f915c0fd7be06bef/modules/govuk/manifests/apps/publisher/unprocessed_emails_count_check.pp">alert</a> depends on the number of emails present - which was chosen
-arbitrarily and is currently:</p>
+   <h1 id='header'>Publisher: Unprocessed fact-check emails</h1><p>As part of the <a href="https://github.com/alphagov/publisher/blob/master/doc/fact-checking.md">Publisher fact checking process</a>, this alert appears if emails
+have arrived in the inbox but weren&rsquo;t able to be processed. This is usually
+because they&rsquo;re missing the identification for the edition they relate to
+(which is currently stored in the subject line).</p>
+<h2 id='dealing-with-the-alert'>Dealing with the alert</h2><h3 id='log-in-to-the-inbox'>Log in to the inbox</h3><p>To investigate the emails we first need to <a href="https://support.google.com/accounts/answer/1721977?co=GENIE.Platform%3DDesktop&amp;hl=en">log in to the inbox</a>.</p>
+<p>The current email addresses used for the fact checking process are:</p>
 
 <ul>
-<li><a href="warning">warning with 1 email</a></li>
-<li><a href="critical">critical with 2 or more emails</a></li>
+<li>factcheck@alphagov.co.uk</li>
+<li>govuk-fact-check-staging@digital.cabinet-office.gov</li>
+<li>govuk-fact-check-integration@digital.cabinet-office.gov</li>
 </ul>
-<h3 id='log-into-the-fact-check-inbox'>Log into the fact-check inbox</h3><p>If this alert is triggered, we want to <a href="login">log into the fact-check inbox</a>
-and investigate why the emails were not processed and deleted.</p>
-<p>The password to log into the govuk-fact-check@digital.cabinet-office.gov.uk
-inbox can be found by running:</p>
+<h4 id='retrieving-credentials'>Retrieving credentials</h4><p>The passwords for the @digital.cabinet-office.gov.uk addresses are found in
+<a href="https://github.com/alphagov/govuk-secrets">govuk-secrets</a>:</p>
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">PASSWORD_STORE_DIR</span><span class="o">=</span>~/govuk/govuk-secrets/pass/2ndline pass google-accounts/govuk-fact-check@digital.cabinet-office.gov.uk
-</code></pre></div><p>The password to log into the factcheck@alphagov.co.uk inbox can be found by
-logging into the Publisher console:</p>
-<div class="highlight"><pre class="highlight shell"><code>gds govuk connect app-console <span class="nt">-e</span> production publisher
-</code></pre></div><p>and then running:</p>
-<div class="highlight"><pre class="highlight shell"><code>Publisher::Application.mail_fetcher_config
-</code></pre></div><p>The same can be done for
-staging (govuk-fact-check-staging@digital.cabinet-office.gov.uk)
-and integration (govuk-fact-check-integration@digital.cabinet-office.gov.uk).</p>
+</code></pre></div><p>The password for the factcheck@alphagov.co.uk address can be found by logging
+into the Publisher console:</p>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>gds govuk connect app-console <span class="nt">-e</span> production publisher
+</code></pre></div><div class="highlight"><pre class="highlight ruby"><code><span class="o">&gt;</span> <span class="no">Publisher</span><span class="o">::</span><span class="no">Application</span><span class="p">.</span><span class="nf">mail_fetcher_config</span>
+</code></pre></div><h3 id='investigate-the-unprocessed-emails'>Investigate the unprocessed emails</h3><p>There are a number of different ways of proceeding here based on why the email
+wasn&rsquo;t able to be processed:</p>
+<h4 id='spamout-of-office'>Spam/out of office</h4><p>If the email is clearly spam or not relevant for other reasons,
+<strong>it can be deleted</strong>.</p>
+<h4 id='missing-edition-identification'>Missing edition identification</h4><p>If the subject line is missing the edition identification but is clearly a
+valid fact check response, the first thing to check is if a follow up
+email was sent with the correct subject.</p>
+<p>This can be checked by <a href="https://publisher.publishing.service.gov.uk/">logging in to Publisher</a> and finding the
+relevant edition by using the title. Usually you&rsquo;ll need to filter on editions
+with the state of &ldquo;Published&rdquo; or &ldquo;Out for fact check&rdquo;.</p>
+<p>Once you&rsquo;ve found the edition, you can check in the &ldquo;History and notes&rdquo; tab
+to see if the fact check was eventually re-sent with the correct subject line.
+If this is the case, <strong>the duplicate email can be deleted</strong>.</p>
+<p>If the fact check email never made it, you can let the content team know. In
+general this means the contents of the email can be manually copied into the
+edition as an &ldquo;Edition note&rdquo;. Once this is done, <strong>the original email can then
+be deleted</strong>.</p>
 
 
   <div class='related-content'>
@@ -213,18 +224,18 @@ and integration (govuk-fact-check-integration@digital.cabinet-office.gov.uk).</p
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2021-01-02">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-02-12">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 2 July 2020.
+      This page was last reviewed on 12 August 2020.
 
-        It needs to be reviewed again on 2 January 2021
-        by the page owner <a href="">#govuk-2ndline</a>
+        It needs to be reviewed again on 12 February 2021
+        by the page owner <a href="">#govuk-platform-health</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 2 January 2021
-       by the page owner <a href="">#govuk-2ndline</a>.
+      This page was set to be reviewed before 12 February 2021
+       by the page owner <a href="">#govuk-platform-health</a>.
       This might mean the content is out of date.
     </div>
   </div>
