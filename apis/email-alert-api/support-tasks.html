@@ -244,20 +244,6 @@ You can find out the slug of the subscriber list by running the <code>view_subsc
 <pre lang="bash"><code>$ bundle exec rake manage:unsubscribe_all_subscriptions[&lt;email_address&gt;]
 </code></pre>
 <p><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=manage:unsubscribe_all_subscriptions%5Bemail@example.org%5D">⚙ Run rake task on production</a></p>
-<h2 id="unsubscribe-a-list-of-subscribers-from-all-emails-in-bulk">Unsubscribe a list of subscribers from all emails in bulk</h2>
-<blockquote>
-<p><strong>Note</strong></p>
-<p>The CSV file should contain email addresses in the first column. All other data will be ignored.</p>
-</blockquote>
-<pre lang="shell"><code>$ bundle exec rake manage:unsubscribe_bulk_from_csv[&lt;path to CSV file&gt;]
-</code></pre>
-<h2 id="manually-unsubscribe-subscribers">Manually unsubscribe subscribers</h2>
-<p>This task unsubscribes subscribers from everything they have subscribed to.</p>
-<p>To unsubscribe a set of subscribers in bulk from a CSV file:</p>
-<pre lang="bash"><code>$ bundle exec rake manage:unsubscribe_bulk_from_csv[&lt;path_to_csv_file&gt;]
-</code></pre>
-<p>The CSV file should have email addresses in the first column. All<br>
-other columns will be ignored.</p>
 <h2 id="move-all-subscribers-from-one-list-to-another">Move all subscribers from one list to another</h2>
 <p>This is useful for changes such as departmental name changes, where new lists are created but subscribers should continue to receive emails.</p>
 <pre lang="bash"><code>$ bundle exec rake manage:move_all_subscribers[&lt;from_slug&gt;, &lt;to_slug&gt;]
@@ -265,9 +251,6 @@ other columns will be ignored.</p>
 <p>You need to supply the <code>slug</code> for the source and destination subscriber lists.</p>
 <p><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=manage:move_all_subscribers%5B%3Cslug-of-old-list%3E,%3Cslug-of-new-list%3E%5D">⚙ Run rake task on production</a></p>
 <h2 id="send-a-test-email">Send a test email</h2>
-<p>To send a test email to an existing subscriber:</p>
-<pre lang="bash"><code>$ bundle exec rake troubleshoot:deliver_to_subscriber[&lt;subscriber_id&gt;]
-</code></pre>
 <p>To send a test email to an email address (doesn't have to be subscribed to anything):</p>
 <pre lang="bash"><code>$ bundle exec rake deliver:deliver_to_test_email[&lt;email_address&gt;]
 </code></pre>
