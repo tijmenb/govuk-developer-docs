@@ -141,7 +141,12 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#infrastructure'>Infrastructure</a></p> <h1 id='header'>app_domain handling in GOV.UK during migration to AWS</h1><p>The app-by-app migration plan to move GOV.UK to AWS introduced an <code>$app_domain_internal</code> parameter in addition to the previously used <code>$app_domain</code>.</p>
+  <p><a href='/manual.html#infrastructure'>Infrastructure</a></p> <h1 id='header'>app_domain handling in GOV.UK during migration to AWS</h1><blockquote>
+<p>Deprecation note:
+This page should be removed after all machines in Carrenza have been shutdown
+and all reference to this has been removed from <a href="https://github.com/alphagov/govuk-puppet">govuk-puppet</a></p>
+</blockquote>
+<p>The app-by-app migration plan to move GOV.UK to AWS introduced an <code>$app_domain_internal</code> parameter in addition to the previously used <code>$app_domain</code>.</p>
 <p>This is necessary because in AWS we use a <code>&lt;environment&gt;.govuk-internal.digital</code> domain in addition to the <code>&lt;environment&gt;.govuk.digital</code> domain.</p>
 <p>Furthermore, the <code>app_domain</code> parameter may be set to the <code>&lt;environment&gt;.publishing.service.gov.uk</code> for migrated apps as well. The exact configuration depends on the current state of the migrated app as well as its dependencies.</p>
 <p>For example, migrated backend applications, such as Support, may be configured to use the <code>&lt;environment&gt;.publishing.service.gov.uk</code> <code>$app_domain</code> to facilitate access to Signon over the internet.</p>
@@ -201,17 +206,17 @@
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-08-05">
+              <div data-module='page-expiry' data-last-reviewed-on="2020-12-12">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 5 May 2020.
+      This page was last reviewed on 12 August 2020.
 
-        It needs to be reviewed again on 5 August 2020
+        It needs to be reviewed again on 12 December 2020
         by the page owner <a href="">#re-govuk</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 5 August 2020
+      This page was set to be reviewed before 12 December 2020
        by the page owner <a href="">#re-govuk</a>.
       This might mean the content is out of date.
     </div>
