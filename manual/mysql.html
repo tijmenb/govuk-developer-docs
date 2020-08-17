@@ -168,8 +168,13 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#backups'>Backups</a></p> <h1 id='header'>MySQL backups</h1><h2 id='automysqlbackup'>automysqlbackup</h2><h3 id='backing-up'>Backing up</h3><p>We use a third-party script called <a href="https://github.com/alphagov/govuk-puppet/blob/master/modules/govuk_mysql/templates/automysqlbackup">automysqlbackup</a> to take MySQL backups of GOV.UK infrastructure.</p>
-<p>This script takes a nightly <code>mysqldump</code> and stores it on a dedicated mount point on the MySQL backup machines (<code>mysql-backup-1.backend</code> and <code>whitehall-mysql-backup-1.backend</code>).</p>
+  <p><a href='/manual.html#backups'>Backups</a></p> <h1 id='header'>MySQL backups</h1><blockquote>
+<p>Deprecation note:
+This page should be removed after all machines in Carrenza have been shutdown
+as we are using a different process for backups in AWS.</p>
+</blockquote>
+<h2 id='automysqlbackup'>automysqlbackup</h2><h3 id='backing-up'>Backing up</h3><p>We use a third-party script called <a href="https://github.com/alphagov/govuk-puppet/blob/master/modules/govuk_mysql/templates/automysqlbackup">automysqlbackup</a> to take MySQL backups of GOV.UK infrastructure.</p>
+<p>This script takes a nightly <code>mysqldump</code> and stores it on a dedicated mount point on the MySQL backup machines (<code>mysql-backup-1.backend</code>).</p>
 <p>The on-site backup machine (<code>backup-1.management</code>) pulls the latest backup and stores it on disk. <a href="http://duplicity.nongnu.org/">Duplicity</a> runs nightly to send encrypted backups to an Amazon S3 bucket.</p>
 <h3 id='restoring'>Restoring</h3><p>To restore from this method:</p>
 
@@ -232,17 +237,17 @@
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-08-05">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-02-12">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 5 February 2020.
+      This page was last reviewed on 12 August 2020.
 
-        It needs to be reviewed again on 5 August 2020
+        It needs to be reviewed again on 12 February 2021
         by the page owner <a href="">#re-govuk</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 5 August 2020
+      This page was set to be reviewed before 12 February 2021
        by the page owner <a href="">#re-govuk</a>.
       This might mean the content is out of date.
     </div>
