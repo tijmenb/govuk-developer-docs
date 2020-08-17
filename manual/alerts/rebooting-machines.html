@@ -195,9 +195,6 @@
           <li>
             <a href="#rebooting-postgresql-primary-and-standby-machines-carrenza-only"><span>Rebooting PostgreSQL primary and standby machines (Carrenza only)</span></a>
           </li>
-          <li>
-            <a href="#rebooting-docker-management-machines"><span>Rebooting Docker Management machines</span></a>
-          </li>
         </ul>
       </li>
     </ul>
@@ -233,15 +230,10 @@ time.</p>
 </blockquote>
 <h3 id='rules-of-manual-rebooting'>Rules of manual rebooting</h3>
 <ul>
-<li>Do not reboot more than one machine of the same class at the
-same time.</li>
-<li>Most machines in Production should be rebooted out of hours, and this
-is handled by those who are on call out of hours.
-
-<ul>
-<li>In emergencies, machines in Production may need to be rebooted in-hours.</li>
-<li>Machines in other environments can be rebooted in hours.</li>
-</ul></li>
+<li>Do not reboot more than one machine of the same class at the same time.</li>
+<li>There are Icinga alerts that warn if machines need rebooting. Those
+alerts will tell you if it&rsquo;s a manual reboot, and whether it&rsquo;s in-
+or out-of-hours.</li>
 <li>There is <a href="#rebooting-guidance-for-aws">extra guidance if the machine you are rebooting is in AWS</a>.
 You may wish to pair with the RE interruptible/on call person.</li>
 <li>There are also <a href="#rebooting-guidance-for-carrenza">things to consider when rebooting Carrenza machines</a>.</li>
@@ -424,10 +416,6 @@ environment).</p>
 by On Call staff.</p>
 <p>They may be rebooted in working hours in the staging environment, however you
 should notify colleagues before doing so.</p>
-<h3 id='rebooting-docker-management-machines'>Rebooting Docker Management machines</h3><p>These currently just run etcd which is used to coorindate automatic
-out of hours reboots.</p>
-<p>Reboots of these machines should be organised by 2nd line and happen
-in hours.</p>
 
 
   <div class='related-content'>
