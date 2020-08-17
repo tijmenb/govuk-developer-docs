@@ -168,7 +168,7 @@ environment variable via hieradata under the key of
 </ol>
 <p>Once these changes have been deployed and the environment variable
 <code>EMAIL_ADDRESS_OVERRIDE_WHITELIST</code> is populated with your address you can test
-that you can receive emails by running the <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=troubleshoot:deliver_to_test_email[name@example.com]">troubleshoot:deliver_to_test_email[name@example.com]</a> <a href="https://github.com/alphagov/email-alert-api/blob/master/lib/tasks/troubleshoot.rake#L19">rake task</a>.</p>
+that you can receive emails by running the <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=support:deliver_to_test_email[name@example.com]">support:deliver_to_test_email[name@example.com]</a> <a href="https://github.com/alphagov/email-alert-api/blob/master/lib/tasks/troubleshoot.rake#L19">rake task</a>.</p>
 <h2 id='testing-digest-emails'>Testing digest emails</h2><p>It is possible to re-send an entire digest run (e.g. to test changes that have been made to the email template) in integration.  You will need to have added yourself to the whitelist and have a digest subscription (daily or weekly) to something that had a significant update during the time period the digest covers (e.g. daily would be 07:00 the previous day to 07:00 today).</p>
 <p>Using a Rails console for email-alert-api, retrieve the digest run that you wish to resend, then delete it, e.g.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>digest = DigestRun.where(range: 'daily').last
