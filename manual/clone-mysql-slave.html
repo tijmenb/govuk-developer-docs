@@ -169,7 +169,8 @@
             
   <p><a href='/manual.html#databases'>Databases</a></p> <h1 id='header'>Clone a MySQL instance from one slave to another (Carrenza only)</h1><blockquote>
 <p><strong>Note</strong></p>
-<p>This process is only applicable to Carrenza environments.</p>
+<p>This process is only applicable to Carrenza environments. As such it should
+be removed when the migration to AWS is fully completed.</p>
 </blockquote>
 <p>This tutorial documents the process behind adding a new slave to a MySQL environment where an existing slave may or may not already exist. The process involves cloning data from an existing replication slave on to a new slave, thus keeping the replication configuration intact.</p>
 <p>After the initial synchronisation from the existing to the new slave, both the new and existing slaves will replicate directly from the master.</p>
@@ -268,17 +269,17 @@ Seconds_Behind_Master: &lt;should be decreasing to 0&gt;
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-08-11">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-02-14">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 11 February 2020.
+      This page was last reviewed on 14 August 2020.
 
-        It needs to be reviewed again on 11 August 2020
+        It needs to be reviewed again on 14 February 2021
         by the page owner <a href="">#re-govuk</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 11 August 2020
+      This page was set to be reviewed before 14 February 2021
        by the page owner <a href="">#re-govuk</a>.
       This might mean the content is out of date.
     </div>
