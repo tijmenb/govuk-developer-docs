@@ -8,23 +8,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-    <title>Migrate from govuk-lint - GOV.UK Developer Documentation</title>
+    <title>Remove a site from the Transition tool - GOV.UK Developer Documentation</title>
 
     <link href="/stylesheets/manifest.css" rel="stylesheet" />
 
-    <link rel="canonical" href="https://docs.publishing.service.gov.uk/manual/migrate-from-govuk-lint.html">
+    <link rel="canonical" href="https://docs.publishing.service.gov.uk/manual/remove-site-from-transition-tool.html">
 
 
       <meta property="og:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
       <meta property="og:site_name" content="GOV.UK Developer Documentation" />
-      <meta property="og:title" content="Migrate from govuk-lint" />
+      <meta property="og:title" content="Remove a site from the Transition tool" />
       <meta property="og:type" content="object" />
-      <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/migrate-from-govuk-lint.html" />
+      <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/remove-site-from-transition-tool.html" />
       <meta property="twitter:card" content="summary" />
       <meta property="twitter:domain" content="docs.publishing.service.gov.uk" />
       <meta property="twitter:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
-      <meta property="twitter:title" content="Migrate from govuk-lint - GOV.UK Developer Documentation" />
-      <meta property="twitter:url" content="https://docs.publishing.service.gov.uk/manual/migrate-from-govuk-lint.html" />
+      <meta property="twitter:title" content="Remove a site from the Transition tool - GOV.UK Developer Documentation" />
+      <meta property="twitter:url" content="https://docs.publishing.service.gov.uk/manual/remove-site-from-transition-tool.html" />
 
     
   </head>
@@ -129,13 +129,16 @@
                   <a href='/manual.html' class="toc__back-link govuk-link">&lsaquo; Manual</a>
   <ul>
   <li>
-    <a href="#header"><span>Migrate from govuk-lint</span></a>
+    <a href="#header"><span>Remove a site from the Transition tool</span></a>
     <ul>
       <li>
-        <a href="#ruby-projects"><span>Ruby Projects</span></a>
+        <a href="#1-remove-site-config-yaml-files"><span>1. Remove site config YAML files</span></a>
       </li>
       <li>
-        <a href="#sass-projects"><span>SASS Projects</span></a>
+        <a href="#2-run-rake-task"><span>2. Run rake task</span></a>
+      </li>
+      <li>
+        <a href="#3-check-that-the-site-is-no-longer-recognised-by-the-transition-tool"><span>3. Check that the site is no longer recognised by the Transition tool</span></a>
       </li>
     </ul>
   </li>
@@ -149,98 +152,50 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#team-tools'>Team tools</a></p> <h1 id='header'>Migrate from govuk-lint</h1><p>This is a guide to help you migrate from <a href="https://github.com/alphagov/govuk-lint">govuk-lint</a>,
-which has been deprecated in favour of <a href="https://github.com/alphagov/rubocop-govuk">rubocop-govuk</a> and
-<a href="https://github.com/alphagov/scss-lint-govuk">scss-lint-govuk</a>.</p>
-<h2 id='ruby-projects'>Ruby Projects</h2><p>Previously, <code>govuk-lint</code> provided a set of RuboCop style rules and a
-CLI wrapper for RuboCop called <code>govuk-lint-ruby</code>.</p>
-<p>We now recommend using <a href="https://github.com/bbatsov/rubocop">RuboCop</a> directly, instead of the CLI wrapper. The style rules
-previously in <code>govuk-lint</code> have moved to <code>rubocop-govuk</code> and can be imported when using
-RuboCop.</p>
-<p>Changes you may have to make to your project include:</p>
-
-<ul>
-<li>Replace the <code>govuk-lint</code> gem with the <code>rubocop-govuk</code> gem in your Gemfile:</li>
-</ul>
-<div class="highlight"><pre class="highlight diff"><code><span class="err">#</span> Gemfile
-<span class="gd">- gem 'govuk-lint'
-</span><span class="gi">+ gem "rubocop-govuk"
-</span></code></pre></div>
-<ul>
-<li>Add the following lines to your project&rsquo;s <code>.rubocop.yml</code> config file (you may need to create this):</li>
-</ul>
-<div class="highlight"><pre class="highlight yaml"><code><span class="c1"># .rubocop.yml</span>
-<span class="na">inherit_gem</span><span class="pi">:</span>
-  <span class="na">rubocop-govuk</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="s">config/default.yml</span>
-    <span class="pi">-</span> <span class="s">config/rails.yml</span> <span class="c1"># add this line for Rails projects</span>
-
-<span class="c1"># If RuboCop finds any more Excludes: directives in rails.yml or in</span>
-<span class="c1"># the app's `.rubocop.yml`, merge them with the original ones instead of</span>
-<span class="c1"># overwriting.</span>
-<span class="na">inherit_mode</span><span class="pi">:</span>
-  <span class="na">merge</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="s">Exclude</span>
-</code></pre></div>
-<ul>
-<li>Replace usage of <code>govuk-lint-ruby</code> with <code>rubocop</code> in your project.
-All flags and options should be supported, except the <code>--diff</code> flag which should be
-removed.</li>
-</ul>
-<h2 id='sass-projects'>SASS Projects</h2><p>Previously, <code>govuk-lint</code> provided a set of scss-lint style rules and a
-CLI wrapper for scss-lint called <code>govuk-lint-scss</code>.</p>
-<p>We now recommend using <a href="https://github.com/sds/scss-lint">scss-lint</a> directly, instead of the CLI wrapper. The style rules
-previously in <code>govuk-lint</code> have moved to <code>scss-lint-govuk</code> and can be imported when using
-<code>scss-lint</code>.</p>
-<p>Changes you may have to make to your project include:</p>
-
-<ul>
-<li>Replace the <code>govuk-lint</code> gem with the <code>scss_lint-govuk</code> gem in your Gemfile:</li>
-</ul>
-<div class="highlight"><pre class="highlight diff"><code><span class="err">#</span> Gemfile
-<span class="gd">- gem 'govuk-lint'
-</span><span class="gi">+ gem "scss_lint-govuk"
-</span></code></pre></div>
-<ul>
-<li>Add the following lines to your project&rsquo;s <code>.scss-lint.yml</code> config file (you may need to create this):</li>
-</ul>
-<div class="highlight"><pre class="highlight yaml"><code><span class="c1"># .scss-lint.yml</span>
-<span class="na">plugin_gems</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">scss_lint-govuk'</span><span class="pi">]</span>
-</code></pre></div>
-<ul>
-<li>Replace usage of <code>govuk-lint-scss</code> with <code>scss-lint</code> in your project.</li>
-</ul>
+  <p><a href='/manual.html#transition'>Transition</a></p> <h1 id='header'>Remove a site from the Transition tool</h1><p>Sometimes we get requests to delete sites from the <a href="https://transition.publishing.service.gov.uk">Transition tool</a>.</p>
+<h2 id='1-remove-site-config-yaml-files'>1. Remove site config YAML files</h2><p>Sites that appear in the Transition tool are configured in YAML in the <a href="https://github.com/alphagov/transition-config">alphagov/transition-config</a> repo. To remove one, <code>git rm</code> it from the <code>data/transition-sites</code> directory. There&rsquo;s <a href="https://github.com/alphagov/transition-config/pull/1306">some prior art</a>.</p>
+<h2 id='2-run-rake-task'>2. Run rake task</h2><p>Once your changes have been merged, run the <code>import:revert:sites[site_abbr]</code> Rake on the Transition app with the site abbreviation that you want to delete. This task will only work for sites with zero mappings and zero hits - i.e. no associated data beyond that which was created by importing the site YAML file. It <a href="https://deploy.blue.production.govuk.digital/job/Transition_load_site_config/">triggers the <code>transition_load_site_config</code> Jenkins job</a> to update the Transition tool&rsquo;s loaded site config.</p>
+<p>To remove a redirect with existing mappings or hits, use the <code>import:revert_entirely_unsafe[site_abbr]</code> Rake task.</p>
+<h2 id='3-check-that-the-site-is-no-longer-recognised-by-the-transition-tool'>3. Check that the site is no longer recognised by the Transition tool</h2><p>When all caches have cleared, the host will not appear in <a href="https://transition.publishing.service.gov.uk/hosts">hosts.json</a>.</p>
 
 
   <div class='related-content'>
 
-    <h3>More in the Team tools section</h3>
+    <h3>More in the Transition section</h3>
 
     <div class='govuk-grid-row'>
         <div class='govuk-grid-column-one-half'>
           <h4>Learn</h4>
 
           <ul class="govuk-list">
-            <li><a href="/manual/github-trello-poster.html">GitHub Trello Poster</a></li>
+            <li><a href="/manual/transition-architecture.html">Transition architecture</a></li>
           </ul>
         </div>
 
+        <div class='govuk-grid-column-one-half'>
+          <h4>How to...</h4>
+
+          <ul class="govuk-list">
+            <li><a href="/manual/allowlist-site-in-transition.html">Allowlist site to allow redirection away from GOV.UK</a></li>
+            <li><a href="/manual/transition-a-site.html">Transition a site to GOV.UK</a></li>
+          </ul>
+        </div>
 
     </div>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-07-02">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-08-17">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 2 January 2020.
+      This page was last reviewed on 17 August 2020.
 
-        It needs to be reviewed again on 2 July 2020
+        It needs to be reviewed again on 17 August 2021
         by the page owner <a href="">#govuk-developers</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 2 July 2020
+      This page was set to be reviewed before 17 August 2021
        by the page owner <a href="">#govuk-developers</a>.
       This might mean the content is out of date.
     </div>
@@ -250,8 +205,8 @@ previously in <code>govuk-lint</code> have moved to <code>scss-lint-govuk</code>
 
           <aside>
               <ul class="contribution-banner">
-                <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/migrate-from-govuk-lint.html.md">View source</a></li>
-                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'Migrate%20from%20govuk-lint'&amp;body=Problem%20with%20'Migrate%20from%20govuk-lint'%20(https://docs.publishing.service.gov.uk/manual/migrate-from-govuk-lint.html)">Report problem</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/remove-site-from-transition-tool.html.md">View source</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'Remove%20a%20site%20from%20the%20Transition%20tool'&amp;body=Problem%20with%20'Remove%20a%20site%20from%20the%20Transition%20tool'%20(https://docs.publishing.service.gov.uk/manual/remove-site-from-transition-tool.html)">Report problem</a></li>
                 <li><a href="https://github.com/alphagov/govuk-developer-docs">GitHub Repo</a></li>
               </ul>
           </aside>

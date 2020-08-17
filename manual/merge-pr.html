@@ -184,7 +184,7 @@
 <li>The GitHub review UI should be used to mark a PR as approved or requiring changes.</li>
 <li>The GitHub UI should be used to merge the PR. This ensures the PR number is added to the merge commit.</li>
 </ol>
-<p>Once a PR is merged, you should deploy your changes at the earliest convenience to ensure unreleased changes do not back up and to keep our applications deployable - regardless of the perceived size of the PR merged (including <a href="#Dependabot">Dependabot</a> PRs). <a href="/manual/development-pipeline.html">Deploying</a> should be done in the regular way, taking the merged changes all the way through to production.</p>
+<p>We&rsquo;re doing more and more <a href="https://docs.google.com/document/d/1YhgjJjDRB57-IlgPNAAZzFTI3jIUucGJKokti_lQiRQ/edit">continuous deployment</a> these days, which means that merging to <code>master</code> on some apps is <a href="https://github.com/alphagov/govuk-saas-config/search?q=need_production_access_to_merge&amp;unscoped_q=need_production_access_to_merge">restricted to those with Production access</a>, as doing so auto-deploys to Production. If an app is continuously deployed, the PR template will show a warning triangle emoji. For apps that are not continuously deployed, you should deploy your changes all the way to Production as soon as possible after merging them.</p>
 <h2 id='example-scenarios'>Example scenarios</h2><h3 id='a-simple-change'>A simple change</h3><p>A small PR for a well-understood application, written by someone with good knowledge of the problem domain and with a well-defined scope. When a PR is created, someone with similar understanding of the application and change can approve and merge the PR. Both people are very confident that <code>master</code> will be deployable once this PR is merged.</p>
 <h3 id='a-simple-change-for-a-repository-that-has-a-long-running-test-suite'>A simple change for a repository that has a long-running test suite</h3><p>Similar to the above. If a PR is for an application that has a long-running test suite, you&rsquo;ve approved the change and are confident that the suite will pass, the reviewer can approve the PR. The author of the PR now has approval to merge it themselves once the test suite has passed.</p>
 <h3 id='a-simple-change-that-needs-a-small-rebase-before-being-merged'>A simple change that needs a small rebase before being merged</h3><p>Similar to the above, but it includes a change in the Gemfile which then conflicts with another, unrelated Gemfile change that is merged before this one. The author of the PR can keep any existing approvals on the PR, rebase the branch to remove the conflict, and merge the PR.</p>
@@ -249,17 +249,17 @@ board</a>.</p>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-08-05">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-02-17">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 5 February 2020.
+      This page was last reviewed on 17 August 2020.
 
-        It needs to be reviewed again on 5 August 2020
+        It needs to be reviewed again on 17 February 2021
         by the page owner <a href="">#govuk-developers</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 5 August 2020
+      This page was set to be reviewed before 17 February 2021
        by the page owner <a href="">#govuk-developers</a>.
       This might mean the content is out of date.
     </div>

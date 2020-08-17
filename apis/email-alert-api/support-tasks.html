@@ -134,7 +134,6 @@
           <li><a href="/apis/email-alert-api/matching-content-to-subscriber-lists.html"><span>Matching content to subscriber lists</span></a></li>
           <li><a href="/apis/email-alert-api/queues.html"><span>Queues</span></a></li>
           <li><a href="/apis/email-alert-api/support-tasks.html" class="toc-link--in-view"><span>Support tasks</span></a></li>
-          <li><a href="/apis/email-alert-api/troubleshooting.html"><span>Troubleshooting</span></a></li>
       </ul>
     </li>
     <li>
@@ -221,7 +220,7 @@ should be run using the Jenkins <code>Run rake task</code> job for ease-of-use:<
 </code></pre>
 <p><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=manage:change_email_address%5Bfrom@example.org,to@example.org%5D">⚙ Run rake task on production</a></p>
 <h2 id="view-subscribers-recent-emails">View subscriber's recent emails</h2>
-<p>This task shows the most recent email delivery attempts made to the given user.<br>
+<p>This task shows the most recent emails for the given user.<br>
 It takes two parameters: <code>email_address</code> (required), and <code>limit</code> (optional).<br>
 <code>limit</code> defaults to 10, but you can override this if you need to see more of<br>
 the user's history.</p>

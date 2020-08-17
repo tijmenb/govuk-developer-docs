@@ -149,29 +149,23 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#deployment'>Deployment</a></p> <h1 id='header'>Deploy Puppet</h1><p>You can deploy Puppet using the following steps:</p>
+  <p><a href='/manual.html#deployment'>Deployment</a></p> <h1 id='header'>Deploy Puppet</h1><p>You can deploy Puppet to Staging and Production using the following steps:</p>
+
+<ol>
+<li>Deploy a newer version of govuk-puppet to staging by using the &lsquo;Deploy to Staging (Carrenza)&rsquo;
+and &lsquo;Deploy to Staging (AWS)&rsquo; buttons in the Release app after clicking on the release
+tag and reviewing the changes listed.</li>
+<li>You will either need to wait 30 minutes or read about <a href="#convergence">convergence</a>.
+You should monitor Icinga and Smokey, and test anything you&rsquo;re concerned about.</li>
+<li>Repeat the above steps for Production.</li>
+</ol>
+<p>Puppet is automatically deployed to integration by a combination of the <a href="https://ci-deploy.integration.publishing.service.gov.uk/job/Deploy_Puppet/">integration-puppet-deploy job on Jenkins CI</a> and <a href="https://deploy.integration.publishing.service.gov.uk/job/Deploy_Puppet/">Deploy Puppet job on Jenkins Deploy</a> jobs.</p>
 
 <blockquote>
-<p><strong>NOTE</strong></p>
-<p>Puppet is automatically deployed to integration by a combination of the <a href="https://ci-deploy.integration.publishing.service.gov.uk/job/Deploy_Puppet/">integration-puppet-deploy job on Jenkins CI</a> and <a href="https://deploy.integration.publishing.service.gov.uk/job/Deploy_Puppet/">Deploy Puppet job on Jenkins Deploy</a>.</p>
 <p><strong>WARNING</strong></p>
 <p>If you&rsquo;re deploying a change to <a href="https://github.com/alphagov/govuk-puppet/blob/master/hiera.yml">hiera.yml</a> or <a href="https://github.com/alphagov/govuk-puppet/blob/master/hiera_aws.yml">hiera_aws.yml</a>, you will need to restart the Puppet server on the Puppet Master machine, otherwise these changes will not be picked up.</p>
 <p>To restart the server, run <code>sudo service puppetserver restart</code>.</p>
 </blockquote>
-
-<ol>
-<li><p>Get the <a href="https://release.publishing.service.gov.uk/applications/puppet">release tag of the build that you wish to deploy</a> from the Release
-app (<code>release_18295</code> for example). Look at the diff you&rsquo;re going to deploy.</p></li>
-<li><p>Deploy the newer version to staging by using the &lsquo;Deploy to Staging (Carrenza)&rsquo;
-and &lsquo;Deploy to Staging (AWS)&rsquo; buttons in the Release app after clicking on the release
-tag.</p></li>
-<li><p>You will either need to wait 30 minutes or read about <a href="#convergence">convergence</a>.
-You should monitor Icinga and Smokey, and test anything you&rsquo;re concerned about.</p></li>
-<li><p>Deploy the newer version to production by using the &lsquo;Deploy to Production&rsquo; buttons in
-the Release app after clicking on the release tag.</p></li>
-<li><p>You will either need to wait 30 minutes or read about <a href="#convergence">convergence</a>.
-You should monitor Icinga and Smokey, and test anything you&rsquo;re concerned about.</p></li>
-</ol>
 <h2 id='convergence'>Convergence</h2><p>The deployment only pushes the new code to the Puppet Master. Each node
 runs a Puppet agent every 30 minutes (via cron), so it may be some time
 before the release takes effect. This has an implication on how
@@ -259,17 +253,17 @@ again:</li>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-08-12">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-02-17">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 12 February 2020.
+      This page was last reviewed on 17 August 2020.
 
-        It needs to be reviewed again on 12 August 2020
+        It needs to be reviewed again on 17 February 2021
         by the page owner <a href="">#govuk-developers</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 12 August 2020
+      This page was set to be reviewed before 17 February 2021
        by the page owner <a href="">#govuk-developers</a>.
       This might mean the content is out of date.
     </div>
