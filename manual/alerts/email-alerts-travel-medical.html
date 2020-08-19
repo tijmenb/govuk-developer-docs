@@ -160,23 +160,23 @@
       </a>
     </div>
 
-   <h1 id='header'>Travel Advice or Drug and Medical Device email alerts not sent</h1><p>There is <a href="https://github.com/alphagov/email-alert-monitoring">a check</a> to verify that emails are sent for
-<a href="https://www.gov.uk/drug-device-alerts">drug and medical device alerts</a> and <a href="https://www.gov.uk/foreign-travel-advice">travel advice updates</a>. These checks
-are run via Jenkins: <a href="https://deploy.blue.production.govuk.digital/job/email-alert-check/">Drug and medical device alerts check</a>
-and <a href="https://deploy.blue.production.govuk.digital/job/travel-advice-email-alert-check/">Travel advice alerts check</a>.</p>
+   <h1 id='header'>Travel Advice or Drug and Medical Device email alerts not sent</h1><p>We expect that when new GOV.UK content is published, or when existing content
+is updated in a significant way, emails will be sent to any subscribers to
+notify them of the change.</p>
+<p>We actively monitor this for <a href="https://www.gov.uk/drug-device-alerts">medical safety alerts</a> and <a href="https://www.gov.uk/foreign-travel-advice">travel advice
+updates</a> with the <a href="https://deploy.blue.production.govuk.digital/job/medical-safety-email-alert-check/">Medical safety alerts check</a> and
+<a href="https://deploy.blue.production.govuk.digital/job/travel-advice-email-alert-check/">Travel advice alerts check</a>, these are configured in
+<a href="https://github.com/alphagov/email-alert-monitoring">email-alert-monitoring</a>.</p>
+<p>These checks determine a list of content that we expect subscribers to have
+been emailed. We use a Gmail account which is subscribed to all travel advice
+and medical safety alerts to check whether an email has been received within a
+sufficient time period, if not the checks will fail.</p>
 <h2 id='troubleshooting-failed-checks'>Troubleshooting failed checks</h2><p>First inspect the console logs for the Jenkins job to confirm the reason for the
-failure. The email check looks in two different mailboxes and the failure message
-should describe which mailbox is seeing an issue.</p>
-
-<ul>
-<li><p>Check the mailbox that is used for the check to rule out an issue searching
-for the message: <code>govuk_email_check@digital.cabinet-office.gov.uk</code>
-This email address is subscribed to travel advice alerts and drug and medical
-device alerts. Its credentials can be found in the <a href="https://github.com/alphagov/govuk-secrets/tree/master/pass/2ndline">2nd line password store</a>
-under <code>google-accounts/govuk_email_check@digital.cabinet-office.gov.uk</code>.</p></li>
-<li><p><a href="/manual/email-troubleshooting.html#check-the-courtesy-copy-inbox">Check the courtesy copy inbox</a>. Its presence here doesn&rsquo;t mean that the
-email was sent to users, just that Email Alert API processed the content change.</p></li>
-</ul>
+failure.</p>
+<p>Check the mailbox that is used for the check to rule out an issue searching for
+the message: <code>govuk_email_check@digital.cabinet-office.gov.uk</code>. Its credentials
+can be found in the <a href="https://github.com/alphagov/govuk-secrets/tree/master/pass/2ndline">2nd line password store</a> under
+<code>google-accounts/govuk_email_check@digital.cabinet-office.gov.uk</code>.</p>
 <p>If the email has been received by the mailbox but the subject of the email
 doesn&rsquo;t match the title of the content item, this means that the title of the
 content was updated after it was first published and after the emails went out.
@@ -215,17 +215,17 @@ page in Travel Advice Publisher and looks like <code>fedc13e231ccd7d63e1abf65</c
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2021-01-16">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-02-18">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 16 July 2020.
+      This page was last reviewed on 18 August 2020.
 
-        It needs to be reviewed again on 16 January 2021
+        It needs to be reviewed again on 18 February 2021
         by the page owner <a href="">#govuk-2ndline</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 16 January 2021
+      This page was set to be reviewed before 18 February 2021
        by the page owner <a href="">#govuk-2ndline</a>.
       This might mean the content is out of date.
     </div>
