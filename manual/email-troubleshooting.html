@@ -145,9 +145,6 @@
           </li>
         </ul>
       </li>
-      <li>
-        <a href="#check-the-email-alert-api"><span>Check the email alert API</span></a>
-      </li>
     </ul>
   </li>
 </ul>
@@ -162,7 +159,7 @@
             
   <p><a href='/manual.html#emails'>Emails</a></p> <h1 id='header'>Email troubleshooting</h1><p>This document has tips for troubleshooting unsent emails. For an overview of our
 email architecture, read <a href="/manual/email-notifications-how-they-work.html">Email notifications: how they work</a>.</p>
-<h2 id='general-troubleshooting-tips'>General troubleshooting tips</h2><h3 id='check-the-current-health-of-the-ecosystem'>Check the current health of the ecosystem</h3><p>You can check the <a href="https://grafana.production.govuk.digital/dashboard/file/email_alert_api_technical.json?refresh=1m&amp;orgId=1&amp;from=now-6h&amp;to=now">Email Alert API Metrics dashboard</a> to monitor
+<h2 id='general-troubleshooting-tips'>General troubleshooting tips</h2><h3 id='check-the-current-health-of-the-ecosystem'>Check the current health of the ecosystem</h3><p>You can check the <a href="https://grafana.production.govuk.digital/dashboard/file/email_alert_api_technical.json?refresh=10s&amp;orgId=1">Email Alert API Technical dashboard</a> to monitor
 if emails are going out.</p>
 <h3 id='check-that-notify-sent-the-email'>Check that Notify sent the email</h3><p>Log in to the Notify account by going to <a href="https://www.notifications.service.gov.uk">https://www.notifications.service.gov.uk</a>.
 The login credentials are in the <a href="https://github.com/alphagov/govuk-secrets/tree/master/pass/2ndline/govuk-notify">2nd line password store</a> under
@@ -174,39 +171,14 @@ will take you to a form where you can search by email address.</p>
 is available in the <a href="https://groups.google.com/a/digital.cabinet-office.gov.uk/forum/#!forum/govuk-email-courtesy-copies">&lsquo;govuk-email-courtesy-copies&rsquo; Google Group</a>.
 Integration and staging emails have a subject prefixed by the
 environment name.</p>
-<p>If you need to test the process of subscribing to an email alert, you
-can subscribe with <code>govuk-email-courtesy-copies@digital.cabinet-office.gov.uk</code>.
-You should then see two copies of the email at that address when you
-perform an action that triggers an email alert (the courtesy copy and
-the subscriber one).</p>
-<p>The process for triggering an alert varies by publishing application,
-but it usually involves creating a new edition of some content, then
-publishing it with a &lsquo;major&rsquo; update type. The change note you enter
-will appear in the email that gets sent.</p>
 
 <blockquote>
 <p><strong>Note</strong></p>
-<p>Due to the way that we send the courtesy copy emails and the
-anonymisation integration data sync, we can&rsquo;t fully exercise the code
-that matches content changes with subscriptions. Therefore, it is not
+<p>Courtesy copies are sent separately to normal emails. Therefore, it is not
 safe to rely on the courtesy copy Google Group to guarantee that emails
 are being sent to subscribers, and instead a better test is to
 subscribe yourself and check that emails arrive.</p>
 </blockquote>
-<h2 id='check-the-email-alert-api'>Check the email alert API</h2><p>A useful debug step if you&rsquo;re not sure if an email has been sent is to
-check Email Alert API to see if it has created records in its database.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>$ govuk_app_console email-alert-api
-
-# Note that we are not using `Email.last` because its primary key is `id`,
-# which is a string and alphabetically ordered rather than by create date
-
-&gt; ContentChange.where(created_at: DateTime.now - 15.minutes...DateTime.now)
-&gt; Email.where(created_at: DateTime.now - 15.minutes...DateTime.now)
-&gt; DeliveryAttempt.where(created_at: DateTime.now - 15.minutes...DateTime.now)
-</code></pre></div><p>Emails won&rsquo;t be sent if no one is subscribed, so you&rsquo;ll need to do that
-first. The integration and staging environments only allow email to be
-sent to a small number of email addresses so you cannot test using your
-own email address in these environments.</p>
 
 
   <div class='related-content'>
@@ -238,17 +210,17 @@ own email address in these environments.</p>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-11-14">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-02-14">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 14 May 2020.
+      This page was last reviewed on 14 August 2020.
 
-        It needs to be reviewed again on 14 November 2020
+        It needs to be reviewed again on 14 February 2021
         by the page owner <a href="">#govuk-developers</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 14 November 2020
+      This page was set to be reviewed before 14 February 2021
        by the page owner <a href="">#govuk-developers</a>.
       This might mean the content is out of date.
     </div>
