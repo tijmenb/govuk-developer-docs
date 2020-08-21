@@ -289,7 +289,7 @@ again once everyone is happy there is no need to switch back - normally
 the day after.</p>
 <h3 id='9-point-the-domain-at-us'>9) Point the domain at us</h3><p>Once the site has been imported successfully, the domain can be pointed
 at us by the organisation. For hostnames which can have a <code>CNAME</code>
-record, this is <code>redirector-cdn.production.govuk.service.gov.uk</code>.
+record, this is <code>bouncer-cdn.production.govuk.service.gov.uk</code>.
 Domains at the root of their zone can&rsquo;t use <code>CNAME</code> records, so must use
 an <code>A</code> record and point at one of the <a href="https://github.com/alphagov/transition/blob/016c3d30e190c41eaa912ed554384a49f3418a91/app/models/host.rb#L22">Fastly GOV.UK IP
 addresses</a>.</p>
