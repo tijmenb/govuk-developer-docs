@@ -212,7 +212,9 @@ preview according to the following pattern:</p>
 </ul>
 <p>There are lots of examples of these in <a href="https://transition.publishing.service.gov.uk/hosts">hosts currently configured in
 Transition</a>.</p>
-<p>These AKA domains should be CNAMEd to: <code>redirector-cdn.production.govuk.service.gov.uk</code></p>
+<p>These AKA domains should be CNAMEd to: <code>bouncer-cdn.production.govuk.service.gov.uk</code></p>
+<p>Previously we used a <code>redirector-cdn</code> address which reached its capacity and will now fail if added as the
+CNAME record for any new domains.</p>
 <h3 id='4-get-a-list-of-old-urls'>4) Get a list of old URLs</h3><p>In order for us to redirect anything but the homepage, we need a list of URLs
 for the old site so that they can be mapped. In the past, this is something
 GDS did for the organisation as it requires some technical skill and
