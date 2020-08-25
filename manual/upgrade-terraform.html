@@ -162,7 +162,7 @@
   <p><a href='/manual.html#infrastructure'>Infrastructure</a></p> <h1 id='header'>Upgrade Terraform</h1><p>Terraform should be regularly upgraded. New releases happen very often, with bug fixes and improvements.
 Also, being too far behind the latest versions can make future upgrades and support for new provider services much harder to perform.</p>
 <p>In our platform we need to update the version of Terraform and AWS provider enforced in the <a href="https://github.com/alphagov/govuk-aws">govuk-aws</a> code repo,
-and update the Terraform package that runs the <a href="https://ci-deploy.integration.publishing.service.gov.uk/job/Deploy_Terraform_GOVUK_AWS">Deploy_Terraform_GOVUK_AWS</a>
+and update the Terraform package that runs the <a href="https://deploy.integration.publishing.service.gov.uk/job/Deploy_Terraform_GOVUK_AWS">Deploy_Terraform_GOVUK_AWS</a>
 Jenkins job in the CI machines.</p>
 <p>The Terraform version of a client that updated a state file is represented in the state. Once a client with a new
 version of Terraform updates a remote state file, the rest of clients will be forced to use that same version of Terraform. It is

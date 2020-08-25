@@ -210,7 +210,7 @@ gds govuk terraform <span class="nt">-e</span> &lt;environment&gt; <span class="
 <li><code>&lt;action&gt;</code> is the terraform action you want to perform. E.g. <code>plan</code>, <code>apply</code></li>
 <li><code>&lt;aws_role&gt;</code> is the govuk aws role you want to use for terraforming. E.g. <code>govuk-integration-admin</code></li>
 </ol>
-<p>After you deploy, you can visit the <a href="https://ci-deploy.integration.publishing.service.gov.uk/job/Deploy_Terraform_GOVUK_AWS"><code>ci-deploy</code> Jenkins job</a> to see the job running or queued.</p>
+<p>After you deploy, you can visit the <a href="https://deploy.integration.publishing.service.gov.uk/job/Deploy_Terraform_GOVUK_AWS"><code>deploy</code> Jenkins job</a> to see the job running or queued.</p>
 <h3 id='2-deploy-rb-script-in-govuk-aws'>2. <code>deploy.rb</code> script in govuk-aws</h3><p>The Ruby script <a href="https://github.com/alphagov/govuk-aws/blob/master/tools/deploy.rb"><code>tools/deploy.rb</code></a> in the <code>govuk-aws</code> repository takes care of requesting temporary
 AWS credentials with an assumed role and queuing the deployment Jenkins job.</p>
 <p>You can use it by running:</p>
@@ -225,7 +225,7 @@ AWS credentials with an assumed role and queuing the deployment Jenkins job.</p>
 <li><code>blue</code> is for <code>app-</code> projects, <code>govuk</code> is for <code>infra-</code> projects usually</li>
 <li><code>integration</code> is the starting point, then <code>staging</code>, etc.</li>
 </ul>
-<p>Once the script has run, visit the <a href="https://ci-deploy.integration.publishing.service.gov.uk/job/Deploy_Terraform_GOVUK_AWS"><code>ci-deploy</code> Jenkins job</a> to see the job running or queued.</p>
+<p>Once the script has run, visit the <a href="https://deploy.integration.publishing.service.gov.uk/job/Deploy_Terraform_GOVUK_AWS"><code>deploy</code> Jenkins job</a> to see the job running or queued.</p>
 
 
   <div class='related-content'>
