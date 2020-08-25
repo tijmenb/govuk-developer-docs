@@ -132,6 +132,12 @@
     <a href="#header"><span>Deploy Puppet</span></a>
     <ul>
       <li>
+        <a href="#deploying-a-branch"><span>Deploying a branch</span></a>
+      </li>
+      <li>
+        <a href="#deploying-a-release"><span>Deploying a release</span></a>
+      </li>
+      <li>
         <a href="#convergence"><span>Convergence</span></a>
       </li>
       <li>
@@ -149,7 +155,12 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#deployment'>Deployment</a></p> <h1 id='header'>Deploy Puppet</h1><p>You can deploy Puppet to Staging and Production using the following steps:</p>
+  <p><a href='/manual.html#deployment'>Deployment</a></p> <h1 id='header'>Deploy Puppet</h1><h2 id='deploying-a-branch'>Deploying a branch</h2><p>Before merging your PR, it&rsquo;s recommended that you deploy the change to
+Integration in order to test it works on real infrastructure. Go to <a href="https://deploy.integration.publishing.service.gov.uk/job/Deploy_Puppet/">the
+<code>Deploy_Puppet</code> job in Jenkins</a> and click ‘Build with
+Parameters’. The <code>TAG</code> field should contain the name of the branch you wish to
+deploy.</p>
+<h2 id='deploying-a-release'>Deploying a release</h2><p>You can deploy Puppet to Staging and Production using the following steps:</p>
 
 <ol>
 <li>Deploy a newer version of govuk-puppet to staging by using the &lsquo;Deploy to Staging (Carrenza)&rsquo;
@@ -253,17 +264,17 @@ again:</li>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2021-02-17">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-02-25">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 17 August 2020.
+      This page was last reviewed on 25 August 2020.
 
-        It needs to be reviewed again on 17 February 2021
+        It needs to be reviewed again on 25 February 2021
         by the page owner <a href="">#govuk-developers</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 17 February 2021
+      This page was set to be reviewed before 25 February 2021
        by the page owner <a href="">#govuk-developers</a>.
       This might mean the content is out of date.
     </div>
