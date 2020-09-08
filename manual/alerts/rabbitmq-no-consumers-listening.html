@@ -132,10 +132,29 @@
     <a href="#header"><span>RabbitMQ: No consumers listening to queue</span></a>
     <ul>
       <li>
-        <a href="#consequences-of-idle-consumers"><span>Consequences of idle consumers</span></a>
+        <a href="#check-that-there-is-at-least-one-non-idle-consumer-for-rabbitmq-queue-queue_name"><span>Check that there is at least one non-idle consumer for rabbitmq queue {queue_name}</span></a>
+        <ul>
+          <li>
+            <a href="#no-consumers-listening-to-queue"><span>No consumers listening to queue</span></a>
+          </li>
+          <li>
+            <a href="#no-activity-for-x-seconds-idle-times-are-x-y-z"><span>No activity for X seconds: idle times are [X, Y, Z]</span></a>
+          </li>
+        </ul>
       </li>
       <li>
-        <a href="#investigation"><span>Investigation</span></a>
+        <a href="#troubleshooting"><span>Troubleshooting</span></a>
+        <ul>
+          <li>
+            <a href="#check-the-rabbitmq-logs"><span>Check the RabbitMQ logs</span></a>
+          </li>
+          <li>
+            <a href="#check-the-rabbitmq-grafana-dashboard"><span>Check the RabbitmQ Grafana dashboard</span></a>
+          </li>
+          <li>
+            <a href="#troubleshooting-steps"><span>Troubleshooting steps</span></a>
+          </li>
+        </ul>
       </li>
     </ul>
   </li>
@@ -157,64 +176,81 @@
       </a>
     </div>
 
-   <h1 id='header'>RabbitMQ: No consumers listening to queue</h1><p><a href="/manual/rabbitmq.html">Read more about how we use RabbitMQ</a></p>
-<p>We run a check that there is at least one non-idle consumer for a named
-RabbitMQ queue. (For example, for the <code>email_alert_service</code> queue.) The queue
-name should indicate the app responsible for consuming the queue.</p>
-<p>The Icinga check is performed by connecting to RabbitMQ&rsquo;s admin API, so the
-information given is from Rabbit&rsquo;s point of view.</p>
-<p>Since we send heartbeats every minute (from each instance of the Publishing
-API) at least one of the consumers for each queue should be active every
-minute. To be conservative, the check checks that at least one consumer of the
-queue is running and has been active within the last 5 minutes.</p>
-<p>If the check succeeds, it will return the most recent time at which activity
-happened on the queue.</p>
-<p>If the check fails due to no consumers having been active recently, it will
-report a critical failure, giving the most recent idle time, and the idle
-times of each consumer connected to RabbitMQ:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>CRITICAL: No activity for X seconds: idle times are [X, Y, Z]
-</code></pre></div><p>If the check fails due to there being no consumers connected to the queue, it
-will report a critical failure:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>CRITICAL: "No consumers listening to queue"
-</code></pre></div><h2 id='consequences-of-idle-consumers'>Consequences of idle consumers</h2><p>If consumers are idle, messages sent to the queue will not be being processed.
-This means that the actions which are meant to happen in response to the
-messages will not happen. For example, email alerts about updated content will
-not be sent if the <code>email_alert_sevice</code> queue isn&rsquo;t running.</p>
-<p>Unless there is a wider RabbitMQ failure, messages will not be lost - they will
-be processed once the problem is resolved.</p>
-<h2 id='investigation'>Investigation</h2><p>RabbitMQ has an admin interface, which allows details of recent activity on the
-queues to be seen. To log in, <a href="/manual/rabbitmq.html#connecting-to-the-rabbitmq-web-control-panel">follow the instructions in the RabbitMQ
-docs</a>.</p>
-<p>The admin interface allows you to see details (and graphs!) of the messages
-sent to each queue, and the number of messages held on the queues. Look at the
-queue for which the alert happened. If no messages have been sent to the queue
-over the last several minutes, the most likely failure is that the heartbeat
-messages are no longer being sent correctly. Look for recent changes to the
-<a href="https://github.com/alphagov/publishing-api">Publishing API</a>.</p>
-<p>If messages have been received, and the queue has messages held on it and not
-being processed, the consumers have either got stuck or stopped running for
-some reason. Restarting the consumers for the relevant app will probably clear
-this up (but please make sure the team owning the app are also alerted, since
-this shouldn&rsquo;t normally happen). For example:</p>
+   <h1 id='header'>RabbitMQ: No consumers listening to queue</h1><h2 id='check-that-there-is-at-least-one-non-idle-consumer-for-rabbitmq-queue-queue_name'>Check that there is at least one non-idle consumer for rabbitmq queue {queue_name}</h2><p>Icinga connects to RabbitMQ&rsquo;s admin API to check on the activity of the
+consumers and that at least one consumer is running for a given RabbitMQ
+message queue. See <a href="https://github.com/alphagov/govuk-puppet/blob/eb8a04a7883d4772fa7266c909c7f40563f8f7a0/modules/icinga/files/usr/lib/nagios/plugins/check_rabbitmq_consumers">here</a> for the plugin that implements
+the alert.</p>
+<p>For information about how we use RabbitMQ, see <a href="https://docs.publishing.service.gov.uk/manual/rabbitmq.html">here</a>.</p>
+<h3 id='no-consumers-listening-to-queue'><code>No consumers listening to queue</code></h3><p>This check reports a critical error when <strong>no</strong> consumers are listening to the
+queue, meaning messages entering the queue will never be processed.</p>
+<h3 id='no-activity-for-x-seconds-idle-times-are-x-y-z'><code>No activity for X seconds: idle times are [X, Y, Z]</code></h3><p>This checks whether the RabbitMQ consumers for a queue have been active in the
+last 5 minutes. Consumers in an <code>idle</code> state are listening to the queue but are
+unable to process the messages on it.</p>
+<p>Publishing API <a href="https://github.com/alphagov/publishing-api/blob/d2552f681e772c9e4f5afb3a76605630fa4a588c/lib/tasks/heartbeat_messages.rake">sends a heartbeat message</a> every minute to
+the following queues - <code>email-alert-service</code>, <code>cache_clearing_service-high</code> and
+<code>content_data_api</code>. This is configured via the queues bindings (e.g
+<a href="https://github.com/alphagov/email-alert-service/blob/4412a1b3b0f281733801e1631416ab02fac90e25/lib/tasks/message_queues.rake#L17">email-alert-service&rsquo;s binding</a>) matching the routing key
+used in the <a href="https://github.com/alphagov/publishing-api/blob/d2552f681e772c9e4f5afb3a76605630fa4a588c/lib/queue_publisher.rb#L43">heartbeat</a>. This should ensure that the consumers are
+never idle for these queues.</p>
+
+<blockquote>
+<p><strong>Note</strong></p>
+<p>You may see the <a href="https://docs.publishing.service.gov.uk/manual/alerts/rabbitmq-high-number-of-unprocessed-messages.html">high unprocessed messages</a> alert too,
+as issues with consumers processing messages could then lead to a high
+backlog of messages.</p>
+</blockquote>
+<h2 id='troubleshooting'>Troubleshooting</h2><h3 id='check-the-rabbitmq-logs'>Check the RabbitMQ logs</h3><p>Check the logs for the <code>rabbitmq</code> application which can be achieved logging
+into Kibana and searching for <code>application: rabbitmq</code>. Is there evidence of any
+errors?</p>
+<h3 id='check-the-rabbitmq-grafana-dashboard'>Check the RabbitmQ Grafana dashboard</h3><p>This <a href="https://grafana.blue.production.govuk.digital/dashboard/file/rabbitmq.json?refresh=10s&amp;orgId=1">Grafana dashboard</a> shows activity across
+multiple exchanges and queues. The main exchange we expect to be monitoring is
+<code>published_documents</code> which handles broadcasting to services such as search and
+email-alert-service when content changes across GOV.UK.</p>
+<p>Looking at the queue graphs we should look out for the following:</p>
+
+<ul>
+<li><p><strong>Check for high &lsquo;ready&rsquo; messages for the queue</strong> - indicates these messages are
+waiting to be processed in RabbitMQ by the consumer (e.g
+email-alert-service).</p></li>
+<li><p><strong>Check for high &lsquo;unacknowledged&rsquo; messages for the queue</strong> - implies that
+messages have been read by the consumer but the consumer has never sent back
+an ACK to the RabbitMQ broker to say that it has finished processing.</p></li>
+<li><p><strong>Check for high &lsquo;redeliver&rsquo; rate for the queue</strong> - in the event of network
+failure (or a node failure), messages can be redelivered. An example is if
+the consumer dies (its channel is closed, connection is closed, or TCP
+connection is lost).</p></li>
+</ul>
+<p>If we&rsquo;re seeing high &lsquo;redeliver&rsquo; rates, high &lsquo;ready&rsquo; or &lsquo;unacknowledged&rsquo;
+messages then this could indicate an issue with the consumer.</p>
+<h3 id='troubleshooting-steps'>Troubleshooting steps</h3>
+<ol>
+<li>You could try restarting the consumer applications. After restarting, check
+to see if the problem is solved. E.g for email-alert-service, run:</li>
+</ol>
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>fab <span class="nv">$environment</span> class:email_alert_api app.restart:email-alert-service
 </code></pre></div>
+<ol>
+<li>If the issue has not resolved, we should check in the consumers application
+logs to see if any errors are being thrown.</li>
+</ol>
+
 
   <div class='related-content'>
 
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-06-05">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-03-07">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 5 December 2019.
+      This page was last reviewed on 7 September 2020.
 
-        It needs to be reviewed again on 5 June 2020
+        It needs to be reviewed again on 7 March 2021
         by the page owner <a href="">#govuk-2ndline</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 5 June 2020
+      This page was set to be reviewed before 7 March 2021
        by the page owner <a href="">#govuk-2ndline</a>.
       This might mean the content is out of date.
     </div>
