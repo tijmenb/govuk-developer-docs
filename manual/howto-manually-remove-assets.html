@@ -148,8 +148,8 @@ follow these steps:</p>
 <li>Mark the asset as deleted. Sometimes it may be necessary to completely scrub an asset from our systems e.g. if it contains secret information. In this case, add <code>,true</code> to the appropriate rake task:
 
 <ul>
-<li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:whitehall_delete[]"><code>rake assets:delete[&lt;asset.id&gt;]</code></a> (non-Whitehall assets)</li>
-<li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:delete[]"><code>rake assets:whitehall_delete[&lt;legacy URL path&gt;]</code></a> (Whitehall assets)</li>
+<li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:delete[]"><code>rake assets:delete[&lt;asset.id&gt;]</code></a> (non-Whitehall assets)</li>
+<li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:whitehall_delete[]"><code>rake assets:whitehall_delete[&lt;legacy URL path&gt;]</code></a> (Whitehall assets)</li>
 </ul></li>
 <li>Add a cache bust and check that the asset responds with a 404 not found</li>
 <li>Wait 20 minutes for the cache to clear, or <a href="https://docs.publishing.service.gov.uk/manual/purge-cache.html#assets">purge it yourself</a></li>
