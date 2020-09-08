@@ -216,67 +216,27 @@ permanent failure) the record will be archived in a reduced form and sent to<br>
 Amazon S3 in hourly batches. After 14 days the email will be removed from the<br>
 database. Thus for recent information the <code>emails</code> database table can be used<br>
 otherwise the email archive should be queried.</p>
-<h2 id="analytics-through-rails-console">Analytics through Rails console</h2>
+<h2 id="analytics-through-rake-tasks">Analytics through Rake tasks</h2>
 <p>A large number of analytic insights can be discovered by working with the<br>
 <a href="https://github.com/alphagov/email-alert-api/tree/master/db/schema.rb">database schema</a> and querying the data. The intention is that when<br>
-useful common queries are identified they will be made accessible via API<br>
-endpoints or rake tasks.</p>
-<p>Here are some example queries to pull out particular insights.</p>
-<h3 id="how-many-subscribers-does-a-list-have">How many subscribers does a list have</h3>
-<pre lang="ruby"><code># total count right now
-SubscriberList.find(4194).active_subscriptions_count
+useful common queries are identified they will be made accessible via rake tasks.</p>
+<h3 id="count-subscriptions-to-a-subscriber-list">Count subscriptions to a subscriber list</h3>
+<p>This shows subscription counts by Immediate, Daily or Weekly:</p>
+<pre lang="bash"><code>rake report:count_subscribers['subscriber-list-slug']
+</code></pre>
+<p><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=report:count_subscribers%5B'subscriber-list-slug'%5D">⚙ Run rake task on Integration</a></p>
+<p>If you need to know the number of subscriptions on a particular day:</p>
+<pre lang="bash"><code>rake report:count_subscribers_on[yyyy-mm-dd,'subscriber-list-slug']
+</code></pre>
+<p><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=report:count_subscribers_on%5Byyyy-mm-dd,'subscriber-list-slug'%5D">⚙ Run rake task on Integration</a></p>
+<h2 id="content-changes-for-each-subscriber-list">Content changes for each subscriber list</h2>
+<p>This generates a CSV report of matched content changes over the last week.</p>
+<pre lang="bash"><code>rake report:matched_content_changes
 
-# total count at a particular point in time
-Subscription.active_on("2018-06-01").where(subscriber_list_id: 4194).count
+# or with a specific range
+START_DATE=2020-08-07 END_DATE=2020-08-13 rake report:matched_content_changes
 </code></pre>
-<p>There are <a href="/apis/email-alert-api/support-tasks.html#count-subscriptions-to-a-subscriber-list">rake tasks</a> that do this for you, and<br>
-include a breakdown of subscriptions that are Immediate, Daily or Weekly.</p>
-<h3 id="lists-with-most-new-subscriptions-in-a-time-frame">Lists with most new subscriptions in a time frame</h3>
-<pre lang="ruby"><code>pp Subscription.where(
-    "created_at BETWEEN ? AND ?", "2018-06-01", "2018-07-01"
-  ).group(
-    :subscriber_list_id
-  ).having(
-    "count(*) &gt; 10"
-  ).order(
-    count: :desc
-  ).pluck(:subscriber_list_id, Arel.sql("COUNT(*) AS count"))
-</code></pre>
-<h3 id="lists-with-most-ended-subscriptions-in-a-time-frame">Lists with most ended subscriptions in a time frame</h3>
-<pre lang="ruby"><code>pp Subscription.where(
-    "ended_at BETWEEN ? AND ?", "2018-06-01", "2018-07-01"
-  ).group(
-    :subscriber_list_id
-  ).having(
-    "count(*) &gt; 10"
-  ).order(
-    count: :desc
-  ).pluck(:subscriber_list_id, Arel.sql("COUNT(*) AS count"))
-</code></pre>
-<h3 id="how-many-emails-did-subscribers-were-generated-emails-for-digest-runs">How many emails did subscribers were generated emails for digest runs</h3>
-<pre lang="ruby"><code>pp DigestRun.where(
-    "date &gt;= ? AND date &lt;= ?", "2018-06-04", "2018-06-10"
-  ).where(
-    range: :daily
-  ).order(date: :asc).pluck(:date, :subscriber_count)
-</code></pre>
-<h3 id="which-hours-are-content_changes-being-created-at">Which hours are content_changes being created at</h3>
-<pre lang="ruby"><code>pp ContentChange.group("EXTRACT(HOUR FROM created_at)").count
-</code></pre>
-<h3 id="which-days-of-the-week-have-the-most-content-changes">Which days of the week have the most content changes</h3>
-<pre lang="ruby"><code>pp ContentChange.group("to_char(created_at, 'Day')").count
-</code></pre>
-<h3 id="how-many-content-changes-per-subscription-list-in-a-timeframe">How many content changes per subscription list in a timeframe</h3>
-<pre lang="ruby"><code>pp MatchedContentChange.joins(:content_change).joins(:subscriber_list).where(
-  "content_changes.created_at BETWEEN ? AND ?",
-  "2018-06-01",
-  "2018-07-01"
-).group(
-  :subscriber_list_id, "subscriber_lists.title"
-).order("COUNT(*) DESC").limit(10).pluck(
-  :subscriber_list_id, "subscriber_lists.title", Arel.sql("COUNT(*)")
-)
-</code></pre>
+<p><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=report:matched_content_changes">⚙ Run rake task on Integration</a></p>
 <h2 id="analytics-through-athena">Analytics through Athena</h2>
 <p><a href="https://aws.amazon.com/athena/">Athena</a> is accessible through the AWS control panel which can be<br>
 accessed by following the <a href="https://docs.publishing.service.gov.uk/manual/seeing-things-in-the-aws-console.html">instructions</a> provided in the<br>
