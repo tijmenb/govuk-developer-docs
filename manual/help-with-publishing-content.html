@@ -157,7 +157,7 @@ should be <a href="/manual/alerts/email-alert-api-app-healthcheck-not-ok.html#un
 how to solve this</a>.</p></li>
 </ul>
 <p>If there are no alerts, it would suggest that the content change never made it
-  to the Email Alert API. In which case, you should <a href="alerts/rabbitmq-no-consumers-consuming.html">check that Email Alert
+  to the Email Alert API. In which case, you should <a href="/manual/alerts/rabbitmq-no-consumers-consuming.html">check that Email Alert
   Service is correctly consuming from RabbitMQ</a>.
   If all looks fine, it may be necessary to <a href="https://github.com/alphagov/email-alert-api/blob/1aee9703bf303d43ba4ecb5f6fd771b757d52daf/app/services/notification_handler_service.rb#L24-L43">manually create a <code>ContentChange</code> in
   Email Alert API</a>.</p>
