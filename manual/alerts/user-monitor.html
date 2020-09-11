@@ -157,12 +157,12 @@
       </a>
     </div>
 
-   <h1 id='header'>Check that correct users have access</h1><p>This alert is triggered by the <a href="https://deploy.publishing.service.gov.uk/job/user-monitor">User monitor</a> task. This task <a href="https://github.com/alphagov/govuk-user-reviewer">runs a script</a> that verifies only the correct users have access to things like GitHub.</p>
-<h2 id='investigating-issues'>Investigating issues</h2><p>When the check fails, look at the console logs for the monitor task:</p>
-<p><a href="https://deploy.publishing.service.gov.uk/job/user-monitor">https://deploy.publishing.service.gov.uk/job/user-monitor</a></p>
+   <h1 id='header'>Check that correct users have access</h1><p>This alert is triggered by the <a href="https://deploy.blue.production.govuk.digital/job/user-monitor">User Monitor Jenkins job</a>. This task <a href="https://github.com/alphagov/govuk-user-reviewer">runs a script</a> that verifies only the correct users have access to things like GitHub.</p>
+<h2 id='investigating-issues'>Investigating issues</h2><p>When the check fails, look at the console logs for the monitor task
+<a href="https://deploy.blue.production.govuk.digital/job/user-monitor">in the AWS Production Jenkins</a>.</p>
 <p>When a new person joins, they are added on GitHub, but they still have to open a number of PRs to give themselves access elsewhere (ex: in <code>govuk-puppet</code>).
 If they&rsquo;re new, they might not have gotten to that yet so you should check with them before attempting to remove their access.</p>
-<h2 id='resolving-issues'>Resolving issues</h2><p>The list of users and their privileges which the <a href="https://deploy.publishing.service.gov.uk/job/user-monitor">User monitor</a> task compares with the status quo is maintained in the <a href="https://github.com/alphagov/govuk-user-reviewer"><code>govuk-user-reviewer</code></a> repository. If you have verified that a user has rightfully been granted access, you can request them or their team lead to adjust the data in the repo accordingly.</p>
+<h2 id='resolving-issues'>Resolving issues</h2><p>The list of users and their privileges which the <a href="https://deploy.blue.production.govuk.digital/job/user-monitor">user monitor</a> task compares with the status quo is maintained in the <a href="https://github.com/alphagov/govuk-user-reviewer"><code>alphagov/govuk-user-reviewer</code></a> repository. If you have verified that a user has rightfully been granted access, you can request them or their team lead to adjust the data in the repo accordingly.</p>
 
 
   <div class='related-content'>
@@ -170,17 +170,17 @@ If they&rsquo;re new, they might not have gotten to that yet so you should check
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-09-10">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-03-10">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 10 March 2020.
+      This page was last reviewed on 10 September 2020.
 
-        It needs to be reviewed again on 10 September 2020
+        It needs to be reviewed again on 10 March 2021
         by the page owner <a href="">#govuk-2ndline</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 10 September 2020
+      This page was set to be reviewed before 10 March 2021
        by the page owner <a href="">#govuk-2ndline</a>.
       This might mean the content is out of date.
     </div>
