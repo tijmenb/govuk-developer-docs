@@ -8,23 +8,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-    <title>Patch Jenkins - GOV.UK Developer Documentation</title>
+    <title>email-alert-api app healthcheck not ok - GOV.UK Developer Documentation</title>
 
     <link href="/stylesheets/manifest.css" rel="stylesheet" />
 
-    <link rel="canonical" href="https://docs.publishing.service.gov.uk/manual/patching-jenkins.html">
+    <link rel="canonical" href="https://docs.publishing.service.gov.uk/manual/alerts/email-alert-api-app-healthcheck-not-ok.html">
 
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:domain" content="docs.publishing.service.gov.uk" />
       <meta name="twitter:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
-      <meta name="twitter:title" content="Patch Jenkins - GOV.UK Developer Documentation" />
-      <meta name="twitter:url" content="https://docs.publishing.service.gov.uk/manual/patching-jenkins.html" />
+      <meta name="twitter:title" content="email-alert-api app healthcheck not ok - GOV.UK Developer Documentation" />
+      <meta name="twitter:url" content="https://docs.publishing.service.gov.uk/manual/alerts/email-alert-api-app-healthcheck-not-ok.html" />
 
       <meta property="og:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
       <meta property="og:site_name" content="GOV.UK Developer Documentation" />
-      <meta property="og:title" content="Patch Jenkins" />
+      <meta property="og:title" content="email-alert-api app healthcheck not ok" />
       <meta property="og:type" content="object" />
-      <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/patching-jenkins.html" />
+      <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/alerts/email-alert-api-app-healthcheck-not-ok.html" />
 
     
   </head>
@@ -129,18 +129,13 @@
                   <a href='/manual.html' class="toc__back-link govuk-link">&lsaquo; Manual</a>
   <ul>
   <li>
-    <a href="#header"><span>Patch Jenkins</span></a>
+    <a href="#header"><span>email-alert-api app healthcheck not ok</span></a>
     <ul>
       <li>
-        <a href="#upgrading-plugins"><span>Upgrading plugins</span></a>
+        <a href="#you-may-not-need-to-do-anything"><span>You may not need to do anything</span></a>
       </li>
       <li>
-        <a href="#upgrading-jenkins-base"><span>Upgrading Jenkins base</span></a>
-        <ul>
-          <li>
-            <a href="#manual-test-upgrade"><span>Manual test upgrade</span></a>
-          </li>
-        </ul>
+        <a href="#-but-if-you-do"><span>…but if you do</span></a>
       </li>
     </ul>
   </li>
@@ -153,100 +148,60 @@
 
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
-            
-  <p><a href='/manual.html#infrastructure'>Infrastructure</a></p> <h1 id='header'>Patch Jenkins</h1><p>Jenkins should be regularly patched when possible, including all plugins.</p>
-<h2 id='upgrading-plugins'>Upgrading plugins</h2><p>SSH to the Jenkins machine and take a copy of the plugins directory:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>tar -zcvf plugins.tgz /var/lib/jenkins/plugins
-</code></pre></div><p>Disable Puppet on the host:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>govuk_puppet -n &lt;myname&gt; -r "patching jenkins" --disable
-</code></pre></div><p>Log in to the Jenkins UI and go to &ldquo;Manage Jenkins&rdquo; -&gt; &ldquo;Manage Plugins&rdquo;.</p>
-<p>Select all outstanding updates and kick off the install. Wait for the downloads
-to complete, install and restart the service.</p>
-<p>Back on the machine terminal, run the following command to see the currently
-installed plugins in a hieradata like format:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo jenkins-cli list-plugins |sort| awk '{ if ($NF ~ /\(.*\)/) print $1":\n  version:", "'\''" $(NF-1) "'\''"; else print $1":\n  version:", "'\''" $NF "'\''" }'
-</code></pre></div><p>Update the class hieradata with the list of plugins. Check <a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata/class/ci_master.yaml">this example</a>.</p>
-<p>Use <code>git diff</code> to ensure version numbers are updated. If new plugins appear to be
-present, double-check with someone else.</p>
-<p><strong>Be aware that the &ldquo;credentials&rdquo; plugin is pulled in using the upstream Puppet
-module, so ensure that this not added to hiera</strong></p>
-<p>Re-enable Puppet on the machine when the PR has been merged and deployed.</p>
-<h2 id='upgrading-jenkins-base'>Upgrading Jenkins base</h2><p>Grab the latest Debian package from the <a href="https://pkg.jenkins.io/debian-stable/">Jenkins site</a>.</p>
-<p>Upload it to <code>apt-1.management</code> in Production (we only use a single apt machine
-across all environments).</p>
-<p>Run the following commands to add it to the Jenkins repo:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>sudo -i aptly repo add govuk-jenkins /home/$USER/jenkins_2.46.1_all.deb
-sudo aptly snapshot create govuk-jenkins-$(date +%Y%m%d) from repo govuk-jenkins
-sudo -i aptly publish switch stable govuk-jenkins govuk-jenkins-$(date +%Y%m%d)
-</code></pre></div><p>You will require the apt passphrase found in the <a href="https://github.com/alphagov/govuk-secrets/tree/master/pass">password store</a>.</p>
-<p>Purge the cache for the &ldquo;Production Apt&rdquo; service in Fastly.</p>
-<p>Update Puppet with the version you&rsquo;ve just added to aptly.</p>
-<h3 id='manual-test-upgrade'>Manual test upgrade</h3><p>You can manually test a new version before doing the steps outlined above to get
-it officially into Puppet.</p>
-<p>Find the latest version on the Jenkins site and set appropriately below:
-<a href="https://jenkins.io/download/">https://jenkins.io/download/</a></p>
-<div class="highlight"><pre class="highlight plaintext"><code>export VERSION='2.46.2'
-wget http://updates.jenkins-ci.org/download/war/$VERSION/jenkins.war
-sudo cp /usr/share/jenkins/jenkins.war /usr/share/jenkins/jenkins.war-$(date +%F)
-sudo mv jenkins.war /usr/share/jenkins/jenkins.war
-sudo service jenkins restart
-</code></pre></div><p>When this has completed, complete the Puppet and apt steps above. Remember to re-enable Puppet once the task is finished.</p>
+                <div class="information-callout">
+      This page describes what to do in case of an
+      <a href='https://docs.publishing.service.gov.uk/manual/tools.html#icinga'>Icinga alert</a>.
+      For more information you could
+      <a href='https://github.com/alphagov/govuk-puppet/search?utf8=%E2%9C%93&q=email-alert-api-app-healthcheck-not-ok'>
+        search the govuk-puppet repo for the source of the alert
+      </a>
+    </div>
+
+   <h1 id='header'>email-alert-api app healthcheck not ok</h1><p>If there is a health check error showing for Email Alert API, you can click on
+the alert to find out more details about what’s wrong. We&rsquo;ve listed some common
+problems and remedies later on in this document.</p>
+<h2 id='you-may-not-need-to-do-anything'>You may not need to do anything</h2><p>The high queue alerts tend to trigger when emails are sent out. Normally Notify
+sends out a bulk of emails around 9.30am, which can cause a spike but this returns
+to normal after 10.15am. You can monitor emails have been sent by looking at the
+<a href="https://grafana.staging.govuk.digital/dashboard/file/email_alert_api.json?refresh=10s&amp;orgId=1">Email Alert API Metrics Grafana dashboard</a>.</p>
+<h2 id='-but-if-you-do'>&hellip;but if you do</h2><p>Read <a href="/manual/email-troubleshooting.html">Email troubleshooting</a> for how to debug.</p>
 
 
   <div class='related-content'>
 
-    <h3>More in the Infrastructure section</h3>
+    <h3>More in the Icinga alerts section</h3>
 
     <div class='govuk-grid-row'>
-        <div class='govuk-grid-column-one-half'>
-          <h4>Learn</h4>
 
-          <ul class="govuk-list">
-            <li><a href="/manual/govuk-app-domain-handling-during-migration.html">app_domain handling in GOV.UK during migration to AWS</a></li>
-            <li><a href="/manual/concourse.html">Concourse</a></li>
-            <li><a href="/manual/dns.html">Domain Name System (DNS) records</a></li>
-            <li><a href="/manual/vpn.html">GOV.UK and Virtual Private Networks (VPNs)</a></li>
-            <li><a href="/manual/environments.html">GOV.UK's environments (integration, staging, production)</a></li>
-            <li><a href="/manual/load-testing.html">Load Testing</a></li>
-            <li><a href="/manual/upgrade-terraform.html">Upgrade Terraform</a></li>
-          </ul>
-        </div>
 
         <div class='govuk-grid-column-one-half'>
-          <h4>How to...</h4>
+          <h4>Related alerts...</h4>
 
           <ul class="govuk-list">
-            <li><a href="/manual/adding-disks-in-vcloud.html">Add a disk to a vCloud machine (Carrenza only)</a></li>
-            <li><a href="/manual/ruby.html">Add a new Ruby version</a></li>
-            <li><a href="/manual/connect-to-vcloud-director.html">Connect to vCloud Director (Carrenza only)</a></li>
-            <li><a href="/manual/generate-csr.html">Generate a Certificate Signing Request (CSR) for GOV.UK</a></li>
-            <li><a href="/manual/rabbitmq.html">Manage RabbitMQ</a></li>
-            <li><a href="/manual/auto-scaling-groups.html">Manually resize ASGs (auto scaling groups)</a></li>
-            <li><a href="/manual/move-apps-between-servers.html">Move apps between servers</a></li>
-            <li><a href="/manual/provision-machines-for-data-science-research.html">Provision machines for data science research</a></li>
-            <li><a href="/manual/alerts/rebooting-machines.html">Reboot a machine</a></li>
-            <li><a href="/manual/remove-machines.html">Remove a machine</a></li>
-            <li><a href="/manual/renew-a-tls-certificate.html">Renew a TLS certificate for GOV.UK</a></li>
-            <li><a href="/manual/reprovision.html">Reprovision a machine</a></li>
+            <li><a href="/manual/alerts/email-alert-api-high-queue-latency.html">Email Alert API: high latency for sidekiq queue</a></li>
+            <li><a href="/manual/alerts/email-alert-api-incomplete-digest-runs.html">Email Alert API: Incomplete digest runs</a></li>
+            <li><a href="/manual/alerts/email-alert-api-unprocessed-content-changes.html">Email Alert API: Unprocessed content changes</a></li>
+            <li><a href="/manual/alerts/email-alert-api-unprocessed-messages.html">Email Alert API: Unprocessed messages</a></li>
+            <li><a href="/manual/alerts/publisher-unprocessed-fact-check-emails.html">Publisher: Unprocessed fact-check emails</a></li>
+            <li><a href="/manual/alerts/email-alerts-travel-medical.html">Travel Advice or Drug and Medical Device email alerts not sent</a></li>
           </ul>
         </div>
-
     </div>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-09-02">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-01-16">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 2 March 2020.
+      This page was last reviewed on 16 July 2020.
 
-        It needs to be reviewed again on 2 September 2020
-        by the page owner <a href="">#re-govuk</a>
+        It needs to be reviewed again on 16 January 2021
+        by the page owner <a href="">#govuk-2ndline</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 2 September 2020
-       by the page owner <a href="">#re-govuk</a>.
+      This page was set to be reviewed before 16 January 2021
+       by the page owner <a href="">#govuk-2ndline</a>.
       This might mean the content is out of date.
     </div>
   </div>
@@ -255,8 +210,8 @@ sudo service jenkins restart
 
           <aside>
               <ul class="contribution-banner">
-                <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/patching-jenkins.html.md">View source</a></li>
-                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'Patch%20Jenkins'&amp;body=Problem%20with%20'Patch%20Jenkins'%20(https://docs.publishing.service.gov.uk/manual/patching-jenkins.html)">Report problem</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/alerts/email-alert-api-app-healthcheck-not-ok.html.md">View source</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'email-alert-api%20app%20healthcheck%20not%20ok'&amp;body=Problem%20with%20'email-alert-api%20app%20healthcheck%20not%20ok'%20(https://docs.publishing.service.gov.uk/manual/alerts/email-alert-api-app-healthcheck-not-ok.html)">Report problem</a></li>
                 <li><a href="https://github.com/alphagov/govuk-developer-docs">GitHub Repo</a></li>
               </ul>
           </aside>

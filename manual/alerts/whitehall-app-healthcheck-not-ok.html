@@ -149,8 +149,7 @@
       </a>
     </div>
 
-   <h1 id='header'>Whitehall app healthcheck not ok</h1><p>See also: <a href="/manual/alerts/app-healthcheck-not-ok.html">how healthcheck alerts work on GOV.UK</a></p>
-<p>If the message is a warning about <code>scheduled_queue</code>, eg &lsquo;850 scheduled
+   <h1 id='header'>Whitehall app healthcheck not ok</h1><p>If the message is a warning about <code>scheduled_queue</code>, eg &lsquo;850 scheduled
 edition(s); 840 job(s) queued&rsquo;, this alert means that the number of
 editions in the database which are scheduled to be published in the
 future is different from the number currently in the queue. This can
@@ -160,8 +159,8 @@ Production.</p>
 scheduled editions:</p>
 
 <ul>
-<li><a href="https://deploy.integration.publishing.service.gov.uk//job/run-rake-task/parambuild/?TARGET_APPLICATION=whitehall&amp;MACHINE_CLASS=whitehall_backend&amp;RAKE_TASK=publishing:scheduled:requeue_all_jobs">Run in Integration Jenkins</a></li>
-<li><a href="https://deploy.blue.staging.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=whitehall&amp;MACHINE_CLASS=whitehall_backend&amp;RAKE_TASK=publishing:scheduled:requeue_all_jobs">Run in Staging Jenkins</a></li>
+<li><a href="https://deploy.integration.publishing.service.gov.uk//job/run-rake-task/parambuild/?TARGET_APPLICATION=whitehall&amp;MACHINE_CLASS=whitehall_backend&amp;RAKE_TASK=publishing:scheduled:requeue_all_jobs">Integration</a></li>
+<li><a href="https://deploy.blue.staging.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=whitehall&amp;MACHINE_CLASS=whitehall_backend&amp;RAKE_TASK=publishing:scheduled:requeue_all_jobs">Staging</a></li>
 </ul>
 
 
@@ -170,17 +169,17 @@ scheduled editions:</p>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2021-09-11">
+              <div data-module='page-expiry' data-last-reviewed-on="2020-10-08">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 11 September 2020.
+      This page was last reviewed on 8 April 2020.
 
-        It needs to be reviewed again on 11 September 2021
+        It needs to be reviewed again on 8 October 2020
         by the page owner <a href="">#govuk-2ndline</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 11 September 2021
+      This page was set to be reviewed before 8 October 2020
        by the page owner <a href="">#govuk-2ndline</a>.
       This might mean the content is out of date.
     </div>

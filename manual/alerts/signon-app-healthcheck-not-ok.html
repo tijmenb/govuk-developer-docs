@@ -154,10 +154,17 @@
       </a>
     </div>
 
-   <h1 id='header'>Signon app healthcheck not ok</h1><p>See also: <a href="/manual/alerts/app-healthcheck-not-ok.html">how healthcheck alerts work on GOV.UK</a></p>
-<h2 id='rotating-api-tokens'>Rotating API Tokens</h2><p>One or more tokens for API Users are about to expire. You should rotate
-expiring tokens to ensure the associated application keeps working.</p>
-<p>As a working example, let&rsquo;s say we have an alert like <em>Content Publisher token
+   <h1 id='header'>Signon app healthcheck not ok</h1><p>Signon has a standard <a href="https://signon.publishing.service.gov.uk/healthcheck">/healthcheck</a> endpoint, which is
+queried periodically by Icinga and is comprised of several checks. In addition
+to the standard database checks, there are also custom checks for this
+application.</p>
+
+<ul>
+<li><code>api_tokens</code>: looks at tokens for API Users to see if any are about to
+expire. You should rotate expiring tokens to ensure the associated
+application keeps working.</li>
+</ul>
+<h2 id='rotating-api-tokens'>Rotating API Tokens</h2><p>As a working example, let&rsquo;s say we have an alert like <em>Content Publisher token
 for Publishing API expires in X days</em>. In this example, the API User is
 <em>Content Publisher</em> and the application is <em>Publishing API</em>.</p>
 
@@ -217,17 +224,17 @@ that it picks up the new token from the environment.</p>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2021-09-11">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-02-05">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 11 September 2020.
+      This page was last reviewed on 5 August 2020.
 
-        It needs to be reviewed again on 11 September 2021
+        It needs to be reviewed again on 5 February 2021
         by the page owner <a href="">#govuk-2ndline</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 11 September 2021
+      This page was set to be reviewed before 5 February 2021
        by the page owner <a href="">#govuk-2ndline</a>.
       This might mean the content is out of date.
     </div>
