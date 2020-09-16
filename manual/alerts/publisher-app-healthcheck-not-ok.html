@@ -149,8 +149,7 @@
       </a>
     </div>
 
-   <h1 id='header'>publisher app healthcheck not ok</h1><p>See also: <a href="/manual/alerts/app-healthcheck-not-ok.html">how healthcheck alerts work on GOV.UK</a></p>
-<p>If the message is a warning about <code>scheduled_queue</code>, eg &lsquo;71 scheduled
+   <h1 id='header'>publisher app healthcheck not ok</h1><p>If the message is a warning about <code>scheduled_queue</code>, eg &lsquo;71 scheduled
 edition(s); 3 item(s) queued&rsquo;, this alert means that the number of editions in
 the database which are scheduled to be published in the future is different
 from the number currently in the queue. This can happen in Staging and
@@ -158,11 +157,7 @@ Integration as a result of the data sync from Production. Run this rake task to
 re-queue all scheduled editions:</p>
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">cd</span> /var/apps/publisher
 <span class="nv">$ </span><span class="nb">sudo</span> <span class="nt">-u</span> deploy govuk_setenv publisher bundle <span class="nb">exec </span>rake editions:requeue_scheduled_for_publishing
-</code></pre></div>
-<ul>
-<li><p><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=publisher&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=editions:requeue_scheduled_for_publishing">Run in Integration Jenkins</a></p></li>
-<li><p><a href="https://deploy.staging.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=publisher&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=editions:requeue_scheduled_for_publishing">Run in Staging Jenkins</a></p></li>
-</ul>
+</code></pre></div><p><a href="https://deploy.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=publisher&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=editions:requeue_scheduled_for_publishing">Run this job in production Jenkins ⚠️</a></p>
 
 
   <div class='related-content'>
@@ -170,17 +165,17 @@ re-queue all scheduled editions:</p>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2021-09-11">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-04-21">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 11 September 2020.
+      This page was last reviewed on 21 April 2020.
 
-        It needs to be reviewed again on 11 September 2021
+        It needs to be reviewed again on 21 April 2021
         by the page owner <a href="">#govuk-2ndline</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 11 September 2021
+      This page was set to be reviewed before 21 April 2021
        by the page owner <a href="">#govuk-2ndline</a>.
       This might mean the content is out of date.
     </div>

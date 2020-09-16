@@ -8,23 +8,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-    <title>Email Alert API: Unprocessed content changes - GOV.UK Developer Documentation</title>
+    <title>email-alert-api app healthcheck not ok - GOV.UK Developer Documentation</title>
 
     <link href="/stylesheets/manifest.css" rel="stylesheet" />
 
-    <link rel="canonical" href="https://docs.publishing.service.gov.uk/manual/alerts/email-alert-api-unprocessed-content-changes.html">
+    <link rel="canonical" href="https://docs.publishing.service.gov.uk/manual/alerts/email-alert-api-app-healthcheck-not-ok.html">
 
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:domain" content="docs.publishing.service.gov.uk" />
       <meta name="twitter:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
-      <meta name="twitter:title" content="Email Alert API: Unprocessed content changes - GOV.UK Developer Documentation" />
-      <meta name="twitter:url" content="https://docs.publishing.service.gov.uk/manual/alerts/email-alert-api-unprocessed-content-changes.html" />
+      <meta name="twitter:title" content="email-alert-api app healthcheck not ok - GOV.UK Developer Documentation" />
+      <meta name="twitter:url" content="https://docs.publishing.service.gov.uk/manual/alerts/email-alert-api-app-healthcheck-not-ok.html" />
 
       <meta property="og:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
       <meta property="og:site_name" content="GOV.UK Developer Documentation" />
-      <meta property="og:title" content="Email Alert API: Unprocessed content changes" />
+      <meta property="og:title" content="email-alert-api app healthcheck not ok" />
       <meta property="og:type" content="object" />
-      <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/alerts/email-alert-api-unprocessed-content-changes.html" />
+      <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/alerts/email-alert-api-app-healthcheck-not-ok.html" />
 
     
   </head>
@@ -129,14 +129,13 @@
                   <a href='/manual.html' class="toc__back-link govuk-link">&lsaquo; Manual</a>
   <ul>
   <li>
-    <a href="#header"><span>Email Alert API: Unprocessed content changes</span></a>
+    <a href="#header"><span>email-alert-api app healthcheck not ok</span></a>
     <ul>
       <li>
-        <ul>
-          <li>
-            <a href="#still-stuck"><span>Still stuck?</span></a>
-          </li>
-        </ul>
+        <a href="#you-may-not-need-to-do-anything"><span>You may not need to do anything</span></a>
+      </li>
+      <li>
+        <a href="#-but-if-you-do"><span>…but if you do</span></a>
       </li>
     </ul>
   </li>
@@ -153,41 +152,19 @@
       This page describes what to do in case of an
       <a href='https://docs.publishing.service.gov.uk/manual/tools.html#icinga'>Icinga alert</a>.
       For more information you could
-      <a href='https://github.com/alphagov/govuk-puppet/search?utf8=%E2%9C%93&q=email-alert-api-unprocessed-content-changes'>
+      <a href='https://github.com/alphagov/govuk-puppet/search?utf8=%E2%9C%93&q=email-alert-api-app-healthcheck-not-ok'>
         search the govuk-puppet repo for the source of the alert
       </a>
     </div>
 
-   <h1 id='header'>Email Alert API: Unprocessed content changes</h1><p>This alert indicates that Email Alert API has <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/process_content_change_worker.rb">content changes that were not
-processed</a> within 2 hours. Processing a content change
-is the means to establish which subscriber lists should be notified when GOV.UK
-content changes and the process to generate individual emails for the change in
-content.</p>
-<p>We generally expect a content change to be have processed within 30 minutes of
-it&rsquo;s creation. At 30 minute intervals a job, <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/recover_lost_jobs_worker.rb">RecoverLostJobsWorker</a>, will try
-to requeue any content changes that have not been processed within an hour.</p>
-<p>Thus, seeing this alert indicates that we likely have a problem that needs
-manual intervention. Potential causes would be:</p>
-
-<ul>
-<li><p><a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/process_content_change_worker.rb">ProcessContentChangeWorker</a> is failing to process content changes due to
-some error</p></li>
-<li><p>Sidekiq not running or not operating correctly</p></li>
-<li><p>Content changes taking an abormally long time to process, which may indicate
-degraded system performance or an unexpectedly large task as part of
-processing. This scenario may resolve automatically.</p></li>
-</ul>
-<p>To diagnose this problem, consult <a href="https://sentry.io/organizations/govuk/issues/?project=202220&amp;statsPeriod=6h">Sentry</a> to see if there are errors reported.</p>
-<p>If you find nothing conclusive in Sentry, go to the <a href="https://kibana.logit.io/s/2dd89c13-a0ed-4743-9440-825e2e52329e/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-1h,mode:quick,to:now))&amp;_a=(columns:!('@message',host),index:'*-*',interval:auto,query:(query_string:(query:'@type:%20sidekiq%20AND%20application:%20email-alert-api%20AND%20@fields.worker:%20ProcessContentChangeWorker')),sort:!('@timestamp',desc))">ProcessContentChangeWorker
-sidekiq logs</a> and check the jobs are running correctly.</p>
-<p>If the problem persists, run the <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/recover_lost_jobs_worker.rb">RecoverLostJobsWorker</a> and/or
-<a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/process_content_change_worker.rb">ProcessContentChangeWorker</a> directly to see if any problems occur in real-time.</p>
-<h3 id='still-stuck'>Still stuck?</h3>
-<ul>
-<li><a href="/apis/email-alert-api/troubleshooting.html">Email Alert API troubleshooting</a> for more information</li>
-<li><a href="https://grafana.production.govuk.digital/dashboard/file/sidekiq.json?refresh=1m&amp;orgId=1&amp;var-Application=email-alert-api&amp;var-Queues=All&amp;from=now-3h&amp;to=now">Email Alert API Sidekiq dashboard</a> to check if jobs are being processed</li>
-<li><a href="https://grafana.production.govuk.digital/dashboard/file/email_alert_api_technical.json?refresh=1m&amp;orgId=1">Email Alert API Technical dashboard</a> to check if emails are going out</li>
-</ul>
+   <h1 id='header'>email-alert-api app healthcheck not ok</h1><p>If there is a health check error showing for Email Alert API, you can click on
+the alert to find out more details about what’s wrong. We&rsquo;ve listed some common
+problems and remedies later on in this document.</p>
+<h2 id='you-may-not-need-to-do-anything'>You may not need to do anything</h2><p>The high queue alerts tend to trigger when emails are sent out. Normally Notify
+sends out a bulk of emails around 9.30am, which can cause a spike but this returns
+to normal after 10.15am. You can monitor emails have been sent by looking at the
+<a href="https://grafana.staging.govuk.digital/dashboard/file/email_alert_api.json?refresh=10s&amp;orgId=1">Email Alert API Metrics Grafana dashboard</a>.</p>
+<h2 id='-but-if-you-do'>&hellip;but if you do</h2><p>Read <a href="/manual/email-troubleshooting.html">Email troubleshooting</a> for how to debug.</p>
 
 
   <div class='related-content'>
@@ -203,8 +180,8 @@ sidekiq logs</a> and check the jobs are running correctly.</p>
           <ul class="govuk-list">
             <li><a href="/manual/alerts/email-alert-api-high-queue-latency.html">Email Alert API: high latency for sidekiq queue</a></li>
             <li><a href="/manual/alerts/email-alert-api-incomplete-digest-runs.html">Email Alert API: Incomplete digest runs</a></li>
+            <li><a href="/manual/alerts/email-alert-api-unprocessed-content-changes.html">Email Alert API: Unprocessed content changes</a></li>
             <li><a href="/manual/alerts/email-alert-api-unprocessed-messages.html">Email Alert API: Unprocessed messages</a></li>
-            <li><a href="/manual/alerts/email-alert-api-app-healthcheck-not-ok.html">email-alert-api app healthcheck not ok</a></li>
             <li><a href="/manual/alerts/publisher-unprocessed-fact-check-emails.html">Publisher: Unprocessed fact-check emails</a></li>
             <li><a href="/manual/alerts/email-alerts-travel-medical.html">Travel Advice or Drug and Medical Device email alerts not sent</a></li>
           </ul>
@@ -213,17 +190,17 @@ sidekiq logs</a> and check the jobs are running correctly.</p>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2021-02-07">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-01-16">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 7 August 2020.
+      This page was last reviewed on 16 July 2020.
 
-        It needs to be reviewed again on 7 February 2021
+        It needs to be reviewed again on 16 January 2021
         by the page owner <a href="">#govuk-2ndline</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 7 February 2021
+      This page was set to be reviewed before 16 January 2021
        by the page owner <a href="">#govuk-2ndline</a>.
       This might mean the content is out of date.
     </div>
@@ -233,8 +210,8 @@ sidekiq logs</a> and check the jobs are running correctly.</p>
 
           <aside>
               <ul class="contribution-banner">
-                <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/alerts/email-alert-api-unprocessed-content-changes.html.md">View source</a></li>
-                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'Email%20Alert%20API:%20Unprocessed%20content%20changes'&amp;body=Problem%20with%20'Email%20Alert%20API:%20Unprocessed%20content%20changes'%20(https://docs.publishing.service.gov.uk/manual/alerts/email-alert-api-unprocessed-content-changes.html)">Report problem</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/alerts/email-alert-api-app-healthcheck-not-ok.html.md">View source</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'email-alert-api%20app%20healthcheck%20not%20ok'&amp;body=Problem%20with%20'email-alert-api%20app%20healthcheck%20not%20ok'%20(https://docs.publishing.service.gov.uk/manual/alerts/email-alert-api-app-healthcheck-not-ok.html)">Report problem</a></li>
                 <li><a href="https://github.com/alphagov/govuk-developer-docs">GitHub Repo</a></li>
               </ul>
           </aside>

@@ -132,6 +132,22 @@
     <a href="#header"><span>Search API app healthcheck not ok</span></a>
     <ul>
       <li>
+        <a href="#redis-connectivity-is-not-ok"><span>Redis connectivity is not OK</span></a>
+        <ul>
+          <li>
+            <a href="#how-do-i-investigate-this"><span>How do I investigate this?</span></a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#sidekiq-queue-latency-is-not-ok"><span>Sidekiq queue latency is not OK</span></a>
+        <ul>
+          <li>
+            <a href="#how-do-i-investigate-this"><span>How do I investigate this?</span></a>
+          </li>
+        </ul>
+      </li>
+      <li>
         <a href="#elasticsearch-connectivity-is-not-ok"><span>Elasticsearch connectivity is not OK</span></a>
         <ul>
           <li>
@@ -167,7 +183,33 @@
       </a>
     </div>
 
-   <h1 id='header'>Search API app healthcheck not ok</h1><p>See also: <a href="/manual/alerts/app-healthcheck-not-ok.html">how healthcheck alerts work on GOV.UK</a></p>
+   <h1 id='header'>Search API app healthcheck not ok</h1><p>The <a href="/apps/search-api.html">Search API</a> has a healthcheck endpoint which provides
+information about the current system status.</p>
+<p>When the healthcheck returns a &lsquo;warning&rsquo; or &lsquo;critical&rsquo; status, find the
+particular check that caused the alert, then follow the actions below.</p>
+<p>Note: The healthcheck endpoint is not publicly available.</p>
+<h2 id='redis-connectivity-is-not-ok'>Redis connectivity is not OK</h2><p>The Sidekiq queue (which uses Redis as a data store) contains documents to be
+indexed. The Search API takes jobs off the queue and adds them to the search
+indexes.</p>
+<p>We use Amazon <a href="https://aws.amazon.com/elasticache">Elasticache</a>, which
+provides managed redis instances.</p>
+<p>If the Search API cannot connect to Redis, this means that new editions of
+documents that are added to the queue will not enter the search indexes.
+While this issue is ongoing new editions won&rsquo;t appear in search results.</p>
+<p>Moreover, if the Search API doesn&rsquo;t take new jobs off the Sidekiq queue,
+and jobs continue to be added to the queue (by the publishing-api), this
+can cause Redis to run out of memory.</p>
+<h3 id='how-do-i-investigate-this'>How do I investigate this?</h3><p>You&rsquo;ll need to find out why the Search API can&rsquo;t connect to Redis.</p>
+<p>General tips: reproduce the connectivity issue, check application logs, and
+look at the redis cluster (Elasticache) in the AWS console.</p>
+<p><a href="/manual/alerts/redis.html#header">More information about Redis Alerts</a></p>
+<h2 id='sidekiq-queue-latency-is-not-ok'>Sidekiq queue latency is not OK</h2><p>This alert triggers when there are jobs in the Sidekiq queue that are waiting
+too long to be processed. This could mean that documents aren&rsquo;t appearing
+in search results after they&rsquo;ve been published.</p>
+<p>The thresholds are set in the Search API <a href="https://github.com/alphagov/search-api/">GitHub repository</a>.</p>
+<h3 id='how-do-i-investigate-this'>How do I investigate this?</h3><p>The issue could be caused by a temporary spike in publishing activity, or
+something being wrong with the Search API.</p>
+<p>You can <a href="https://grafana.production.govuk.digital/dashboard/file/sidekiq.json?refresh=1m&amp;orgId=1&amp;var-Application=search-api&amp;var-Queues=All">check the Sidekiq Grafana dashboard for the Search API</a>. Take a look at the &ldquo;Retry set size&rdquo; - this could mean that jobs are failing. You can then look at <a href="/manual/error-reporting.html">Sentry</a> or <a href="/manual/sidekiq.html#sidekiq-web">Sidekiq web</a> to see what&rsquo;s going on.</p>
 <h2 id='elasticsearch-connectivity-is-not-ok'>Elasticsearch connectivity is not OK</h2><p>The Search API uses elasticsearch as an underlying data store and search
 engine.</p>
 <p>If the application cannot connect to the elasticsearch cluster,
@@ -204,17 +246,17 @@ results.</p>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2021-03-11">
+              <div data-module='page-expiry' data-last-reviewed-on="2020-08-04">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 11 September 2020.
+      This page was last reviewed on 4 February 2020.
 
-        It needs to be reviewed again on 11 March 2021
+        It needs to be reviewed again on 4 August 2020
         by the page owner <a href="">#govuk-2ndline</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 11 March 2021
+      This page was set to be reviewed before 4 August 2020
        by the page owner <a href="">#govuk-2ndline</a>.
       This might mean the content is out of date.
     </div>
