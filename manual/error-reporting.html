@@ -142,8 +142,11 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
   <p><a href='/manual.html#monitoring'>Monitoring</a></p> <h1 id='header'>Error reporting with Sentry</h1><p>We use <a href="https://sentry.io/govuk">Sentry</a> to notify us of exceptions that happen in all environments.</p>
+
 <p>We configure Sentry using <a href="https://github.com/alphagov/govuk-saas-config/blob/5171b2803a7e211fff9536909b7d27c7fa5a4840/sentry/Rakefile">govuk-saas-config</a>. It reads a list of apps from the docs and makes sure that all configuration is set up correctly.</p>
+
 <p>Use the <a href="https://github.com/alphagov/govuk_app_config">govuk_app_config</a> gem to configure your application to talk to Sentry.</p>
+
 
 
   <div class='related-content'>

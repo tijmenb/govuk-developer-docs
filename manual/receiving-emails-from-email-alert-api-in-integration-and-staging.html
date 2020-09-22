@@ -146,37 +146,47 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#emails'>Emails</a></p> <h1 id='header'>Receive emails from Email Alert API in integration and staging</h1><p>In <code>integration</code> and <code>staging</code> Email Alert API defaults to sending emails
-to a single test address: <code>success@simulator.amazonses.com</code>. This is used to
+  <p><a href='/manual.html#emails'>Emails</a></p> <h1 id='header'>Receive emails from Email Alert API in integration and staging</h1><p>In <code>integration</code> and <code>staging</code> Email Alert API defaults to sending emails<br />
+to a single test address: <code>success@simulator.amazonses.com</code>. This is used to<br />
 simulate a successful email sending.</p>
-<p>However, you can override this for specific email addresses for testing
-purposes. To do this, <a href="/manual/govuk-notify.html#receiving-emails-from-govuk-notify">you will need to be added as a team member to
-the GOV.UK Email Integration or Staging service in Notify</a> and
+
+<p>However, you can override this for specific email addresses for testing<br />
+purposes. To do this, <a href="/manual/govuk-notify.html#receiving-emails-from-govuk-notify">you will need to be added as a team member to<br />
+the GOV.UK Email Integration or Staging service in Notify</a> and<br />
 make changes to <a href="https://github.com/alphagov/govuk-puppet">govuk-puppet</a>.</p>
 
 <ol>
-<li>Add your email address to the common.yml for <a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata/common.yaml#L442">hieradata</a> and <a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata_aws/common.yaml#L488">hieradata_aws</a> (these lists need to be kept in sync with the team members list in Notify)</li>
-<li>Add your email address to the override whitelist in the YAML file for the environment you&rsquo;re testing on. This is set as an
-environment variable via hieradata under the key of
-<code>govuk::apps::email_alert_api::email_address_override_whitelist</code>. It should look something like this:</li>
+  <li>Add your email address to the common.yml for <a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata/common.yaml#L442">hieradata</a> and <a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata_aws/common.yaml#L488">hieradata_aws</a> (these lists need to be kept in sync with the team members list in Notify)</li>
+  <li>
+    <p>Add your email address to the override whitelist in the YAML file for the environment you're testing on. This is set as an<br />
+environment variable via hieradata under the key of<br />
+<code>govuk::apps::email_alert_api::email_address_override_whitelist</code>. It should look something like this:</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code> govuk::apps::email_alert_api::email_address_override_whitelist:
+   - your.name@digital.cabinet-office.gov.uk
+</code></pre></div>  </li>
+  <li>Create a branch with these changes and push them to GitHub. Deploy these changes by running <a href="https://ci.integration.publishing.service.gov.uk/job/integration-puppet-deploy/build?delay=0sec">integration-puppet-deploy</a>, providing your branch name instead of a release tag.</li>
 </ol>
-<div class="highlight"><pre class="highlight plaintext"><code>    govuk::apps::email_alert_api::email_address_override_whitelist:
-      - your.name@digital.cabinet-office.gov.uk
-</code></pre></div>
-<ol>
-<li>Create a branch with these changes and push them to GitHub. Deploy these changes by running <a href="https://ci.integration.publishing.service.gov.uk/job/integration-puppet-deploy/build?delay=0sec">integration-puppet-deploy</a>, providing your branch name instead of a release tag.</li>
-</ol>
-<p>Once these changes have been deployed and the environment variable
-<code>EMAIL_ADDRESS_OVERRIDE_WHITELIST</code> is populated with your address you can test
+
+<p>Once these changes have been deployed and the environment variable<br />
+<code>EMAIL_ADDRESS_OVERRIDE_WHITELIST</code> is populated with your address you can test<br />
 that you can receive emails by running the <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=support:deliver_to_test_email[name@example.com]">support:deliver_to_test_email[name@example.com]</a> <a href="https://github.com/alphagov/email-alert-api/blob/master/lib/tasks/troubleshoot.rake#L19">rake task</a>.</p>
-<h2 id='testing-digest-emails'>Testing digest emails</h2><p>It is possible to re-send an entire digest run (e.g. to test changes that have been made to the email template) in integration.  You will need to have added yourself to the whitelist and have a digest subscription (daily or weekly) to something that had a significant update during the time period the digest covers (e.g. daily would be 07:00 the previous day to 07:00 today).</p>
+
+<h2 id="testing-digest-emails">Testing digest emails</h2>
+
+<p>It is possible to re-send an entire digest run (e.g. to test changes that have been made to the email template) in integration.  You will need to have added yourself to the whitelist and have a digest subscription (daily or weekly) to something that had a significant update during the time period the digest covers (e.g. daily would be 07:00 the previous day to 07:00 today).</p>
+
 <p>Using a Rails console for email-alert-api, retrieve the digest run that you wish to resend, then delete it, e.g.</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>digest = DigestRun.where(range: 'daily').last
 DigestRun.delete(digest)
-</code></pre></div><p>Then rerun the relevant digest initiator worker (either daily or weekly):</p>
+</code></pre></div>
+<p>Then rerun the relevant digest initiator worker (either daily or weekly):</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>DailyDigestInitiatorWorker.perform_async
 WeeklyDigestInitiatorWorker.perform_async
 </code></pre></div>
+
 
   <div class='related-content'>
 

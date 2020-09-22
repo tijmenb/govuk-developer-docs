@@ -149,65 +149,85 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#infrastructure'>Infrastructure</a></p> <h1 id='header'>Reprovision a machine</h1><p>Make sure you are aware what the consequences will be of removing a
-machine from the rotation and consider who needs to be aware of
-potential downtime. In particular, removing a single-point-of-failure
+  <p><a href='/manual.html#infrastructure'>Infrastructure</a></p> <h1 id='header'>Reprovision a machine</h1><p>Make sure you are aware what the consequences will be of removing a<br />
+machine from the rotation and consider who needs to be aware of<br />
+potential downtime. In particular, removing a single-point-of-failure<br />
 machine will result in downtime.</p>
-<h2 id='aws'>AWS</h2>
-<ol>
-<li>Log into the AWS console, select the correct environment and go to the EC2 service</li>
-<li>Locate the instance and confirm it&rsquo;s the correct one by either instance ID or private IP address</li>
-<li>Select Terminate from the Actions -&gt; Instance State menu</li>
-<li>The AWS Auto Scaling Group will reprovision the instance automatically</li>
-</ol>
-<h2 id='carrenza'>Carrenza</h2>
-<ol>
-<li><p>Schedule downtime for your host in Icinga using our <a href="https://github.com/alphagov/fabric-scripts">Fabric
-scripts</a>. This will
-prevent Icinga from alerting while you reprovision the machine:</p>
-<p>fab $environment nagios.schedule_downtime:mybox-2.somevdc.production,20</p></li>
-<li><p>Stop the machine in the vCloud Director.</p></li>
-<li><p>Delete the machine in the vCloud Director.</p></li>
-<li><p>Remove the certificate for the relevant machine on the
-organisation&rsquo;s Puppet master, e.g.</p>
-<p>sudo puppet cert clean mybox-2.somevdc.production</p></li>
-<li><p>Ensure that the Puppet master will sign the certificate for the
-newly reprovisoned VM; after 5 minutes the Puppet client will
-timeout and you would need to initiate the signing request
-again manually.</p></li>
-</ol>
-<p>An easy way to do this is to run the following loop on
-   <code>puppetmaster-1.management</code> and monitor the output:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>   screen
-   while true; do sudo puppet cert sign --all; sleep 10; done
-</code></pre></div><p>Don&rsquo;t forget to kill the screen session when you&rsquo;re done.</p>
+
+<h2 id="aws">AWS</h2>
 
 <ol>
-<li>Reprovision the box using the &ldquo;Launch VMs&rdquo; Jenkins job in the
-enviroment&rsquo;s <code>deploy</code> Jenkins instance.</li>
-<li>Remove any entries for the box from your SSH
+  <li>Log into the AWS console, select the correct environment and go to the EC2 service</li>
+  <li>Locate the instance and confirm it's the correct one by either instance ID or private IP address</li>
+  <li>Select Terminate from the Actions -&gt; Instance State menu</li>
+  <li>The AWS Auto Scaling Group will reprovision the instance automatically</li>
+</ol>
+
+<h2 id="carrenza">Carrenza</h2>
+
+<ol>
+  <li>
+    <p>Schedule downtime for your host in Icinga using our <a href="https://github.com/alphagov/fabric-scripts">Fabric<br />
+scripts</a>. This will<br />
+prevent Icinga from alerting while you reprovision the machine:</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code>fab $environment nagios.schedule_downtime:mybox-2.somevdc.production,20
+</code></pre></div>  </li>
+  <li>Stop the machine in the vCloud Director.</li>
+  <li>Delete the machine in the vCloud Director.</li>
+  <li>
+    <p>Remove the certificate for the relevant machine on the<br />
+organisation's Puppet master, e.g.</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code>sudo puppet cert clean mybox-2.somevdc.production
+</code></pre></div>  </li>
+  <li>
+    <p>Ensure that the Puppet master will sign the certificate for the<br />
+newly reprovisoned VM; after 5 minutes the Puppet client will<br />
+timeout and you would need to initiate the signing request<br />
+again manually.</p>
+
+    <p>An easy way to do this is to run the following loop on<br />
+<code>puppetmaster-1.management</code> and monitor the output:</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code>screen
+while true; do sudo puppet cert sign --all; sleep 10; done
+</code></pre></div>
+    <p>Don't forget to kill the screen session when you're done.</p>
+  </li>
+  <li>Reprovision the box using the "Launch VMs" Jenkins job in the<br />
+enviroment's <code>deploy</code> Jenkins instance.</li>
+  <li>Remove any entries for the box from your SSH<br />
 <code>~/.ssh/known_hosts</code> file.</li>
-<li><p>Wait for the box to run Puppet so you can log in. It make take a few
+  <li>
+    <p>Wait for the box to run Puppet so you can log in. It make take a few<br />
 minutes before you can SSH into the box:</p>
-<p>until ssh mybox-2.somevdc.production; do sleep 10; done</p></li>
-<li><p>Check <code>/var/log/userdata.log</code> for Puppet run errors, and perhaps
-re-run Puppet manually to assert that all&rsquo;s well:</p>
-<p>sudo less /var/log/userdata.log
-   govuk_puppet -v</p></li>
-<li><p>Check all the services are running as expected, and if so, remove
-the downtime from Nagios (this can be done from the &ldquo;Downtime&rdquo; link
-in the left-hand sidebar).</p></li>
+
+<div class="highlight"><pre class="highlight plaintext"><code>until ssh mybox-2.somevdc.production; do sleep 10; done
+</code></pre></div>  </li>
+  <li>
+    <p>Check <code>/var/log/userdata.log</code> for Puppet run errors, and perhaps<br />
+re-run Puppet manually to assert that all's well:</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code>sudo less /var/log/userdata.log
+govuk_puppet -v
+</code></pre></div>  </li>
+  <li>Check all the services are running as expected, and if so, remove<br />
+the downtime from Nagios (this can be done from the "Downtime" link<br />
+in the left-hand sidebar).</li>
 </ol>
 
 <blockquote>
-<p><strong>Note</strong></p>
-<p>If you are still unable to connect to the newly reprovisioned VM after
-a long period of time (e.g. 20 minutes), try connecting to the
-machine&rsquo;s console from the vCloud Director. VMs have been known to
-wait at the Grub bootloader screen; if this is the case, press the
+  <p><strong>Note</strong></p>
+
+  <p>If you are still unable to connect to the newly reprovisioned VM after<br />
+a long period of time (e.g. 20 minutes), try connecting to the<br />
+machine's console from the vCloud Director. VMs have been known to<br />
+wait at the Grub bootloader screen; if this is the case, press the<br />
 enter key in the console to start Linux.</p>
-<p>You won&rsquo;t be able to connect to the Flash console if you&rsquo;re using the
-&ldquo;emergency&rdquo; SSH tunnel to access vCloud.</p>
+
+  <p>You won't be able to connect to the Flash console if you're using the<br />
+"emergency" SSH tunnel to access vCloud.</p>
 </blockquote>
 
 

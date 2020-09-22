@@ -138,7 +138,7 @@
         <a href="#get-coronavirus-support-as-an-extremely-vulnerable-person"><span>Get coronavirus support as an extremely vulnerable person</span></a>
       </li>
       <li>
-        <a href="#find-support-if-you39re-affected-by-coronavirus"><span>Find support if you’re affected by coronavirus</span></a>
+        <a href="#find-support-if-youre-affected-by-coronavirus"><span>Find support if you're affected by coronavirus</span></a>
       </li>
       <li>
         <a href="#architecture"><span>Architecture</span></a>
@@ -191,7 +191,7 @@
         <a href="#confirmation-emails"><span>Confirmation emails</span></a>
         <ul>
           <li>
-            <a href="#gov-uk-notify"><span>GOV.UK Notify</span></a>
+            <a href="#govuk-notify"><span>GOV.UK Notify</span></a>
           </li>
         </ul>
       </li>
@@ -238,289 +238,422 @@
   <p><a href='/manual.html#services'>Services</a></p> <h1 id='header'>COVID-19 Services</h1><p>GOV.UK operates three standalone services for COVID-19 response:</p>
 
 <ul>
-<li>Offer coronavirus support from your business</li>
-<li>Get coronavirus support as an extremely vulnerable person</li>
-<li>Find support if you&rsquo;re affected by coronavirus</li>
+  <li>Offer coronavirus support from your business</li>
+  <li>Get coronavirus support as an extremely vulnerable person</li>
+  <li>Find support if you're affected by coronavirus</li>
 </ul>
-<h2 id='offer-coronavirus-support-from-your-business'>Offer coronavirus support from your business</h2><p>This service allows businesses to tell us how they might be able to
-help with the response to coronavirus.  This may include goods or
+
+<h2 id="offer-coronavirus-support-from-your-business">Offer coronavirus support from your business</h2>
+
+<p>This service allows businesses to tell us how they might be able to<br />
+help with the response to coronavirus.  This may include goods or<br />
 services such as medical equipment, hotel rooms or childcare.</p>
 
 <ul>
-<li><a href="https://www.gov.uk/coronavirus-support-from-business">Start page</a></li>
-<li><a href="https://coronavirus-business-volunteers.service.gov.uk/medical-equipment">Service</a></li>
-<li><a href="https://github.com/alphagov/govuk-coronavirus-business-volunteer-form">GitHub</a></li>
+  <li><a href="https://www.gov.uk/coronavirus-support-from-business">Start page</a></li>
+  <li><a href="https://coronavirus-business-volunteers.service.gov.uk/medical-equipment">Service</a></li>
+  <li><a href="https://github.com/alphagov/govuk-coronavirus-business-volunteer-form">GitHub</a></li>
 </ul>
-<h2 id='get-coronavirus-support-as-an-extremely-vulnerable-person'>Get coronavirus support as an extremely vulnerable person</h2><p>This service allows people identified as vulnerable by the NHS to
-tell us if they need help accessing essential supplies and support.
-Users will have received a link to the service in a letter or a text
-message from the NHS, or been advised by their GP to fill in the form.
-They can fill the form in themselves, or someone else can fill it in
+
+<h2 id="get-coronavirus-support-as-an-extremely-vulnerable-person">Get coronavirus support as an extremely vulnerable person</h2>
+
+<p>This service allows people identified as vulnerable by the NHS to<br />
+tell us if they need help accessing essential supplies and support.<br />
+Users will have received a link to the service in a letter or a text<br />
+message from the NHS, or been advised by their GP to fill in the form.<br />
+They can fill the form in themselves, or someone else can fill it in<br />
 for them.</p>
-<p>There is also an interactive voice response (IVR) automated phone
-service provided by AWS. This is for users who do not have access to
+
+<p>There is also an interactive voice response (IVR) automated phone<br />
+service provided by AWS. This is for users who do not have access to<br />
 the internet.</p>
-<p>The service is also known as the Shielded Vulnerable service, or
+
+<p>The service is also known as the Shielded Vulnerable service, or<br />
 SV.</p>
 
 <ul>
-<li><a href="https://www.gov.uk/coronavirus-extremely-vulnerable">Start page</a></li>
-<li><a href="https://coronavirus-vulnerable-people.service.gov.uk/live-in-england">Service</a></li>
-<li><a href="https://github.com/alphagov/govuk-coronavirus-vulnerable-people-form">GitHub</a></li>
+  <li><a href="https://www.gov.uk/coronavirus-extremely-vulnerable">Start page</a></li>
+  <li><a href="https://coronavirus-vulnerable-people.service.gov.uk/live-in-england">Service</a></li>
+  <li><a href="https://github.com/alphagov/govuk-coronavirus-vulnerable-people-form">GitHub</a></li>
 </ul>
-<h2 id='find-support-if-you39re-affected-by-coronavirus'>Find support if you&rsquo;re affected by coronavirus</h2><p>This service allows the public - who may not have been eligible for
-the extremely vulnerable service - to find information about what help
-is available if they&rsquo;re struggling with unemployment, an inability to
-get food, having somewhere to live, or their general wellbeing as a
+
+<h2 id="find-support-if-youre-affected-by-coronavirus">Find support if you're affected by coronavirus</h2>
+
+<p>This service allows the public - who may not have been eligible for<br />
+the extremely vulnerable service - to find information about what help<br />
+is available if they're struggling with unemployment, an inability to<br />
+get food, having somewhere to live, or their general wellbeing as a<br />
 result of coronavirus.</p>
-<p>The service is also known as the Non-Shielded Vulnerable service, or
+
+<p>The service is also known as the Non-Shielded Vulnerable service, or<br />
 NSV.</p>
 
 <ul>
-<li><a href="https://www.gov.uk/find-coronavirus-support">Start page</a></li>
-<li><a href="https://find-coronavirus-support.service.gov.uk/urgent-medical-help">Service</a></li>
-<li><a href="https://github.com/alphagov/govuk-coronavirus-find-support">GitHub</a></li>
+  <li><a href="https://www.gov.uk/find-coronavirus-support">Start page</a></li>
+  <li><a href="https://find-coronavirus-support.service.gov.uk/urgent-medical-help">Service</a></li>
+  <li><a href="https://github.com/alphagov/govuk-coronavirus-find-support">GitHub</a></li>
 </ul>
-<h2 id='architecture'>Architecture</h2><p>All applications have a similar architecture of:</p>
+
+<h2 id="architecture">Architecture</h2>
+
+<p>All applications have a similar architecture of:</p>
 
 <ul>
-<li><strong>Framework:</strong> Ruby on Rails</li>
-<li><strong>Database:</strong> AWS RDS (business volunteering, find support) and DynamoDB (vulnerable people)</li>
-<li><strong>Hosting:</strong> PaaS</li>
-<li><strong>CDN:</strong> AWS CloudFront</li>
-<li><strong>CI:</strong> GitHub Actions (branches and PRs)</li>
-<li><strong>CD:</strong> Concourse (master builds and production deploys)</li>
-<li><strong>Logging:</strong> Sentry and Logit</li>
-<li><strong>Email</strong>: GOV.UK Notify</li>
-<li><strong>Queuing</strong>: Sidekiq (business volunteering only)</li>
+  <li><strong>Framework:</strong> Ruby on Rails</li>
+  <li><strong>Database:</strong> AWS RDS (business volunteering, find support) and DynamoDB (vulnerable people)</li>
+  <li><strong>Hosting:</strong> PaaS</li>
+  <li><strong>CDN:</strong> AWS CloudFront</li>
+  <li><strong>CI:</strong> GitHub Actions (branches and PRs)</li>
+  <li><strong>CD:</strong> Concourse (master builds and production deploys)</li>
+  <li><strong>Logging:</strong> Sentry and Logit</li>
+  <li><strong>Email</strong>: GOV.UK Notify</li>
+  <li><strong>Queuing</strong>: Sidekiq (business volunteering only)</li>
 </ul>
-<h3 id='application-structure'>Application structure</h3><p>Each application is a standard Rails application with:</p>
+
+<h3 id="application-structure">Application structure</h3>
+
+<p>Each application is a standard Rails application with:</p>
 
 <ul>
-<li>question pages, each has their own controller, view and route</li>
-<li>a check your answers page (except find support form)</li>
-<li>a confirmation (&ldquo;Thank you&rdquo;) page</li>
-<li>ineligible pages (vulnerable people form only)</li>
-<li>a privacy page</li>
+  <li>question pages, each has their own controller, view and route</li>
+  <li>a check your answers page (except find support form)</li>
+  <li>a confirmation ("Thank you") page</li>
+  <li>ineligible pages (vulnerable people form only)</li>
+  <li>a privacy page</li>
 </ul>
+
 <p>To run one of the applications locally, see the README in the GitHub repo.</p>
-<h2 id='session-and-data-storage'>Session and data storage</h2><h3 id='session-storage'>Session storage</h3><p>While the user is filling out the form, we use session storage to
-store the user&rsquo;s data.</p>
-<p>For the vulnerable people form and find support form, we store session data for
-4 hours in an encrypted cookie, persisted in the browser and sent back to the
-server for every question.  Cookies have a limit of 4KB, so this approach could
+
+<h2 id="session-and-data-storage">Session and data storage</h2>
+
+<h3 id="session-storage">Session storage</h3>
+
+<p>While the user is filling out the form, we use session storage to<br />
+store the user's data.</p>
+
+<p>For the vulnerable people form and find support form, we store session data for<br />
+4 hours in an encrypted cookie, persisted in the browser and sent back to the<br />
+server for every question.  Cookies have a limit of 4KB, so this approach could<br />
 cause errors if the user submits large inputs.</p>
+
 <p>For the business volunteering form, we store the following for 4 hours:</p>
 
 <ul>
-<li>the session id in an encrypted cookie</li>
-<li>the session data in Redis</li>
+  <li>the session id in an encrypted cookie</li>
+  <li>the session data in Redis</li>
 </ul>
-<h3 id='data-storage'>Data storage</h3><p>For all but the find support form, when the user submits the form on
-the &ldquo;Check your answers&rdquo; page, the application writes user data to the
+
+<h3 id="data-storage">Data storage</h3>
+
+<p>For all but the find support form, when the user submits the form on<br />
+the "Check your answers" page, the application writes user data to the<br />
 database.</p>
-<p>For the find support form, user responses are written to the database
-on submission of the final question. There is no &ldquo;Check your answers&rdquo;
+
+<p>For the find support form, user responses are written to the database<br />
+on submission of the final question. There is no "Check your answers"<br />
 page.</p>
-<p>The vulnerable people form application only has permission to write
-items to the database. For security and privacy reasons, there&rsquo;s no
+
+<p>The vulnerable people form application only has permission to write<br />
+items to the database. For security and privacy reasons, there's no<br />
 way to read or change already-submitted user data.</p>
-<p>Developers should not have access to the production database for
+
+<p>Developers should not have access to the production database for<br />
 the vulnerable people form application.</p>
-<p>The business volunteering form and find support form applications can both read
+
+<p>The business volunteering form and find support form applications can both read<br />
 and write to their databases as the security and privacy requirements are lower.</p>
-<p>Developers may treat data in the business volunteering form and find support
-form to the same standards as any other GOV.UK personal data store, and are able
+
+<p>Developers may treat data in the business volunteering form and find support<br />
+form to the same standards as any other GOV.UK personal data store, and are able<br />
 to access it for legitimate development duties.</p>
-<h2 id='hosting'>Hosting</h2><h3 id='paas'>PaaS</h3><p>All applications are hosted on GOV.UK Platform as a Service (PaaS) in
-the Ireland region.  PaaS provides a scalable hosting platform based
-on CloudFoundry managed by GDS.  You can read more in the <a href="https://docs.cloud.service.gov.uk/">PaaS
+
+<h2 id="hosting">Hosting</h2>
+
+<h3 id="paas">PaaS</h3>
+
+<p>All applications are hosted on GOV.UK Platform as a Service (PaaS) in<br />
+the Ireland region.  PaaS provides a scalable hosting platform based<br />
+on CloudFoundry managed by GDS.  You can read more in the <a href="https://docs.cloud.service.gov.uk/">PaaS<br />
 technical documentation</a>.</p>
-<h4 id='get-access'>Get access</h4><p>To get access, email
-govuk-senior-tech-members@digital.cabinet-office.gov.uk and ask for an
-invite to the <code>govuk_development</code> organisation.  They need to give you
-a role that lets you access both <code>staging</code> and <code>production</code> spaces and
+
+<h4 id="get-access">Get access</h4>
+
+<p>To get access, email<br />
+govuk-senior-tech-members@digital.cabinet-office.gov.uk and ask for an<br />
+invite to the <code>govuk_development</code> organisation.  They need to give you<br />
+a role that lets you access both <code>staging</code> and <code>production</code> spaces and<br />
 the applications inside.</p>
-<h4 id='log-in'>Log in</h4><p>Before you start, <a href="https://docs.cloud.service.gov.uk/get_started.html#set-up-the-cloud-foundry-command-line">install the CloudFoundry CLI</a>.</p>
+
+<h4 id="log-in">Log in</h4>
+
+<p>Before you start, <a href="https://docs.cloud.service.gov.uk/get_started.html#set-up-the-cloud-foundry-command-line">install the CloudFoundry CLI</a>.</p>
 
 <ol>
-<li>Log in with <code>cf login -a api.cloud.service.gov.uk --sso</code></li>
-<li>Select staging or production with <code>cf target -s &lt;staging or production&gt;</code></li>
+  <li>Log in with <code>cf login -a api.cloud.service.gov.uk --sso</code></li>
+  <li>Select staging or production with <code>cf target -s &lt;staging or production&gt;</code></li>
 </ol>
-<p>All applications are Rails applications, and use the
-<a href="https://docs.cloud.service.gov.uk/deploying_apps.html#deploy-a-ruby-on-rails-app"><code>ruby_buildpack</code></a> to build and deploy to PaaS.  You can read more
-about <a href="https://docs.cloud.service.gov.uk/managing_apps.html#managing-apps">managing PaaS applications</a> and <a href="https://docs.cloud.service.gov.uk/monitoring_apps.html#monitoring-apps">monitoring PaaS
+
+<p>All applications are Rails applications, and use the<br />
+<a href="https://docs.cloud.service.gov.uk/deploying_apps.html#deploy-a-ruby-on-rails-app"><code>ruby_buildpack</code></a> to build and deploy to PaaS.  You can read more<br />
+about <a href="https://docs.cloud.service.gov.uk/managing_apps.html#managing-apps">managing PaaS applications</a> and <a href="https://docs.cloud.service.gov.uk/monitoring_apps.html#monitoring-apps">monitoring PaaS<br />
 applications</a>.</p>
-<h4 id='manage-backing-services'>Manage backing services</h4><p>The business volunteer application uses PaaS&rsquo;s <a href="https://docs.cloud.service.gov.uk/deploying_services/redis/#redis">Redis backing
-service</a>.  The backing service is attached to the
-application by a setting in the <code>manifest.yml</code> file in the repository
+
+<h4 id="manage-backing-services">Manage backing services</h4>
+
+<p>The business volunteer application uses PaaS's <a href="https://docs.cloud.service.gov.uk/deploying_services/redis/#redis">Redis backing<br />
+service</a>.  The backing service is attached to the<br />
+application by a setting in the <code>manifest.yml</code> file in the repository<br />
 root.</p>
-<p>The JSON data in the <code>VCAP_SERVICES</code> environment variable exposes
+
+<p>The JSON data in the <code>VCAP_SERVICES</code> environment variable exposes<br />
 settings and credentials for the backing service automatically.</p>
-<h3 id='aws'>AWS</h3><p>We have two AWS accounts (staging and production) for CDN and data
-storage. They contain DynamoDB, IAM and CloudFront resources,
-which were provisioned by Terraform in the <a href="https://github.com/alphagov/covid-engineering/blob/master/reliability-engineering/terraform/deployments/corona-data-prod/account/iam.tf#L296-L386">alphagov/covid-engineering
-repository</a>. Members of the GOV.UK Coronavirus
+
+<h3 id="aws">AWS</h3>
+
+<p>We have two AWS accounts (staging and production) for CDN and data<br />
+storage. They contain DynamoDB, IAM and CloudFront resources,<br />
+which were provisioned by Terraform in the <a href="https://github.com/alphagov/covid-engineering/blob/master/reliability-engineering/terraform/deployments/corona-data-prod/account/iam.tf#L296-L386">alphagov/covid-engineering<br />
+repository</a>. Members of the GOV.UK Coronavirus<br />
 Services team have access.</p>
+
 <p>To log in to AWS:</p>
 
 <ol>
-<li><a href="/manual/get-started.html#8-use-your-aws-access">Install and set up the gds-cli</a>, then log in to the AWS Console with either:
-
-<ul>
-<li><code>gds aws govuk-corona-data-staging-poweruser -l</code> for staging</li>
-<li><code>gds aws govuk-corona-data-prod-poweruser -l</code> for production</li>
-</ul></li>
+  <li><a href="/manual/get-started.html#8-use-your-aws-access">Install and set up the gds-cli</a>, then log in to the AWS Console with either:
+    <ul>
+      <li><code>gds aws govuk-corona-data-staging-poweruser -l</code> for staging</li>
+      <li><code>gds aws govuk-corona-data-prod-poweruser -l</code> for production</li>
+    </ul>
+  </li>
 </ol>
-<h2 id='deployment'>Deployment</h2><p>Deployment is managed via <a href="https://cd.gds-reliability.engineering/">TechOps shared Concourse</a>.
-CI/CD pipelines are configured under the <code>govuk-tools</code> team. You can
-read about what Concourse is, its access controls, <a href="https://reliability-engineering.cloudapps.digital/continuous-deployment.html#secrets">configuring secrets</a>,
-and how to administer it, on the <a href="/manual/concourse.html">Concourse</a>
+
+<h2 id="deployment">Deployment</h2>
+
+<p>Deployment is managed via <a href="https://cd.gds-reliability.engineering/">TechOps shared Concourse</a>.<br />
+CI/CD pipelines are configured under the <code>govuk-tools</code> team. You can<br />
+read about what Concourse is, its access controls, <a href="https://reliability-engineering.cloudapps.digital/continuous-deployment.html#secrets">configuring secrets</a>,<br />
+and how to administer it, on the <a href="/manual/concourse.html">Concourse</a><br />
 developer docs page.</p>
-<p>In terms of these applications, any changes to application code on the
-master branch are continuously deployed to staging.  Smoke tests are
-set up to run on staging, if these pass the applications are
-automatically deployed to production.  The smoke tests are the feature
+
+<p>In terms of these applications, any changes to application code on the<br />
+master branch are continuously deployed to staging.  Smoke tests are<br />
+set up to run on staging, if these pass the applications are<br />
+automatically deployed to production.  The smoke tests are the feature<br />
 tests within the application repository.</p>
-<p>The Concourse deployment pipeline and task configuration for each
-application is stored in the &ldquo;concourse&rdquo; directory at the root of each
-repository. Changes to these pipelines apply automatically when pushed
+
+<p>The Concourse deployment pipeline and task configuration for each<br />
+application is stored in the "concourse" directory at the root of each<br />
+repository. Changes to these pipelines apply automatically when pushed<br />
 to <code>master</code>.</p>
+
 <p>Links to Concourse Pipelines:</p>
 
 <ul>
-<li><a href="https://cd.gds-reliability.engineering/teams/govuk-tools/pipelines/govuk-corona-business-volunteer-form"><code>govuk-corona-business-volunteer-form</code></a></li>
-<li><a href="https://cd.gds-reliability.engineering/teams/govuk-tools/pipelines/govuk-corona-vulnerable-people-form"><code>govuk-corona-vulnerable-people-form</code></a></li>
-<li><a href="https://cd.gds-reliability.engineering/teams/govuk-tools/pipelines/govuk-corona-find-support-form"><code>govuk-corona-find-support-form</code></a></li>
+  <li><a href="https://cd.gds-reliability.engineering/teams/govuk-tools/pipelines/govuk-corona-business-volunteer-form"><code>govuk-corona-business-volunteer-form</code></a></li>
+  <li><a href="https://cd.gds-reliability.engineering/teams/govuk-tools/pipelines/govuk-corona-vulnerable-people-form"><code>govuk-corona-vulnerable-people-form</code></a></li>
+  <li><a href="https://cd.gds-reliability.engineering/teams/govuk-tools/pipelines/govuk-corona-find-support-form"><code>govuk-corona-find-support-form</code></a></li>
 </ul>
-<h3 id='zero-downtime-deployment'>Zero-Downtime Deployment</h3><p>The deployment tasks use the CloudFoundry v3 API commands in order to
+
+<h3 id="zero-downtime-deployment">Zero-Downtime Deployment</h3>
+
+<p>The deployment tasks use the CloudFoundry v3 API commands in order to<br />
 support zero-downtime deployment and various new features.</p>
-<p>When working with the cf cli tool, use the <code>v3</code> prefixed commands.
+
+<p>When working with the cf cli tool, use the <code>v3</code> prefixed commands.<br />
 For example: <code>cf v3-apps</code>.</p>
-<h3 id='cancelling-a-failed-deployment'>Cancelling a failed deployment</h3><p>Occasionally a zero-downtime deployment may fail.  This can occur if
-the application fails to start, or the required number of app
-instances cannot be created in time.  To cancel and roll back to the
+
+<h3 id="cancelling-a-failed-deployment">Cancelling a failed deployment</h3>
+
+<p>Occasionally a zero-downtime deployment may fail.  This can occur if<br />
+the application fails to start, or the required number of app<br />
+instances cannot be created in time.  To cancel and roll back to the<br />
 previous deployment, run: <code>cf v3-cancel-zdt-push &lt;app-name&gt;</code>.</p>
-<h3 id='links-to-staging'>Links to Staging</h3>
+
+<h3 id="links-to-staging">Links to Staging</h3>
+
 <ul>
-<li><a href="https://govuk-coronavirus-business-volunteer-form-stg.cloudapps.digital/medical-equipment"><code>govuk-coronavirus-business-volunteer-form</code></a></li>
-<li><a href="https://govuk-coronavirus-vulnerable-people-form-stg.cloudapps.digital/live-in-england"><code>govuk-coronavirus-vulnerable-people-form</code></a></li>
-<li><a href="https://govuk-coronavirus-find-support-stg.cloudapps.digital/urgent-medical-help"><code>govuk-coronavirus-find-support-form</code></a></li>
+  <li><a href="https://govuk-coronavirus-business-volunteer-form-stg.cloudapps.digital/medical-equipment"><code>govuk-coronavirus-business-volunteer-form</code></a></li>
+  <li><a href="https://govuk-coronavirus-vulnerable-people-form-stg.cloudapps.digital/live-in-england"><code>govuk-coronavirus-vulnerable-people-form</code></a></li>
+  <li><a href="https://govuk-coronavirus-find-support-stg.cloudapps.digital/urgent-medical-help"><code>govuk-coronavirus-find-support-form</code></a></li>
 </ul>
-<p>These are protected by HTTP basic auth.  You can find the credentials
+
+<p>These are protected by HTTP basic auth.  You can find the credentials<br />
 in govuk-secrets and get them by running:</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>cd ~/govuk/govuk-secrets/pass
 ./edit.sh 2ndline coronavirus-forms/creds
-</code></pre></div><h2 id='monitoring'>Monitoring</h2><p>There&rsquo;s a <a href="https://gds.splunkcloud.com/en-GB/app/gds-006-govuk/d006_coronavirus">Splunk dashboard</a> for all of these services.  To
-access Splunk, you need to have the <code>GDS-006-GOVUK</code> permission on your
-Google account.  To get this permission, raise an IT Helpdesk ticket
-and post in <code>#cyber-security-help</code> to get them to confirm the request
+</code></pre></div>
+<h2 id="monitoring">Monitoring</h2>
+
+<p>There's a <a href="https://gds.splunkcloud.com/en-GB/app/gds-006-govuk/d006_coronavirus">Splunk dashboard</a> for all of these services.  To<br />
+access Splunk, you need to have the <code>GDS-006-GOVUK</code> permission on your<br />
+Google account.  To get this permission, raise an IT Helpdesk ticket<br />
+and post in <code>#cyber-security-help</code> to get them to confirm the request<br />
 is legitimate.</p>
+
 <p>Application errors are sent to the GOV.UK hosted Sentry:</p>
 
 <ul>
-<li><a href="https://sentry.io/organizations/govuk/issues/?project=5172100"><code>govuk-coronavirus-business-volunteer-form</code></a></li>
-<li><a href="https://sentry.io/organizations/govuk/issues/?project=5170680"><code>govuk-coronavirus-vulnerable-people-form</code></a></li>
-<li><a href="https://sentry.io/organizations/govuk/issues/?project=5192076"><code>govuk-coronavirus-find-support-form</code></a></li>
+  <li><a href="https://sentry.io/organizations/govuk/issues/?project=5172100"><code>govuk-coronavirus-business-volunteer-form</code></a></li>
+  <li><a href="https://sentry.io/organizations/govuk/issues/?project=5170680"><code>govuk-coronavirus-vulnerable-people-form</code></a></li>
+  <li><a href="https://sentry.io/organizations/govuk/issues/?project=5192076"><code>govuk-coronavirus-find-support-form</code></a></li>
 </ul>
-<p>These are under the GOV.UK Sentry account and you can sign in with
+
+<p>These are under the GOV.UK Sentry account and you can sign in with<br />
 your Google Account.</p>
-<p>Logs for all applications are streamed to Logit and can be found in
+
+<p>Logs for all applications are streamed to Logit and can be found in<br />
 following dashboards:</p>
-<p><a href="https://logit.io/a/1c6b2316-16e2-4ca5-a3df-ff18631b0e74/s/04b46992-f653-4c14-965c-236e9a6c2777/kibana/access">GOV.UK Production Corona Forms</a>
+
+<p><a href="https://logit.io/a/1c6b2316-16e2-4ca5-a3df-ff18631b0e74/s/04b46992-f653-4c14-965c-236e9a6c2777/kibana/access">GOV.UK Production Corona Forms</a><br />
 <a href="https://logit.io/a/1c6b2316-16e2-4ca5-a3df-ff18631b0e74/s/7a0be476-6535-4544-8318-4c7a130948e8/kibana/access">GOV.UK Staging Corona Forms</a></p>
-<h2 id='confirmation-emails'>Confirmation emails</h2><h3 id='gov-uk-notify'>GOV.UK Notify</h3><p>The business volunteering service sends confirmation emails on form submission,
+
+<h2 id="confirmation-emails">Confirmation emails</h2>
+
+<h3 id="govuk-notify">GOV.UK Notify</h3>
+
+<p>The business volunteering service sends confirmation emails on form submission,<br />
 using GOV.UK Notify.</p>
-<p>Sidekiq is used to manage the queuing of email jobs. The application <a href="https://github.com/alphagov/govuk-coronavirus-business-volunteer-form#running-sidekiq">README</a>
+
+<p>Sidekiq is used to manage the queuing of email jobs. The application <a href="https://github.com/alphagov/govuk-coronavirus-business-volunteer-form#running-sidekiq">README</a><br />
 details how to manage the Sidekiq queue.</p>
-<p>To login to the <a href="https://www.notifications.service.gov.uk/sign-in">GOV.UK Notify Dashboard</a>
+
+<p>To login to the <a href="https://www.notifications.service.gov.uk/sign-in">GOV.UK Notify Dashboard</a><br />
 obtain the credentials using govuk-secrets:</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>cd ~/govuk/govuk-secrets/pass
 pass govuk-notify/govuk-coronavirus-services
-</code></pre></div><p>In staging only, emails are sent to <code>coronavirus-services-smoke-tests@digital.cabinet-office.gov.uk</code>
+</code></pre></div>
+<p>In staging only, emails are sent to <code>coronavirus-services-smoke-tests@digital.cabinet-office.gov.uk</code><br />
 rather than the form submitter.</p>
-<h2 id='extracting-form-responses-business-volunteering-only'>Extracting form responses (business volunteering only)</h2><p>Cabinet Office require data exports at regular intervals.  A
-<a href="https://github.com/alphagov/govuk-coronavirus-business-volunteer-form/blob/5aed27777a22035b1b4f7ea9eafe612b105469a1/concourse/pipeline.yml#L99-L107">recurring Concourse job</a>
-exports the data to a S3 bucket each day between midnight and 1am.
+
+<h2 id="extracting-form-responses-business-volunteering-only">Extracting form responses (business volunteering only)</h2>
+
+<p>Cabinet Office require data exports at regular intervals.  A<br />
+<a href="https://github.com/alphagov/govuk-coronavirus-business-volunteer-form/blob/5aed27777a22035b1b4f7ea9eafe612b105469a1/concourse/pipeline.yml#L99-L107">recurring Concourse job</a><br />
+exports the data to a S3 bucket each day between midnight and 1am.<br />
 Details of the bucket can be obtained using <code>cf services</code> and <code>cf env</code>.</p>
-<p>Should further exports be required, there is a rake task to export
+
+<p>Should further exports be required, there is a rake task to export<br />
 the data for a single day in JSON format.</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>cf v3-ssh govuk-coronavirus-business-volunteer-form
 $ /tmp/lifecycle/shell
 $ rake export:form_responses["&lt;date&gt;"]
-</code></pre></div><p>Date to be included in the format 2020-03-26.</p>
-<h2 id='alerting'>Alerting</h2><p>GOV.UK on-call operators will be paged for two reasons:</p>
+</code></pre></div>
+<p>Date to be included in the format 2020-03-26.</p>
+
+<h2 id="alerting">Alerting</h2>
+
+<p>GOV.UK on-call operators will be paged for two reasons:</p>
 
 <ul>
-<li>if Pingdom thinks a service is down</li>
-<li>if a service has a high rate of 5xx errors</li>
+  <li>if Pingdom thinks a service is down</li>
+  <li>if a service has a high rate of 5xx errors</li>
 </ul>
-<p>You should find the Monitoring and Useful commands sections in this
+
+<p>You should find the Monitoring and Useful commands sections in this<br />
 document helpful when investigating this issue.</p>
+
 <p>Useful Slack channels:</p>
 
 <ul>
-<li><code>#govuk-corona-services-tech</code> (builds the forms)</li>
-<li><code>#covid-engineering-team</code> (runs the data pipeline)</li>
-<li><code>#re-prometheus-support</code> (runs the Prometheus infra)</li>
+  <li><code>#govuk-corona-services-tech</code> (builds the forms)</li>
+  <li><code>#covid-engineering-team</code> (runs the data pipeline)</li>
+  <li><code>#re-prometheus-support</code> (runs the Prometheus infra)</li>
 </ul>
-<h3 id='service-downtime'>Service downtime**</h3><p>The GOV.UK Pingdom account is configured to checks if the first of
-each form service page is up. If it can&rsquo;t reach a page for a
+
+<h3 id="service-downtime">Service downtime**</h3>
+
+<p>The GOV.UK Pingdom account is configured to checks if the first of<br />
+each form service page is up. If it can't reach a page for a<br />
 configured period of time, it will call you.</p>
+
 <p>The login credentials for the service are in govuk-secrets pass.</p>
-<h3 id='high-5xx-rate'>High 5xx rate**</h3>
+
+<h3 id="high-5xx-rate">High 5xx rate**</h3>
+
 <blockquote>
-<p><strong>Note:</strong> Connect to the VPN to view Prometheus and AlertManager UIs.</p>
+  <p><strong>Note:</strong> Connect to the VPN to view Prometheus and AlertManager UIs.</p>
 </blockquote>
-<p>These alerts are triggered by <a href="https://prom-1.monitoring.gds-reliability.engineering/alerts">Reliability Engineering&rsquo;s Prometheus</a>
+
+<p>These alerts are triggered by <a href="https://prom-1.monitoring.gds-reliability.engineering/alerts">Reliability Engineering's Prometheus</a><br />
 when the applications are serving a high number of 5xx errors.</p>
-<p>The configuration for the alert is stored in the
+
+<p>The configuration for the alert is stored in the<br />
 <a href="https://github.com/alphagov/prometheus-aws-configuration-beta/blob/b33139a4ed06fc77e4687f8b6dee20577717fdb8/terraform/modules/prom-ec2/alerts-config/alerts/govuk-coronavirus-services-alerts.yml">prometheus-aws-configuration-beta</a> repository.</p>
-<p>You can also view the alert in <a href="https://alerts.monitoring.gds-reliability.engineering/#/alerts">AlertManager</a>, which sends
-the Prometheus alerts to PagerDuty. You can silence the alert through
+
+<p>You can also view the alert in <a href="https://alerts.monitoring.gds-reliability.engineering/#/alerts">AlertManager</a>, which sends<br />
+the Prometheus alerts to PagerDuty. You can silence the alert through<br />
 the user interface, or use the <code>amtool</code> cli to end the alert.</p>
+
 <p>This alert indicates a problem with the application origin servers.</p>
+
 <p>Steps you could take:</p>
 
 <ul>
-<li>See the monitoring section, to look at some graphs</li>
-<li>Check the logs to see which requests are failing</li>
-<li>Check the commit log to see if there was a recent change</li>
-<li>Check the concourse pipeline to see if there was a recent deploy, or
+  <li>See the monitoring section, to look at some graphs</li>
+  <li>Check the logs to see which requests are failing</li>
+  <li>Check the commit log to see if there was a recent change</li>
+  <li>Check the concourse pipeline to see if there was a recent deploy, or<br />
 if the smoke test is failing</li>
-<li>Check the <code>/metrics</code> endpoints on the apps, to see if they are
+  <li>Check the <code>/metrics</code> endpoints on the apps, to see if they are<br />
 serving metrics to prometheus correctly</li>
 </ul>
-<h4 id='deactivate-prometheus-alerts-for-these-services'>Deactivate Prometheus alerts for these services</h4>
+
+<h4 id="deactivate-prometheus-alerts-for-these-services">Deactivate Prometheus alerts for these services</h4>
+
 <blockquote>
-<p><strong>Note:</strong> you should only do this if you have confirmed that there is
+  <p><strong>Note:</strong> you should only do this if you have confirmed that there is<br />
 a problem with the alert.</p>
 </blockquote>
+
 <p>You can deactivate the alert in the PagerDuty UI.</p>
 
 <ol>
-<li>Go to the <a href="https://governmentdigitalservice.pagerduty.com/rules/rulesets/a63974aa-a89f-439e-93b9-8ff13565799f">PagerDuty ruleset</a></li>
-<li>Disable the Event Rule that is triggering alerts on the GOV.UK COVID-19 Forms service</li>
+  <li>Go to the <a href="https://governmentdigitalservice.pagerduty.com/rules/rulesets/a63974aa-a89f-439e-93b9-8ff13565799f">PagerDuty ruleset</a></li>
+  <li>Disable the Event Rule that is triggering alerts on the GOV.UK COVID-19 Forms service</li>
 </ol>
-<h2 id='troubleshooting'>Troubleshooting</h2><h3 id='what-things-will-call-you'>What things will call you</h3><p>The GOV.UK PagerDuty will page on-call/2ndline if these services
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<h3 id="what-things-will-call-you">What things will call you</h3>
+
+<p>The GOV.UK PagerDuty will page on-call/2ndline if these services<br />
 experience issues. See the Alerting section above.</p>
-<h3 id='useful-commands'>Useful commands</h3>
+
+<h3 id="useful-commands">Useful commands</h3>
+
 <blockquote>
-<p><strong>Note:</strong> Make sure to use the <code>v3-</code> commands for things like
+  <p><strong>Note:</strong> Make sure to use the <code>v3-</code> commands for things like<br />
 restarting or deploying apps, to do so in a zero-downtime way.</p>
 </blockquote>
+
 <p>See the status of all the apps and how many instances are running:</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>cf v3-apps
-</code></pre></div><p>Get the logs for an app:</p>
+</code></pre></div>
+<p>Get the logs for an app:</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>cf logs &lt;app-name&gt; --recent
-</code></pre></div><p>View detailed information about an app:</p>
+</code></pre></div>
+<p>View detailed information about an app:</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>cf app &lt;app-name&gt;
-</code></pre></div><p>Restart an app:</p>
+</code></pre></div>
+<p>Restart an app:</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>cf v3-restart &lt;app-name&gt;
-</code></pre></div><p>Access a Postgres console (for business form only):</p>
+</code></pre></div>
+<p>Access a Postgres console (for business form only):</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>cf conduit govuk-coronavirus-business-volunteer-form-db -- psql
-</code></pre></div><h3 id='escalating-to-paas-support'>Escalating to PaaS support</h3><p>PaaS support contact details are in the <a href="https://docs.google.com/document/d/17XUuPaZ5FufyXH00S9qukl6Kf3JbJtAqwHR3eOBVBpI/edit">legacy opsmanual doc</a> under the
-heading &ldquo;PaaS Support (COVID-19 forms)&rdquo;.</p>
+</code></pre></div>
+<h3 id="escalating-to-paas-support">Escalating to PaaS support</h3>
+
+<p>PaaS support contact details are in the <a href="https://docs.google.com/document/d/17XUuPaZ5FufyXH00S9qukl6Kf3JbJtAqwHR3eOBVBpI/edit">legacy opsmanual doc</a> under the<br />
+heading "PaaS Support (COVID-19 forms)".</p>
+
 
 
   <div class='related-content'>

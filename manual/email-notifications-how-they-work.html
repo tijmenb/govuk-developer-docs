@@ -144,7 +144,7 @@
             <a href="#email-alert-service"><span>Email Alert Service</span></a>
           </li>
           <li>
-            <a href="#gov-uk-notify"><span>GOV.UK Notify</span></a>
+            <a href="#govuk-notify"><span>GOV.UK Notify</span></a>
           </li>
         </ul>
       </li>
@@ -160,59 +160,77 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#emails'>Emails</a></p> <h1 id='header'>Email notifications: how they work</h1><h2 id='high-level-overview'>High-level overview</h2><p>The purpose of the email notifications system is to inform users when
-content they are interested in is added to or changed on GOV.UK. Users
-indicate their interest by subscribing to receive updates for an area of
+  <p><a href='/manual.html#emails'>Emails</a></p> <h1 id='header'>Email notifications: how they work</h1><h2 id="high-level-overview">High-level overview</h2>
+
+<p>The purpose of the email notifications system is to inform users when<br />
+content they are interested in is added to or changed on GOV.UK. Users<br />
+indicate their interest by subscribing to receive updates for an area of<br />
 interest, such as topic or government department.</p>
+
 <p>The applications that comprise the email notifications system are:</p>
-<h3 id='email-alert-api'>Email Alert API</h3>
+
+<h3 id="email-alert-api">Email Alert API</h3>
+
 <ul>
-<li>Stores the persistent data involved in email alerts, such as processed
+  <li>Stores the persistent data involved in email alerts, such as processed<br />
 content changes, subscribers and their subscriptions.</li>
-<li>Provides an HTTP JSON API to alter stored data, such as: create alerts,
+  <li>Provides an HTTP JSON API to alter stored data, such as: create alerts,<br />
 set up lists and set up subscription preferences.</li>
-<li>Coordinates sending of notifications with the underlying email sending
+  <li>Coordinates sending of notifications with the underlying email sending<br />
 service, which is currently GOV.UK Notify.</li>
 </ul>
-<p>Frontend applications use Email Alert API to create new mailing lists and
-as a redirect destination for signing up. Publishing apps tend not to use
-email alert API, instead relying on Email Alert Service to be triggered
-by Publishing API. The exceptions are <a href="/apps/travel-advice-publisher.html">Travel Advice Publisher</a> and
-<a href="/apps/specialist-publisher.html">Specialist Publisher</a>, which require a greater degree of control, so
+
+<p>Frontend applications use Email Alert API to create new mailing lists and<br />
+as a redirect destination for signing up. Publishing apps tend not to use<br />
+email alert API, instead relying on Email Alert Service to be triggered<br />
+by Publishing API. The exceptions are <a href="/apps/travel-advice-publisher.html">Travel Advice Publisher</a> and<br />
+<a href="/apps/specialist-publisher.html">Specialist Publisher</a>, which require a greater degree of control, so<br />
 communicate directly with the Email Alert API.</p>
-<p>To have a near real-time overview of the status of data passing through
+
+<p>To have a near real-time overview of the status of data passing through<br />
 the Email Alert API, view the <a href="https://grafana.publishing.service.gov.uk/dashboard/file/email_alert_api.json?refresh=10s&amp;orgId=1">metrics dashboard</a>.</p>
-<p>For more information about how content changes trigger emails, as well as
+
+<p>For more information about how content changes trigger emails, as well as<br />
 common issues and troubleshooting, view <a href="/apis/email-alert-api/troubleshooting.html">Email Alert API docs</a>.</p>
-<h3 id='email-alert-frontend'>Email Alert Frontend</h3>
+
+<h3 id="email-alert-frontend">Email Alert Frontend</h3>
+
 <ul>
-<li>Provides a user interface to sign up to a mailing list.</li>
-<li>Provides a user interface for a user to manage their subscriptions.</li>
-<li>Communicates with Email Alert API to make changes.</li>
+  <li>Provides a user interface to sign up to a mailing list.</li>
+  <li>Provides a user interface for a user to manage their subscriptions.</li>
+  <li>Communicates with Email Alert API to make changes.</li>
 </ul>
-<h3 id='email-alert-service'>Email Alert Service</h3>
+
+<h3 id="email-alert-service">Email Alert Service</h3>
+
 <ul>
-<li>Listens to the Publishing API message queue.</li>
-<li>Communicates with Email Alert API when an appropriate Publishing API
-event occurs to trigger an alert. This is usually a ‘major’ edit to
+  <li>Listens to the Publishing API message queue.</li>
+  <li>Communicates with Email Alert API when an appropriate Publishing API<br />
+event occurs to trigger an alert. This is usually a ‘major’ edit to<br />
 some content.</li>
 </ul>
-<h3 id='gov-uk-notify'>GOV.UK Notify</h3>
+
+<h3 id="govuk-notify">GOV.UK Notify</h3>
+
 <ul>
-<li>Used as a means to send emails.</li>
-<li>Does not know about subscribers or lists.</li>
+  <li>Used as a means to send emails.</li>
+  <li>Does not know about subscribers or lists.</li>
 </ul>
-<p>Email Alert API will request Notify to send an email and at a later time
+
+<p>Email Alert API will request Notify to send an email and at a later time<br />
 Notify will inform the Email Alert API whether that was successful.</p>
-<p>Notify also informs the Email Alert API whenever a subscriber reports
-an email as spam. Email Alert API will then unsubscribe the affected
+
+<p>Notify also informs the Email Alert API whenever a subscriber reports<br />
+an email as spam. Email Alert API will then unsubscribe the affected<br />
 subscriber from all emails.</p>
-<p>Communication from Email Alert API to Notify is done via a HTTP API
-which is authenticated by an API key. Communication from Notify to Email
-Alert API is done via a verified HTTP callback with a bearer token.
-Email Alert API is an internal application, so to enable callbacks two
-endpoints are exposed publicly through
+
+<p>Communication from Email Alert API to Notify is done via a HTTP API<br />
+which is authenticated by an API key. Communication from Notify to Email<br />
+Alert API is done via a verified HTTP callback with a bearer token.<br />
+Email Alert API is an internal application, so to enable callbacks two<br />
+endpoints are exposed publicly through<br />
 <a href="https://email-alert-api-public.publishing.service.gov.uk">https://email-alert-api-public.publishing.service.gov.uk</a>.</p>
+
 
 
   <div class='related-content'>

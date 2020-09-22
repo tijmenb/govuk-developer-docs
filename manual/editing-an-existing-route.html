@@ -141,36 +141,41 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#routing'>Routing</a></p> <h1 id='header'>Edit an existing route in the Router</h1><p>The Router API database is populated from the Publishing API, and also
-the deprecated router-data tool. Changes to routes should be made in
-the Publishing API as this is the authoritative source of the data,
-however, it can be helpful to make short term changes to routes
-manually, when going through the Publishing API would take too long,
+  <p><a href='/manual.html#routing'>Routing</a></p> <h1 id='header'>Edit an existing route in the Router</h1><p>The Router API database is populated from the Publishing API, and also<br />
+the deprecated router-data tool. Changes to routes should be made in<br />
+the Publishing API as this is the authoritative source of the data,<br />
+however, it can be helpful to make short term changes to routes<br />
+manually, when going through the Publishing API would take too long,<br />
 for example during an incident.</p>
-<p>If there&rsquo;s a need to edit a route in the database:</p>
+
+<p>If there's a need to edit a route in the database:</p>
 
 <ol>
-<li>Connect to a router-backend machine</li>
+  <li>Connect to a router-backend machine</li>
 </ol>
+
 <div class="highlight"><pre class="highlight console"><code><span class="go">gds govuk connect -e production ssh aws/router_backend
 </span></code></pre></div>
 <ol>
-<li>Connect to router-api and get the route</li>
+  <li>Connect to router-api and get the route</li>
 </ol>
+
 <div class="highlight"><pre class="highlight console"><code><span class="go">govuk_app_console router-api
 </span><span class="gp">&gt;</span><span class="w"> </span>r <span class="o">=</span> Route.where<span class="o">(</span>incoming_path: <span class="s1">'/path-to-item'</span><span class="o">)</span>.first
 </code></pre></div>
 <ol>
-<li>Manipulate the <code>r</code> object directly (see the
-<a href="https://github.com/alphagov/router#data-structure">documentation</a> for
+  <li>Manipulate the <code>r</code> object directly (see the<br />
+<a href="https://github.com/alphagov/router#data-structure">documentation</a> for<br />
 available options), for example:</li>
 </ol>
+
 <div class="highlight"><pre class="highlight console"><code><span class="gp">&gt;</span><span class="w"> </span>r.route_type <span class="o">=</span> <span class="s1">'exact'</span>
 <span class="gp">&gt;</span><span class="w"> </span>r.save!
 </code></pre></div>
 <ol>
-<li>Once you&rsquo;ve edited the route appropriately and saved it, reload the router</li>
+  <li>Once you've edited the route appropriately and saved it, reload the router</li>
 </ol>
+
 <div class="highlight"><pre class="highlight console"><code><span class="gp">&gt;</span><span class="w"> </span>RouterReloader.reload
 </code></pre></div>
 

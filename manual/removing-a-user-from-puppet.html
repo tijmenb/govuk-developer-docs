@@ -141,33 +141,34 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#accounts'>Accounts</a></p> <h1 id='header'>Remove a user from Puppet</h1><p>Removing a user from our infrastructure via Puppet is a 2 change process that
-requires a deploy in the middle. The first change ensures that when Puppet
-runs the user&rsquo;s home directory is removed; the second change removes the
-user from Puppet itself. If the user is just removed from Puppet their files
+  <p><a href='/manual.html#accounts'>Accounts</a></p> <h1 id='header'>Remove a user from Puppet</h1><p>Removing a user from our infrastructure via Puppet is a 2 change process that<br />
+requires a deploy in the middle. The first change ensures that when Puppet<br />
+runs the user's home directory is removed; the second change removes the<br />
+user from Puppet itself. If the user is just removed from Puppet their files<br />
 will remain on our servers forever more.</p>
 
 <ol>
-<li>First find the user manifest in: <a href="https://github.com/alphagov/govuk-puppet/tree/master/modules/users/manifests">modules/users/manifests</a>.</li>
-<li>Add an entry to the govuk_user class of <code>ensure =&gt; absent</code>. Here is an
+  <li>First find the user manifest in: <a href="https://github.com/alphagov/govuk-puppet/tree/master/modules/users/manifests">modules/users/manifests</a>.</li>
+  <li>Add an entry to the govuk_user class of <code>ensure =&gt; absent</code>. Here is an<br />
 <a href="https://github.com/alphagov/govuk-puppet/commit/0757bad41ed577f15c7f5d9e508f55e78c612ddb">example</a>.</li>
-<li>Once this has been raised as a PR and merged, deploy Puppet to all
+  <li>Once this has been raised as a PR and merged, deploy Puppet to all<br />
 environments.</li>
-<li>Create a PR in <a href="https://github.com/alphagov/govuk-secrets">GOV.UK secrets</a> that:
-
-<ul>
-<li>Removes the user from <a href="https://github.com/alphagov/govuk-secrets/tree/master/puppet/hieradata">production hieradata</a>. Read <a href="https://docs.publishing.service.gov.uk/manual/encrypted-hiera-data.html#what-to-do-when-someone-leaves">what to do when someone leaves</a></li>
-<li>Removes the user from <a href="https://github.com/alphagov/govuk-secrets/tree/master/puppet_aws/hieradata">AWS production hieradata</a>. Read <a href="https://docs.publishing.service.gov.uk/manual/encrypted-hiera-data.html#what-to-do-when-someone-leaves">what to do when someone leaves</a></li>
-</ul></li>
-<li>Create another PR for Puppet that:
-
-<ul>
-<li>Removes the user manifest file</li>
-<li>Removes the user from <a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata_aws/integration.yaml">Integration users</a></li>
-<li>Removes the user from <a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata/integration.yaml">CI users</a></li>
-</ul></li>
-<li>Once these have been merged, deploy Puppet again to all environments.</li>
+  <li>Create a PR in <a href="https://github.com/alphagov/govuk-secrets">GOV.UK secrets</a> that:
+    <ul>
+      <li>Removes the user from <a href="https://github.com/alphagov/govuk-secrets/tree/master/puppet/hieradata">production hieradata</a>. Read <a href="https://docs.publishing.service.gov.uk/manual/encrypted-hiera-data.html#what-to-do-when-someone-leaves">what to do when someone leaves</a></li>
+      <li>Removes the user from <a href="https://github.com/alphagov/govuk-secrets/tree/master/puppet_aws/hieradata">AWS production hieradata</a>. Read <a href="https://docs.publishing.service.gov.uk/manual/encrypted-hiera-data.html#what-to-do-when-someone-leaves">what to do when someone leaves</a></li>
+    </ul>
+  </li>
+  <li>Create another PR for Puppet that:
+    <ul>
+      <li>Removes the user manifest file</li>
+      <li>Removes the user from <a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata_aws/integration.yaml">Integration users</a></li>
+      <li>Removes the user from <a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata/integration.yaml">CI users</a></li>
+    </ul>
+  </li>
+  <li>Once these have been merged, deploy Puppet again to all environments.</li>
 </ol>
+
 
 
   <div class='related-content'>

@@ -141,11 +141,12 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#deployment'>Deployment</a></p> <h1 id='header'>Deploy Static</h1><p><a href="https://github.com/alphagov/static">Static</a> requires extra care when deploying.
-You must wait for at least 30 minutes between environment deploys. This is
-because Static is consumed directly by GOV.UK applications at runtime - not a
-gem version like a normal dependency - and responses from Static are cached for
+  <p><a href='/manual.html#deployment'>Deployment</a></p> <h1 id='header'>Deploy Static</h1><p><a href="https://github.com/alphagov/static">Static</a> requires extra care when deploying.<br />
+You must wait for at least 30 minutes between environment deploys. This is<br />
+because Static is consumed directly by GOV.UK applications at runtime - not a<br />
+gem version like a normal dependency - and responses from Static are cached for<br />
 half an hour, so problems may not be visible until after this period.</p>
+
 <p>There are instructions in the release app UI to remind you.</p>
 
 

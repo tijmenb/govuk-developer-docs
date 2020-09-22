@@ -157,54 +157,71 @@
       </a>
     </div>
 
-   <h1 id='header'>Data sync</h1><h2 id='govuk_env_sync-the-new-way'>govuk_env_sync (the new way)</h2><p>If you get an Icinga alert about a failing task, check <code>/var/log/syslog</code> and <code>/var/log/syslog.1</code> on the machine which runs the job. If the logs don&rsquo;t help, you can try re-running the sync job.</p>
+   <h1 id='header'>Data sync</h1><h2 id="govuk_env_sync-the-new-way">govuk_env_sync (the new way)</h2>
+
+<p>If you get an Icinga alert about a failing task, check <code>/var/log/syslog</code> and <code>/var/log/syslog.1</code> on the machine which runs the job. If the logs don't help, you can try re-running the sync job.</p>
+
 <p>The data sync operations are executed as cron-jobs attached to the <code>govuk-backup</code> user. Run the following commands to get an overview of the jobs being run on a machine.</p>
+
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">sudo </span>crontab <span class="nt">-lu</span> govuk-backup
 
 <span class="c"># Puppet Name: pull_content_data_admin_production_daily</span>
 18 0 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> /usr/bin/ionice <span class="nt">-c</span> 2 <span class="nt">-n</span> 6 /usr/local/bin/with_reboot_lock /usr/bin/envdir /etc/govuk_env_sync/env.d /usr/local/bin/govuk_env_sync.sh <span class="nt">-f</span> /etc/govuk_env_sync/pull_content_data_admin_production_daily.cfg
 ...
 
-</code></pre></div><p>The cron job command does the following:</p>
+</code></pre></div>
+<p>The cron job command does the following:</p>
 
 <ol>
-<li>Runs the data sync job at low I/O priority:
+  <li>Runs the data sync job at low I/O priority:<br />
 <code>/usr/bin/ionice -c 2 -n 6</code>. This only really matters when running on a database server, as opposed to a <code>db_admin</code> bastion host, but the command is the same in both cases.</li>
-<li>Prevents reboot by <code>unattended-upgrades</code> while the sync job is running:
+  <li>Prevents reboot by <code>unattended-upgrades</code> while the sync job is running:<br />
 <code>/usr/local/bin/with_reboot_lock</code></li>
-<li>Runs the data sync job with the appropriate configuration file:
+  <li>Runs the data sync job with the appropriate configuration file:<br />
 <code>/usr/local/bin/govuk_env_sync.sh -f /etc/govuk_env_sync/pull_content_data_admin_production_daily.cfg</code></li>
 </ol>
+
 <p>To re-run a given sync job, copy the part of the cron-job corresponding to (3) and examine the output for any errors.</p>
+
 <div class="highlight"><pre class="highlight shell"><code><span class="nb">sudo</span> <span class="nt">-u</span> govuk-backup /usr/local/bin/govuk_env_sync.sh <span class="nt">-f</span> /etc/govuk_env_sync/pull_content_data_admin_production_daily.cfg
-</code></pre></div><p>For more information, check the general manual for <a href="/manual/govuk-env-sync.html">govuk_env_sync</a>.</p>
-<h2 id='env-sync-and-backup-the-old-way'>env-sync-and-backup (the old way)</h2>
+</code></pre></div>
+<p>For more information, check the general manual for <a href="/manual/govuk-env-sync.html">govuk_env_sync</a>.</p>
+
+<h2 id="env-sync-and-backup-the-old-way">env-sync-and-backup (the old way)</h2>
+
 <blockquote>
-<p><strong>Note on AWS</strong></p>
-<p>For databases migrated to AWS RDS, the env-sync-and-backup was replaced by the <a href="/manual/govuk-env-sync.html">govuk_env_sync</a>.
-The env-sync-and-backup data synchronisation is still in use for synchronisation of non-migrated
+  <p><strong>Note on AWS</strong></p>
+
+  <p>For databases migrated to AWS RDS, the env-sync-and-backup was replaced by the <a href="/manual/govuk-env-sync.html">govuk_env_sync</a>.<br />
+The env-sync-and-backup data synchronisation is still in use for synchronisation of non-migrated<br />
 databases into the integration environment.</p>
 </blockquote>
+
 <p>Data and assets/attachments are synced from production to staging and integration every night.</p>
+
 <p>Check the output of the production Jenkins job to see which part of the sync failed. It may be safe to re-run part of the sync. You can specify which part of the job to run by selecting a <code>JOBLIST</code> argument when running the Jenkins job.</p>
 
 <blockquote>
-<p><strong>WARNING</strong></p>
-<p>The mysql backup will cause signon in staging to point to production until the
-<code>Data Sync Complete</code> job runs and renames the hostnames copied from production
-to back to their staging equivalents.  This means that any deploys to staging
-that rely on GDS API Adapters are likely to fail due to authentication
+  <p><strong>WARNING</strong></p>
+
+  <p>The mysql backup will cause signon in staging to point to production until the<br />
+<code>Data Sync Complete</code> job runs and renames the hostnames copied from production<br />
+to back to their staging equivalents.  This means that any deploys to staging<br />
+that rely on GDS API Adapters are likely to fail due to authentication<br />
 failures, as well as Smokey tests that attempt to use Signon.</p>
-<p>Running the <a href="https://deploy.staging.publishing.service.gov.uk/job/Data_Sync_Complete/">data_sync_complete</a> job may fix this.</p>
+
+  <p>Running the <a href="https://deploy.staging.publishing.service.gov.uk/job/Data_Sync_Complete/">data_sync_complete</a> job may fix this.</p>
 </blockquote>
+
 <p>The Jenkins jobs included in the sync are:</p>
 
 <ul>
-<li><a href="https://deploy.publishing.service.gov.uk/job/Copy_Data_to_Staging/">Copy Data to Staging</a></li>
-<li><a href="https://deploy.publishing.service.gov.uk/job/Copy_Attachments_to_Staging/">Copy Attachments to Staging</a></li>
-<li><a href="https://deploy.publishing.service.gov.uk/job/Copy_Data_to_Integration/">Copy Data to Integration</a></li>
-<li><a href="https://deploy.publishing.service.gov.uk/job/Copy_Attachments_to_Integration/">Copy Attachments to Integration</a></li>
+  <li><a href="https://deploy.publishing.service.gov.uk/job/Copy_Data_to_Staging/">Copy Data to Staging</a></li>
+  <li><a href="https://deploy.publishing.service.gov.uk/job/Copy_Attachments_to_Staging/">Copy Attachments to Staging</a></li>
+  <li><a href="https://deploy.publishing.service.gov.uk/job/Copy_Data_to_Integration/">Copy Data to Integration</a></li>
+  <li><a href="https://deploy.publishing.service.gov.uk/job/Copy_Attachments_to_Integration/">Copy Attachments to Integration</a></li>
 </ul>
+
 <p>See the <a href="https://github.com/alphagov/env-sync-and-backup/tree/master/jobs">source code</a> of the jobs for more information about how they work.</p>
 
 

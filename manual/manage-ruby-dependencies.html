@@ -157,17 +157,31 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#dependencies'>Dependencies</a></p> <h1 id='header'>Manage Ruby dependencies with Dependabot</h1><p>We&rsquo;re <a href="/manual/keeping-software-current.html">obliged to keep our software current</a>.</p>
+  <p><a href='/manual.html#dependencies'>Dependencies</a></p> <h1 id='header'>Manage Ruby dependencies with Dependabot</h1><p>We're <a href="/manual/keeping-software-current.html">obliged to keep our software current</a>.</p>
+
 <p>To help with this, we use a service called <a href="https://dependabot.com">Dependabot</a> to perform automated dependency upgrades.</p>
-<h2 id='add-dependabot-to-a-repo'>Add Dependabot to a repo</h2>
+
+<h2 id="add-dependabot-to-a-repo">Add Dependabot to a repo</h2>
+
 <ol>
-<li>Give Dependabot <a href="https://github.com/organizations/alphagov/settings/installations/87197">access to the repo</a> (only GitHub org owners can do this)</li>
-<li>Go to <a href="https://app.dependabot.com/accounts/alphagov/repos">Dependabot admin</a> and click &ldquo;Add project&rdquo;</li>
+  <li>Give Dependabot <a href="https://github.com/organizations/alphagov/settings/installations/87197">access to the repo</a> (only GitHub org owners can do this)</li>
+  <li>Go to <a href="https://app.dependabot.com/accounts/alphagov/repos">Dependabot admin</a> and click "Add project"</li>
 </ol>
-<h2 id='ask-dependabot-to-bump-dependencies'>Ask Dependabot to bump dependencies</h2><p>By default Dependabot will bump dependencies once a day, but you can ask it to bump manually:</p>
-<p>Go to <a href="https://app.dependabot.com/accounts/alphagov/repos">Dependabot admin</a> and click &ldquo;Bump now&rdquo; for your project</p>
-<h2 id='audit-dependabot-prs'>Audit Dependabot PRs</h2><p>We have the <a href="/apps/govuk-dependencies.html">govuk-dependencies app</a> to monitor outstanding Dependabot PRs on govuk repos.</p>
-<h2 id='security'>Security</h2><p>There are 2 safeguards to prevent unauthorised code changes. Firstly, Dependabot can only update the repositories that we <a href="https://github.com/organizations/alphagov/settings/installations/87197">explicitly allow on GitHub</a>. This prevents code changes to other repos. Secondly, we&rsquo;ve <a href="/manual/configure-github-repo.html#auto-configuration">set up branch protection</a> for all repos with the <code>govuk</code> label. This prevents Dependabot from writing directly to master.</p>
+
+<h2 id="ask-dependabot-to-bump-dependencies">Ask Dependabot to bump dependencies</h2>
+
+<p>By default Dependabot will bump dependencies once a day, but you can ask it to bump manually:</p>
+
+<p>Go to <a href="https://app.dependabot.com/accounts/alphagov/repos">Dependabot admin</a> and click "Bump now" for your project</p>
+
+<h2 id="audit-dependabot-prs">Audit Dependabot PRs</h2>
+
+<p>We have the <a href="/apps/govuk-dependencies.html">govuk-dependencies app</a> to monitor outstanding Dependabot PRs on govuk repos.</p>
+
+<h2 id="security">Security</h2>
+
+<p>There are 2 safeguards to prevent unauthorised code changes. Firstly, Dependabot can only update the repositories that we <a href="https://github.com/organizations/alphagov/settings/installations/87197">explicitly allow on GitHub</a>. This prevents code changes to other repos. Secondly, we've <a href="/manual/configure-github-repo.html#auto-configuration">set up branch protection</a> for all repos with the <code>govuk</code> label. This prevents Dependabot from writing directly to master.</p>
+
 
 
   <div class='related-content'>

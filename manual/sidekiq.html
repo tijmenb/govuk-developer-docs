@@ -160,54 +160,84 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#monitoring'>Monitoring</a></p> <h1 id='header'>Sidekiq</h1><p>Many of our applications use
+  <p><a href='/manual.html#monitoring'>Monitoring</a></p> <h1 id='header'>Sidekiq</h1><p>Many of our applications use<br />
 <a href="https://github.com/mperham/sidekiq">Sidekiq</a> for background job processing.</p>
-<p>There&rsquo;s a <a href="https://github.com/alphagov/govuk_sidekiq">GOV.UK wrapper</a> that will
+
+<p>There's a <a href="https://github.com/alphagov/govuk_sidekiq">GOV.UK wrapper</a> that will<br />
 help you set it up.</p>
-<h2 id='monitoring'>Monitoring</h2><p>There are three approaches for monitoring Sidekiq, via the <a href="#sidekiq-web">Sidekiq Web interface</a>,
+
+<h2 id="monitoring">Monitoring</h2>
+
+<p>There are three approaches for monitoring Sidekiq, via the <a href="#sidekiq-web">Sidekiq Web interface</a>,<br />
 or the <a href="#sidekiq-grafana-dashboard">Grafana dashboard</a> or the <a href="#sidekiq-from-the-console">Console</a>.</p>
-<h3 id='sidekiq-web-aka-sidekiq-monitoring'>Sidekiq Web (aka Sidekiq Monitoring)</h3><p><a href="http://sidekiq.org">Sidekiq</a> comes with a web application,
-<a href="https://github.com/mperham/sidekiq/wiki/Monitoring"><code>Sidekiq::Web</code></a>
-that can display the current state of a <a href="http://sidekiq.org">Sidekiq</a> installation. We have
-<a href="https://github.com/alphagov/sidekiq-monitoring">configured this</a> to monitor
+
+<h3 id="sidekiq-web-aka-sidekiq-monitoring">Sidekiq Web (aka Sidekiq Monitoring)</h3>
+
+<p><a href="http://sidekiq.org">Sidekiq</a> comes with a web application,<br />
+<a href="https://github.com/mperham/sidekiq/wiki/Monitoring"><code>Sidekiq::Web</code></a><br />
+that can display the current state of a <a href="http://sidekiq.org">Sidekiq</a> installation. We have<br />
+<a href="https://github.com/alphagov/sidekiq-monitoring">configured this</a> to monitor<br />
 multiple <a href="http://sidekiq.org">Sidekiq</a> configurations used throughout <a href="https://www.gov.uk">GOV.UK</a>.</p>
-<p>We have restricted public access as the Web UI allows modifying the state of
-<a href="http://sidekiq.org">Sidekiq</a> queues. To access the Sidekiq monitoring UI for Production AWS,
+
+<p>We have restricted public access as the Web UI allows modifying the state of<br />
+<a href="http://sidekiq.org">Sidekiq</a> queues. To access the Sidekiq monitoring UI for Production AWS,<br />
 run:</p>
+
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>gds govuk connect sidekiq-monitoring <span class="nt">-e</span> production aws/backend
-</code></pre></div><p>Go to the <code>127.0.0.1:port</code> URL in the command output to see the UI.</p>
-<h4 id='set-up-sidekiq-monitoring-for-your-application'>Set up Sidekiq Monitoring for your application</h4>
+</code></pre></div>
+<p>Go to the <code>127.0.0.1:port</code> URL in the command output to see the UI.</p>
+
+<h4 id="set-up-sidekiq-monitoring-for-your-application">Set up Sidekiq Monitoring for your application</h4>
+
 <ul>
-<li>Choose a port that isn&rsquo;t already taken for the Sidekiq Monitoring
+  <li>Choose a port that isn't already taken for the Sidekiq Monitoring<br />
 app to be served from.</li>
-<li>Add it to the <a href="https://github.com/alphagov/sidekiq-monitoring/blob/master/Procfile">Procfile in the sidekiq-monitoring repository</a>
+  <li>Add it to the <a href="https://github.com/alphagov/sidekiq-monitoring/blob/master/Procfile">Procfile in the sidekiq-monitoring repository</a><br />
 maintaining the alphabetical order of the processes.</li>
-<li>Update
-<a href="https://github.com/alphagov/sidekiq-monitoring/blob/master/public/index.html#L26-L29">index.html</a>
-to include a link to your application&rsquo;s sidekiq-monitoring maintaining the
-alphabetical order of the applications. This path is configured as a location
+  <li>Update<br />
+<a href="https://github.com/alphagov/sidekiq-monitoring/blob/master/public/index.html#L26-L29">index.html</a><br />
+to include a link to your application's sidekiq-monitoring maintaining the<br />
+alphabetical order of the applications. This path is configured as a location<br />
 under the sidekiq-monitoring vhost.</li>
-<li>Run <code>bundle exec foreman start</code> and test that your Rack and Redis config work
+  <li>Run <code>bundle exec foreman start</code> and test that your Rack and Redis config work<br />
 as expected.</li>
 </ul>
-<h5 id='configure-the-infrastructure'>Configure the infrastructure</h5><p>Add your application to the
-<a href="https://github.com/alphagov/govuk-puppet/blob/master/modules/govuk/manifests/apps/sidekiq_monitoring.pp"><code>govuk::apps::sidekiq_monitoring module</code></a>
-in Puppet, cross-referencing the
+
+<h5 id="configure-the-infrastructure">Configure the infrastructure</h5>
+
+<p>Add your application to the<br />
+<a href="https://github.com/alphagov/govuk-puppet/blob/master/modules/govuk/manifests/apps/sidekiq_monitoring.pp"><code>govuk::apps::sidekiq_monitoring module</code></a><br />
+in Puppet, cross-referencing the<br />
 <a href="https://github.com/alphagov/govuk-puppet/commit/9ffa90f571a43cba1e341c359111bf18db9cde1a">Redis configuration</a>.</p>
-<h5 id='configure-a-path-under-the-sidekiq-monitoring-vhost'>Configure a path under the sidekiq-monitoring vhost</h5><p>The sidekiq-monitoring vhost in nginx has one location for every
-sidekiq-monitoring application. Add one for your application in
+
+<h5 id="configure-a-path-under-the-sidekiq-monitoring-vhost">Configure a path under the sidekiq-monitoring vhost</h5>
+
+<p>The sidekiq-monitoring vhost in nginx has one location for every<br />
+sidekiq-monitoring application. Add one for your application in<br />
 <a href="https://github.com/alphagov/govuk-puppet/blob/70a10190b/modules/govuk/templates/sidekiq_monitoring_nginx_config.conf.erb#L21-L23">this puppet template</a>.</p>
-<h5 id='test-that-the-configuration-works-on-integration'>Test that the configuration works on Integration</h5><p>Once changes are merged and deployed to Integration, you can
-access your <a href="monitor-sidekiq-workers.html">sidekiq monitoring</a> instance running
+
+<h5 id="test-that-the-configuration-works-on-integration">Test that the configuration works on Integration</h5>
+
+<p>Once changes are merged and deployed to Integration, you can<br />
+access your <a href="monitor-sidekiq-workers.html">sidekiq monitoring</a> instance running<br />
 on Integration, and check that it works as expected.</p>
-<h3 id='sidekiq-grafana-dashboard'>Sidekiq Grafana Dashboard</h3><p>You can also monitor Sidekiq queue lengths using <a href="https://grafana.publishing.service.gov.uk/dashboard/file/sidekiq.json">this Grafana
-dashboard</a>. It
+
+<h3 id="sidekiq-grafana-dashboard">Sidekiq Grafana Dashboard</h3>
+
+<p>You can also monitor Sidekiq queue lengths using <a href="https://grafana.publishing.service.gov.uk/dashboard/file/sidekiq.json">this Grafana<br />
+dashboard</a>. It<br />
 is available in all environments.</p>
-<h3 id='sidekiq-from-the-console'>Sidekiq from the console</h3><p>Where possible you should use Sidekiq&rsquo;s web interface or Grafana to view Sidekiq
-stats and queues. SSHing into machines to interrogate things should be a last
+
+<h3 id="sidekiq-from-the-console">Sidekiq from the console</h3>
+
+<p>Where possible you should use Sidekiq's web interface or Grafana to view Sidekiq<br />
+stats and queues. SSHing into machines to interrogate things should be a last<br />
 resort.</p>
+
 <p>Sidekiq <a href="https://github.com/mperham/sidekiq/wiki/API">exposes a rich API</a> which can be queried from the rails console.</p>
+
 <p>The <code>Stats</code> class gives a nice overview.</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>Sidekiq::Stats.new
 
 # =&gt; #&lt;Sidekiq::Stats:0x00007fbdf0ac4a30 @stats={:processed=&gt;114999987, :failed=&gt;15129, :scheduled_size=&gt;22741, :retry_size=&gt;1, :dead_size=&gt;0, :processes_size=&gt;3, :default_queue_latency=&gt;10162.526781797409, :workers_size=&gt;90, :enqueued=&gt;1508687}&gt;
@@ -216,7 +246,9 @@ Sidekiq::Stats.new.queues
 
 # =&gt; {"delivery_immediate_high"=&gt;949953, "default"=&gt;451201, "delivery_immediate"=&gt;101006, "email_generation_immediate"=&gt;0, "email_generation_digest"=&gt;0, "cleanup"=&gt;0, "process_and_generate_emails"=&gt;0, "delivery_digest"=&gt;0}
 
-</code></pre></div><p>You can also query and iterate through the <code>Queue</code>s directly:</p>
+</code></pre></div>
+<p>You can also query and iterate through the <code>Queue</code>s directly:</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>Sidekiq::Queue.all
 
 # =&gt; [#&lt;Sidekiq::Queue:0x00007fe98b133590 @name="cleanup", @rname="queue:cleanup"&gt;, #&lt;Sidekiq::Queue:0x00007fe98b133518 @name="default", @rname="queue:default"&gt;, etc...
@@ -224,12 +256,16 @@ Sidekiq::Stats.new.queues
 Sidekiq::Queue.all.collect {|q| [q.name, q.size] }
 
 # =&gt; [["cleanup", 0], ["default", 0], ["delivery_digest", 0], ["delivery_immediate", 0], ["delivery_immediate_high", 0], ["email_generation_digest", 0], ["process_and_generate_emails", 0]]
-</code></pre></div><h2 id='retry-logic'>Retry logic</h2><p>Sidekiq has in built retry logic (turned on by default, but configurable).
-Middleware is used to send metrics (successes, failures, job timings and retry
+</code></pre></div>
+<h2 id="retry-logic">Retry logic</h2>
+
+<p>Sidekiq has in built retry logic (turned on by default, but configurable).<br />
+Middleware is used to send metrics (successes, failures, job timings and retry<br />
 counts) to <code>statsd</code>, which forwards the data to Graphite to be stored.</p>
-<p>Jobs do fail, this is not inherently bad and can happen for a number of
-reasons. When a job fails it gets retried with an exponential backoff (up to 21
-days), as long as retries are enabled. A high number of retries signifies a
+
+<p>Jobs do fail, this is not inherently bad and can happen for a number of<br />
+reasons. When a job fails it gets retried with an exponential backoff (up to 21<br />
+days), as long as retries are enabled. A high number of retries signifies a<br />
 bigger, less transient problem maybe occurring.</p>
 
 

@@ -138,7 +138,7 @@
             <a href="#things-to-look-out-for"><span>Things to look out for</span></a>
           </li>
           <li>
-            <a href="#when-you39ve-reviewed-the-page-either"><span>When you’ve reviewed the page, either:</span></a>
+            <a href="#when-youve-reviewed-the-page-either"><span>When you've reviewed the page, either:</span></a>
           </li>
           <li>
             <a href="#choose-a-review-by-date"><span>Choose a review by date</span></a>
@@ -161,31 +161,47 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
   <p><a href='/manual.html#documentation'>Documentation</a></p> <h1 id='header'>Review a page in this manual</h1><p>We have <a href="https://github.com/alphagov/tech-docs-monitor">a system to make sure we regularly review pages</a> in the manual.</p>
+
 <p>Main pages in the manual are reviewed every 3-12 months.</p>
-<p>We also document Icinga alerts. These explain what to do when a certain alert triggers (<a href="/manual/alerts/fastly-error-rate.html">example</a>). Because these can be very rare and hard to review, we should review these around the same time every six months. This is best done by people with a lot of 2nd line context. To make sure we&rsquo;ve documented all alerts, you can <a href="https://github.com/alphagov/govuk-puppet/blob/master/lib/tasks/lint_alert_docs.rake">run <code>rake lint_alert_docs</code> in govuk-puppet</a>, which will output alerts that can be removed/need to be added.</p>
-<h2 id='how-to-review'>How to review</h2><h3 id='things-to-look-out-for'>Things to look out for</h3>
+
+<p>We also document Icinga alerts. These explain what to do when a certain alert triggers (<a href="/manual/alerts/fastly-error-rate.html">example</a>). Because these can be very rare and hard to review, we should review these around the same time every six months. This is best done by people with a lot of 2nd line context. To make sure we've documented all alerts, you can <a href="https://github.com/alphagov/govuk-puppet/blob/master/lib/tasks/lint_alert_docs.rake">run <code>rake lint_alert_docs</code> in govuk-puppet</a>, which will output alerts that can be removed/need to be added.</p>
+
+<h2 id="how-to-review">How to review</h2>
+
+<h3 id="things-to-look-out-for">Things to look out for</h3>
+
 <ul>
-<li>Is the page accurate?</li>
-<li>Is the page still relevant?</li>
-<li>Does it help the reader complete their task?</li>
-<li>Does it <a href="/manual/docs-style-guide.html">follow the styleguide</a>?</li>
+  <li>Is the page accurate?</li>
+  <li>Is the page still relevant?</li>
+  <li>Does it help the reader complete their task?</li>
+  <li>Does it <a href="/manual/docs-style-guide.html">follow the styleguide</a>?</li>
 </ul>
-<h3 id='when-you39ve-reviewed-the-page-either'>When you&rsquo;ve reviewed the page, either:</h3>
+
+<h3 id="when-youve-reviewed-the-page-either">When you've reviewed the page, either:</h3>
+
 <ul>
-<li>Update the page</li>
-<li>Remove it (don’t forget to <a href="https://github.com/alphagov/govuk-developer-docs/blob/master/config/tech-docs.yml">set up a redirect</a>)</li>
-<li>Assign it for someone else to review</li>
-<li>Confirm the page is OK and set a new review date</li>
+  <li>Update the page</li>
+  <li>Remove it (don’t forget to <a href="https://github.com/alphagov/govuk-developer-docs/blob/master/config/tech-docs.yml">set up a redirect</a>)</li>
+  <li>Assign it for someone else to review</li>
+  <li>Confirm the page is OK and set a new review date</li>
 </ul>
+
 <p>These tasks can be achieved by editing the metadata at the top of the source for that page. See the <a href="https://github.com/alphagov/govuk-developer-docs">govuk-developer-docs github repo</a>.</p>
-<h3 id='choose-a-review-by-date'>Choose a review by date</h3>
+
+<h3 id="choose-a-review-by-date">Choose a review by date</h3>
+
 <ul>
-<li>How likely is it that the information will change?</li>
-<li>Is work happening in this area?</li>
-<li>What would the impact be if the information were wrong?</li>
+  <li>How likely is it that the information will change?</li>
+  <li>Is work happening in this area?</li>
+  <li>What would the impact be if the information were wrong?</li>
 </ul>
-<h3 id='relevant-blog-posts-to-link-to'>Relevant blog posts to link to</h3><p>Is there a relevant blog post to the page you&rsquo;re reviewing? Would linking to it help the reader complete their task?</p>
+
+<h3 id="relevant-blog-posts-to-link-to">Relevant blog posts to link to</h3>
+
+<p>Is there a relevant blog post to the page you're reviewing? Would linking to it help the reader complete their task?</p>
+
 <p>You can find <a href="https://gdstechnology.blog.gov.uk/category/gov-uk/">GOV.UK blog posts on the  GDS Tech blog</a>.</p>
+
 
 
   <div class='related-content'>

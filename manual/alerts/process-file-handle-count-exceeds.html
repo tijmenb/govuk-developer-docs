@@ -149,16 +149,20 @@
       </a>
     </div>
 
-   <h1 id='header'>Process file handle count exceeds</h1><p>This check fails when the monitored processes use more file handles
+   <h1 id='header'>Process file handle count exceeds</h1><p>This check fails when the monitored processes use more file handles<br />
 than the configured limit. The default limit is 500.</p>
-<p>This is problematic as there are limits to how many file handles a
-process may have, and if these limits are hit, the process may stop
+
+<p>This is problematic as there are limits to how many file handles a<br />
+process may have, and if these limits are hit, the process may stop<br />
 working.</p>
-<p>If this check has failed, it could be that the limit is too low, or
-that a problem with the processes is causing excessive file handles to
+
+<p>If this check has failed, it could be that the limit is too low, or<br />
+that a problem with the processes is causing excessive file handles to<br />
 be held.</p>
-<p>As a temporary mitigation, restarting the process may reduce the count
+
+<p>As a temporary mitigation, restarting the process may reduce the count<br />
 of held file handles.</p>
+
 <p>Also see <a href="/manual/alerts/check-process-running.html">check process running</a></p>
 
 

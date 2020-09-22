@@ -169,118 +169,156 @@
       </a>
     </div>
 
-   <h1 id='header'>Low available disk space</h1><h2 id='low-available-disk-space-on-root'>Low available disk space on root</h2><p>You can try clearing out the APT cache:</p>
+   <h1 id='header'>Low available disk space</h1><h2 id="low-available-disk-space-on-root">Low available disk space on root</h2>
+
+<p>You can try clearing out the APT cache:</p>
+
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">sudo </span>apt-get clean
-</code></pre></div><h2 id='low-available-disc-space-on-mntuploads-for-asset-master-1-and-asset-slave-1'>Low available disc space on /mnt/uploads for asset-master-1 and asset-slave-1</h2><p>Nagios is set up to monitor disc usage by /mnt/uploads on
-asset-master-1.backend and asset-slave-1.backend. Usually, the culprit
-behind space-chomping is /mnt/uploads/whitehall, and there are two
+</code></pre></div>
+<h2 id="low-available-disc-space-on-mntuploads-for-asset-master-1-and-asset-slave-1">Low available disc space on /mnt/uploads for asset-master-1 and asset-slave-1</h2>
+
+<p>Nagios is set up to monitor disc usage by /mnt/uploads on<br />
+asset-master-1.backend and asset-slave-1.backend. Usually, the culprit<br />
+behind space-chomping is /mnt/uploads/whitehall, and there are two<br />
 folders on which to focus clean-up efforts on:</p>
 
 <ul>
-<li><code>/mnt/uploads/whitehall/attachment-cache</code></li>
-<li><code>/mnt/uploads/whitehall/carrierwave-tmp</code></li>
+  <li><code>/mnt/uploads/whitehall/attachment-cache</code></li>
+  <li><code>/mnt/uploads/whitehall/carrierwave-tmp</code></li>
 </ul>
-<p>Running the following command from within the above folders (ie cd to
-/mnt/uploads&hellip;) usually works best as it means that we don&rsquo;t end up
+
+<p>Running the following command from within the above folders (ie cd to<br />
+/mnt/uploads…) usually works best as it means that we don't end up<br />
 with the parent folders being deleted:</p>
+
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>find <span class="nt">-type</span> d <span class="nt">-ctime</span> +1 <span class="nt">-exec</span> <span class="nb">rm</span> <span class="nt">-rf</span> <span class="o">{}</span> +
-</code></pre></div><p>In the above example, we:</p>
+</code></pre></div>
+<p>In the above example, we:</p>
 
 <ul>
-<li><code>find -type d</code> - find all directories within the folder you are currently
-cd&rsquo;d in to</li>
-<li><code>-ctime +1</code> - limit the results of the above <code>find</code> to files created over a
+  <li><code>find -type d</code> - find all directories within the folder you are currently<br />
+cd'd in to</li>
+  <li><code>-ctime +1</code> - limit the results of the above <code>find</code> to files created over a<br />
 day (24hrs) ago</li>
-<li><code>-exec rm -rf {} +</code> - execute a force removal on the folders found, with the
+  <li><code>-exec rm -rf {} +</code> - execute a force removal on the folders found, with the<br />
 above conditions</li>
 </ul>
-<p>The + is a gnuism which allows the command to run more efficiently. This
-<a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?find">man page</a> explains the +
+
+<p>The + is a gnuism which allows the command to run more efficiently. This<br />
+<a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?find">man page</a> explains the +<br />
 functionality:</p>
 
 <blockquote>
-<p>This variant of the -exec option runs the specified command on the
-selected files, but the command line is built by appending each
-selected file name at the end; the total number of invoca-tions of the
-command will be much less than the number of matched files. The
-command line is built in much the same ways that xargs builds its
-command lines. Only one instance of &lsquo;{}&rsquo; is allowed within the
+  <p>This variant of the -exec option runs the specified command on the<br />
+selected files, but the command line is built by appending each<br />
+selected file name at the end; the total number of invoca-tions of the<br />
+command will be much less than the number of matched files. The<br />
+command line is built in much the same ways that xargs builds its<br />
+command lines. Only one instance of '{}' is allowed within the<br />
 command. The command is executed in the starting directory.</p>
 </blockquote>
-<p>This command will take a while to complete, depending - of course - on
-how large your two starting folders are. After it has completed, push
+
+<p>This command will take a while to complete, depending - of course - on<br />
+how large your two starting folders are. After it has completed, push<br />
 Nagios to re-check the service on each affected host.</p>
-<h2 id='no-disk-space-on-the-mysql-master'>No disk space on the MySQL master</h2><p>If the MySQL master runs out of disk space, all of the apps that rely on MySQL
-may crash. You&rsquo;ll probably notice this in Icinga. There&rsquo;s a lot of red.</p>
-<p>Binary logs take up space that could be freed. If the slave and the backup are
-at a reasonably up-to-date binlog position (<code>SHOW SLAVE STATUS \G</code>), the older
+
+<h2 id="no-disk-space-on-the-mysql-master">No disk space on the MySQL master</h2>
+
+<p>If the MySQL master runs out of disk space, all of the apps that rely on MySQL<br />
+may crash. You'll probably notice this in Icinga. There's a lot of red.</p>
+
+<p>Binary logs take up space that could be freed. If the slave and the backup are<br />
+at a reasonably up-to-date binlog position (<code>SHOW SLAVE STATUS \G</code>), the older<br />
 binlogs can be removed from the master.</p>
+
 <p>To recover:</p>
 
 <ol>
-<li>SSH to mysql-master-1.backend</li>
-<li>Stop MySQL using <code>sudo service mysql stop</code> (this may never return)</li>
-<li>At this point <code>service mysql status</code> may return <code>stop/killed</code>, indicating
+  <li>SSH to mysql-master-1.backend</li>
+  <li>Stop MySQL using <code>sudo service mysql stop</code> (this may never return)</li>
+  <li>At this point <code>service mysql status</code> may return <code>stop/killed</code>, indicating<br />
 that Upstart has tried to kill MySQL but it is refusing to die</li>
-<li><code>cd /var/lib/mysql &amp;&amp; ls</code></li>
-<li>Remove enough (5 to 10?) binlog files so that you can start MySQL</li>
-<li>Edit the <code>mysql-bin.index</code> file to remove references to the binlog files you
+  <li><code>cd /var/lib/mysql &amp;&amp; ls</code></li>
+  <li>Remove enough (5 to 10?) binlog files so that you can start MySQL</li>
+  <li>Edit the <code>mysql-bin.index</code> file to remove references to the binlog files you<br />
 removed manually</li>
-<li><code>sudo service mysql start</code></li>
-<li><code>mysql -u root -p</code></li>
-<li><code>PURGE BINARY LOGS TO &#39;mysql-bin.########&#39;;</code></li>
+  <li><code>sudo service mysql start</code></li>
+  <li><code>mysql -u root -p</code></li>
+  <li><code>PURGE BINARY LOGS TO 'mysql-bin.########';</code></li>
 </ol>
-<p>If there&rsquo;s no disk space available, purging binary logs from within MySQL
-doesn&rsquo;t work - this is why we first need to manually delete some logs and
+
+<p>If there's no disk space available, purging binary logs from within MySQL<br />
+doesn't work - this is why we first need to manually delete some logs and<br />
 update the index.</p>
-<h2 id='low-available-disk-space-on-varlibpostgresql'>Low available disk space on /var/lib/postgresql</h2><p>Check which databases are occupying a lot of space and discuss with the
+
+<h2 id="low-available-disk-space-on-varlibpostgresql">Low available disk space on /var/lib/postgresql</h2>
+
+<p>Check which databases are occupying a lot of space and discuss with the<br />
 relevant owners about reducing size or exanding the size of the postgres drive.</p>
+
 <p>Steps to investigate postgres db size:</p>
 
 <ol>
-<li>SSH into <code>postgresql-primary-1.backend</code></li>
-<li>See what space is left: <code>df -h</code></li>
-<li>Open the psql console: <code>sudo -u postgres psql postgres</code></li>
-<li>List databases: <code>\list</code> or <code>\l</code></li>
-<li>Check out which databases can be improved</li>
-<li>You can choose one of the dbs by doing: <code>\c &lt;name-of-db&gt;</code>
+  <li>SSH into <code>postgresql-primary-1.backend</code></li>
+  <li>See what space is left: <code>df -h</code></li>
+  <li>Open the psql console: <code>sudo -u postgres psql postgres</code></li>
+  <li>List databases: <code>\list</code> or <code>\l</code></li>
+  <li>Check out which databases can be improved</li>
+  <li>You can choose one of the dbs by doing: <code>\c &lt;name-of-db&gt;</code><br />
 For example: <code>\c email-alert-api_production</code></li>
 </ol>
+
 <p>If this continues to be a problem see if you need to <a href="/manual/adding-disks-in-vcloud.html">resize the disk</a>.</p>
-<h2 id='no-disk-space-in-general'>No disk space in general</h2><p>If you cant find any of the above cases causing low disk spaces, it can
-be useful to run the command <code>sudo ncdu &lt;mountpoint&gt;</code>, where mountpoint
-will be the path specified in the Nagios alert. It will calculate all
-the disk space being used, and then bring you into an ncurses file
-explorer-style interface. Press enter to go into a directory, and d to
+
+<h2 id="no-disk-space-in-general">No disk space in general</h2>
+
+<p>If you cant find any of the above cases causing low disk spaces, it can<br />
+be useful to run the command <code>sudo ncdu &lt;mountpoint&gt;</code>, where mountpoint<br />
+will be the path specified in the Nagios alert. It will calculate all<br />
+the disk space being used, and then bring you into an ncurses file<br />
+explorer-style interface. Press enter to go into a directory, and d to<br />
 delete any large files.</p>
+
 <p>Press q to quit, or ? for help.</p>
-<p>If a particular mountpoint is rather large, it may be helpful to first
-scan it to see which directory inside it is using the most space, then
-use ncdu on that directory. Do it with the following command:
+
+<p>If a particular mountpoint is rather large, it may be helpful to first<br />
+scan it to see which directory inside it is using the most space, then<br />
+use ncdu on that directory. Do it with the following command:<br />
 <code>sudo du -hc --max-depth=1 &lt;mountpoint&gt;</code></p>
-<p>If you are able to determine that the machine simply requires more disk space
-to run the applications (such as a growing database) you can increase capacity
+
+<p>If you are able to determine that the machine simply requires more disk space<br />
+to run the applications (such as a growing database) you can increase capacity<br />
 by <a href="/manual/adding-disks-in-vcloud.html">adding a new disk in vCloud</a>.</p>
-<h2 id='disk-space-used-by-logfiles'>Disk space used by logfiles</h2><p>You may discover that disk space is mostly being used up by logfiles.
-This is probably caused by logrotate failing to properly rotate a
-logfile for whatever reason, so it will probably just be one or two of
+
+<h2 id="disk-space-used-by-logfiles">Disk space used by logfiles</h2>
+
+<p>You may discover that disk space is mostly being used up by logfiles.<br />
+This is probably caused by logrotate failing to properly rotate a<br />
+logfile for whatever reason, so it will probably just be one or two of<br />
 the latest logfiles using a high proportion of the disk space.</p>
-<p>If it is out of hours, free up room to resolve the incident without
-performing the maintenace tasks described below. Pass to 2ndline to deal
+
+<p>If it is out of hours, free up room to resolve the incident without<br />
+performing the maintenace tasks described below. Pass to 2ndline to deal<br />
 with during working hours.</p>
-<p>Firstly see if you can remove any old logfiles, where dir is the
+
+<p>Firstly see if you can remove any old logfiles, where dir is the<br />
 directory where the large file lives: <code>find &lt;dir&gt; -mtime +45 -type f</code></p>
+
 <p>You can remove them by running: <code>find &lt;dir&gt; -mtime +45 -type f -delete</code></p>
-<p>45 days is specified as this is how long we&rsquo;re obliged to keep logfiles,
+
+<p>45 days is specified as this is how long we're obliged to keep logfiles,<br />
 but that could be smaller if required.</p>
-<p>Ideally see if you can copy the large file elsewhere (on a different
-mount point which has free space) and then entirely truncate that log:
-<code>truncate -s 0 &lt;logfile&gt;</code>. Manually gzip the file (gzip &lt;file&gt;)
+
+<p>Ideally see if you can copy the large file elsewhere (on a different<br />
+mount point which has free space) and then entirely truncate that log:<br />
+<code>truncate -s 0 &lt;logfile&gt;</code>. Manually gzip the file (gzip &lt;file&gt;)<br />
 and put it back in the log file directory.</p>
-<p>You can force a logrotate run afterwards:
+
+<p>You can force a logrotate run afterwards:<br />
 <code>sudo logrotate -vf /etc/logrotate.d/&lt;type of logs&gt;</code></p>
-<p><strong>If you have nowhere to move the logs and it is causing an incident,
-uptime of the server takes precedent over logfiles, so just truncate the
+
+<p><strong>If you have nowhere to move the logs and it is causing an incident,<br />
+uptime of the server takes precedent over logfiles, so just truncate the<br />
 logs to free up space</strong></p>
 
 

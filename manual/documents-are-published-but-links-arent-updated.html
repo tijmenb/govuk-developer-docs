@@ -141,14 +141,16 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#publishing'>Publishing</a></p> <h1 id='header'>Debug published documents with incorrect links</h1><p>This can happen when the Publishing API is still working through all of the
-pages that may have changed due to dependency resolution. You can find out if
-this is a problem <a href="https://docs.publishing.service.gov.uk/manual/monitor-sidekiq-workers.html#header">by monitoring Publishing API sidekiq queue</a>
+  <p><a href='/manual.html#publishing'>Publishing</a></p> <h1 id='header'>Debug published documents with incorrect links</h1><p>This can happen when the Publishing API is still working through all of the<br />
+pages that may have changed due to dependency resolution. You can find out if<br />
+this is a problem <a href="https://docs.publishing.service.gov.uk/manual/monitor-sidekiq-workers.html#header">by monitoring Publishing API sidekiq queue</a><br />
 and seeing if the <code>downstream_low</code> queue is high.</p>
-<p>To get things processed faster you can run the following Rake task on the
-Publishing API in Jenkins,
-<a href="https://deploy.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=publishing-api&amp;MACHINE_CLASS=publishing_api&amp;RAKE_TASK=represent_downstream:high_priority:content_id[%27some-content-id%20some-other-content-id%27]"><code>represent_downstream:high_priority:content_id[&#39;some-content-id some-other-content-id&#39;]</code></a>,
+
+<p>To get things processed faster you can run the following Rake task on the<br />
+Publishing API in Jenkins,<br />
+<a href="https://deploy.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=publishing-api&amp;MACHINE_CLASS=publishing_api&amp;RAKE_TASK=represent_downstream:high_priority:content_id[%27some-content-id%20some-other-content-id%27]"><code>represent_downstream:high_priority:content_id['some-content-id some-other-content-id']</code></a>,<br />
 which will re-represent them downstream via the high priority queue.</p>
+
 
 
   <div class='related-content'>

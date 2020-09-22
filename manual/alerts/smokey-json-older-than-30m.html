@@ -157,30 +157,39 @@
       </a>
     </div>
 
-   <h1 id='header'>smokey.json older than 30m</h1><p>There can be the rare case wherein Smokey has failed to correctly run. While the
-causes can be various and ultimately unknown, the symptoms include a large number
+   <h1 id='header'>smokey.json older than 30m</h1><p>There can be the rare case wherein Smokey has failed to correctly run. While the<br />
+causes can be various and ultimately unknown, the symptoms include a large number<br />
 of Unknown errors in Icinga on the <code>monitoring</code> box.</p>
-<p>The easiest way to clear these issues is ensure all relevant Smokey tasks are
+
+<p>The easiest way to clear these issues is ensure all relevant Smokey tasks are<br />
 killed:</p>
+
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">sudo </span>killall chromedriver
 <span class="nv">$ </span><span class="nb">sudo </span>killall chrome
 <span class="nv">$ </span><span class="nb">sudo </span>killall java
-</code></pre></div><p>Alternatively if <code>killall</code> doesn&rsquo;t work, attempt to kill the processes directly
+</code></pre></div>
+<p>Alternatively if <code>killall</code> doesn't work, attempt to kill the processes directly<br />
 either through use of <code>htop</code> or with the <code>kill</code> command:</p>
+
 <div class="highlight"><pre class="highlight shell"><code><span class="c"># Repeat until all chromedriver processes that do not mention 'grep' are gone</span>
 <span class="c"># Then repeat for chrome and java</span>
 
 <span class="nv">$ </span>ps <span class="nt">-ef</span> | <span class="nb">grep </span>chromedriver <span class="c"># To find the process ID to kill</span>
 <span class="nv">$ </span><span class="nb">sudo kill</span> <span class="nt">-15</span> <span class="nv">$processID</span> <span class="c"># Use the first number from the top line of grep</span>
-</code></pre></div><p>With <code>ps -ef | grep smokey</code> you should only see a running series of Postgres
-services. These are not actually Smokey tasks, but Docker tasks that are being
+</code></pre></div>
+<p>With <code>ps -ef | grep smokey</code> you should only see a running series of Postgres<br />
+services. These are not actually Smokey tasks, but Docker tasks that are being<br />
 misreported in the process list and it is advised to leave them running.</p>
-<p>After the above, restart the service with <code>sudo service smokey-loop start</code> and
+
+<p>After the above, restart the service with <code>sudo service smokey-loop start</code> and<br />
 you should see it clear up.</p>
-<h4 id='if-the-error-is-still-hanging-around'>If the error is still hanging around</h4><p>In the very rare occurrence that the smokey.json 30m error returns half an hour
-after the above steps are followed, retry the steps and then run
-<code>govuk_puppet --test</code> after starting the service. This is ultimately a
-solution with very little testing, as we only saw this happen once, but it worked
+
+<h4 id="if-the-error-is-still-hanging-around">If the error is still hanging around</h4>
+
+<p>In the very rare occurrence that the smokey.json 30m error returns half an hour<br />
+after the above steps are followed, retry the steps and then run<br />
+<code>govuk_puppet --test</code> after starting the service. This is ultimately a<br />
+solution with very little testing, as we only saw this happen once, but it worked<br />
 in that case and may work again.</p>
 
 

@@ -317,18 +317,31 @@
               <h1 class="page-title">Application: search-api</h1>
 
   <p>Search API for GOV.UK</p>
-<h2 id='ownership'>Ownership</h2><p><strong>#govuk-platform-health</strong> owns the application and is responsible for updating its dependencies.</p>
-<h2 id='hosting'>Hosting</h2><p>The production version of this application is hosted on <strong>AWS</strong>.</p>
-<h3 id='ssh-access-aws'>SSH Access (AWS)</h3><div class="highlight"><pre class="highlight shell"><code>gds govuk connect ssh <span class="nt">-e</span> integration search
+
+<h2 id="ownership">Ownership</h2>
+
+<p><strong>#govuk-platform-health</strong> owns the application and is responsible for updating its dependencies.</p>
+
+<h2 id="hosting">Hosting</h2>
+
+<p>The production version of this application is hosted on <strong>AWS</strong>.</p>
+
+<h3 id="ssh-access-aws">SSH Access (AWS)</h3>
+
+<div class="highlight"><pre class="highlight shell"><code>gds govuk connect ssh <span class="nt">-e</span> integration search
 gds govuk connect ssh <span class="nt">-e</span> staging aws/search
 gds govuk connect ssh <span class="nt">-e</span> production aws/search
-</code></pre></div><h2 id='run-a-rake-task'>Run a rake task</h2>
+</code></pre></div>
+<h2 id="run-a-rake-task">Run a rake task</h2>
+
 <ul>
-  <li><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=search-api&MACHINE_CLASS=search&RAKE_TASK=">Run a Rake task on Integration</a></li>
-<li><a href="https://deploy.blue.staging.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=search-api&MACHINE_CLASS=search&RAKE_TASK=">Run a Rake task on Staging</a></li>
-<li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=search-api&MACHINE_CLASS=search&RAKE_TASK=">⚠️ Run a Rake task on Production ⚠️</a></li>
+  <li><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=search-api&amp;MACHINE_CLASS=search&amp;RAKE_TASK=">Run a Rake task on Integration</a></li>
+<li><a href="https://deploy.blue.staging.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=search-api&amp;MACHINE_CLASS=search&amp;RAKE_TASK=">Run a Rake task on Staging</a></li>
+<li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=search-api&amp;MACHINE_CLASS=search&amp;RAKE_TASK=">⚠️ Run a Rake task on Production ⚠️</a></li>
 </ul>
-<h2 id='links'>Links</h2>
+
+<h2 id="links">Links</h2>
+
 <ul>
   <li><a href="https://github.com/alphagov/search-api">GitHub repo</a></li>
 
@@ -346,13 +359,17 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/search
 
 
 </ul>
-<h3 id='relevant-manual-pages'>Relevant manual pages</h3>
+
+<h3 id="relevant-manual-pages">Relevant manual pages</h3>
+
 <ul>
-  <li><a href="/manual/incorrect-content-in-search-or-navigation.html">Content that doesn&rsquo;t show up correctly in search or list pages</a></li>
+  <li><a href="/manual/incorrect-content-in-search-or-navigation.html">Content that doesn't show up correctly in search or list pages</a></li>
   <li><a href="/manual/make-a-new-document-type-available-to-search.html">Make a new document type available to search</a></li>
   <li><a href="/manual/reindex-elasticsearch.html">Reindex an Elasticsearch index</a></li>
 </ul>
-<h2 id='example-pages-published-by-search-api'>Example pages published by search-api</h2>
+
+<h2 id="example-pages-published-by-search-api">Example pages published by search-api</h2>
+
 <ul>
     <li><a href="https://www.gov.uk/search/all">Search</a></li>
     <li><a href="https://www.gov.uk/search/news-and-communications">News and communications</a></li>
@@ -363,9 +380,13 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/search
     <li><a href="https://www.gov.uk/search/transparency-and-freedom-of-information-releases">Transparency and freedom of information releases</a></li>
     <li><a href="https://www.gov.uk/official-documents">Official documents</a></li>
 </ul>
-<h2 id='readme'>README</h2><p><span class="govuk-error-message">
+
+<h2 id="readme">README</h2>
+
+<p><span class="govuk-error-message">
     Cannot fetch README without <code>GITHUB_TOKEN</code>.
   </span></p>
+
 
 
             

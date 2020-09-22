@@ -132,7 +132,7 @@
     <a href="#header"><span>Test & build a project with GitHub Actions</span></a>
     <ul>
       <li>
-        <a href="#gov-uk-conventions-for-github-actions"><span>GOV.UK Conventions for GitHub Actions</span></a>
+        <a href="#govuk-conventions-for-github-actions"><span>GOV.UK Conventions for GitHub Actions</span></a>
         <ul>
           <li>
             <a href="#name-of-ci-workflow-file"><span>Name of CI workflow file</span></a>
@@ -163,7 +163,7 @@
         </ul>
       </li>
       <li>
-        <a href="#gov-uk-rails-application-with-postgres-redis-yarn-and-gov-uk-content-schemas-dependencies"><span>GOV.UK Rails application with Postgres, Redis, Yarn and GOV.UK Content Schemas dependencies</span></a>
+        <a href="#govuk-rails-application-with-postgres-redis-yarn-and-govuk-content-schemas-dependencies"><span>GOV.UK Rails application with Postgres, Redis, Yarn and GOV.UK Content Schemas dependencies</span></a>
       </li>
     </ul>
   </li>
@@ -177,68 +177,98 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#testing'>Testing</a></p> <h1 id='header'>Test & build a project with GitHub Actions</h1><p><a href="https://github.com/features/actions">GitHub Actions</a> is an automated workflow
-system that GOV.UK uses for <a href="https://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration (CI)</a>, we also have
-<a href="/manual/testing-projects.html">Jenkins</a> and <a href="/manual/concourse.html">Concourse</a>
-that provide similar functionality. In <a href="https://github.com/alphagov/govuk-rfcs/blob/master/rfc-123-github-actions-ci.md">GOV.UK RFC 123</a> we decided that
-GitHub Actions is the preferred platform for GOV.UK CI usage where the wider
+  <p><a href='/manual.html#testing'>Testing</a></p> <h1 id='header'>Test & build a project with GitHub Actions</h1><p><a href="https://github.com/features/actions">GitHub Actions</a> is an automated workflow<br />
+system that GOV.UK uses for <a href="https://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration (CI)</a>, we also have<br />
+<a href="/manual/testing-projects.html">Jenkins</a> and <a href="/manual/concourse.html">Concourse</a><br />
+that provide similar functionality. In <a href="https://github.com/alphagov/govuk-rfcs/blob/master/rfc-123-github-actions-ci.md">GOV.UK RFC 123</a> we decided that<br />
+GitHub Actions is the preferred platform for GOV.UK CI usage where the wider<br />
 platform integration of Jenkins is not required.</p>
-<p>Please note that we cannot currently make use of the <a href="https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets">Secrets</a>
-in GitHub Action workflows, there are on-going discussions to resolve this. In
-the meantime please <strong>do not add any secrets to workflows</strong>. For further
-details of this restriction please contact
-<a href="mailto:govuk-senior-tech@digital.cabinet-office.gov.uk">GOV.UK senior tech</a>.</p>
-<p>Thus, you should continue to use Jenkins for any projects that need the
+
+<p>Please note that we cannot currently make use of the <a href="https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets">Secrets</a><br />
+in GitHub Action workflows, there are on-going discussions to resolve this. In<br />
+the meantime please <strong>do not add any secrets to workflows</strong>. For further<br />
+details of this restriction please contact<br />
+<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#103;&#111;&#118;&#117;&#107;&#045;&#115;&#101;&#110;&#105;&#111;&#114;&#045;&#116;&#101;&#099;&#104;&#064;&#100;&#105;&#103;&#105;&#116;&#097;&#108;&#046;&#099;&#097;&#098;&#105;&#110;&#101;&#116;&#045;&#111;&#102;&#102;&#105;&#099;&#101;&#046;&#103;&#111;&#118;&#046;&#117;&#107;">GOV.UK senior tech</a>.</p>
+
+<p>Thus, you should continue to use Jenkins for any projects that need the<br />
 following:</p>
 
 <ul>
-<li>access to GDS&rsquo; internal network to trigger other internal systems to perform
-jobs during or following a build (for example, triggering
+  <li>access to GDS' internal network to trigger other internal systems to perform<br />
+jobs during or following a build (for example, triggering<br />
 <a href="/manual/publishing-e2e-tests.html">publishing end-to-end tests</a> or triggering a deployment);</li>
-<li>authentication to external systems (for example, <a href="/manual/publishing-a-ruby-gem.html#releasing-gem-versions">releasing a gem
+  <li>authentication to external systems (for example, <a href="/manual/publishing-a-ruby-gem.html#releasing-gem-versions">releasing a gem<br />
 automatically</a> during a master build).</li>
 </ul>
-<h2 id='gov-uk-conventions-for-github-actions'>GOV.UK Conventions for GitHub Actions</h2><h3 id='name-of-ci-workflow-file'>Name of CI workflow file</h3><p>You should name the file used for configuring the CI workflow <code>ci.yml</code>.</p>
-<h3 id='when-the-ci-workflow-should-run'>When the CI workflow should run</h3><p>The workflow should be configured to run on <a href="https://help.github.com/en/actions/reference/events-that-trigger-workflows#push-event-push"><code>push</code></a> and
-<a href="https://help.github.com/en/actions/reference/events-that-trigger-workflows#pull-request-event-pull_request"><code>pull_request</code></a> events. The <code>push</code> event occurs for every
-push to the repository and this will generate a build against the branch
-that was pushed. The <code>pull_request</code> event occurs whenever a pull request
-is opened and it is triggered again any time the pull request changes (such
-as extra commits or rebasing), these differ to the <code>push</code> event by merging in
-the master branch before running operations. Pull requests from forks of a
+
+<h2 id="govuk-conventions-for-github-actions">GOV.UK Conventions for GitHub Actions</h2>
+
+<h3 id="name-of-ci-workflow-file">Name of CI workflow file</h3>
+
+<p>You should name the file used for configuring the CI workflow <code>ci.yml</code>.</p>
+
+<h3 id="when-the-ci-workflow-should-run">When the CI workflow should run</h3>
+
+<p>The workflow should be configured to run on <a href="https://help.github.com/en/actions/reference/events-that-trigger-workflows#push-event-push"><code>push</code></a> and<br />
+<a href="https://help.github.com/en/actions/reference/events-that-trigger-workflows#pull-request-event-pull_request"><code>pull_request</code></a> events. The <code>push</code> event occurs for every<br />
+push to the repository and this will generate a build against the branch<br />
+that was pushed. The <code>pull_request</code> event occurs whenever a pull request<br />
+is opened and it is triggered again any time the pull request changes (such<br />
+as extra commits or rebasing), these differ to the <code>push</code> event by merging in<br />
+the master branch before running operations. Pull requests from forks of a<br />
 repo will only trigger the <code>pull_request</code> event.</p>
+
 <p>For example:</p>
+
 <div class="highlight"><pre class="highlight yaml"><code><span class="c1"># ./github/workflows/ci.yml</span>
 <span class="na">on</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">push</span><span class="pi">,</span> <span class="nv">pull_request</span><span class="pi">]</span>
-</code></pre></div><h3 id='avoid-superfluous-naming-of-workflows-jobs-and-steps'>Avoid superfluous naming of workflows, jobs and steps</h3><p>In workflow files you have the option to specify a
-<a href="https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#name">name attribute</a> for the workflow itself, the jobs and
+</code></pre></div>
+<h3 id="avoid-superfluous-naming-of-workflows-jobs-and-steps">Avoid superfluous naming of workflows, jobs and steps</h3>
+
+<p>In workflow files you have the option to specify a<br />
+<a href="https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#name">name attribute</a> for the workflow itself, the jobs and<br />
 each individual step.</p>
-<p>The workflow and any jobs should not be given a name as the workflow filename
+
+<p>The workflow and any jobs should not be given a name as the workflow filename<br />
 and job_id should be sufficiently explanatory.</p>
-<p>Steps should also not be named, as the text in the run command is normally
-sufficiently descriptive. We only should add names to steps where they are
-used to either explain a particularly cryptic set of commands or where there
+
+<p>Steps should also not be named, as the text in the run command is normally<br />
+sufficiently descriptive. We only should add names to steps where they are<br />
+used to either explain a particularly cryptic set of commands or where there<br />
 are identically appearing steps that we wish to disambiguate between.</p>
-<h3 id='prefer-a-single-or-small-number-of-steps-within-a-ci-workflow'>Prefer a single or small number of steps within a CI workflow</h3><p>Rather than having a number of granular steps (such as: &ldquo;Lint Ruby&rdquo;, &ldquo;Lint JS&rdquo;,
-&ldquo;Run Ruby tests&rdquo;, &ldquo;Run JS Tests&rdquo;) prefer a single step (such as <code>bundle exec
+
+<h3 id="prefer-a-single-or-small-number-of-steps-within-a-ci-workflow">Prefer a single or small number of steps within a CI workflow</h3>
+
+<p>Rather than having a number of granular steps (such as: "Lint Ruby", "Lint JS",<br />
+"Run Ruby tests", "Run JS Tests") prefer a single step (such as <code>bundle exec
 rake</code>) where more of the CI task configuration is handled in application code.</p>
+
 <p>This is so we can:</p>
 
 <ul>
-<li>keep CI configurations simple and consistent;</li>
-<li>make it easier to replicate CI checks in a development environment.</li>
+  <li>keep CI configurations simple and consistent;</li>
+  <li>make it easier to replicate CI checks in a development environment.</li>
 </ul>
-<h3 id='base-your-workflow-on-one-of-our-documented-examples'>Base your workflow on one of our documented examples</h3><p>GitHub Actions currently <a href="https://github.community/t5/GitHub-Actions/Templates-for-GitHub-Actions/m-p/52811">lack templating functionality</a>
-to enable re-use of workflow configuration across projects. Therefore, in order
-to maintain consistency across GOV.UK projects, it is beneficial that we
+
+<h3 id="base-your-workflow-on-one-of-our-documented-examples">Base your workflow on one of our documented examples</h3>
+
+<p>GitHub Actions currently <a href="https://github.community/t5/GitHub-Actions/Templates-for-GitHub-Actions/m-p/52811">lack templating functionality</a><br />
+to enable re-use of workflow configuration across projects. Therefore, in order<br />
+to maintain consistency across GOV.UK projects, it is beneficial that we<br />
 document and re-use common practices.</p>
-<p>This documentation contains examples of a number of common build needs for
-GOV.UK projects. You are encouraged to base your project&rsquo;s configuration on
-these and to follow their conventions. If your preferences, or common action
-conventions, deviate from these examples you are encouraged to open a PR to
-this repository to propose a change here. This is preferential to taking a
+
+<p>This documentation contains examples of a number of common build needs for<br />
+GOV.UK projects. You are encouraged to base your project's configuration on<br />
+these and to follow their conventions. If your preferences, or common action<br />
+conventions, deviate from these examples you are encouraged to open a PR to<br />
+this repository to propose a change here. This is preferential to taking a<br />
 project in a different direction and losing consistency.</p>
-<h2 id='github-action-examples'>GitHub Action Examples</h2><h3 id='simple-ruby-application'>Simple Ruby Application</h3><div class="highlight"><pre class="highlight yaml"><code><span class="c1"># .github/workflows/ci.yml</span>
+
+<h2 id="github-action-examples">GitHub Action Examples</h2>
+
+<h3 id="simple-ruby-application">Simple Ruby Application</h3>
+
+<div class="highlight"><pre class="highlight yaml"><code><span class="c1"># .github/workflows/ci.yml</span>
 <span class="na">on</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">push</span><span class="pi">,</span> <span class="nv">pull_request</span><span class="pi">]</span>
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="na">test</span><span class="pi">:</span>
@@ -253,23 +283,28 @@ project in a different direction and losing consistency.</p>
           <span class="na">restore-keys</span><span class="pi">:</span> <span class="s">bundle</span>
       <span class="pi">-</span> <span class="na">run</span><span class="pi">:</span> <span class="s">bundle install --jobs 4 --retry 3 --deployment</span>
       <span class="pi">-</span> <span class="na">run</span><span class="pi">:</span> <span class="s">bundle exec rake</span>
-</code></pre></div><p>Notes:</p>
+</code></pre></div>
+<p>Notes:</p>
 
 <ul>
-<li><a href="https://github.com/ruby/setup-ruby">ruby/setup-ruby</a> will automatically
-select the Ruby version based on a <code>.ruby-version</code> file and will install
+  <li><a href="https://github.com/ruby/setup-ruby">ruby/setup-ruby</a> will automatically<br />
+select the Ruby version based on a <code>.ruby-version</code> file and will install<br />
 bundler if a necessary.</li>
-<li>This use <a href="https://github.com/actions/cache">actions/cache</a> to cache gems
+  <li>This use <a href="https://github.com/actions/cache">actions/cache</a> to cache gems<br />
 between runs.</li>
-<li>This uses the <a href="https://bundler.io/man/bundle-install.1.html#DEPLOYMENT-MODE">deployment</a> flag for bundler to be
-configured for CI environments, the jobs flag allows parallel installs and
+  <li>This uses the <a href="https://bundler.io/man/bundle-install.1.html#DEPLOYMENT-MODE">deployment</a> flag for bundler to be<br />
+configured for CI environments, the jobs flag allows parallel installs and<br />
 retries allows re-attempts on failures.</li>
 </ul>
-<h3 id='a-ruby-gem'>A Ruby Gem</h3><p>This differs to a simple Ruby application as Ruby gems are not tied to a
-particular Ruby version, therefore for those we should test a variety of
-Ruby versions. Do bear in mind that due to the restriction on secrets
-usage we cannot currently publish gems through GitHub Actions, this can
+
+<h3 id="a-ruby-gem">A Ruby Gem</h3>
+
+<p>This differs to a simple Ruby application as Ruby gems are not tied to a<br />
+particular Ruby version, therefore for those we should test a variety of<br />
+Ruby versions. Do bear in mind that due to the restriction on secrets<br />
+usage we cannot currently publish gems through GitHub Actions, this can<br />
 still be achieved through Jenkins.</p>
+
 <div class="highlight"><pre class="highlight yaml"><code><span class="c1"># .github/workflows/ci.yml</span>
 <span class="na">on</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">push</span><span class="pi">,</span> <span class="nv">pull_request</span><span class="pi">]</span>
 <span class="na">jobs</span><span class="pi">:</span>
@@ -290,19 +325,24 @@ still be achieved through Jenkins.</p>
           <span class="na">restore-keys</span><span class="pi">:</span> <span class="s">bundle-${{ matrix.ruby }}</span>
       <span class="pi">-</span> <span class="na">run</span><span class="pi">:</span> <span class="s">bundle install --jobs 4 --retry 3 --path vendor/bundle</span>
       <span class="pi">-</span> <span class="na">run</span><span class="pi">:</span> <span class="s">bundle exec rake</span>
-</code></pre></div><p>Notes:</p>
+</code></pre></div>
+<p>Notes:</p>
 
 <ul>
-<li>The <a href="https://bundler.io/man/bundle-install.1.html#DEPLOYMENT-MODE">deployment</a> flag for bundler cannot be used for gems
+  <li>The <a href="https://bundler.io/man/bundle-install.1.html#DEPLOYMENT-MODE">deployment</a> flag for bundler cannot be used for gems<br />
 as they should not have a Gemfile.lock committed.</li>
-<li>Our preference is to test the gems we publish against the latest version of
+  <li>Our preference is to test the gems we publish against the latest version of<br />
 <a href="https://www.ruby-lang.org/en/downloads/branches/">all currently supported minor versions of Ruby MRI</a>.</li>
 </ul>
-<h2 id='gov-uk-rails-application-with-postgres-redis-yarn-and-gov-uk-content-schemas-dependencies'>GOV.UK Rails application with Postgres, Redis, Yarn and GOV.UK Content Schemas dependencies</h2><p>This is an example that suits a relatively complex GOV.UK Rails application
-(this was written for <a href="https://github.com/alphagov/content-publisher">Content Publisher</a>) that has software dependencies
-(provided by <a href="https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idservices">Docker containers</a>), cloning of a
-supplementary repository, and the use of Node.js for JavaScript dependency
+
+<h2 id="govuk-rails-application-with-postgres-redis-yarn-and-govuk-content-schemas-dependencies">GOV.UK Rails application with Postgres, Redis, Yarn and GOV.UK Content Schemas dependencies</h2>
+
+<p>This is an example that suits a relatively complex GOV.UK Rails application<br />
+(this was written for <a href="https://github.com/alphagov/content-publisher">Content Publisher</a>) that has software dependencies<br />
+(provided by <a href="https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idservices">Docker containers</a>), cloning of a<br />
+supplementary repository, and the use of Node.js for JavaScript dependency<br />
 management.</p>
+
 <div class="highlight"><pre class="highlight yaml"><code><span class="na">on</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">push</span><span class="pi">,</span> <span class="nv">pull_request</span><span class="pi">]</span>
 <span class="na">jobs</span><span class="pi">:</span>
   <span class="na">test</span><span class="pi">:</span>
@@ -353,28 +393,30 @@ management.</p>
       <span class="pi">-</span> <span class="na">run</span><span class="pi">:</span> <span class="s">bundle exec rails db:setup</span>
       <span class="pi">-</span> <span class="na">run</span><span class="pi">:</span> <span class="s">bundle exec rails assets:precompile</span>
       <span class="pi">-</span> <span class="na">run</span><span class="pi">:</span> <span class="s">bundle exec rake</span>
-</code></pre></div><p>Notes:</p>
+</code></pre></div>
+<p>Notes:</p>
 
 <ul>
-<li><a href="https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idservices">Similar service configurations</a> to PostgreSQL and
-Redis can be applied to other software dependencies such as MySQL, MongoDB
+  <li><a href="https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idservices">Similar service configurations</a> to PostgreSQL and<br />
+Redis can be applied to other software dependencies such as MySQL, MongoDB<br />
 or Rabbit MQ.</li>
-<li>The <code>health-cmd</code> checks are used on services to ensure the build does not
+  <li>The <code>health-cmd</code> checks are used on services to ensure the build does not<br />
 continue until the service is running.</li>
-<li>Additional repositories are cloned to the vendor directory for a consistent
+  <li>Additional repositories are cloned to the vendor directory for a consistent<br />
 location for third party code, this is consistent with Bundler.</li>
-<li>Since the same actions are used in different contexts the <code>name</code> option has
+  <li>Since the same actions are used in different contexts the <code>name</code> option has<br />
 been used in steps to distinguish the different steps.</li>
-<li>The <code>bundle exec rails assets:precompile</code> task is used to build a warm cache
-of assets before starting tests to reduce risk of timeouts, this is due to
-an <a href="https://github.com/alphagov/govuk-frontend/issues/1671">underlying performance issue</a> with GOV.UK asset
+  <li>The <code>bundle exec rails assets:precompile</code> task is used to build a warm cache<br />
+of assets before starting tests to reduce risk of timeouts, this is due to<br />
+an <a href="https://github.com/alphagov/govuk-frontend/issues/1671">underlying performance issue</a> with GOV.UK asset<br />
 compilation.</li>
-<li>In the underlying project (Content Publisher) <code>bundle exec rake</code> performs:
-Ruby &amp; JS unit testing; Ruby, SCSS, JavaScript and FactoryBot linting; and
+  <li>In the underlying project (Content Publisher) <code>bundle exec rake</code> performs:<br />
+Ruby &amp; JS unit testing; Ruby, SCSS, JavaScript and FactoryBot linting; and<br />
 brakeman security audit.</li>
-<li>This example does not include tagging the <a href="https://docs.publishing.service.gov.uk/manual/testing-projects.html#fixing-the-build-number">master branch with a particular
+  <li>This example does not include tagging the <a href="https://docs.publishing.service.gov.uk/manual/testing-projects.html#fixing-the-build-number">master branch with a particular<br />
 release tag</a> when there is a successful master build.</li>
 </ul>
+
 
 
   <div class='related-content'>

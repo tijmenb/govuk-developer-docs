@@ -134,7 +134,7 @@
       <li>
         <ul>
           <li>
-            <a href="#1-update-gov-uk-content-schemas"><span>1. Update GOV.UK Content Schemas</span></a>
+            <a href="#1-update-govuk-content-schemas"><span>1. Update GOV.UK Content Schemas</span></a>
           </li>
           <li>
             <a href="#2-update-content-store"><span>2. Update Content Store</span></a>
@@ -165,46 +165,66 @@
   <p><a href='/manual.html#publishing'>Publishing</a></p> <h1 id='header'>Add support for a new translation in Whitehall</h1><p>Useful links:</p>
 
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">List of ISO 639-1 codes</a></li>
-<li><a href="https://github.com/alphagov/rails_translation_manager">Rails Translation Manager</a></li>
-<li><a href="https://github.com/alphagov/whitehall/blob/master/docs/internationalisation_guide.md">Internationalisation guide</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">List of ISO 639-1 codes</a></li>
+  <li><a href="https://github.com/alphagov/rails_translation_manager">Rails Translation Manager</a></li>
+  <li><a href="https://github.com/alphagov/whitehall/blob/master/docs/internationalisation_guide.md">Internationalisation guide</a></li>
 </ul>
-<h3 id='1-update-gov-uk-content-schemas'>1. Update GOV.UK Content Schemas</h3><p><a href="https://github.com/alphagov/govuk-content-schemas/pull/906">Example PR</a></p>
+
+<h3 id="1-update-govuk-content-schemas">1. Update GOV.UK Content Schemas</h3>
+
+<p><a href="https://github.com/alphagov/govuk-content-schemas/pull/906">Example PR</a></p>
+
 <p>In <a href="https://github.com/alphagov/govuk-content-schemas">GOV.UK Content Schemas</a>:</p>
 
 <ol>
-<li>Edit <code>formats/shared/definitions/locale.jsonnet</code> to include the new locale</li>
-<li>Run <code>rake</code> to generate all the schemas</li>
+  <li>Edit <code>formats/shared/definitions/locale.jsonnet</code> to include the new locale</li>
+  <li>Run <code>rake</code> to generate all the schemas</li>
 </ol>
-<h3 id='2-update-content-store'>2. Update Content Store</h3><p><a href="https://github.com/alphagov/content-store/pull/580">Example PR</a></p>
+
+<h3 id="2-update-content-store">2. Update Content Store</h3>
+
+<p><a href="https://github.com/alphagov/content-store/pull/580">Example PR</a></p>
+
 <p>In <a href="https://github.com/alphagov/content-store">Content Store</a>:</p>
 
 <ul>
-<li>Add the locale key to <code>config/application.rb</code></li>
+  <li>Add the locale key to <code>config/application.rb</code></li>
 </ul>
-<h3 id='3-update-publishing-api'>3. Update Publishing API</h3><p><a href="https://github.com/alphagov/publishing-api/pull/1524">Example PR</a></p>
+
+<h3 id="3-update-publishing-api">3. Update Publishing API</h3>
+
+<p><a href="https://github.com/alphagov/publishing-api/pull/1524">Example PR</a></p>
+
 <p>In <a href="https://github.com/alphagov/publishing-api">Publishing API</a>:</p>
 
 <ul>
-<li>Add the locale key to <code>config/application.rb</code></li>
+  <li>Add the locale key to <code>config/application.rb</code></li>
 </ul>
-<h3 id='4-update-government-frontend'>4. Update Government Frontend</h3><p><a href="https://github.com/alphagov/government-frontend/pull/1382">Example PR</a></p>
+
+<h3 id="4-update-government-frontend">4. Update Government Frontend</h3>
+
+<p><a href="https://github.com/alphagov/government-frontend/pull/1382">Example PR</a></p>
+
 <p>In <a href="https://github.com/alphagov/government-frontend">Government Frontend</a>:</p>
 
 <ol>
-<li>Add the new locale to <code>config/application.rb</code> and <code>config/locales/en.yml</code></li>
-<li>Run <code>rake translation:regenerate</code> to regenerate all translations from the EN locale</li>
-<li>Run <code>rake translation:import[locale,path]</code> to import a specific locale CSV to YAML within the app. You can also use <code>rake translation:import:all[directory]</code> to import all locales but there&rsquo;s no timeline for how frequently this is done, so you can expect many translation values to be missing in non EN locales.</li>
-<li>In <code>config/locales/&lt;new_locale&gt;.yml</code> add the language translation under the <code>language_names</code> key</li>
+  <li>Add the new locale to <code>config/application.rb</code> and <code>config/locales/en.yml</code></li>
+  <li>Run <code>rake translation:regenerate</code> to regenerate all translations from the EN locale</li>
+  <li>Run <code>rake translation:import[locale,path]</code> to import a specific locale CSV to YAML within the app. You can also use <code>rake translation:import:all[directory]</code> to import all locales but there's no timeline for how frequently this is done, so you can expect many translation values to be missing in non EN locales.</li>
+  <li>In <code>config/locales/&lt;new_locale&gt;.yml</code> add the language translation under the <code>language_names</code> key</li>
 </ol>
-<h3 id='5-update-whitehall'>5. Update Whitehall</h3><p><a href="https://github.com/alphagov/whitehall/pull/4861">Example PR</a></p>
+
+<h3 id="5-update-whitehall">5. Update Whitehall</h3>
+
+<p><a href="https://github.com/alphagov/whitehall/pull/4861">Example PR</a></p>
+
 <p>In <a href="https://github.com/alphagov/whitehall">Whitehall</a>:</p>
 
 <ol>
-<li>Add the new locale to <code>lib/whitehall.rb</code> and <code>config/locales/en.yml</code></li>
-<li>Run <code>rake translation:regenerate</code> to regenerate all translations from the EN locale</li>
-<li>Run <code>rake translation:import[locale,path]</code> to import a specific locale CSV to YAML within the app. You can also use <code>rake translation:import:all[directory]</code> to import all locales but there&rsquo;s no timeline for how frequently this is done, so you can expect many translation values to be missing in non EN locales.</li>
-<li>In <code>config/locales/&lt;new_locale&gt;.yml</code> add the language translation under the <code>language_names</code> key</li>
+  <li>Add the new locale to <code>lib/whitehall.rb</code> and <code>config/locales/en.yml</code></li>
+  <li>Run <code>rake translation:regenerate</code> to regenerate all translations from the EN locale</li>
+  <li>Run <code>rake translation:import[locale,path]</code> to import a specific locale CSV to YAML within the app. You can also use <code>rake translation:import:all[directory]</code> to import all locales but there's no timeline for how frequently this is done, so you can expect many translation values to be missing in non EN locales.</li>
+  <li>In <code>config/locales/&lt;new_locale&gt;.yml</code> add the language translation under the <code>language_names</code> key</li>
 </ol>
 
 

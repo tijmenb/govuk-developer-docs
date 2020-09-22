@@ -149,13 +149,13 @@
             <a href="#how-many-errors-were-served-to-users-in-a-timeframe"><span>How many errors were served to users in a timeframe</span></a>
           </li>
           <li>
-            <a href="#find-out-the-number-of-requests-per-status-per-hour-for-a-gov-uk-url"><span>Find out the number of requests per status per hour for a GOV.UK URL</span></a>
+            <a href="#find-out-the-number-of-requests-per-status-per-hour-for-a-govuk-url"><span>Find out the number of requests per status per hour for a GOV.UK URL</span></a>
           </li>
           <li>
-            <a href="#which-gov-uk-pages-changed-from-200-to-a-410-status-codes"><span>Which GOV.UK pages changed from 200 to a 410 status codes</span></a>
+            <a href="#which-govuk-pages-changed-from-200-to-a-410-status-codes"><span>Which GOV.UK pages changed from 200 to a 410 status codes</span></a>
           </li>
           <li>
-            <a href="#finding-out-how-frequently-a-gov-uk-url-is-accessed"><span>Finding out how frequently a GOV.UK URL is accessed</span></a>
+            <a href="#finding-out-how-frequently-a-govuk-url-is-accessed"><span>Finding out how frequently a GOV.UK URL is accessed</span></a>
           </li>
           <li>
             <a href="#which-assets-are-being-serving-most-frequently"><span>Which assets are being serving most frequently</span></a>
@@ -191,55 +191,76 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#cdn-caching'>CDN & Caching</a></p> <h1 id='header'>Query CDN logs</h1><p>The <a href="/manual/cdn.html">CDN</a> log files are sent to Amazon S3 every 15 minutes
-and are stored for 120 days. The data in these log files can be queried via
+  <p><a href='/manual.html#cdn-caching'>CDN & Caching</a></p> <h1 id='header'>Query CDN logs</h1><p>The <a href="/manual/cdn.html">CDN</a> log files are sent to Amazon S3 every 15 minutes<br />
+and are stored for 120 days. The data in these log files can be queried via<br />
 <a href="https://aws.amazon.com/athena/">Amazon Athena</a> to gain a variety of insights into GOV.UK traffic.</p>
-<p>Previously, the log files were sent via syslog and available in real time
-in the <code>/var/log/cdn</code> directory of the <code>monitoring</code> server. Due to low use now
-we have Athena, these were <a href="https://github.com/alphagov/govuk-puppet/pull/10126">removed</a>,
+
+<p>Previously, the log files were sent via syslog and available in real time<br />
+in the <code>/var/log/cdn</code> directory of the <code>monitoring</code> server. Due to low use now<br />
+we have Athena, these were <a href="https://github.com/alphagov/govuk-puppet/pull/10126">removed</a>,<br />
 but the behaviour can be restored if necessary.</p>
-<h2 id='accessing-athena'>Accessing Athena</h2><p>Amazon Athena provides the means to query the logs through an SQL syntax.</p>
-<p>The logs appear in a database named <code>fastly_logs</code> and there are 3 logs from
+
+<h2 id="accessing-athena">Accessing Athena</h2>
+
+<p>Amazon Athena provides the means to query the logs through an SQL syntax.</p>
+
+<p>The logs appear in a database named <code>fastly_logs</code> and there are 3 logs from<br />
 the CDN which are available as tables:</p>
 
 <ul>
-<li><strong>bouncer</strong> - legacy government websites that are now redirected to GOV.UK</li>
-<li><strong>govuk_assets</strong> - assets supporting GOV.UK pages hosted on
-assets.publishing.service.gov.uk, with files such as images, attachments,
+  <li><strong>bouncer</strong> - legacy government websites that are now redirected to GOV.UK</li>
+  <li><strong>govuk_assets</strong> - assets supporting GOV.UK pages hosted on<br />
+assets.publishing.service.gov.uk, with files such as images, attachments,<br />
 stylesheets and javascripts</li>
-<li><strong>govuk_www</strong> - content served from www.gov.uk, mainly HTML pages with atom
+  <li><strong>govuk_www</strong> - content served from www.gov.uk, mainly HTML pages with atom<br />
 feeds and web services</li>
 </ul>
-<p>Athena is available through the AWS control panel and is only useful in
-the <code>govuk_infrastructure_production</code> account (as we barely use the ones for
-integration and staging). To access,
-<a href="/manual/seeing-things-in-the-aws-console.html">log into AWS</a>, navigate to
-<a href="https://eu-west-1.console.aws.amazon.com/athena">Athena</a> and select the
+
+<p>Athena is available through the AWS control panel and is only useful in<br />
+the <code>govuk_infrastructure_production</code> account (as we barely use the ones for<br />
+integration and staging). To access,<br />
+<a href="/manual/seeing-things-in-the-aws-console.html">log into AWS</a>, navigate to<br />
+<a href="https://eu-west-1.console.aws.amazon.com/athena">Athena</a> and select the<br />
 <code>fastly_logs</code> database.</p>
-<h2 id='querying'>Querying</h2><p>Queries are written using an SQL dialect, <a href="https://prestodb.io/">presto</a>,
+
+<h2 id="querying">Querying</h2>
+
+<p>Queries are written using an SQL dialect, <a href="https://prestodb.io/">presto</a>,<br />
 AWS provides <a href="https://docs.aws.amazon.com/athena/latest/ug/functions-operators-reference-section.html">usage documentation</a>.</p>
+
 <p>A basic query could be:</p>
+
 <div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="o">*</span>
 <span class="k">FROM</span> <span class="n">fastly_logs</span><span class="p">.</span><span class="n">govuk_www</span>
 <span class="k">WHERE</span> <span class="nb">date</span> <span class="o">=</span> <span class="mi">20</span> <span class="k">AND</span> <span class="k">month</span> <span class="o">=</span> <span class="mi">8</span> <span class="k">AND</span> <span class="nb">year</span> <span class="o">=</span> <span class="mi">2018</span>
 <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">request_received</span> <span class="k">DESC</span>
 <span class="k">LIMIT</span> <span class="mi">10</span>
-</code></pre></div><p>Take note of the use of a date to restrict the data, this utilises a
+</code></pre></div>
+<p>Take note of the use of a date to restrict the data, this utilises a<br />
 data <a href="https://docs.aws.amazon.com/athena/latest/ug/partitions.html">partition</a> so that the query only traverses a subset of data.</p>
-<h3 id='always-query-with-a-partition'>Always query with a partition</h3><p>Unless you have a good reason to do otherwise all queries to the CDN logs
-should be restricted to just the dates that you care about. Doing this makes
+
+<h3 id="always-query-with-a-partition">Always query with a partition</h3>
+
+<p>Unless you have a good reason to do otherwise all queries to the CDN logs<br />
+should be restricted to just the dates that you care about. Doing this makes<br />
 the queries:</p>
 
 <ul>
-<li><strong>substantially faster</strong> - far less data needs to be traversed and there is a
+  <li><strong>substantially faster</strong> - far less data needs to be traversed and there is a<br />
 lower chance of a query timeout</li>
-<li><strong>substantially cheaper</strong> - the cost of using Athena is based on the amount
+  <li><strong>substantially cheaper</strong> - the cost of using Athena is based on the amount<br />
 of data that is traversed</li>
 </ul>
-<h2 id='example-queries'>Example Queries</h2><p>This is a selection of queries put together to show some of the ways to
-query the CDN logs. You are encouraged to add to this list if you
+
+<h2 id="example-queries">Example Queries</h2>
+
+<p>This is a selection of queries put together to show some of the ways to<br />
+query the CDN logs. You are encouraged to add to this list if you<br />
 write useful queries for particular scenarios.</p>
-<h3 id='how-many-errors-were-served-to-users-in-a-timeframe'>How many errors were served to users in a timeframe</h3><div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">status</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="k">count</span>
+
+<h3 id="how-many-errors-were-served-to-users-in-a-timeframe">How many errors were served to users in a timeframe</h3>
+
+<div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">status</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="k">count</span>
 <span class="k">FROM</span> <span class="n">fastly_logs</span><span class="p">.</span><span class="n">govuk_www</span>
 <span class="k">WHERE</span> <span class="n">status</span> <span class="o">&gt;=</span> <span class="mi">500</span> <span class="k">AND</span> <span class="n">status</span> <span class="o">&lt;=</span> <span class="mi">599</span>
 <span class="k">AND</span> <span class="n">request_received</span> <span class="o">&gt;=</span> <span class="nb">TIMESTAMP</span> <span class="s1">'2018-08-20 08:00'</span>
@@ -247,13 +268,17 @@ write useful queries for particular scenarios.</p>
 <span class="k">AND</span> <span class="nb">date</span> <span class="o">=</span> <span class="mi">20</span> <span class="k">AND</span> <span class="k">month</span> <span class="o">=</span> <span class="mi">8</span> <span class="k">AND</span> <span class="nb">year</span> <span class="o">=</span> <span class="mi">2018</span>
 <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">status</span>
 <span class="k">ORDER</span> <span class="k">BY</span> <span class="k">count</span> <span class="k">DESC</span>
-</code></pre></div><div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">url</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="k">count</span>
+</code></pre></div>
+<div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">url</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="k">count</span>
 <span class="k">FROM</span> <span class="n">fastly_logs</span><span class="p">.</span><span class="n">govuk_www</span>
 <span class="k">WHERE</span> <span class="n">status</span> <span class="o">=</span> <span class="mi">500</span>
 <span class="k">AND</span> <span class="nb">date</span> <span class="o">=</span> <span class="mi">20</span> <span class="k">AND</span> <span class="k">month</span> <span class="o">=</span> <span class="mi">8</span> <span class="k">AND</span> <span class="nb">year</span> <span class="o">=</span> <span class="mi">2018</span>
 <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">url</span>
 <span class="k">ORDER</span> <span class="k">BY</span> <span class="k">count</span> <span class="k">DESC</span>
-</code></pre></div><h3 id='find-out-the-number-of-requests-per-status-per-hour-for-a-gov-uk-url'>Find out the number of requests per status per hour for a GOV.UK URL</h3><div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">date_trunc</span><span class="p">(</span><span class="s1">'hour'</span><span class="p">,</span> <span class="n">request_received</span><span class="p">)</span> <span class="k">as</span> <span class="nv">"timestamp"</span><span class="p">,</span>
+</code></pre></div>
+<h3 id="find-out-the-number-of-requests-per-status-per-hour-for-a-govuk-url">Find out the number of requests per status per hour for a GOV.UK URL</h3>
+
+<div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">date_trunc</span><span class="p">(</span><span class="s1">'hour'</span><span class="p">,</span> <span class="n">request_received</span><span class="p">)</span> <span class="k">as</span> <span class="nv">"timestamp"</span><span class="p">,</span>
     <span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">status</span><span class="o">/</span><span class="mi">100</span><span class="o">=</span><span class="mi">2</span> <span class="k">THEN</span> <span class="mi">1</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">as</span> <span class="nv">"2xx"</span><span class="p">,</span>
     <span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">status</span><span class="o">/</span><span class="mi">100</span><span class="o">=</span><span class="mi">3</span> <span class="k">THEN</span> <span class="mi">1</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">as</span> <span class="nv">"3xx"</span><span class="p">,</span>
     <span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">status</span><span class="o">/</span><span class="mi">100</span><span class="o">=</span><span class="mi">4</span> <span class="k">THEN</span> <span class="mi">1</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">as</span> <span class="nv">"4xx"</span><span class="p">,</span>
@@ -264,7 +289,10 @@ write useful queries for particular scenarios.</p>
 <span class="k">AND</span> <span class="nb">date</span> <span class="o">=</span> <span class="mi">16</span> <span class="k">AND</span> <span class="k">month</span> <span class="o">=</span> <span class="mi">7</span> <span class="k">AND</span> <span class="nb">year</span> <span class="o">=</span> <span class="mi">2020</span>
 <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">date_trunc</span><span class="p">(</span><span class="s1">'hour'</span><span class="p">,</span> <span class="n">request_received</span><span class="p">)</span>
 <span class="k">ORDER</span> <span class="k">BY</span> <span class="nb">timestamp</span><span class="p">;</span>
-</code></pre></div><h3 id='which-gov-uk-pages-changed-from-200-to-a-410-status-codes'>Which GOV.UK pages changed from 200 to a 410 status codes</h3><div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">response_200</span><span class="p">.</span><span class="n">url</span><span class="p">,</span> <span class="k">MAX</span><span class="p">(</span><span class="n">response_200</span><span class="p">.</span><span class="n">request_received</span><span class="p">)</span> <span class="k">AS</span> <span class="n">last_200_response</span><span class="p">,</span> <span class="k">MIN</span><span class="p">(</span><span class="n">response_non_200</span><span class="p">.</span><span class="n">request_received</span><span class="p">)</span> <span class="k">AS</span> <span class="n">first_non_200_response</span>
+</code></pre></div>
+<h3 id="which-govuk-pages-changed-from-200-to-a-410-status-codes">Which GOV.UK pages changed from 200 to a 410 status codes</h3>
+
+<div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">response_200</span><span class="p">.</span><span class="n">url</span><span class="p">,</span> <span class="k">MAX</span><span class="p">(</span><span class="n">response_200</span><span class="p">.</span><span class="n">request_received</span><span class="p">)</span> <span class="k">AS</span> <span class="n">last_200_response</span><span class="p">,</span> <span class="k">MIN</span><span class="p">(</span><span class="n">response_non_200</span><span class="p">.</span><span class="n">request_received</span><span class="p">)</span> <span class="k">AS</span> <span class="n">first_non_200_response</span>
 <span class="k">FROM</span> <span class="n">fastly_logs</span><span class="p">.</span><span class="n">govuk_www</span> <span class="k">AS</span> <span class="n">response_200</span>
 <span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">fastly_logs</span><span class="p">.</span><span class="n">govuk_www</span> <span class="k">AS</span> <span class="n">response_non_200</span>
   <span class="k">ON</span> <span class="n">response_200</span><span class="p">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">response_non_200</span><span class="p">.</span><span class="n">url</span>
@@ -280,96 +308,122 @@ write useful queries for particular scenarios.</p>
 <span class="k">AND</span> <span class="n">response_200</span><span class="p">.</span><span class="nb">year</span> <span class="o">=</span> <span class="mi">2018</span>
 <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">response_200</span><span class="p">.</span><span class="n">url</span>
 <span class="k">LIMIT</span> <span class="mi">100</span><span class="p">;</span>
-</code></pre></div><h3 id='finding-out-how-frequently-a-gov-uk-url-is-accessed'>Finding out how frequently a GOV.UK URL is accessed</h3><div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">date_trunc</span><span class="p">(</span><span class="s1">'hour'</span><span class="p">,</span> <span class="n">request_received</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="k">count</span>
+</code></pre></div>
+<h3 id="finding-out-how-frequently-a-govuk-url-is-accessed">Finding out how frequently a GOV.UK URL is accessed</h3>
+
+<div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">date_trunc</span><span class="p">(</span><span class="s1">'hour'</span><span class="p">,</span> <span class="n">request_received</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="k">count</span>
 <span class="k">FROM</span> <span class="n">fastly_logs</span><span class="p">.</span><span class="n">govuk_www</span>
 <span class="k">WHERE</span> <span class="n">url</span> <span class="o">=</span> <span class="s1">'/vat-rates'</span>
 <span class="k">AND</span> <span class="nb">date</span> <span class="o">=</span> <span class="mi">20</span> <span class="k">AND</span> <span class="k">month</span> <span class="o">=</span> <span class="mi">8</span> <span class="k">AND</span> <span class="nb">year</span> <span class="o">=</span> <span class="mi">2018</span>
 <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">date_trunc</span><span class="p">(</span><span class="s1">'hour'</span><span class="p">,</span> <span class="n">request_received</span><span class="p">)</span>
 <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">date_trunc</span><span class="p">(</span><span class="s1">'hour'</span><span class="p">,</span> <span class="n">request_received</span><span class="p">)</span> <span class="k">ASC</span><span class="p">;</span>
-</code></pre></div><h3 id='which-assets-are-being-serving-most-frequently'>Which assets are being serving most frequently</h3><div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">url</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="k">count</span>
+</code></pre></div>
+<h3 id="which-assets-are-being-serving-most-frequently">Which assets are being serving most frequently</h3>
+
+<div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">url</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="k">count</span>
 <span class="k">FROM</span> <span class="n">fastly_logs</span><span class="p">.</span><span class="n">govuk_assets</span>
 <span class="k">WHERE</span> <span class="nb">date</span> <span class="o">=</span> <span class="mi">20</span> <span class="k">AND</span> <span class="k">month</span> <span class="o">=</span> <span class="mi">8</span> <span class="k">AND</span> <span class="nb">year</span> <span class="o">=</span> <span class="mi">2018</span>
 <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">url</span>
 <span class="k">ORDER</span> <span class="k">BY</span> <span class="k">count</span> <span class="k">DESC</span>
 <span class="k">LIMIT</span> <span class="mi">50</span>
-</code></pre></div><h3 id='what-are-the-largest-assets-that-were-served'>What are the largest assets that were served</h3><div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">url</span><span class="p">,</span> <span class="n">bytes</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="n">served</span>
+</code></pre></div>
+<h3 id="what-are-the-largest-assets-that-were-served">What are the largest assets that were served</h3>
+
+<div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">url</span><span class="p">,</span> <span class="n">bytes</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="n">served</span>
 <span class="k">FROM</span> <span class="n">fastly_logs</span><span class="p">.</span><span class="n">govuk_assets</span>
 <span class="k">WHERE</span> <span class="nb">date</span> <span class="o">=</span> <span class="mi">20</span> <span class="k">AND</span> <span class="k">month</span> <span class="o">=</span> <span class="mi">8</span> <span class="k">AND</span> <span class="nb">year</span> <span class="o">=</span> <span class="mi">2018</span>
 <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">url</span><span class="p">,</span> <span class="n">bytes</span>
 <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">bytes</span> <span class="k">DESC</span>
 <span class="k">LIMIT</span> <span class="mi">50</span>
-</code></pre></div><h3 id='which-user-agents-and-hosts-is-bouncer-serving-to-the-most'>Which user agents and hosts is bouncer serving to the most</h3><div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">user_agent</span><span class="p">,</span> <span class="k">host</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="k">count</span>
+</code></pre></div>
+<h3 id="which-user-agents-and-hosts-is-bouncer-serving-to-the-most">Which user agents and hosts is bouncer serving to the most</h3>
+
+<div class="highlight"><pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">user_agent</span><span class="p">,</span> <span class="k">host</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="k">count</span>
 <span class="k">FROM</span> <span class="n">fastly_logs</span><span class="p">.</span><span class="n">bouncer</span>
 <span class="k">WHERE</span> <span class="nb">date</span> <span class="o">=</span> <span class="mi">20</span> <span class="k">AND</span> <span class="k">month</span> <span class="o">=</span> <span class="mi">8</span> <span class="k">AND</span> <span class="nb">year</span> <span class="o">=</span> <span class="mi">2018</span>
 <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">user_agent</span><span class="p">,</span> <span class="k">host</span>
 <span class="k">ORDER</span> <span class="k">BY</span> <span class="k">count</span> <span class="k">DESC</span>
 <span class="k">LIMIT</span> <span class="mi">50</span>
-</code></pre></div><h2 id='adding-a-new-field-to-the-cdn-logs'>Adding a new field to the CDN logs</h2><p>Adding a new field to the CDN logs is a half manual, half automated
+</code></pre></div>
+<h2 id="adding-a-new-field-to-the-cdn-logs">Adding a new field to the CDN logs</h2>
+
+<p>Adding a new field to the CDN logs is a half manual, half automated<br />
 process and is <a href="https://trello.com/c/7pAvfM8R/167">tracked as tech debt</a>.</p>
-<p>You should do this in the Integration environment first and wait until
-you see the logs coming through to Athena from Fastly. Only then
-should you change Staging and next Production. This helps us catch
-syntax errors and incidents early. Note that the <code>bouncer</code> logs are
+
+<p>You should do this in the Integration environment first and wait until<br />
+you see the logs coming through to Athena from Fastly. Only then<br />
+should you change Staging and next Production. This helps us catch<br />
+syntax errors and incidents early. Note that the <code>bouncer</code> logs are<br />
 only available in Production.</p>
-<p>Firstly, make the manual changes via Terraform and a PR. This ensures that
-you&rsquo;ve had two pairs of eyes on both the Athena/AWS Glue config changes and the
+
+<p>Firstly, make the manual changes via Terraform and a PR. This ensures that<br />
+you've had two pairs of eyes on both the Athena/AWS Glue config changes and the<br />
 eventual JSON you will manually put into the Fastly web UI:</p>
 
 <ol>
-<li>Edit the [<code>infra-fastly-logs</code> Terraform][infra-fastly-logs-terraform].</li>
-<li>Find the <code>aws_glue_catalog_table</code> resource for the Fastly logs you want to
+  <li>Edit the [<code>infra-fastly-logs</code> Terraform][infra-fastly-logs-terraform].</li>
+  <li>Find the <code>aws_glue_catalog_table</code> resource for the Fastly logs you want to<br />
 add a column to (<code>govuk_www</code>, <code>govuk_assets</code> or <code>bouncer</code>).</li>
-<li>Copy the VCL for the log from
-<a href="https://docs.fastly.com/en/guides/useful-variables-to-log">Fastly&rsquo;s list of available logs</a> and add it to the list
-of commented (<code>//</code>) columns. It&rsquo;s important that these are in the same
-format as the preceding commented lines (that is, JSON, with quotes)
-otherwise Athena won&rsquo;t parse the logs correctly. Here&rsquo;s an
+  <li>Copy the VCL for the log from<br />
+<a href="https://docs.fastly.com/en/guides/useful-variables-to-log">Fastly's list of available logs</a> and add it to the list<br />
+of commented (<code>//</code>) columns. It's important that these are in the same<br />
+format as the preceding commented lines (that is, JSON, with quotes)<br />
+otherwise Athena won't parse the logs correctly. Here's an<br />
 <a href="https://github.com/alphagov/govuk-aws/blob/6a37004ff23b7da3b90b20b30a2068499b7904ed/terraform/projects/infra-fastly-logs/main.tf#L205">example for the <code>govuk_www.cache_response</code> column</a>.</li>
-<li>Add your new column name, type and description to the JSON below the
-comments (<a href="https://github.com/alphagov/govuk-aws/blob/6a37004ff23b7da3b90b20b30a2068499b7904ed/terraform/projects/infra-fastly-logs/main.tf#L284-L288">example
+  <li>Add your new column name, type and description to the JSON below the<br />
+comments (<a href="https://github.com/alphagov/govuk-aws/blob/6a37004ff23b7da3b90b20b30a2068499b7904ed/terraform/projects/infra-fastly-logs/main.tf#L284-L288">example<br />
 for the <code>govuk_www.cache_response</code> column</a>).</li>
-<li>Raise a PR, get a review, merge and <a href="manual/deploying-terraform.html">deploy</a>.</li>
+  <li>Raise a PR, get a review, merge and <a href="manual/deploying-terraform.html">deploy</a>.</li>
 </ol>
+
 <p>The manual steps to make Fastly send the log data:</p>
 
 <ol>
-<li>Log in to Fastly using the credentials from
+  <li>Log in to Fastly using the credentials from<br />
 <code>fastly/deployment_shared_credentials</code> in the 2ndline password store.</li>
-<li>Search for the environment, for example &ldquo;staging&rdquo;.</li>
-<li>On the environment page, click &ldquo;Real Time Stats&rdquo;.</li>
-<li>Click &ldquo;Configure&rdquo; on the page with the graphs.</li>
-<li>Click the blue &ldquo;Edit Configuration&rdquo; button on the far right to reveal a
+  <li>Search for the environment, for example "staging".</li>
+  <li>On the environment page, click "Real Time Stats".</li>
+  <li>Click "Configure" on the page with the graphs.</li>
+  <li>Click the blue "Edit Configuration" button on the far right to reveal a<br />
 dropdown menu.</li>
-<li>Click &ldquo;Clone version xxx (active) to edit&rdquo;.</li>
-<li>Click &ldquo;Logging&rdquo; in the left hand menu.</li>
-<li>Find and click the link for the relevant log, for example &ldquo;GOV.UK Fastly
-Logs S3 Bucket&rdquo;.</li>
-<li>Paste the new log format (found <a href="https://docs.fastly.com/en/guides/useful-variables-to-log">in the list of available Fastly
-logs</a>) into the &ldquo;Log Format&rdquo; text box.</li>
-<li>Click &ldquo;Update&rdquo;.</li>
-<li>Click the purple &ldquo;ACTIVATE&rdquo; button in the top right corner to make the new
+  <li>Click "Clone version xxx (active) to edit".</li>
+  <li>Click "Logging" in the left hand menu.</li>
+  <li>Find and click the link for the relevant log, for example "GOV.UK Fastly<br />
+Logs S3 Bucket".</li>
+  <li>Paste the new log format (found <a href="https://docs.fastly.com/en/guides/useful-variables-to-log">in the list of available Fastly<br />
+logs</a>) into the "Log Format" text box.</li>
+  <li>Click "Update".</li>
+  <li>Click the purple "ACTIVATE" button in the top right corner to make the new<br />
 configuration live.</li>
 </ol>
-<p>Both these sets of steps must be done! Check the S3 bucket and
-query Athena to see the added column and confirm that there&rsquo;s data for
-it. As the crawler runs on a schedule every four hours, it can take a
-while for Athena to recognise that there have been changes to the
-configuration. Due to this, it&rsquo;s advisable to manually <a href="https://eu-west-1.console.aws.amazon.com/glue/home?region=eu-west-1#catalog:tab=crawlers">run the AWS
-Glue Crawler</a> for the logs config you have changed once you
+
+<p>Both these sets of steps must be done! Check the S3 bucket and<br />
+query Athena to see the added column and confirm that there's data for<br />
+it. As the crawler runs on a schedule every four hours, it can take a<br />
+while for Athena to recognise that there have been changes to the<br />
+configuration. Due to this, it's advisable to manually <a href="https://eu-west-1.console.aws.amazon.com/glue/home?region=eu-west-1#catalog:tab=crawlers">run the AWS<br />
+Glue Crawler</a> for the logs config you have changed once you<br />
 know that Fastly is correct.</p>
-<p>Once you&rsquo;re happy that the Integration configuration works, you can
-deploy Terraform to Staging and make the same manual changes in the
+
+<p>Once you're happy that the Integration configuration works, you can<br />
+deploy Terraform to Staging and make the same manual changes in the<br />
 Fastly UI. Then do Production.</p>
-<h2 id='troubleshooting'>Troubleshooting</h2><h3 id='hive_cursor_error-row-is-not-a-valid-json-object'>HIVE_CURSOR_ERROR: Row is not a valid JSON Object</h3><p>This error indicates that a row in the logs is invalid JSON. It can be very
-difficult to determine which file this error came from. It could either be
-caused by a change in the formatting of data sent from Fastly - which would
-make every record after a timestamp invalid -  or by something expected in
-input which isn&rsquo;t properly escaped.</p>
-<p>There is a tedious process that can be used to identify where there is a
-problem in a particular JSON file. You can sync all the log files from a day
-to your local machine and then parse each JSON blob in each of the files with a
-JSON tool (such as <code>JSON.parse</code> in Ruby) until you find the problem. Once
-identified you may need to need to contact Fastly about the
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<h3 id="hive_cursor_error-row-is-not-a-valid-json-object">HIVE_CURSOR_ERROR: Row is not a valid JSON Object</h3>
+
+<p>This error indicates that a row in the logs is invalid JSON. It can be very<br />
+difficult to determine which file this error came from. It could either be<br />
+caused by a change in the formatting of data sent from Fastly - which would<br />
+make every record after a timestamp invalid -  or by something expected in<br />
+input which isn't properly escaped.</p>
+
+<p>There is a tedious process that can be used to identify where there is a<br />
+problem in a particular JSON file. You can sync all the log files from a day<br />
+to your local machine and then parse each JSON blob in each of the files with a<br />
+JSON tool (such as <code>JSON.parse</code> in Ruby) until you find the problem. Once<br />
+identified you may need to need to contact Fastly about the<br />
 problem or update the log formatting in Fastly to resolve the issue.</p>
 
 

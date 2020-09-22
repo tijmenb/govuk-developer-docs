@@ -175,24 +175,44 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
   <p><a href='/manual.html#monitoring'>Monitoring</a></p> <h1 id='header'>Datasync with govuk_env_sync</h1><p>The govuk_env_sync data sync has been created to replace the <a href="/manual/alerts/data-sync.html">env-sync-and-backup</a> data sync in context of the GOV.UK AWS migration work. It is currently in use for backup and sync tasks in the GOV.UK AWS environments.</p>
-<h2 id='overview'>Overview</h2><p>The govuk_env_sync data sync works by <code>push</code>ing a source database to S3 (except for Elasticsearch databases, which get copied to another Elasticsearch) and subsequently <code>pull</code>ing it down from there to a destination.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p>The govuk_env_sync data sync works by <code>push</code>ing a source database to S3 (except for Elasticsearch databases, which get copied to another Elasticsearch) and subsequently <code>pull</code>ing it down from there to a destination.</p>
 
 <ul>
-<li><strong>Push</strong> means <em>database dump and upload</em>.</li>
-<li><strong>Pull</strong> means <em>download and database restore</em>.</li>
+  <li><strong>Push</strong> means <em>database dump and upload</em>.</li>
+  <li><strong>Pull</strong> means <em>download and database restore</em>.</li>
 </ul>
+
 <p>The environment synchronisation is achieved by granting cross-account access of the <code>govuk-&lt;environment&gt;-database-backups</code> S3 buckets. Figure 1 below illustrates the intended data flow between environments.</p>
+
 <p>Data sanitisation (removal of sensitive data) for the Integration environment is done by SQL scripts which run as part of the restore transaction at the destination. While not ideal, this is the same approach as <a href="/manual/alerts/data-sync.html">env-sync-and-backup</a> and allows reuse of the same sanitisation scripts.</p>
-<p><a href="images/govuk_env_sync.png" target="_blank" rel="noopener noreferrer"><img src="/manual/images/govuk_env_sync.png" alt="Schematic of the data flow of the govuk_env_sync data synchronisation" /></a>
+
+<p><img src="/manual/images/govuk_env_sync.png" alt="Schematic of the data flow of the govuk_env_sync data synchronisation" /><br />
 Figure 1:  Schematic of the data flow of the govuk_env_sync data synchronisation.</p>
+
 <p>In practice, some Integration databases pull from Production (with sanitisation) rather than from Staging. This is done to reduce the number of cron job timing dependencies and to save resources where large databases do not need to be backed up from Staging.</p>
+
 <p>Unlike <a href="/manual/alerts/data-sync.html">env-sync-and-backup</a>, govuk_env_sync currently has separate cron jobs for backup and restore, and for each database in each environments.</p>
-<h2 id='code-base-and-deployment'>Code base and deployment</h2><p>The code is in the <a href="https://github.com/alphagov/govuk-puppet/tree/master/modules/govuk_env_sync">govuk_env_sync module</a> in the govuk-puppet repository.</p>
+
+<h2 id="code-base-and-deployment">Code base and deployment</h2>
+
+<p>The code is in the <a href="https://github.com/alphagov/govuk-puppet/tree/master/modules/govuk_env_sync">govuk_env_sync module</a> in the govuk-puppet repository.</p>
+
 <p>Rollout happens as part of the the <code>Deploy_puppet</code> Jenkins job in each environment.</p>
+
 <p>The <a href="https://github.com/alphagov/govuk-puppet/blob/master/modules/govuk_env_sync/files/govuk_env_sync.sh">govuk_env_sync.sh</a> script is provided as a Puppet file resource in the <code>files</code> directory. It is created as <code>/usr/local/bin/govuk_env_sync.sh</code>.</p>
+
 <p>Data sanitisation scripts are in the <a href="https://github.com/alphagov/govuk-puppet/tree/master/modules/govuk_env_sync/files/transformation_sql"><code>files/transformation_sql</code></a> directory. These are created under <code>/etc/govuk_env_sync/transformation_sql/</code> on the target machine.</p>
-<h2 id='configuration'>Configuration</h2><p>The configuration of <code>govuk_env_sync</code> is done via hieradata entries for <code>govuk_env_sync::tasks</code>. Most (but not all) of these are in <code>db_admin.yaml</code> under <code>hieradata_aws/class/{integration,staging,production}</code>. All can be found via <code>git grep govuk_env_sync::tasks</code> within the govuk-puppet repo.</p>
-<h3 id='example-configuration'>Example configuration</h3><div class="highlight"><pre class="highlight plaintext"><code>govuk_env_sync::tasks:
+
+<h2 id="configuration">Configuration</h2>
+
+<p>The configuration of <code>govuk_env_sync</code> is done via hieradata entries for <code>govuk_env_sync::tasks</code>. Most (but not all) of these are in <code>db_admin.yaml</code> under <code>hieradata_aws/class/{integration,staging,production}</code>. All can be found via <code>git grep govuk_env_sync::tasks</code> within the govuk-puppet repo.</p>
+
+<h3 id="example-configuration">Example configuration</h3>
+
+<div class="highlight"><pre class="highlight plaintext"><code>govuk_env_sync::tasks:
   "pull_publishing_api_production_daily":
     ensure: "present"
     hour: "2"
@@ -205,114 +225,131 @@ Figure 1:  Schematic of the data flow of the govuk_env_sync data synchronisation
     url: "govuk-production-database-backups"
     path: "postgresql-backend"
     transformation_sql_filename: "sanitise_publishing_api_production.sql"
-</code></pre></div><h3 id='meanings-of-parameters'>Meanings of parameters</h3><p>See <a href="https://github.com/alphagov/govuk-puppet/blob/master/modules/govuk_env_sync/files/govuk_env_sync.sh">govuk_env_sync.sh</a> for full documentation of the parameters.</p>
-<div class="table-container">
-        <table>
-          <tr>
-<th>key</th>
-<th>description</th>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td>Free text used in monitoring alerts.</td>
-</tr>
-<tr>
-<td><code>ensure</code></td>
-<td>One of <code>present</code>, <code>disabled</code> or <code>absent</code> to control the task. <code>disabled</code> creates the config file but removes the cron job and is used for configuring restores in Production.</td>
-</tr>
-<tr>
-<td><code>hour</code></td>
-<td>Hour of (daily) cron-job execution.</td>
-</tr>
-<tr>
-<td><code>minute</code></td>
-<td>Minute of (daily) cron-job execution.</td>
-</tr>
-<tr>
-<td><code>action</code></td>
-<td>One of <code>push</code> (dump db and upload to store) or <code>pull</code> (download from store and restore db).</td>
-</tr>
-<tr>
-<td><code>dbms</code></td>
-<td>One of <code>postgresql</code>, <code>mysql</code>, <code>mongo</code>, <code>elasticsearch</code>.</td>
-</tr>
-<tr>
-<td><code>storagebackend</code></td>
-<td>Must be <code>elasticsearch</code> if <code>dbms</code> is <code>elasticsearch</code>, otherwise must be <code>s3</code>.</td>
-</tr>
-<tr>
-<td><code>database</code></td>
-<td>Database name, as configured in the DBMS.</td>
-</tr>
-<tr>
-<td><code>temppath</code></td>
-<td>Temporary storage path on the machine which runs the cronjob.</td>
-</tr>
-<tr>
-<td><code>url</code></td>
-<td>S3 bucket name or Elasticsearch snapshot name.</td>
-</tr>
-<tr>
-<td><code>path</code></td>
-<td>Object-prefix (in S3) or directory path.</td>
-</tr>
-<tr>
-<td><code>transformation_sql_file</code></td>
-<td>Optional path to a SQL script to run within the transaction when restoring a Postgres database, after the data has been inserted.</td>
-</tr>
+</code></pre></div>
+<h3 id="meanings-of-parameters">Meanings of parameters</h3>
 
-        </table>
-      </div><p>On manual execution, the script takes the arguments:</p>
-<div class="table-container">
-        <table>
-          <tr>
-<th>flag</th>
-<th>argument</th>
-</tr>
-<tr>
-<td>-f</td>
-<td><code>configfile</code></td>
-</tr>
-<tr>
-<td>-a</td>
-<td><code>action</code></td>
-</tr>
-<tr>
-<td>-D</td>
-<td><code>dbms</code></td>
-</tr>
-<tr>
-<td>-S</td>
-<td><code>storagebackend</code></td>
-</tr>
-<tr>
-<td>-T</td>
-<td><code>temppath</code></td>
-</tr>
-<tr>
-<td>-d</td>
-<td><code>database</code></td>
-</tr>
-<tr>
-<td>-u</td>
-<td><code>url</code></td>
-</tr>
-<tr>
-<td>-p</td>
-<td><code>path</code></td>
-</tr>
-<tr>
-<td>-s</td>
-<td><code>transformation_sql_file</code></td>
-</tr>
-<tr>
-<td>-t</td>
-<td><code>timestamp</code></td>
-</tr>
+<p>See <a href="https://github.com/alphagov/govuk-puppet/blob/master/modules/govuk_env_sync/files/govuk_env_sync.sh">govuk_env_sync.sh</a> for full documentation of the parameters.</p>
 
-        </table>
-      </div><p>Here the timestamp argument is optional and allow to specify which timestamp (iso-datetime string of the form <code>YYYY-MM-DDTHH:MM</code>) should be restored during a <code>pull</code> operation (default is using the latest available dump).</p>
-<h2 id='resources-managed-by-puppet'>Resources managed by Puppet</h2><h3 id='configuration-files-on-machines'>Configuration files on machines</h3><p>Puppet creates a configuration file in <code>/etc/govuk_env_sync/</code> for each job in hieradata <code>govuk_env_sync::tasks:</code>. These files consist of simple <code>source</code>-able variable assignments of the form:</p>
+<table>
+  <thead>
+    <tr>
+      <th>key</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>title</code></td>
+      <td>Free text used in monitoring alerts.</td>
+    </tr>
+    <tr>
+      <td><code>ensure</code></td>
+      <td>One of <code>present</code>, <code>disabled</code> or <code>absent</code> to control the task. <code>disabled</code> creates the config file but removes the cron job and is used for configuring restores in Production.</td>
+    </tr>
+    <tr>
+      <td><code>hour</code></td>
+      <td>Hour of (daily) cron-job execution.</td>
+    </tr>
+    <tr>
+      <td><code>minute</code></td>
+      <td>Minute of (daily) cron-job execution.</td>
+    </tr>
+    <tr>
+      <td><code>action</code></td>
+      <td>One of <code>push</code> (dump db and upload to store) or <code>pull</code> (download from store and restore db).</td>
+    </tr>
+    <tr>
+      <td><code>dbms</code></td>
+      <td>One of <code>postgresql</code>, <code>mysql</code>, <code>mongo</code>, <code>elasticsearch</code>.</td>
+    </tr>
+    <tr>
+      <td><code>storagebackend</code></td>
+      <td>Must be <code>elasticsearch</code> if <code>dbms</code> is <code>elasticsearch</code>, otherwise must be <code>s3</code>.</td>
+    </tr>
+    <tr>
+      <td><code>database</code></td>
+      <td>Database name, as configured in the DBMS.</td>
+    </tr>
+    <tr>
+      <td><code>temppath</code></td>
+      <td>Temporary storage path on the machine which runs the cronjob.</td>
+    </tr>
+    <tr>
+      <td><code>url</code></td>
+      <td>S3 bucket name or Elasticsearch snapshot name.</td>
+    </tr>
+    <tr>
+      <td><code>path</code></td>
+      <td>Object-prefix (in S3) or directory path.</td>
+    </tr>
+    <tr>
+      <td><code>transformation_sql_file</code></td>
+      <td>Optional path to a SQL script to run within the transaction when restoring a Postgres database, after the data has been inserted.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>On manual execution, the script takes the arguments:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>flag</th>
+      <th>argument</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-f</td>
+      <td><code>configfile</code></td>
+    </tr>
+    <tr>
+      <td>-a</td>
+      <td><code>action</code></td>
+    </tr>
+    <tr>
+      <td>-D</td>
+      <td><code>dbms</code></td>
+    </tr>
+    <tr>
+      <td>-S</td>
+      <td><code>storagebackend</code></td>
+    </tr>
+    <tr>
+      <td>-T</td>
+      <td><code>temppath</code></td>
+    </tr>
+    <tr>
+      <td>-d</td>
+      <td><code>database</code></td>
+    </tr>
+    <tr>
+      <td>-u</td>
+      <td><code>url</code></td>
+    </tr>
+    <tr>
+      <td>-p</td>
+      <td><code>path</code></td>
+    </tr>
+    <tr>
+      <td>-s</td>
+      <td><code>transformation_sql_file</code></td>
+    </tr>
+    <tr>
+      <td>-t</td>
+      <td><code>timestamp</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Here the timestamp argument is optional and allow to specify which timestamp (iso-datetime string of the form <code>YYYY-MM-DDTHH:MM</code>) should be restored during a <code>pull</code> operation (default is using the latest available dump).</p>
+
+<h2 id="resources-managed-by-puppet">Resources managed by Puppet</h2>
+
+<h3 id="configuration-files-on-machines">Configuration files on machines</h3>
+
+<p>Puppet creates a configuration file in <code>/etc/govuk_env_sync/</code> for each job in hieradata <code>govuk_env_sync::tasks:</code>. These files consist of simple <code>source</code>-able variable assignments of the form:</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>action="pull"
 dbms="postgresql"
 storagebackend="s3"
@@ -320,14 +357,21 @@ temppath="/tmp/content_data_admin_production_pull"
 database="content_data_admin_production"
 url="govuk-production-database-backups"
 path="postgresql-backend"
-</code></pre></div><h3 id='lock'>Lock</h3><p>The govuk_env_sync cron jobs prevent automated reboots by <code>unattended-upgrades</code> by running under <code>/usr/local/bin/with_reboot_lock</code>, which creates the file <code>/etc/unattended-reboot/no-reboot/govuk_env_sync</code> and removes it when the process exits.</p>
-<h3 id='cron-jobs-and-icinga-checks'>Cron jobs and Icinga checks</h3><p>See <a href="/manual/alerts/data-sync.html#govuk_env_sync-the-new-way">data sync playbook</a>.</p>
+</code></pre></div>
+<h3 id="lock">Lock</h3>
+
+<p>The govuk_env_sync cron jobs prevent automated reboots by <code>unattended-upgrades</code> by running under <code>/usr/local/bin/with_reboot_lock</code>, which creates the file <code>/etc/unattended-reboot/no-reboot/govuk_env_sync</code> and removes it when the process exits.</p>
+
+<h3 id="cron-jobs-and-icinga-checks">Cron jobs and Icinga checks</h3>
+
+<p>See <a href="/manual/alerts/data-sync.html#govuk_env_sync-the-new-way">data sync playbook</a>.</p>
 
 <blockquote>
-<p><strong>Traffic replay using <a href="/manual/alerts/gor.html">Gor</a> is disabled between 22:00 and
-08:00 UTC daily whilst the data sync pull jobs take place. This is to prevent
+  <p><strong>Traffic replay using <a href="/manual/alerts/gor.html">Gor</a> is disabled between 22:00 and<br />
+08:00 UTC daily whilst the data sync pull jobs take place. This is to prevent<br />
 lots of errors while we are dropping databases.</strong></p>
 </blockquote>
+
 
 
   <div class='related-content'>

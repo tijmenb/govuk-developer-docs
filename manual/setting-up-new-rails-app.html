@@ -155,12 +155,21 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#applications'>Applications</a></p> <h1 id='header'>Set up a new Rails application</h1><h2 id='familiarise-yourself-with-the-conventions'>Familiarise yourself with the conventions</h2><p>We have documented <a href="/manual/conventions-for-rails-applications.html">conventions for Rails
-applications</a> and
+  <p><a href='/manual.html#applications'>Applications</a></p> <h1 id='header'>Set up a new Rails application</h1>
+<h2 id="familiarise-yourself-with-the-conventions">Familiarise yourself with the conventions</h2>
+
+<p>We have documented <a href="/manual/conventions-for-rails-applications.html">conventions for Rails<br />
+applications</a> and<br />
 <a href="/manual/naming.html">conventions for naming applications</a> in GOV.UK.</p>
-<h2 id='bootstrapping-a-new-application'>Bootstrapping a new application</h2><p>To create a rails app, run the following (skip uncommon stuff).</p>
+
+<h2 id="bootstrapping-a-new-application">Bootstrapping a new application</h2>
+
+<p>To create a rails app, run the following (skip uncommon stuff).</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>rails new myapp --skip-javascript --skip-test --skip-bundle --skip-spring --skip-action-cable --skip-action-mailer --skip-active-storage
-</code></pre></div><p>Replace the Gemfile with the gems you need. Here is an example.</p>
+</code></pre></div>
+<p>Replace the Gemfile with the gems you need. Here is an example.</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>ruby File.read(".ruby-version").strip
 
 source "https://rubygems.org"
@@ -190,7 +199,9 @@ group :development, :test do
   gem "rubocop-govuk"
   gem "scss-lint-govuk"
 end
-</code></pre></div><p>Run <code>bundle &amp;&amp; rails g rspec:install</code> and replace <code>spec/*helper.rb</code>.</p>
+</code></pre></div>
+<p>Run <code>bundle &amp;&amp; rails g rspec:install</code> and replace <code>spec/*helper.rb</code>.</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>## spec/rails_helper.rb
 rm spec/rails_helper.rb
 
@@ -210,7 +221,9 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
   config.use_transactional_fixtures = true
 end
-</code></pre></div><p>In config, replace the content of <code>database.yml</code> with the following.</p>
+</code></pre></div>
+<p>In config, replace the content of <code>database.yml</code> with the following.</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>default: &amp;default
   adapter: postgresql
   encoding: unicode
@@ -231,7 +244,9 @@ production:
   &lt;&lt;: *default
   database: myapp_production
   url: &lt;%= ENV["DATABASE_URL"]%&gt;
-</code></pre></div><p>In config, replace <code>credentials.yml.env</code> and <code>master.key</code> with <code>secrets.yml</code>.</p>
+</code></pre></div>
+<p>In config, replace <code>credentials.yml.env</code> and <code>master.key</code> with <code>secrets.yml</code>.</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>development:
   secret_key_base: secret
 
@@ -240,29 +255,40 @@ test:
 
 production:
   secret_key_base: &lt;%= ENV['SECRET_KEY_BASE'] %&gt;
-</code></pre></div><p>In config, replace the content of <code>routes.rb</code> with the following healthcheck.</p>
+</code></pre></div>
+<p>In config, replace the content of <code>routes.rb</code> with the following healthcheck.</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>Rails.application.routes.draw do
   get "/healthcheck", to: proc { [200, {}, ["OK"]] }
 end
-</code></pre></div><p>Now is a good time to run <code>bin/setup</code>. Lastly, create <code>lib/tasks/lint.rake</code> with this.</p>
+</code></pre></div>
+<p>Now is a good time to run <code>bin/setup</code>. Lastly, create <code>lib/tasks/lint.rake</code> with this.</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>desc "Lint files"
 task "lint" do
   sh "rubocop --format clang"
   sh "scss-lint app/assets/stylesheets"
 end
-</code></pre></div><p>Then add <code>task default: %i(spec lint)</code> in Rakefile and finally run <code>rake</code>.</p>
-<h2 id='puppet-dns-sentry-and-beyond'>Puppet, DNS, Sentry and beyond</h2>
+</code></pre></div>
+<p>Then add <code>task default: %i(spec lint)</code> in Rakefile and finally run <code>rake</code>.</p>
+
+<h2 id="puppet-dns-sentry-and-beyond">Puppet, DNS, Sentry and beyond</h2>
+
 <ul>
-<li>To prepare the servers for your app, follow the doc in <a href="https://github.com/alphagov/govuk-puppet/blob/master/docs/adding-a-new-app.md#including-the-app-on-machines">govuk-puppet</a></li>
-<li>To configure app deployments, follow the docs in <a href="https://github.com/alphagov/govuk-app-deployment">govuk-app-deployment</a></li>
-<li>To enable external DNS, follow the article in the <a href="https://docs.publishing.service.gov.uk/manual/dns.html#making-changes-to-publishing-service-gov-uk">Developer Docs</a></li>
-<li>Make a PR to add your app to <a href="https://github.com/alphagov/govuk-developer-docs/blob/master/data/applications.yml">data/applications.yml</a> for these docs</li>
-<li>Then ask 2nd line to run the task in <a href="https://github.com/alphagov/govuk-saas-config">govuk-saas-config</a> to update <a href="https://sentry.io/settings/govuk/teams/">Sentry</a></li>
-<li>Add the application to the <a href="https://release.publishing.service.gov.uk/applications">Release</a> app (the create button is at the bottom)</li>
-<li>Add the application to the <a href="https://deploy.integration.publishing.service.gov.uk/job/Deploy_App/">Deploy_App job</a> in Jenkins (click Configure)</li>
-<li>Run the <a href="https://deploy.integration.publishing.service.gov.uk/job/Deploy_App/">Deploy_App job</a> using with <code>with_migrations</code> option to get started</li>
+  <li>To prepare the servers for your app, follow the doc in <a href="https://github.com/alphagov/govuk-puppet/blob/master/docs/adding-a-new-app.md#including-the-app-on-machines">govuk-puppet</a></li>
+  <li>To configure app deployments, follow the docs in <a href="https://github.com/alphagov/govuk-app-deployment">govuk-app-deployment</a></li>
+  <li>To enable external DNS, follow the article in the <a href="https://docs.publishing.service.gov.uk/manual/dns.html#making-changes-to-publishing-service-gov-uk">Developer Docs</a></li>
+  <li>Make a PR to add your app to <a href="https://github.com/alphagov/govuk-developer-docs/blob/master/data/applications.yml">data/applications.yml</a> for these docs</li>
+  <li>Then ask 2nd line to run the task in <a href="https://github.com/alphagov/govuk-saas-config">govuk-saas-config</a> to update <a href="https://sentry.io/settings/govuk/teams/">Sentry</a></li>
+  <li>Add the application to the <a href="https://release.publishing.service.gov.uk/applications">Release</a> app (the create button is at the bottom)</li>
+  <li>Add the application to the <a href="https://deploy.integration.publishing.service.gov.uk/job/Deploy_App/">Deploy_App job</a> in Jenkins (click Configure)</li>
+  <li>Run the <a href="https://deploy.integration.publishing.service.gov.uk/job/Deploy_App/">Deploy_App job</a> using with <code>with_migrations</code> option to get started</li>
 </ul>
-<h2 id='configuring-the-app-for-jenkins'>Configuring the app for Jenkins</h2><p>Create a <code>Jenkinsfile</code> in your repo with the following content.</p>
+
+<h2 id="configuring-the-app-for-jenkins">Configuring the app for Jenkins</h2>
+
+<p>Create a <code>Jenkinsfile</code> in your repo with the following content.</p>
+
 <div class="highlight"><pre class="highlight groovy"><code><span class="err">#</span><span class="o">!</span><span class="s">/usr/</span><span class="n">bin</span><span class="o">/</span><span class="n">env</span> <span class="n">groovy</span>
 
 <span class="n">library</span><span class="o">(</span><span class="s2">"govuk"</span><span class="o">)</span>
@@ -270,14 +296,16 @@ end
 <span class="n">node</span> <span class="o">{</span>
   <span class="n">govuk</span><span class="o">.</span><span class="na">buildProject</span><span class="o">()</span>
 <span class="o">}</span>
-</code></pre></div><p>You also need to add a Jenkins integration to the repo on GitHub:</p>
+</code></pre></div>
+<p>You also need to add a Jenkins integration to the repo on GitHub:</p>
 
 <ol>
-<li>In GitHub, go to Settings -&gt; Integrations &amp; Services</li>
-<li>Add Jenkins (GitHub plugin)</li>
-<li>Add the link to the CI GitHub webhook</li>
-<li>Make sure Active is ticked</li>
+  <li>In GitHub, go to Settings -&gt; Integrations &amp; Services</li>
+  <li>Add Jenkins (GitHub plugin)</li>
+  <li>Add the link to the CI GitHub webhook</li>
+  <li>Make sure Active is ticked</li>
 </ol>
+
 <p>Finally, add your app to the list of deployable applications in <a href="https://github.com/alphagov/govuk-puppet/blob/master/docs/adding-a-new-app.md#including-the-app-on-machines">govuk-puppet</a>.</p>
 
 

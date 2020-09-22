@@ -158,36 +158,50 @@
       </a>
     </div>
 
-   <h1 id='header'>Email Alert API: Unprocessed content changes</h1><p>This alert indicates that Email Alert API has <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/process_content_change_worker.rb">content changes that were not
-processed</a> within 2 hours. Processing a content change
-is the means to establish which subscriber lists should be notified when GOV.UK
-content changes and the process to generate individual emails for the change in
+   <h1 id='header'>Email Alert API: Unprocessed content changes</h1><p>This alert indicates that Email Alert API has <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/process_content_change_worker.rb">content changes that were not<br />
+processed</a> within 2 hours. Processing a content change<br />
+is the means to establish which subscriber lists should be notified when GOV.UK<br />
+content changes and the process to generate individual emails for the change in<br />
 content.</p>
-<p>We generally expect a content change to be have processed within 30 minutes of
-it&rsquo;s creation. At 30 minute intervals a job, <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/recover_lost_jobs_worker.rb">RecoverLostJobsWorker</a>, will try
+
+<p>We generally expect a content change to be have processed within 30 minutes of<br />
+it's creation. At 30 minute intervals a job, <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/recover_lost_jobs_worker.rb">RecoverLostJobsWorker</a>, will try<br />
 to requeue any content changes that have not been processed within an hour.</p>
-<p>Thus, seeing this alert indicates that we likely have a problem that needs
+
+<p>Thus, seeing this alert indicates that we likely have a problem that needs<br />
 manual intervention. Potential causes would be:</p>
 
 <ul>
-<li><p><a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/process_content_change_worker.rb">ProcessContentChangeWorker</a> is failing to process content changes due to
-some error</p></li>
-<li><p>Sidekiq not running or not operating correctly</p></li>
-<li><p>Content changes taking an abormally long time to process, which may indicate
-degraded system performance or an unexpectedly large task as part of
-processing. This scenario may resolve automatically.</p></li>
+  <li>
+    <p><a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/process_content_change_worker.rb">ProcessContentChangeWorker</a> is failing to process content changes due to<br />
+some error</p>
+  </li>
+  <li>
+    <p>Sidekiq not running or not operating correctly</p>
+  </li>
+  <li>
+    <p>Content changes taking an abormally long time to process, which may indicate<br />
+degraded system performance or an unexpectedly large task as part of<br />
+processing. This scenario may resolve automatically.</p>
+  </li>
 </ul>
+
 <p>To diagnose this problem, consult <a href="https://sentry.io/organizations/govuk/issues/?project=202220&amp;statsPeriod=6h">Sentry</a> to see if there are errors reported.</p>
-<p>If you find nothing conclusive in Sentry, go to the <a href="https://kibana.logit.io/s/2dd89c13-a0ed-4743-9440-825e2e52329e/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-1h,mode:quick,to:now))&amp;_a=(columns:!('@message',host),index:'*-*',interval:auto,query:(query_string:(query:'@type:%20sidekiq%20AND%20application:%20email-alert-api%20AND%20@fields.worker:%20ProcessContentChangeWorker')),sort:!('@timestamp',desc))">ProcessContentChangeWorker
+
+<p>If you find nothing conclusive in Sentry, go to the <a href="https://kibana.logit.io/s/2dd89c13-a0ed-4743-9440-825e2e52329e/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-1h,mode:quick,to:now))&amp;_a=(columns:!('@message',host),index:'*-*',interval:auto,query:(query_string:(query:'@type:%20sidekiq%20AND%20application:%20email-alert-api%20AND%20@fields.worker:%20ProcessContentChangeWorker')),sort:!('@timestamp',desc))">ProcessContentChangeWorker<br />
 sidekiq logs</a> and check the jobs are running correctly.</p>
-<p>If the problem persists, run the <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/recover_lost_jobs_worker.rb">RecoverLostJobsWorker</a> and/or
+
+<p>If the problem persists, run the <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/recover_lost_jobs_worker.rb">RecoverLostJobsWorker</a> and/or<br />
 <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/process_content_change_worker.rb">ProcessContentChangeWorker</a> directly to see if any problems occur in real-time.</p>
-<h3 id='still-stuck'>Still stuck?</h3>
+
+<h3 id="still-stuck">Still stuck?</h3>
+
 <ul>
-<li><a href="/apis/email-alert-api/troubleshooting.html">Email Alert API troubleshooting</a> for more information</li>
-<li><a href="https://grafana.production.govuk.digital/dashboard/file/sidekiq.json?refresh=1m&amp;orgId=1&amp;var-Application=email-alert-api&amp;var-Queues=All&amp;from=now-3h&amp;to=now">Email Alert API Sidekiq dashboard</a> to check if jobs are being processed</li>
-<li><a href="https://grafana.production.govuk.digital/dashboard/file/email_alert_api_technical.json?refresh=1m&amp;orgId=1">Email Alert API Technical dashboard</a> to check if emails are going out</li>
+  <li><a href="/apis/email-alert-api/troubleshooting.html">Email Alert API troubleshooting</a> for more information</li>
+  <li><a href="https://grafana.production.govuk.digital/dashboard/file/sidekiq.json?refresh=1m&amp;orgId=1&amp;var-Application=email-alert-api&amp;var-Queues=All&amp;from=now-3h&amp;to=now">Email Alert API Sidekiq dashboard</a> to check if jobs are being processed</li>
+  <li><a href="https://grafana.production.govuk.digital/dashboard/file/email_alert_api_technical.json?refresh=1m&amp;orgId=1">Email Alert API Technical dashboard</a> to check if emails are going out</li>
 </ul>
+
 
 
   <div class='related-content'>

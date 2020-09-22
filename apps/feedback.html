@@ -317,18 +317,31 @@
               <h1 class="page-title">Application: feedback</h1>
 
   <p>Serves contact pages on GOV.UK</p>
-<h2 id='ownership'>Ownership</h2><p><strong>#govuk-platform-health</strong> owns the application and is responsible for updating its dependencies.</p>
-<h2 id='hosting'>Hosting</h2><p>The production version of this application is hosted on <strong>AWS</strong>.</p>
-<h3 id='ssh-access-aws'>SSH Access (AWS)</h3><div class="highlight"><pre class="highlight shell"><code>gds govuk connect ssh <span class="nt">-e</span> integration frontend
+
+<h2 id="ownership">Ownership</h2>
+
+<p><strong>#govuk-platform-health</strong> owns the application and is responsible for updating its dependencies.</p>
+
+<h2 id="hosting">Hosting</h2>
+
+<p>The production version of this application is hosted on <strong>AWS</strong>.</p>
+
+<h3 id="ssh-access-aws">SSH Access (AWS)</h3>
+
+<div class="highlight"><pre class="highlight shell"><code>gds govuk connect ssh <span class="nt">-e</span> integration frontend
 gds govuk connect ssh <span class="nt">-e</span> staging aws/frontend
 gds govuk connect ssh <span class="nt">-e</span> production aws/frontend
-</code></pre></div><h2 id='run-a-rake-task'>Run a rake task</h2>
+</code></pre></div>
+<h2 id="run-a-rake-task">Run a rake task</h2>
+
 <ul>
-  <li><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=feedback&MACHINE_CLASS=frontend&RAKE_TASK=">Run a Rake task on Integration</a></li>
-<li><a href="https://deploy.blue.staging.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=feedback&MACHINE_CLASS=frontend&RAKE_TASK=">Run a Rake task on Staging</a></li>
-<li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=feedback&MACHINE_CLASS=frontend&RAKE_TASK=">⚠️ Run a Rake task on Production ⚠️</a></li>
+  <li><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=feedback&amp;MACHINE_CLASS=frontend&amp;RAKE_TASK=">Run a Rake task on Integration</a></li>
+<li><a href="https://deploy.blue.staging.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=feedback&amp;MACHINE_CLASS=frontend&amp;RAKE_TASK=">Run a Rake task on Staging</a></li>
+<li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=feedback&amp;MACHINE_CLASS=frontend&amp;RAKE_TASK=">⚠️ Run a Rake task on Production ⚠️</a></li>
 </ul>
-<h2 id='links'>Links</h2>
+
+<h2 id="links">Links</h2>
+
 <ul>
   <li><a href="https://github.com/alphagov/feedback">GitHub repo</a></li>
 
@@ -347,9 +360,13 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/frontend
 
 
 </ul>
-<h2 id='readme'>README</h2><p><span class="govuk-error-message">
+
+<h2 id="readme">README</h2>
+
+<p><span class="govuk-error-message">
     Cannot fetch README without <code>GITHUB_TOKEN</code>.
   </span></p>
+
 
 
             

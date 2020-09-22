@@ -141,28 +141,39 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#assets'>Assets</a></p> <h1 id='header'>Replace an asset's file</h1><p><em>Note: This will not apply to any file that has not already been uploaded. If you&rsquo;re trying to upload a large file for a client, <a href="/manual/upload-asset-to-whitehall.html">upload a small one first</a> then replace with the below steps. If you&rsquo;re trying to fix a file that is stuck uploading in Whitehall, <a href="/manual/whitehall-file-stuck-uploading.html">look here</a>.</em></p>
-<p>If you need to replace the file of an existing attachment without
+  <p><a href='/manual.html#assets'>Assets</a></p> <h1 id='header'>Replace an asset's file</h1><p><em>Note: This will not apply to any file that has not already been uploaded. If you're trying to upload a large file for a client, <a href="/manual/upload-asset-to-whitehall.html">upload a small one first</a> then replace with the below steps. If you're trying to fix a file that is stuck uploading in Whitehall, <a href="/manual/whitehall-file-stuck-uploading.html">look here</a>.</em></p>
+
+<p>If you need to replace the file of an existing attachment without<br />
 changing the URL, follow these steps:</p>
 
 <ol>
-<li><p>Copy the new file from your computer to a <code>backend</code> server:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>gds govuk connect scp-push -e &lt;environment&gt; aws/backend:1 filename.ext /tmp
-</code></pre></div></li>
-<li><p>Get an app console on that same server:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>gds govuk connect ssh -e &lt;environment&gt; aws/backend:1
-govuk_app_console asset-manager
-</code></pre></div></li>
-<li><p>Find the asset:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>asset = Asset.find("asset-id-from-url")` # e.g. `57a9c52b40f0b608a700000a`
-# or for a Whitehall asset:
-asset = WhitehallAsset.find_by(legacy_url_path: '/government/uploads/system/uploads/attachment_data/file/id/path.ext')`
-</code></pre></div></li>
-<li><p>Check the asset is what you think it is.</p></li>
-<li><p>Replace the file:</p>
-<div class="highlight"><pre class="highlight plaintext"><code>asset.file = Pathname.new("/tmp/filename.ext").open
-asset.save!
-</code></pre></div></li>
+  <li>
+    <p>Copy the new file from your computer to a <code>backend</code> server:</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code> gds govuk connect scp-push -e &lt;environment&gt; aws/backend:1 filename.ext /tmp
+</code></pre></div>  </li>
+  <li>
+    <p>Get an app console on that same server:</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code> gds govuk connect ssh -e &lt;environment&gt; aws/backend:1
+ govuk_app_console asset-manager
+</code></pre></div>  </li>
+  <li>
+    <p>Find the asset:</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code> asset = Asset.find("asset-id-from-url")` # e.g. `57a9c52b40f0b608a700000a`
+ # or for a Whitehall asset:
+ asset = WhitehallAsset.find_by(legacy_url_path: '/government/uploads/system/uploads/attachment_data/file/id/path.ext')`
+</code></pre></div>  </li>
+  <li>
+    <p>Check the asset is what you think it is.</p>
+  </li>
+  <li>
+    <p>Replace the file:</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code> asset.file = Pathname.new("/tmp/filename.ext").open
+ asset.save!
+</code></pre></div>  </li>
 </ol>
 
 

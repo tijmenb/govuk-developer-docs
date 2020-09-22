@@ -146,11 +146,17 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#publishing'>Publishing</a></p> <h1 id='header'>Republish content</h1><p>Sometimes it may be necessary to republish content to make it show up on the
+  <p><a href='/manual.html#publishing'>Publishing</a></p> <h1 id='header'>Republish content</h1><p>Sometimes it may be necessary to republish content to make it show up on the<br />
 website. This process varies per app.</p>
-<h2 id='whitehall'>Whitehall</h2><p>If the document is in Whitehall, there is a Rake task you can run.</p>
+
+<h2 id="whitehall">Whitehall</h2>
+
+<p>If the document is in Whitehall, there is a Rake task you can run.</p>
+
 <p><a href="https://deploy.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=whitehall&amp;MACHINE_CLASS=whitehall_backend&amp;RAKE_TASK=publishing_api:republish_document[slug]"><code>publishing_api:republish_document[slug]</code></a></p>
+
 <p>For organisations, run:</p>
+
 <p><a href="https://deploy.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=whitehall&amp;MACHINE_CLASS=whitehall_backend&amp;RAKE_TASK=publishing_api:republish_organisation[slug]"><code>publishing_api:republish_organisation[slug]</code></a></p>
 
 

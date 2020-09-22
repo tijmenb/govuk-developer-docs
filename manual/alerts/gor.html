@@ -161,28 +161,44 @@
       </a>
     </div>
 
-   <h1 id='header'>Gor</h1><p><a href="https://github.com/buger/goreplay/">Gor</a> is an open source tool we use to replay HTTP traffic from
+   <h1 id='header'>Gor</h1><p><a href="https://github.com/buger/goreplay/">Gor</a> is an open source tool we use to replay HTTP traffic from<br />
 production to staging to give us greater confidence that our deploys are ok.</p>
-<p>Alerts for Gor might let you know that it&rsquo;s not running, in which case we have
+
+<p>Alerts for Gor might let you know that it's not running, in which case we have<br />
 to be much more cautious with our deploys.</p>
-<p>Currently the <a href="/manual/govuk-env-sync.html">govuk_env_sync</a> data sync jobs in AWS
-take place between 23:00 and 5:30 and Gor is disabled during this time period
+
+<p>Currently the <a href="/manual/govuk-env-sync.html">govuk_env_sync</a> data sync jobs in AWS<br />
+take place between 23:00 and 5:30 and Gor is disabled during this time period<br />
 to prevent lots of errors while we are dropping databases.</p>
-<p>Puppet will <a href="https://github.com/alphagov/govuk-puppet/blob/06dd008d09/modules/govuk_gor/manifests/init.pp#L50">remove these alerts while the data sync runs</a>
-but you may see the alerts at the beginning of a data sync, before Puppet has
+
+<p>Puppet will <a href="https://github.com/alphagov/govuk-puppet/blob/06dd008d09/modules/govuk_gor/manifests/init.pp#L50">remove these alerts while the data sync runs</a><br />
+but you may see the alerts at the beginning of a data sync, before Puppet has<br />
 had time to remove them.</p>
-<h3 id='data-sync-process-failed'>Data sync process failed</h3><p>In case the data sync process aborts, Gor might not be restarted in a proper
+
+<h3 id="data-sync-process-failed">Data sync process failed</h3>
+
+<p>In case the data sync process aborts, Gor might not be restarted in a proper<br />
 way.</p>
-<p>If that&rsquo;s the case, make sure that the following file exists on the host:</p>
+
+<p>If that's the case, make sure that the following file exists on the host:</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>/etc/govuk/env.d/FACTER_data_sync_in_progress
-</code></pre></div><p>and that it is in a proper state (i.e. empty).</p>
+</code></pre></div>
+<p>and that it is in a proper state (i.e. empty).</p>
+
 <p>If not, restart the Gor processes with the following Fabric command:</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>fab $environment puppet_class:gor sdo:'rm /etc/govuk/env.d/FACTER_data_sync_in_progress' app.start:goreplay
-</code></pre></div><p>This will remove the file and restart Gor from all hosts running it.</p>
-<p>When Puppet runs again in those hosts, it re-creates the alerts and sees
+</code></pre></div>
+<p>This will remove the file and restart Gor from all hosts running it.</p>
+
+<p>When Puppet runs again in those hosts, it re-creates the alerts and sees<br />
 them back in icinga.</p>
-<h2 id='gor-running-critical-errors-in-production'><code>gor running</code> critical errors in production</h2><p>When a data sync job is in progress, you may see errors in production with the status of
-<code>PROCS CRITICAL: 0 processes with command name &#39;gor&#39;</code>. This is expected. You can check
+
+<h2 id="gor-running-critical-errors-in-production"><code>gor running</code> critical errors in production</h2>
+
+<p>When a data sync job is in progress, you may see errors in production with the status of<br />
+<code>PROCS CRITICAL: 0 processes with command name 'gor'</code>. This is expected. You can check<br />
 the <a href="https://deploy.publishing.service.gov.uk/job/Copy_Data_to_Staging">progress of the job in Jenkins</a>.</p>
 
 

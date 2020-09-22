@@ -157,35 +157,53 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#backups'>Backups</a></p> <h1 id='header'>PostgreSQL backups</h1><h2 id='rds-or-carrenza6dg'>RDS or Carrenza/6DG</h2><p>To determine which restore method you should be using, first check where the app you&rsquo;re attempting to restore the database for is located. You can find this information by selecting your application from this <a href="https://docs.publishing.service.gov.uk/apps/by-team.html">list</a> and looking at the information under the &ldquo;Hosting&rdquo; heading. You see something like:</p>
-<p>&ldquo;The production version of this application is hosted on&hellip;&rdquo;</p>
-<h2 id='aws-rds-postgresql-backups'>AWS RDS PostgreSQL Backups</h2><p>Instructions for restoring RDS databases can be found <a href="https://docs.publishing.service.gov.uk/manual/howto-backup-and-restore-in-aws-rds.html">here</a></p>
-<h2 id='carrenza6dg-wal-e-backups-to-s3'>Carrenza/6DG WAL-E Backups to S3</h2><p>We use <a href="https://github.com/wal-e/wal-e">WAL-E</a> to do continuous archiving to an Amazon S3 bucket.
-PostgreSQL uses a method of <a href="https://www.postgresql.org/docs/9.3/static/continuous-archiving.html">archiving</a> transaction logs: this means
-that transaction logs are copied to a place on disk, and are rotated by a set
+  <p><a href='/manual.html#backups'>Backups</a></p> <h1 id='header'>PostgreSQL backups</h1><h2 id="rds-or-carrenza6dg">RDS or Carrenza/6DG</h2>
+
+<p>To determine which restore method you should be using, first check where the app you're attempting to restore the database for is located. You can find this information by selecting your application from this <a href="https://docs.publishing.service.gov.uk/apps/by-team.html">list</a> and looking at the information under the "Hosting" heading. You see something like:</p>
+
+<p>"The production version of this application is hosted on…"</p>
+
+<h2 id="aws-rds-postgresql-backups">AWS RDS PostgreSQL Backups</h2>
+
+<p>Instructions for restoring RDS databases can be found <a href="https://docs.publishing.service.gov.uk/manual/howto-backup-and-restore-in-aws-rds.html">here</a></p>
+
+<h2 id="carrenza6dg-wal-e-backups-to-s3">Carrenza/6DG WAL-E Backups to S3</h2>
+
+<p>We use <a href="https://github.com/wal-e/wal-e">WAL-E</a> to do continuous archiving to an Amazon S3 bucket.<br />
+PostgreSQL uses a method of <a href="https://www.postgresql.org/docs/9.3/static/continuous-archiving.html">archiving</a> transaction logs: this means<br />
+that transaction logs are copied to a place on disk, and are rotated by a set<br />
 amount of time or disk usage.</p>
-<p>WAL-E uses this function and makes it easy to upload the archived logs to a
-different location, using environmental variables to specify where the logs
+
+<p>WAL-E uses this function and makes it easy to upload the archived logs to a<br />
+different location, using environmental variables to specify where the logs<br />
 should go. It also specifies encryption details.</p>
-<p>The archived transactions logs are based upon a &ldquo;base&rdquo; backup, which is taken
-every night. By default we rotate a new transaction log every 5 minutes, so in
-theory we can recover point in time backups to specific time and dates in this
+
+<p>The archived transactions logs are based upon a "base" backup, which is taken<br />
+every night. By default we rotate a new transaction log every 5 minutes, so in<br />
+theory we can recover point in time backups to specific time and dates in this<br />
 timeframe.</p>
-<p>To restore, we can use the commands specified in the WAL-E documentation:
-<code>backup-fetch</code> and <code>wal-fetch</code>. To make this easier, a script has been written
-to automate the restore of the very latest backup available
-(<code>/usr/local/bin/wal-e_restore</code>). The environmental variables which define the
-AWS credentials will need to be present. After the base backup is imported you
+
+<p>To restore, we can use the commands specified in the WAL-E documentation:<br />
+<code>backup-fetch</code> and <code>wal-fetch</code>. To make this easier, a script has been written<br />
+to automate the restore of the very latest backup available<br />
+(<code>/usr/local/bin/wal-e_restore</code>). The environmental variables which define the<br />
+AWS credentials will need to be present. After the base backup is imported you<br />
 can watch postgres restoring WAL chunks by <code>tail -f</code> on the postgres log.</p>
-<p>Replication to the standby databases may fail after restoring a backup to the
-primary. The solution is to also restore the backup to the standby, at which
-point normal replication will take over. You can also
+
+<p>Replication to the standby databases may fail after restoring a backup to the<br />
+primary. The solution is to also restore the backup to the standby, at which<br />
+point normal replication will take over. You can also<br />
 <a href="/manual/setup-postgresql-replication.html#syncing-a-standby">resync it from the primary</a>.</p>
-<h3 id='wal-e-failing-with-errors-about-gpg'>WAL-E failing with errors about GPG</h3><p>WAL-E does not work with password-protected GPG secret keys, but ours are. If
-backup restoration is failing with errors about GPG or things not being the
-expected format (eg, complaining that a file doesn&rsquo;t have a valid lzo or tar
+
+<h3 id="wal-e-failing-with-errors-about-gpg">WAL-E failing with errors about GPG</h3>
+
+<p>WAL-E does not work with password-protected GPG secret keys, but ours are. If<br />
+backup restoration is failing with errors about GPG or things not being the<br />
+expected format (eg, complaining that a file doesn't have a valid lzo or tar<br />
 header), the key may be password-protected.</p>
+
 <p>You can edit the key in-place to remove the password:</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>$ sudo cat /etc/wal-e/env.d/WALE_GPG_KEY_ID
 $ sudo -iu postgres gpg --edit-key &lt;key ID&gt;
 gpg&gt; passwd
@@ -206,10 +224,13 @@ You don't want a passphrase - this is probably a *bad* idea!
 Do you really want to do this? (y/N) y
 
 gpg&gt; save
-</code></pre></div><p><strong>NOTE</strong>: if you are reverting the blank passphrase to the original GPG passphrase as part of the postgres resync <a href="/manual/resync-postgres-standby.html#restore-from-wal-e-backups-stored-in-s3">&ldquo;Re-protect the GPG key&rdquo; instructions</a>, the &ldquo;<code>Enter the new passphrase for this secret key</code>&rdquo; step will be different:</p>
+</code></pre></div>
+<p><strong>NOTE</strong>: if you are reverting the blank passphrase to the original GPG passphrase as part of the postgres resync <a href="/manual/resync-postgres-standby.html#restore-from-wal-e-backups-stored-in-s3">"Re-protect the GPG key" instructions</a>, the "<code>Enter the new passphrase for this secret key</code>" step will be different:</p>
+
 <div class="highlight"><pre class="highlight plaintext"><code>Enter passphrase: &lt;passphrase for postgresql-backups/&lt;environment&gt;/postgresql-primary&gt;
 Repeat passphrase: &lt;passphrase for postgresql-backups/&lt;environment&gt;/postgresql-primary&gt;
 </code></pre></div>
+
 
   <div class='related-content'>
 

@@ -163,35 +163,54 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
   <p><a href='/manual.html#assets'>Assets</a></p> <h1 id='header'>Assets: how they work</h1><p>There are two types of asset files.</p>
-<p><strong>Static assets</strong> are stylesheets (CSS), JavaScript (JS) and image files which
+
+<p><strong>Static assets</strong> are stylesheets (CSS), JavaScript (JS) and image files which<br />
 make GOV.UK look the way it does.</p>
-<p><strong>Uploaded assets</strong> - also called attachments - are files like PDFs, CSVs and
+
+<p><strong>Uploaded assets</strong> - also called attachments - are files like PDFs, CSVs and<br />
 images which are uploaded via the publishing apps and attached to documents.</p>
-<h2 id='static-assets'>Static assets</h2><h3 id='how-users-access-assets'>How users access assets</h3><p><a href="/manual/cdn.html">The GOV.UK content delivery network</a> is in front of our assets
-hostname (<code>assets.publishing.service.gov.uk</code> and equivalents in other
+
+<h2 id="static-assets">Static assets</h2>
+
+<h3 id="how-users-access-assets">How users access assets</h3>
+
+<p><a href="/manual/cdn.html">The GOV.UK content delivery network</a> is in front of our assets<br />
+hostname (<code>assets.publishing.service.gov.uk</code> and equivalents in other<br />
 environments). The CDN fetches anything not in its cache from <code>assets-origin</code>.</p>
-<h3 id='assets-at-origin'>Assets at origin</h3><p>Assets are served by the cache machines in all environments.</p>
-<p>The cache machines proxy requests to the application hostnames based on the
-first segment of the path. For example <code>/government-frontend/</code> is proxied to
+
+<h3 id="assets-at-origin">Assets at origin</h3>
+
+<p>Assets are served by the cache machines in all environments.</p>
+
+<p>The cache machines proxy requests to the application hostnames based on the<br />
+first segment of the path. For example <code>/government-frontend/</code> is proxied to<br />
 the hostname for <code>government-frontend</code> in that environment.</p>
-<p>All other assets that have a path that don&rsquo;t match fall back to the static
+
+<p>All other assets that have a path that don't match fall back to the static<br />
 application.</p>
-<h2 id='uploaded-assets'>Uploaded assets</h2><p>Asset Manager is an API that is called internally by Publisher, Specialist
-Publisher, Manuals Publisher, Travel Advice Publisher and Whitehall to manage
-their uploads. It serves the uploaded assets on
+
+<h2 id="uploaded-assets">Uploaded assets</h2>
+
+<p>Asset Manager is an API that is called internally by Publisher, Specialist<br />
+Publisher, Manuals Publisher, Travel Advice Publisher and Whitehall to manage<br />
+their uploads. It serves the uploaded assets on<br />
 <code>assets.publishing.service.gov.uk</code>.</p>
-<h3 id='how-uploaded-assets-are-stored-and-served'>How uploaded assets are stored and served</h3><p>Asset files are stored in an S3 bucket (e.g. <code>govuk-assets-production</code> in
+
+<h3 id="how-uploaded-assets-are-stored-and-served">How uploaded assets are stored and served</h3>
+
+<p>Asset files are stored in an S3 bucket (e.g. <code>govuk-assets-production</code> in<br />
 production) and Asset Manager instructs nginx to proxy requests to them.</p>
-<p>It should be noted that Asset Manager does actually serve the asset requests,
-rather than letting nginx serve directly from the share. This is to enable the
+
+<p>It should be noted that Asset Manager does actually serve the asset requests,<br />
+rather than letting nginx serve directly from the share. This is to enable the<br />
 following features:</p>
 
 <ul>
-<li>Assets are not served until they have been virus scanned; a placeholder image
+  <li>Assets are not served until they have been virus scanned; a placeholder image<br />
 or page is shown for assets that are not finished scanning.</li>
-<li>Assets can be access-limited so that only authorised users can see them.</li>
-<li>Asset files can be replaced, and a request to the original path redirects to
-the replacement. Currently only Whitehall and Specialist Publisher support
+  <li>Assets can be access-limited so that only authorised users can see them.</li>
+  <li>Asset files can be replaced, and a request to the original path redirects to<br />
+the replacement. Currently only Whitehall and Specialist Publisher support<br />
 this.</li>
 </ul>
 
