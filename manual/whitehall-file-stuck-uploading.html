@@ -8,23 +8,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-    <title>Assets: how they work - GOV.UK Developer Documentation</title>
+    <title>Whitehall Attachment Stuck in Uploading State - GOV.UK Developer Documentation</title>
 
     <link href="/stylesheets/manifest.css" rel="stylesheet" />
 
-    <link rel="canonical" href="https://docs.publishing.service.gov.uk/manual/assets.html">
+    <link rel="canonical" href="https://docs.publishing.service.gov.uk/manual/whitehall-file-stuck-uploading.html">
 
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:domain" content="docs.publishing.service.gov.uk" />
       <meta name="twitter:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
-      <meta name="twitter:title" content="Assets: how they work - GOV.UK Developer Documentation" />
-      <meta name="twitter:url" content="https://docs.publishing.service.gov.uk/manual/assets.html" />
+      <meta name="twitter:title" content="Whitehall Attachment Stuck in Uploading State - GOV.UK Developer Documentation" />
+      <meta name="twitter:url" content="https://docs.publishing.service.gov.uk/manual/whitehall-file-stuck-uploading.html" />
 
       <meta property="og:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
       <meta property="og:site_name" content="GOV.UK Developer Documentation" />
-      <meta property="og:title" content="Assets: how they work" />
+      <meta property="og:title" content="Whitehall Attachment Stuck in Uploading State" />
       <meta property="og:type" content="object" />
-      <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/assets.html" />
+      <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/whitehall-file-stuck-uploading.html" />
 
     
   </head>
@@ -129,26 +129,13 @@
                   <a href='/manual.html' class="toc__back-link govuk-link">&lsaquo; Manual</a>
   <ul>
   <li>
-    <a href="#header"><span>Assets: how they work</span></a>
+    <a href="#header"><span>Whitehall Attachment Stuck in Uploading State</span></a>
     <ul>
       <li>
-        <a href="#static-assets"><span>Static assets</span></a>
-        <ul>
-          <li>
-            <a href="#how-users-access-assets"><span>How users access assets</span></a>
-          </li>
-          <li>
-            <a href="#assets-at-origin"><span>Assets at origin</span></a>
-          </li>
-        </ul>
+        <a href="#steps-to-fix"><span>Steps to fix</span></a>
       </li>
       <li>
-        <a href="#uploaded-assets"><span>Uploaded assets</span></a>
-        <ul>
-          <li>
-            <a href="#how-uploaded-assets-are-stored-and-served"><span>How uploaded assets are stored and served</span></a>
-          </li>
-        </ul>
+        <a href="#why-this-works"><span>Why this works</span></a>
       </li>
     </ul>
   </li>
@@ -162,50 +149,36 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#assets'>Assets</a></p> <h1 id='header'>Assets: how they work</h1><p>There are two types of asset files.</p>
-<p><strong>Static assets</strong> are stylesheets (CSS), JavaScript (JS) and image files which
-make GOV.UK look the way it does.</p>
-<p><strong>Uploaded assets</strong> - also called attachments - are files like PDFs, CSVs and
-images which are uploaded via the publishing apps and attached to documents.</p>
-<h2 id='static-assets'>Static assets</h2><h3 id='how-users-access-assets'>How users access assets</h3><p><a href="/manual/cdn.html">The GOV.UK content delivery network</a> is in front of our assets
-hostname (<code>assets.publishing.service.gov.uk</code> and equivalents in other
-environments). The CDN fetches anything not in its cache from <code>assets-origin</code>.</p>
-<h3 id='assets-at-origin'>Assets at origin</h3><p>Assets are served by the cache machines in all environments.</p>
-<p>The cache machines proxy requests to the application hostnames based on the
-first segment of the path. For example <code>/government-frontend/</code> is proxied to
-the hostname for <code>government-frontend</code> in that environment.</p>
-<p>All other assets that have a path that don&rsquo;t match fall back to the static
-application.</p>
-<h2 id='uploaded-assets'>Uploaded assets</h2><p>Asset Manager is an API that is called internally by Publisher, Specialist
-Publisher, Manuals Publisher, Travel Advice Publisher and Whitehall to manage
-their uploads. It serves the uploaded assets on
-<code>assets.publishing.service.gov.uk</code>.</p>
-<h3 id='how-uploaded-assets-are-stored-and-served'>How uploaded assets are stored and served</h3><p>Asset files are stored in an S3 bucket (e.g. <code>govuk-assets-production</code> in
-production) and Asset Manager instructs nginx to proxy requests to them.</p>
-<p>It should be noted that Asset Manager does actually serve the asset requests,
-rather than letting nginx serve directly from the share. This is to enable the
-following features:</p>
+  <p><a href='/manual.html#assets'>Assets</a></p> <h1 id='header'>Whitehall Attachment Stuck in Uploading State</h1><p>In rare cases, typically when a user has uploaded a large archive of multiple files, the Whitehall backend can become stuck and not correctly update the uploading status of the file.</p>
+<p>This results in the user being unable to publish an edition due to the Whitehall frontend being convinced that the upload is still ongoing, despite any evidence to the contrary.</p>
+<p>The following needs access to the <a href="https://whitehall-admin.publishing.service.gov.uk/">Whitehall&rsquo;s Admin Panels</a>.</p>
+<p>If you <strong>can not</strong> download the file from the draft edition, or it is corrupted, you will have to ask the user to upload a new version of the file. You may have to <a href="/manual/howto-replace-an-assets-file.html">replace the file in Asset Manager</a> if this new version is also acting as if it is corrupted.</p>
+<h2 id='steps-to-fix'>Steps to fix</h2><p>If you <strong>can</strong> download the file and open it without issue from the draft edition in <a href="https://whitehall-admin.publishing.service.gov.uk/">Whitehall&rsquo;s Admin Panels</a> then the best course of action is the following:</p>
 
-<ul>
-<li>Assets are not served until they have been virus scanned; a placeholder image
-or page is shown for assets that are not finished scanning.</li>
-<li>Assets can be access-limited so that only authorised users can see them.</li>
-<li>Asset files can be replaced, and a request to the original path redirects to
-the replacement. Currently only Whitehall and Specialist Publisher support
-this.</li>
-</ul>
+<ol>
+<li><p><a href="howto-ssh-into-machines.html">SSH into</a> the Whitehall backend machine and open a terminal into the rails app itself using <code>govuk_app_console whitehall</code>.</p></li>
+<li><p>Use <code>attachment = AttachmentData.find(*attachmentid*)</code> to grab the attachment object into a variable.</p></li>
+<li><p>Check that the attachment is <strong>not</strong> marked as uploaded using <code>attachment.uploaded_to_asset_manager?</code> and have it return false.</p></li>
+<li><p>Reset its status using <code>attachment.uploaded_to_asset_manager!</code> and repeat step 3 to ensure it is now returning true. <strong>This is potentially dangerous and should only be done if you can download the uncorrupted file. Test it on integration first!</strong></p></li>
+</ol>
+<p>The list of files should show the attachment as uploaded now, and allow publication.</p>
+<h2 id='why-this-works'>Why this works</h2><p>It is unknown how this can occur, but essentially for large enough files, the backend will not update the upload status correctly, leaving it as <code>nil</code>.</p>
+<p>As a result, we will mark the uploading <a href="https://github.com/alphagov/whitehall/blob/bc5b3daa909b7c7d084ad2c459a1577bb3f3b771/app/helpers/admin/editions_helper.rb#L236-L241">status as still ongoing</a>, even if it&rsquo;s complete. Running the <a href="https://github.com/alphagov/whitehall/blob/070ba6d94de0b04d667ad28f55a30cd3a74ba772/app/models/attachment_data.rb#L82-L85">aforementioned function</a> simply sets the uploaded status to complete.</p>
+<p><strong>This does not actually check the file status, so it is important that you check the file is downloadable and not corrupted before you run the function.</strong></p>
 
 
   <div class='related-content'>
-    <h4>Related applications</h4>
-
-    <ul class="govuk-list">
-      <li><a href="/apps/asset-manager.html">asset-manager</a></li>
-    </ul>
 
     <h3>More in the Assets section</h3>
 
     <div class='govuk-grid-row'>
+        <div class='govuk-grid-column-one-half'>
+          <h4>Learn</h4>
+
+          <ul class="govuk-list">
+            <li><a href="/manual/assets.html">Assets: how they work</a></li>
+          </ul>
+        </div>
 
         <div class='govuk-grid-column-one-half'>
           <h4>How to...</h4>
@@ -215,7 +188,6 @@ this.</li>
             <li><a href="/manual/howto-replace-an-assets-file.html">Replace an asset's file</a></li>
             <li><a href="/manual/upload-asset-to-whitehall.html">Upload a large asset to Whitehall</a></li>
             <li><a href="/manual/howto-upload-an-asset-to-asset-manager.html">Upload an asset to asset-manager</a></li>
-            <li><a href="/manual/whitehall-file-stuck-uploading.html">Whitehall Attachment Stuck in Uploading State</a></li>
           </ul>
         </div>
 
@@ -223,18 +195,18 @@ this.</li>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-07-30">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-03-18">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 30 January 2020.
+      This page was last reviewed on 18 September 2020.
 
-        It needs to be reviewed again on 30 July 2020
-        by the page owner <a href="">#govuk-platform-health</a>
+        It needs to be reviewed again on 18 March 2021
+        by the page owner <a href="">#govuk-2ndline</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 30 July 2020
-       by the page owner <a href="">#govuk-platform-health</a>.
+      This page was set to be reviewed before 18 March 2021
+       by the page owner <a href="">#govuk-2ndline</a>.
       This might mean the content is out of date.
     </div>
   </div>
@@ -243,8 +215,8 @@ this.</li>
 
           <aside>
               <ul class="contribution-banner">
-                <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/assets.html.md">View source</a></li>
-                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'Assets:%20how%20they%20work'&amp;body=Problem%20with%20'Assets:%20how%20they%20work'%20(https://docs.publishing.service.gov.uk/manual/assets.html)">Report problem</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/whitehall-file-stuck-uploading.html.md">View source</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'Whitehall%20Attachment%20Stuck%20in%20Uploading%20State'&amp;body=Problem%20with%20'Whitehall%20Attachment%20Stuck%20in%20Uploading%20State'%20(https://docs.publishing.service.gov.uk/manual/whitehall-file-stuck-uploading.html)">Report problem</a></li>
                 <li><a href="https://github.com/alphagov/govuk-developer-docs">GitHub Repo</a></li>
               </ul>
           </aside>
