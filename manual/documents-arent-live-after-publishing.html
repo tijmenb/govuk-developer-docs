@@ -182,7 +182,7 @@ Publishing API that will check where the content is currently available.</p>
 
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>bundle <span class="nb">exec </span>rake data_hygiene:document_status_check[content_id,locale]
 </code></pre></div>
-<p><a href="https://deploy.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=publishing-api&amp;MACHINE_CLASS=publishing_api&amp;RAKE_TASK=data_hygiene:document_status_check[content_id,locale]">Run this job in production Jenkins ⚠️</a></p>
+<p><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=publishing-api&amp;MACHINE_CLASS=publishing_api&amp;RAKE_TASK=data_hygiene:document_status_check[content_id,locale]">Run this job in production Jenkins ⚠️</a></p>
 
 <h2 id="if-documents-arent-in-the-publishing-api">If documents aren't in the Publishing API</h2>
 
@@ -195,19 +195,19 @@ interface. If that doesn't work, there are some other things you can try:</p>
 
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>bundle <span class="nb">exec </span>rake publishing_api:republish_document[slug]
 </code></pre></div>
-<p><a href="https://deploy.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=whitehall&amp;MACHINE_CLASS=whitehall_backend&amp;RAKE_TASK=publishing_api:republish_document[slug]">Run this job in production Jenkins ⚠️</a></p>
+<p><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=whitehall&amp;MACHINE_CLASS=whitehall_backend&amp;RAKE_TASK=publishing_api:republish_document[slug]">Run this job in production Jenkins ⚠️</a></p>
 
 <h3 id="publisher">Publisher</h3>
 
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>bundle <span class="nb">exec </span>rake publishing_api:republish_edition[slug]
 </code></pre></div>
-<p><a href="https://deploy.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=publisher&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=publishing_api:republish_edition[slug]">Run this job in production Jenkins ⚠️</a></p>
+<p><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=publisher&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=publishing_api:republish_edition[slug]">Run this job in production Jenkins ⚠️</a></p>
 
 <h3 id="travel-advice-publisher">Travel Advice Publisher</h3>
 
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>bundle <span class="nb">exec </span>rake publishing_api:republish_edition[country_slug]
 </code></pre></div>
-<p><a href="https://deploy.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=travel-advice-publisher&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=publishing_api:republish_edition[country_slug]">Run this job in production Jenkins ⚠️</a></p>
+<p><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=travel-advice-publisher&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=publishing_api:republish_edition[country_slug]">Run this job in production Jenkins ⚠️</a></p>
 
 <h3 id="specialist-publisher">Specialist Publisher</h3>
 
@@ -222,7 +222,7 @@ content item to the Content Store.</p>
 
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>bundle <span class="nb">exec </span>rake represent_downstream:high_priority:content_id[content_id]
 </code></pre></div>
-<p><a href="https://deploy.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=publishing-api&amp;MACHINE_CLASS=publishing_api&amp;RAKE_TASK=represent_downstream:high_priority:content_id[content_id]">Run this job in production Jenkins ⚠️</a></p>
+<p><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=publishing-api&amp;MACHINE_CLASS=publishing_api&amp;RAKE_TASK=represent_downstream:high_priority:content_id[content_id]">Run this job in production Jenkins ⚠️</a></p>
 
 <p>Note that if you run this task to fix missing routes, it may not work correctly<br />
 as the Content Store keeps a cache of what it thinks the routes are.</p>
@@ -234,7 +234,7 @@ routes for a Content Item directly.</p>
 
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>bundle <span class="nb">exec </span>rake routes:register[base_path]
 </code></pre></div>
-<p><a href="https://deploy.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=content-store&amp;MACHINE_CLASS=content_store&amp;RAKE_TASK=routes:register[base_path]">Run this job in production Jenkins ⚠️</a></p>
+<p><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=content-store&amp;MACHINE_CLASS=content_store&amp;RAKE_TASK=routes:register[base_path]">Run this job in production Jenkins ⚠️</a></p>
 
 <h2 id="if-the-document-isnt-live-after-all-this">If the document isn't live after all this</h2>
 
@@ -295,17 +295,17 @@ tries to view the page before it's live, they may end up caching the 404 page.</
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-04-08">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-03-23">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 8 October 2019.
+      This page was last reviewed on 23 September 2020.
 
-        It needs to be reviewed again on 8 April 2020
+        It needs to be reviewed again on 23 March 2021
         by the page owner <a href="">#govuk-developers</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 8 April 2020
+      This page was set to be reviewed before 23 March 2021
        by the page owner <a href="">#govuk-developers</a>.
       This might mean the content is out of date.
     </div>

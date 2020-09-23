@@ -163,11 +163,11 @@ content is not showing on the live site quick enough.</li>
 <ul>
   <li>
     <p>If it looks as though emails haven't been sent out for a publication, there<br />
-should be <a href="alerts/email-alert-api-app-healthcheck-not-ok.html#unprocessed-content-changes-content_changes">an alert about unprocessed content changes and there is guidance on<br />
+should be <a href="/manual/alerts/email-alert-api-unprocessed-content-changes.html">an alert about unprocessed content changes and there is guidance on<br />
 how to solve this</a>.</p>
 
     <p>If there are no alerts, it would suggest that the content change never made it<br />
-to the Email Alert API. In which case, you should <a href="alerts/rabbitmq-no-consumers-consuming.html">check that Email Alert<br />
+to the Email Alert API. In which case, you should <a href="/manual/alerts/rabbitmq-no-consumers-listening.html">check that Email Alert<br />
 Service is correctly consuming from RabbitMQ</a>.<br />
 If all looks fine, it may be necessary to <a href="https://github.com/alphagov/email-alert-api/blob/1aee9703bf303d43ba4ecb5f6fd771b757d52daf/app/services/notification_handler_service.rb#L24-L43">manually create a <code>ContentChange</code> in<br />
 Email Alert API</a>.</p>
@@ -177,17 +177,16 @@ Safety Alerts go out correctly. Although an alert won't be triggered for other<b
 kinds of documents, the <a href="/manual/alerts/email-alerts-travel-medical.html">guidance will still apply</a>.</p>
   </li>
   <li>
-    <p>If [a scheduled publication hasn't gone live][scheduled-publishing],<br />
+    <p>If <a href="/manual/alerts/whitehall-scheduled-publishing.html">a scheduled publication hasn't gone live</a>,<br />
 start here: <a href="/manual/documents-arent-live-after-publishing.html">if documents aren't live after being published</a>.<br />
 If it looks as though the content was never published from<br />
 Whitehall, there is a Rake task available which will publish overdue<br />
-documents. In Production, run <a href="https://deploy.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=whitehall&amp;MACHINE_CLASS=whitehall_backend&amp;RAKE_TASK=publishing:overdue:publish">this Rake<br />
+documents. In Production, run <a href="https://deploy.blue.production.govuk.digital//job/run-rake-task/parambuild/?TARGET_APPLICATION=whitehall&amp;MACHINE_CLASS=whitehall_backend&amp;RAKE_TASK=publishing:overdue:publish">this Rake<br />
 task</a>.</p>
 
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>bundle <span class="nb">exec </span>rake publishing:overdue:publish
 </code></pre></div>  </li>
 </ul>
-
 
 
   <div class='related-content'>
