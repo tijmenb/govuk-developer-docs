@@ -183,7 +183,7 @@ features, while "Smokey loop" alerts are more granular.</p>
 <h2 id="nginx">Nginx</h2>
 
 <p>If many of the tests are failing in an AWS environment, it may be because the Nginx services haven't registered new<br />
-boxes coming online or old ones going offline. You can try to restart the following services:</p>
+boxes coming online or old ones going offline. You can try to restart the following services using the <a href="https://github.com/alphagov/fabric-scripts">fabric scripts</a>:</p>
 
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>fab <span class="nv">$environment</span> class:cache app.reload:nginx
 <span class="nv">$ </span>fab <span class="nv">$environment</span> class:draft_cache app.reload:nginx
@@ -198,6 +198,8 @@ logs or restarting the process.</p>
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>ssh monitoring-1.production
 <span class="o">&gt;</span> <span class="nb">sudo </span>less /var/log/upstart/smokey-loop.log
 </code></pre></div>
+<p>It may be necessary to kill all the smokey processes. There is further guidance on doing this <a href="/manual/alerts/smokey-json-older-than-30m.html">here</a>.</p>
+
 <h3 id="http-status-code-550-restclientrequestfailed"><code>HTTP status code 550 (RestClient::RequestFailed)</code></h3>
 
 <p>This usually means that the BrowserMob Proxy java process is running as part of a previously aborted<br />
