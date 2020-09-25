@@ -167,26 +167,26 @@
   <li>*.publishing.service.gov.uk, *.staging.publishing.service.gov.uk and *.integration.publishing.service.gov.uk at the origin (our servers), depending on the environment Icinga is running in</li>
 </ul>
 
-<p>You'll start seeing an alert 30 days before the relevant certificate is due to<br />
+<p>You'll start seeing an alert 30 days before the relevant certificate is due to
 expire.</p>
 
-<p>See <a href="/manual/renew-a-tls-certificate.html">renew a TLS certificate for GOV.UK</a><br />
-for details of how to renew the relevant certificate. This is normally done by<br />
+<p>See <a href="/manual/renew-a-tls-certificate.html">renew a TLS certificate for GOV.UK</a>
+for details of how to renew the relevant certificate. This is normally done by
 Reliability Engineering.</p>
 
 <h2 id="production-wwwgovuk-certificate">Production www.gov.uk certificate</h2>
 
-<p>The TLS certificate for www.gov.uk is managed by Fastly. They will open a support<br />
-ticket when the certificate is due for renewal. This ticket will be picked up by<br />
-Reliability Engineering, who will co-ordinate with Fastly to renew the<br />
+<p>The TLS certificate for www.gov.uk is managed by Fastly. They will open a support
+ticket when the certificate is due for renewal. This ticket will be picked up by
+Reliability Engineering, who will co-ordinate with Fastly to renew the
 certificate.</p>
 
 <h2 id="production-staging-and-integration-wildcard-certificates">Production, staging and integration wildcard certificates</h2>
 
-<p>The wildcard TLS certificates for production, staging and integration are<br />
-managed by Reliability Engineering. Once the alert appears, they will work to<br />
-renew the relevant certificate and make it live. For staging and integration,<br />
-the certificates are also provided to Fastly to enable TLS for our staging and<br />
+<p>The wildcard TLS certificates for production, staging and integration are
+managed by Reliability Engineering. Once the alert appears, they will work to
+renew the relevant certificate and make it live. For staging and integration,
+the certificates are also provided to Fastly to enable TLS for our staging and
 integration CDN environments.</p>
 
 

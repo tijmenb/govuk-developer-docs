@@ -168,7 +168,7 @@
             
   <p><a href='/manual.html#testing'>Testing</a></p> <h1 id='header'>Jenkins CI infrastructure</h1><h2 id="introduction">Introduction</h2>
 
-<p>Our CI environment provides the infrastructure and services to cover the<br />
+<p>Our CI environment provides the infrastructure and services to cover the
 first stages of our build and continuous deployment pipeline:</p>
 
 <ul>
@@ -186,7 +186,7 @@ first stages of our build and continuous deployment pipeline:</p>
   <li>The CI environment runs in the Integration environment in the "CI" vDC</li>
   <li>Jenkins master:
     <ul>
-      <li>Nginx, listening on port 443, serves <a href="https://ci.integration.publishing.service.gov.uk">https://ci.integration.publishing.service.gov.uk</a><br />
+      <li>Nginx, listening on port 443, serves <a href="https://ci.integration.publishing.service.gov.uk">https://ci.integration.publishing.service.gov.uk</a>
 and proxies requests to Jenkins. It is also running on port 80 to serve a monitoring page.</li>
       <li>Jenkins master, listening on port 8080</li>
     </ul>
@@ -194,18 +194,18 @@ and proxies requests to Jenkins. It is also running on port 80 to serve a monito
   <li>Jenkins agents:
     <ul>
       <li>The master instance connects with the agent box via SSH to manage the process</li>
-      <li>The agent machines run a set of services for application tests. Not all the boxes run<br />
-the same services, this is managed with Puppet. Check the <code>govuk_ci::master::ci_agents</code> label keys in<br />
+      <li>The agent machines run a set of services for application tests. Not all the boxes run
+the same services, this is managed with Puppet. Check the <code>govuk_ci::master::ci_agents</code> label keys in
 <a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata/common.yaml">Hiera</a> for more information.</li>
     </ul>
   </li>
   <li>Supporting services:
     <ul>
-      <li>An <a href="https://ci-alert.integration.publishing.service.gov.uk">Icinga instance</a> to monitor the<br />
+      <li>An <a href="https://ci-alert.integration.publishing.service.gov.uk">Icinga instance</a> to monitor the
 status of CI and the supporting infrastructure.</li>
-      <li>A <a href="https://deploy.integration.publishing.service.gov.uk">Deploy Jenkins instance</a> to deploy Puppet<br />
+      <li>A <a href="https://deploy.integration.publishing.service.gov.uk">Deploy Jenkins instance</a> to deploy Puppet
 in to the environment and run any other adhoc tasks.</li>
-      <li><a href="https://ci-graphite.integration.publishing.service.gov.uk">Graphite</a> and <a href="https://ci-grafana.integration.publishing.service.gov.uk">Grafana</a><br />
+      <li><a href="https://ci-graphite.integration.publishing.service.gov.uk">Graphite</a> and <a href="https://ci-grafana.integration.publishing.service.gov.uk">Grafana</a>
 for metrics in the environment.</li>
       <li>Puppetmaster which deploys the latest version of <a href="https://github.com/alphagov/govuk-puppet">https://github.com/alphagov/govuk-puppet</a>.</li>
       <li>Apt instance for Gemstash</li>
@@ -217,8 +217,8 @@ for metrics in the environment.</li>
 
 <h2 id="access">Access</h2>
 
-<p>SSH to a random CI machine with <code>gds govuk connect ssh -e ci ci-agent</code>.<br />
-If you know the agent you want, append <code>:number</code> to the end of<br />
+<p>SSH to a random CI machine with <code>gds govuk connect ssh -e ci ci-agent</code>.
+If you know the agent you want, append <code>:number</code> to the end of
 <code>ci_agent</code> to go straight to that machine.</p>
 
 <h2 id="configuration">Configuration</h2>
@@ -231,9 +231,9 @@ If you know the agent you want, append <code>:number</code> to the end of<br />
 
 <h4 id="set-up-jenkins-credentials">Set up Jenkins credentials</h4>
 
-<p>The credentials plugin allows us to store credentials in Jenkins that can be retrieved later by other plugins<br />
-via API. At the moment these credentials are configured manually because Jenkins encrypts the secrets in a<br />
-credentials.xml file, so we can't replicate the encryption with Puppet. The <a href="https://forge.puppet.com/rtyler/jenkins">Jenkins Puppet module</a><br />
+<p>The credentials plugin allows us to store credentials in Jenkins that can be retrieved later by other plugins
+via API. At the moment these credentials are configured manually because Jenkins encrypts the secrets in a
+credentials.xml file, so we can't replicate the encryption with Puppet. The <a href="https://forge.puppet.com/rtyler/jenkins">Jenkins Puppet module</a>
 can manage credentials via Jenkins CLI, but currently not all types of credentials are supported.</p>
 
 <p>To configure our credentials manually, from the Jenkins Credentials section add the following entries:</p>
@@ -296,7 +296,7 @@ can manage credentials via Jenkins CLI, but currently not all types of credentia
 
 <h4 id="set-up-github-repositories">Set up GitHub repositories</h4>
 
-<p>We use this with the GitHub and GitHub Branch Source plugins to define the source code repositories of<br />
+<p>We use this with the GitHub and GitHub Branch Source plugins to define the source code repositories of
 our jobs.</p>
 
 <ul>
@@ -311,8 +311,8 @@ our jobs.</p>
   </li>
 </ul>
 
-<p>With this configuration, in our jobs we can use 'GitHub' API endpoints to<br />
-access the source code repository. The API endpoint name is referenced in<br />
+<p>With this configuration, in our jobs we can use 'GitHub' API endpoints to
+access the source code repository. The API endpoint name is referenced in
 Puppet to configure jobs automatically so we shouldn't update it.</p>
 
 <h2 id="on-the-blog">On the blog</h2>

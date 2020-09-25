@@ -146,20 +146,20 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#emails'>Emails</a></p> <h1 id='header'>Receive emails from Email Alert API in integration and staging</h1><p>In <code>integration</code> and <code>staging</code> Email Alert API defaults to sending emails<br />
-to a single test address: <code>success@simulator.amazonses.com</code>. This is used to<br />
+  <p><a href='/manual.html#emails'>Emails</a></p> <h1 id='header'>Receive emails from Email Alert API in integration and staging</h1><p>In <code>integration</code> and <code>staging</code> Email Alert API defaults to sending emails
+to a single test address: <code>success@simulator.amazonses.com</code>. This is used to
 simulate a successful email sending.</p>
 
-<p>However, you can override this for specific email addresses for testing<br />
-purposes. To do this, <a href="/manual/govuk-notify.html#receiving-emails-from-govuk-notify">you will need to be added as a team member to<br />
-the GOV.UK Email Integration or Staging service in Notify</a> and<br />
+<p>However, you can override this for specific email addresses for testing
+purposes. To do this, <a href="/manual/govuk-notify.html#receiving-emails-from-govuk-notify">you will need to be added as a team member to
+the GOV.UK Email Integration or Staging service in Notify</a> and
 make changes to <a href="https://github.com/alphagov/govuk-puppet">govuk-puppet</a>.</p>
 
 <ol>
   <li>Add your email address to the common.yml for <a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata/common.yaml#L442">hieradata</a> and <a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata_aws/common.yaml#L488">hieradata_aws</a> (these lists need to be kept in sync with the team members list in Notify)</li>
   <li>
-    <p>Add your email address to the override whitelist in the YAML file for the environment you're testing on. This is set as an<br />
-environment variable via hieradata under the key of<br />
+    <p>Add your email address to the override whitelist in the YAML file for the environment you're testing on. This is set as an
+environment variable via hieradata under the key of
 <code>govuk::apps::email_alert_api::email_address_override_whitelist</code>. It should look something like this:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code> govuk::apps::email_alert_api::email_address_override_whitelist:
@@ -168,8 +168,8 @@ environment variable via hieradata under the key of<br />
   <li>Create a branch with these changes and push them to GitHub. Deploy these changes by running <a href="https://ci.integration.publishing.service.gov.uk/job/integration-puppet-deploy/build?delay=0sec">integration-puppet-deploy</a>, providing your branch name instead of a release tag.</li>
 </ol>
 
-<p>Once these changes have been deployed and the environment variable<br />
-<code>EMAIL_ADDRESS_OVERRIDE_WHITELIST</code> is populated with your address you can test<br />
+<p>Once these changes have been deployed and the environment variable
+<code>EMAIL_ADDRESS_OVERRIDE_WHITELIST</code> is populated with your address you can test
 that you can receive emails by running the <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=support:deliver_to_test_email[name@example.com]">support:deliver_to_test_email[name@example.com]</a> <a href="https://github.com/alphagov/email-alert-api/blob/master/lib/tasks/support.rake#L142">rake task</a>.</p>
 
 <h2 id="testing-digest-emails">Testing digest emails</h2>

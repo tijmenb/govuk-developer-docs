@@ -305,16 +305,16 @@
 </ul>
 
 <ol>
-  <li>Run the rake task <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=data_migration:find_subscriber_list_by_title[country_name]">data_migration:find_subscriber_list_by_title[title]</a><br />
+  <li>Run the rake task <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=data_migration:find_subscriber_list_by_title[country_name]">data_migration:find_subscriber_list_by_title[title]</a>
   with the country name to see which subscription lists need to be updated</li>
-  <li>Run the rake task <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=data_migration:update_subscriber_list[country_slug,new_title,new_country_slug]">data_migration:update_subscriber_list[slug,new_title,new_slug]</a><br />
+  <li>Run the rake task <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=data_migration:update_subscriber_list[country_slug,new_title,new_country_slug]">data_migration:update_subscriber_list[slug,new_title,new_slug]</a>
   to update the subscription lists</li>
 </ol>
 
 <blockquote>
   <p><strong>Note</strong></p>
 
-  <p>You can test the emails are being sent out correctly in <code>integration</code> and <code>staging</code><br />
+  <p>You can test the emails are being sent out correctly in <code>integration</code> and <code>staging</code>
     by following <a href="https://docs.publishing.service.gov.uk/manual/receiving-emails-from-email-alert-api-in-integration-and-staging.html">Receive emails from Email Alert API in integration and staging</a></p>
 </blockquote>
 

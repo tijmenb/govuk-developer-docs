@@ -173,11 +173,11 @@
 <p>The cron job command does the following:</p>
 
 <ol>
-  <li>Runs the data sync job at low I/O priority:<br />
+  <li>Runs the data sync job at low I/O priority:
 <code>/usr/bin/ionice -c 2 -n 6</code>. This only really matters when running on a database server, as opposed to a <code>db_admin</code> bastion host, but the command is the same in both cases.</li>
-  <li>Prevents reboot by <code>unattended-upgrades</code> while the sync job is running:<br />
+  <li>Prevents reboot by <code>unattended-upgrades</code> while the sync job is running:
 <code>/usr/local/bin/with_reboot_lock</code></li>
-  <li>Runs the data sync job with the appropriate configuration file:<br />
+  <li>Runs the data sync job with the appropriate configuration file:
 <code>/usr/local/bin/govuk_env_sync.sh -f /etc/govuk_env_sync/pull_content_data_admin_production_daily.cfg</code></li>
 </ol>
 
@@ -192,8 +192,8 @@
 <blockquote>
   <p><strong>Note on AWS</strong></p>
 
-  <p>For databases migrated to AWS RDS, the env-sync-and-backup was replaced by the <a href="/manual/govuk-env-sync.html">govuk_env_sync</a>.<br />
-The env-sync-and-backup data synchronisation is still in use for synchronisation of non-migrated<br />
+  <p>For databases migrated to AWS RDS, the env-sync-and-backup was replaced by the <a href="/manual/govuk-env-sync.html">govuk_env_sync</a>.
+The env-sync-and-backup data synchronisation is still in use for synchronisation of non-migrated
 databases into the integration environment.</p>
 </blockquote>
 
@@ -204,10 +204,10 @@ databases into the integration environment.</p>
 <blockquote>
   <p><strong>WARNING</strong></p>
 
-  <p>The mysql backup will cause signon in staging to point to production until the<br />
-<code>Data Sync Complete</code> job runs and renames the hostnames copied from production<br />
-to back to their staging equivalents.  This means that any deploys to staging<br />
-that rely on GDS API Adapters are likely to fail due to authentication<br />
+  <p>The mysql backup will cause signon in staging to point to production until the
+<code>Data Sync Complete</code> job runs and renames the hostnames copied from production
+to back to their staging equivalents.  This means that any deploys to staging
+that rely on GDS API Adapters are likely to fail due to authentication
 failures, as well as Smokey tests that attempt to use Signon.</p>
 
   <p>Running the <a href="https://deploy.staging.publishing.service.gov.uk/job/Data_Sync_Complete/">data_sync_complete</a> job may fix this.</p>

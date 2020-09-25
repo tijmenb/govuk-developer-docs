@@ -159,17 +159,17 @@
 
 <p>Visit the <a href="https://data.gov.uk/data/contracts-finder-archive">contracts archive finder</a>.</p>
 
-<p>Credentials for the AWS account are in the <code>govuk-secrets</code> repository under<br />
+<p>Credentials for the AWS account are in the <code>govuk-secrets</code> repository under
 <code>2ndline/datagovuk/contracts-finder-archive-aws-console-pass</code>.</p>
 
-<p>Once logged in to the AWS console, you'll be able to list the EC2 instances and<br />
+<p>Once logged in to the AWS console, you'll be able to list the EC2 instances and
 find the IP of the contracts archive finder.</p>
 
-<p>If you need to <code>ssh</code> on to the machine, you can do so by grabbing the private<br />
-key from <code>govuk-secrets</code> under<br />
+<p>If you need to <code>ssh</code> on to the machine, you can do so by grabbing the private
+key from <code>govuk-secrets</code> under
 <code>2ndline/datagovuk/contracts-finder-archive-cert</code>.</p>
 
-<p>You will need to put the private key into a file and change the permissions so<br />
+<p>You will need to put the private key into a file and change the permissions so
 it is not publicly viewable before you can use it.</p>
 
 <p>You can do this as follows:</p>
@@ -178,18 +178,18 @@ it is not publicly viewable before you can use it.</p>
 <span class="nv">$ PASSWORD_STORE_DIR</span><span class="o">=</span>~/govuk/govuk-secrets/pass/2ndline pass datagovuk/contracts-finder-archive-cert <span class="o">&gt;</span> govuk-contracts-archive.pem
 <span class="nv">$ </span><span class="nb">chmod </span>400 govuk-contracts-archive.pem
 </code></pre></div>
-<p>You will then be able to <code>ssh</code> onto the machine in AWS by using the <code>.pem</code><br />
+<p>You will then be able to <code>ssh</code> onto the machine in AWS by using the <code>.pem</code>
 file:</p>
 
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>ssh <span class="nt">-i</span> <span class="s2">"govuk-contracts-archive.pem"</span> ubuntu@&lt;ip address&gt;
 </code></pre></div>
 <h2 id="snapshot">Snapshot</h2>
 
-<p>There is a point in time snapshot of the contracts archive finder, should you<br />
+<p>There is a point in time snapshot of the contracts archive finder, should you
 need to access older log files.</p>
 
-<p>This is setup on the same AWS account as an EC2 instance called<br />
-<code>2019-contracts-archive</code>. To access this machine, use the same certificate as<br />
+<p>This is setup on the same AWS account as an EC2 instance called
+<code>2019-contracts-archive</code>. To access this machine, use the same certificate as
 above and <code>ssh</code> in as follows:</p>
 
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>ssh <span class="nt">-i</span> <span class="s2">"govuk-contracts-archive.pem"</span> ubuntu@&lt;ip address&gt;
@@ -201,7 +201,7 @@ above and <code>ssh</code> in as follows:</p>
   <li>March 9 to March 19 2019 - available at <code>/var/log/nginx</code></li>
 </ul>
 
-<p>The machine was created from two snapshots that are sitting in the AWS account.<br />
+<p>The machine was created from two snapshots that are sitting in the AWS account.
 These have the following descriptions:</p>
 
 <ul>
@@ -211,37 +211,37 @@ These have the following descriptions:</p>
 
 <h2 id="on-datagovuk">On data.gov.uk</h2>
 
-<p>A database of the contracts archive is also accessible in a sqlite database on<br />
+<p>A database of the contracts archive is also accessible in a sqlite database on
 <a href="https://data.gov.uk/dataset/97c75a0c-dd9b-42f9-969c-5e667d8c80f1/contracts-finder-archive-2011-to-2015">data.gov.uk</a></p>
 
 <h2 id="takedown-requests">Takedown requests</h2>
 
-<p>To take down a contract, <a href="#contracts-archive-finder-application"><code>ssh</code></a> onto<br />
-the contracts archive machine and then move the relevant contract attachments<br />
+<p>To take down a contract, <a href="#contracts-archive-finder-application"><code>ssh</code></a> onto
+the contracts archive machine and then move the relevant contract attachments
 to the redacted folder.</p>
 
-<p>Contracts are located on the machine at<br />
-<code>~/src/contracts-archive/instance/documents</code>. Find the directory for the<br />
-contract you are trying to redact. It will be<br />
+<p>Contracts are located on the machine at
+<code>~/src/contracts-archive/instance/documents</code>. Find the directory for the
+contract you are trying to redact. It will be
 <code>~/src/contracts-archive/instance/documents/&lt;contract_id&gt;</code>.</p>
 
-<p>For example if the contract id is <code>12345</code> then you will find all the files<br />
+<p>For example if the contract id is <code>12345</code> then you will find all the files
 under the directory <code>~/src/contracts-archive/instance/documents/12345</code>.</p>
 
-<p>Create a new directory in <code>~/src/contracts-archive/instance/redacted</code>. Name the<br />
+<p>Create a new directory in <code>~/src/contracts-archive/instance/redacted</code>. Name the
 directory the same as the contract id.</p>
 
-<p>Move all the files from the <code>documents/&lt;contract_id&gt;</code> into the<br />
+<p>Move all the files from the <code>documents/&lt;contract_id&gt;</code> into the
 <code>redacted/&lt;contract_id&gt;</code> folder.</p>
 
-<p>Note that this method will remove the downloadable attachments, but leave the<br />
-contract page available to view on the website. This is fine. You can confirm<br />
-that you've redacted the documents by navigating to the contract in the<br />
-contracts archive finder application and clicking on the download links for<br />
-each attachment. It should return a 404 Not Found.  This may require adding a<br />
+<p>Note that this method will remove the downloadable attachments, but leave the
+contract page available to view on the website. This is fine. You can confirm
+that you've redacted the documents by navigating to the contract in the
+contracts archive finder application and clicking on the download links for
+each attachment. It should return a 404 Not Found.  This may require adding a
 cachebust string to the download URL.</p>
 
-<p>You should also remove it from Google cache (this will only work once we've<br />
+<p>You should also remove it from Google cache (this will only work once we've
 reinstated the using this page:</p>
 
 <p><a href="https://www.google.com/webmasters/tools/url-removal?hl=en&amp;siteUrl=https://data.gov.uk">https://www.google.com/webmasters/tools/url-removal?hl=en&amp;siteUrl=https://data.gov.uk</a></p>

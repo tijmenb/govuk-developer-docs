@@ -178,7 +178,7 @@
 
 <div class="highlight"><pre class="highlight shell"><code><span class="nb">sudo</span> <span class="nt">-iu</span> &lt;user&gt; /var/spool/duplicity/&lt;script&gt;
 </code></pre></div>
-<p>You can look for output of the backup jobs in the "machine email carrenza" google group. If the log contains the line<br />
+<p>You can look for output of the backup jobs in the "machine email carrenza" google group. If the log contains the line
 <code>Warning, found the following orphaned backup files</code> then try running the command</p>
 
 <div class="highlight"><pre class="highlight shell"><code><span class="nb">sudo</span> <span class="nt">-iugovuk-backup</span> duplicity cleanup &lt;destination&gt;  <span class="nt">--no-encryption</span> <span class="nt">--force</span>

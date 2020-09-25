@@ -161,11 +161,11 @@
       </a>
     </div>
 
-   <h1 id='header'>Unknown error with postgresql in mapit</h1><p>We have seen an error previously where postgresql services appear to have failed<br />
-on the mapit server, yet calling a restart command for the service does not<br />
+   <h1 id='header'>Unknown error with postgresql in mapit</h1><p>We have seen an error previously where postgresql services appear to have failed
+on the mapit server, yet calling a restart command for the service does not
 seem to fix the issue.</p>
 
-<p>This document is intended on pointing you in the right direction should this<br />
+<p>This document is intended on pointing you in the right direction should this
 occur again.</p>
 
 <h3 id="are-you-sure-postgresql-is-running">Are you sure postgresql is running?</h3>
@@ -186,19 +186,19 @@ occur again.</p>
 
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">sudo </span>govuk_puppet <span class="nt">--test</span>
 </code></pre></div>
-<p>Previously we have found that somehow, somewhen, postgresql was uninstalled (or<br />
-perhaps not correctly initialised) on the mapit box, preventing some tests<br />
-from completing (typically those relying on the database for items such as<br />
+<p>Previously we have found that somehow, somewhen, postgresql was uninstalled (or
+perhaps not correctly initialised) on the mapit box, preventing some tests
+from completing (typically those relying on the database for items such as
 postcodes) with no clear reason.</p>
 
-<p>If you ensure that you follow any extra steps as needed upon running the above<br />
-puppet command - such as installing dependencies manually to assist in govuk_puppet<br />
-installing the correct gems - you may find the errors will disappear upon a<br />
+<p>If you ensure that you follow any extra steps as needed upon running the above
+puppet command - such as installing dependencies manually to assist in govuk_puppet
+installing the correct gems - you may find the errors will disappear upon a
 subsequent run of the above command.</p>
 
 <h4 id="permissions">Permissions</h4>
 
-<p>You may find that there are permission errors on the <code>/var/run/postgresql/</code><br />
+<p>You may find that there are permission errors on the <code>/var/run/postgresql/</code>
 directory. You can solve this by calling</p>
 
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">sudo chown </span>postgres:postgres /var/run/postgresql/

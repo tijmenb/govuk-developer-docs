@@ -159,18 +159,18 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#infrastructure'>Infrastructure</a></p> <h1 id='header'>Upgrade Terraform</h1><p>Terraform should be regularly upgraded. New releases happen very often, with bug fixes and improvements.<br />
+  <p><a href='/manual.html#infrastructure'>Infrastructure</a></p> <h1 id='header'>Upgrade Terraform</h1><p>Terraform should be regularly upgraded. New releases happen very often, with bug fixes and improvements.
 Also, being too far behind the latest versions can make future upgrades and support for new provider services much harder to perform.</p>
 
-<p>In our platform we need to update the version of Terraform and AWS provider enforced in the <a href="https://github.com/alphagov/govuk-aws">govuk-aws</a> code repo,<br />
-and update the Terraform package that runs the <a href="https://deploy.integration.publishing.service.gov.uk/job/Deploy_Terraform_GOVUK_AWS">Deploy_Terraform_GOVUK_AWS</a><br />
+<p>In our platform we need to update the version of Terraform and AWS provider enforced in the <a href="https://github.com/alphagov/govuk-aws">govuk-aws</a> code repo,
+and update the Terraform package that runs the <a href="https://deploy.integration.publishing.service.gov.uk/job/Deploy_Terraform_GOVUK_AWS">Deploy_Terraform_GOVUK_AWS</a>
 Jenkins job in the CI machines.</p>
 
-<p>The Terraform version of a client that updated a state file is represented in the state. Once a client with a new<br />
-version of Terraform updates a remote state file, the rest of clients will be forced to use that same version of Terraform. It is<br />
+<p>The Terraform version of a client that updated a state file is represented in the state. Once a client with a new
+version of Terraform updates a remote state file, the rest of clients will be forced to use that same version of Terraform. It is
 important to update both the package in CI and the version required in the code more or less at the same time to avoid errors in the clients/jobs.</p>
 
-<p>Currently we are also enforcing the version of the <a href="https://github.com/terraform-providers/terraform-provider-aws">Terraform AWS provider</a> in our code.<br />
+<p>Currently we are also enforcing the version of the <a href="https://github.com/terraform-providers/terraform-provider-aws">Terraform AWS provider</a> in our code.
 We should also keep an eye on new versions and update regularly in a similar way.</p>
 
 <p>Before/during the upgrade:</p>
@@ -185,13 +185,13 @@ We should also keep an eye on new versions and update regularly in a similar way
 
 <h3 id="build-a-new-terraform-package">Build a new Terraform package</h3>
 
-<p>The Terraform package is built with a recipe in the <a href="https://github.com/alphagov/packager">packager</a> repository.<br />
-Follow the general instructions in <a href="https://docs.publishing.service.gov.uk/manual/debian-packaging.html">Debian packaging</a><br />
+<p>The Terraform package is built with a recipe in the <a href="https://github.com/alphagov/packager">packager</a> repository.
+Follow the general instructions in <a href="https://docs.publishing.service.gov.uk/manual/debian-packaging.html">Debian packaging</a>
 to create a new package and upload it to our Apt repository.</p>
 
-<p>For instance, this pull request creates a recipe for <a href="https://github.com/alphagov/packager/pull/172">Terraform 0.11.14</a><br />
-After merging to master, execute the <a href="https://ci.integration.publishing.service.gov.uk/job/build_fpm_package/">build_fpm_package</a><br />
-job to build a new Terraform package. The new package will appear in the job artefacts section. Download it to your machine<br />
+<p>For instance, this pull request creates a recipe for <a href="https://github.com/alphagov/packager/pull/172">Terraform 0.11.14</a>
+After merging to master, execute the <a href="https://ci.integration.publishing.service.gov.uk/job/build_fpm_package/">build_fpm_package</a>
+job to build a new Terraform package. The new package will appear in the job artefacts section. Download it to your machine
 and upload it to <code>apt-1.management</code> in Production.</p>
 
 <p>Run the following commands to add it to the Terraform repo:</p>
@@ -238,7 +238,7 @@ sudo -i aptly publish switch trusty terraform terraform-$(date +%Y%m%d)
 }
 
 </code></pre></div>
-<p>Upgrading the provider only requires a change of this version parameter in the <code>.tf</code> files. This version is downloaded to the client<br />
+<p>Upgrading the provider only requires a change of this version parameter in the <code>.tf</code> files. This version is downloaded to the client
 when the <code>terraform init</code> command runs, which happens automatically when we deploy Terraform with the Jenkins job or the <code>tools/build-terraform-project.sh</code> script.</p>
 
 

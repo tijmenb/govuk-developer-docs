@@ -158,17 +158,17 @@
       </a>
     </div>
 
-   <h1 id='header'>Email Alert API: Unprocessed messages</h1><p>This alert indicates that Email Alert API has <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/process_message_worker.rb">messages that were not<br />
-processed</a> within 2 hours. Processing a<br />
-<a href="https://github.com/alphagov/email-alert-api/blob/master/docs/arch/adr-004-message-concept.md">message</a> is the means to establish which subscriber lists should<br />
-be notified when an ad hoc message is received and the process to generate<br />
+   <h1 id='header'>Email Alert API: Unprocessed messages</h1><p>This alert indicates that Email Alert API has <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/process_message_worker.rb">messages that were not
+processed</a> within 2 hours. Processing a
+<a href="https://github.com/alphagov/email-alert-api/blob/master/docs/arch/adr-004-message-concept.md">message</a> is the means to establish which subscriber lists should
+be notified when an ad hoc message is received and the process to generate
 individual emails for this.</p>
 
-<p>We generally expect a message to be have processed within 30 minutes of<br />
-it's creation. At 30 minute intervals a job, <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/recover_lost_jobs_worker.rb">RecoverLostJobsWorker</a>, will try<br />
+<p>We generally expect a message to be have processed within 30 minutes of
+it's creation. At 30 minute intervals a job, <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/recover_lost_jobs_worker.rb">RecoverLostJobsWorker</a>, will try
 to requeue any messages that have not been processed within an hour.</p>
 
-<p>Thus, seeing this alert indicates that we likely have a problem that needs<br />
+<p>Thus, seeing this alert indicates that we likely have a problem that needs
 manual intervention. Potential causes would be:</p>
 
 <ul>
@@ -179,18 +179,18 @@ manual intervention. Potential causes would be:</p>
     <p>Sidekiq not running or not operating correctly</p>
   </li>
   <li>
-    <p>Messages taking an abormally long time to process, which may<br />
-indicate degraded system performance or an unexpectedly large task as part of<br />
+    <p>Messages taking an abormally long time to process, which may
+indicate degraded system performance or an unexpectedly large task as part of
 processing. This scenario may resolve automatically.</p>
   </li>
 </ul>
 
 <p>To diagnose this problem, consult <a href="https://sentry.io/organizations/govuk/issues/?project=202220&amp;statsPeriod=6h">Sentry</a> to see if there are errors reported.</p>
 
-<p>If you find nothing conclusive in Sentry, go to the <a href="https://kibana.logit.io/s/2dd89c13-a0ed-4743-9440-825e2e52329e/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-4h,mode:quick,to:now))&amp;_a=(columns:!('@message',host),index:'*-*',interval:auto,query:(query_string:(analyze_wildcard:!t,query:'@type:%20sidekiq%20AND%20application:%20email-alert-api%20AND%20@fields.worker:%20ProcessMessageWorker')),sort:!('@timestamp',desc))">ProcessMessageWorker<br />
+<p>If you find nothing conclusive in Sentry, go to the <a href="https://kibana.logit.io/s/2dd89c13-a0ed-4743-9440-825e2e52329e/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-4h,mode:quick,to:now))&amp;_a=(columns:!('@message',host),index:'*-*',interval:auto,query:(query_string:(analyze_wildcard:!t,query:'@type:%20sidekiq%20AND%20application:%20email-alert-api%20AND%20@fields.worker:%20ProcessMessageWorker')),sort:!('@timestamp',desc))">ProcessMessageWorker
 sidekiq logs</a> and check the jobs are running correctly.</p>
 
-<p>If the problem persists, run the <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/recover_lost_jobs_worker.rb">RecoverLostJobsWorker</a> and/or<br />
+<p>If the problem persists, run the <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/recover_lost_jobs_worker.rb">RecoverLostJobsWorker</a> and/or
 <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/process_message_worker.rb">ProcessMessageWorker</a> directly to see if any problems occur in real-time.</p>
 
 <h3 id="still-stuck">Still stuck?</h3>

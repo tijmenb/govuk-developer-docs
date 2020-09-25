@@ -141,9 +141,9 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#backups'>Backups</a></p> <h1 id='header'>Backup and restore Elasticsearch indices</h1><p>GOV.UK uses AWS Managed Elasticsearch which takes daily snapshots of<br />
-the cluster as part of the managed service.  These are stored in a S3<br />
-bucket that is not made available to us.  Restoration is done by<br />
+  <p><a href='/manual.html#backups'>Backups</a></p> <h1 id='header'>Backup and restore Elasticsearch indices</h1><p>GOV.UK uses AWS Managed Elasticsearch which takes daily snapshots of
+the cluster as part of the managed service.  These are stored in a S3
+bucket that is not made available to us.  Restoration is done by
 making HTTP requests to the <code>_snapshot</code> endpoint.</p>
 
 <p>To restore a snapshot, follow these steps:</p>
@@ -155,21 +155,21 @@ making HTTP requests to the <code>_snapshot</code> endpoint.</p>
 <div class="highlight"><pre class="highlight plaintext"><code> gds govuk connect ssh -e integration search
 </code></pre></div>  </li>
   <li>
-    <p>Query the <code>_snapshot</code> endpoint of Elasticsearch to get the snapshot<br />
+    <p>Query the <code>_snapshot</code> endpoint of Elasticsearch to get the snapshot
 repository name:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code> govuk_setenv search-api \
  bash -c 'curl "$ELASTICSEARCH_URI/_snapshot?pretty"'
 </code></pre></div>  </li>
   <li>
-    <p>Query the <code>_all</code> endpoint to identify the available snapshots in<br />
+    <p>Query the <code>_all</code> endpoint to identify the available snapshots in
 the named repository:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code> govuk_setenv search-api \
  bash -c 'curl "$ELASTICSEARCH_URI/_snapshot/&lt;repository-name&gt;/_all?pretty"'
 </code></pre></div>  </li>
   <li>
-    <p>If an index already exists with the same name as the one being<br />
+    <p>If an index already exists with the same name as the one being
 restored, delete the existing index:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code> govuk_setenv search-api \
@@ -187,7 +187,7 @@ restored, delete the existing index:</p>
   <p>Further information about Elasticsearch snapshots can be found in the <a href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-managedomains-snapshots.html">AWS documentation</a></p>
 </blockquote>
 
-<p>After a restore has taken place, you will need to <a href="/manual/fix-out-of-date-search-indices.html">fix the out-of-date search indices</a><br />
+<p>After a restore has taken place, you will need to <a href="/manual/fix-out-of-date-search-indices.html">fix the out-of-date search indices</a>
 following the restore, since any changes made in publishing apps since the backup was taken will be missing.</p>
 
 

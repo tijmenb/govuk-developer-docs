@@ -149,13 +149,13 @@
       </a>
     </div>
 
-   <h1 id='header'>ntp drift too high</h1><p>The <a href="http://doc.ntp.org/4.1.0/ntpd.htm">Network Time Protocol (NTP) daemon</a> (<code>ntpd</code>) is responsible for keeping system<br />
+   <h1 id='header'>ntp drift too high</h1><p>The <a href="http://doc.ntp.org/4.1.0/ntpd.htm">Network Time Protocol (NTP) daemon</a> (<code>ntpd</code>) is responsible for keeping system
 time synchronised with standard time servers on the Internet.</p>
 
-<p>The <code>ntpd.drift</code> file records the latest estimate of clock frequency error. If this value gets too high, this can be<br />
+<p>The <code>ntpd.drift</code> file records the latest estimate of clock frequency error. If this value gets too high, this can be
 an indicator of large error between the system clock and the real time.</p>
 
-<p>If the system clock is out of sync on a Vmware host, first make sure the synchronisation between guest and host has been<br />
+<p>If the system clock is out of sync on a Vmware host, first make sure the synchronisation between guest and host has been
 disabled. This is enabled by default in the image configuration and could cause issues when ntpd is running on the same box.</p>
 
 <p>To check the status, enable or disable Vmware periodic time synchronization, we can use the <code>vmware-toolbox-cmd</code> program:</p>
@@ -175,14 +175,14 @@ fab $environment -H jumpbox-1.management ntp.resync
 <blockquote>
   <p><strong>Note</strong></p>
 
-  <p>The fab script will try to slew the time offset, which means continually adding/subtracting little bits of time until<br />
-the clock is in sync. This is in contrast to a step change, where the clock's time is just changed. Step changes<br />
+  <p>The fab script will try to slew the time offset, which means continually adding/subtracting little bits of time until
+the clock is in sync. This is in contrast to a step change, where the clock's time is just changed. Step changes
 can cause - for example - log timestamp inconsistencies.</p>
 
-  <p>According to the <a href="https://www.freebsd.org/cgi/man.cgi?query=ntpdate&amp;sektion=8"><code>ntpdate</code> man page</a>, the slew forced<br />
+  <p>According to the <a href="https://www.freebsd.org/cgi/man.cgi?query=ntpdate&amp;sektion=8"><code>ntpdate</code> man page</a>, the slew forced
 by the <code>-B</code> flag can take <strong>hours</strong> to gradually take effect.</p>
 
-  <p>Additionally, the <code>ntpdate</code> functionality has been made available in the <code>ntpd</code> program. To resync an offset bigger than<br />
+  <p>Additionally, the <code>ntpdate</code> functionality has been made available in the <code>ntpd</code> program. To resync an offset bigger than
 1000, you can run <code>sudo service ntp stop; sudo ntpd -gq; sudo service ntp start</code>.</p>
 </blockquote>
 

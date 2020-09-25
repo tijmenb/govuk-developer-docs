@@ -141,9 +141,9 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#monitoring'>Monitoring</a></p> <h1 id='header'>Debug underperforming search</h1><p>Search is one of the more load-sensitive parts of GOV.UK, as it can't<br />
-be cached as effectively as more static pages.  There are two<br />
-significant components involved in search: the search-api application,<br />
+  <p><a href='/manual.html#monitoring'>Monitoring</a></p> <h1 id='header'>Debug underperforming search</h1><p>Search is one of the more load-sensitive parts of GOV.UK, as it can't
+be cached as effectively as more static pages.  There are two
+significant components involved in search: the search-api application,
 and the AWS-managed Elasticsearch cluster powering it.</p>
 
 <p>Useful metrics to look at are:</p>
@@ -152,7 +152,7 @@ and the AWS-managed Elasticsearch cluster powering it.</p>
   <li>
     <p>Request duration from finder-frontend to search-api, on the <a href="https://grafana.blue.production.govuk.digital/dashboard/file/finder-frontend.json?refresh=5s&amp;orgId=1">finder-frontend app dashboard</a></p>
 
-    <p>If this has increased then there may be a capacity issue with<br />
+    <p>If this has increased then there may be a capacity issue with
   search-api.</p>
   </li>
   <li>
@@ -162,18 +162,18 @@ and the AWS-managed Elasticsearch cluster powering it.</p>
 
     <ul>
       <li>
-        <p><strong>Reranker:</strong> if this has increased, queries sorted by relevance<br />
-(keyword searches) will be slower.  This could indicate a<br />
+        <p><strong>Reranker:</strong> if this has increased, queries sorted by relevance
+(keyword searches) will be slower.  This could indicate a
 performance issue with SageMaker.</p>
       </li>
       <li>
-        <p><strong>Search:</strong> if this has increased, all queries will be slower.<br />
+        <p><strong>Search:</strong> if this has increased, all queries will be slower.
 This could indicate a performance issue with Elasticsearch.</p>
       </li>
       <li>
-        <p><strong>Spelling suggestion:</strong> if this has increased, finder-frontend<br />
-pages will be slower.  Other search-powered pages, like taxon<br />
-pages, would not be affected.  This could indicate a performance<br />
+        <p><strong>Spelling suggestion:</strong> if this has increased, finder-frontend
+pages will be slower.  Other search-powered pages, like taxon
+pages, would not be affected.  This could indicate a performance
 issue with Elasticsearch.</p>
       </li>
     </ul>
@@ -184,15 +184,15 @@ issue with Elasticsearch.</p>
   <li>
     <p>The <a href="https://eu-west-1.console.aws.amazon.com/es/home?region=eu-west-1#domain:resource=blue-elasticsearch6-domain;action=dashboard">AWS dashboard for Elasticsearch</a> in the AWS console.</p>
 
-    <p>There are a lot of metrics here.  A capacity issue could be<br />
-  suggested by the "Index thread pool" or "Search thread pool"<br />
-  graphs being consistently above the red dashed line, which means<br />
+    <p>There are a lot of metrics here.  A capacity issue could be
+  suggested by the "Index thread pool" or "Search thread pool"
+  graphs being consistently above the red dashed line, which means
   that requests are queueing.  Talk to RE in that case.</p>
   </li>
   <li>
     <p>The <a href="https://eu-west-1.console.aws.amazon.com/sagemaker/home?region=eu-west-1#/endpoints/govuk-production-search-ltr-endpoint">AWS dashboard for SageMaker</a> in the AWS console.</p>
 
-    <p>A capacity issue could be suggested by the CPU utilisation graph<br />
+    <p>A capacity issue could be suggested by the CPU utilisation graph
   being constantly close to 100%.</p>
   </li>
 </ul>

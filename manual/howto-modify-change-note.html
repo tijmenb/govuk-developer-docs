@@ -141,14 +141,14 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#publishing'>Publishing</a></p> <h1 id='header'>Modify a change note in Publishing API</h1><p>Spelling mistakes can creep into change notes, and we are often asked<br />
+  <p><a href='/manual.html#publishing'>Publishing</a></p> <h1 id='header'>Modify a change note in Publishing API</h1><p>Spelling mistakes can creep into change notes, and we are often asked
 to correct them.</p>
 
 <p>Connect to the Publishing API console:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>govuk-connect app-console -e production publishing_api/publishing-api
 </code></pre></div>
-<p>Then find your document and update its content. You should see the<br />
+<p>Then find your document and update its content. You should see the
 <code>note</code> and <code>updated_at</code> values change.</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>$ d = Document.find_by_content_id("4dc38774-e687-4bff-aa68-6e08c66e98f9")

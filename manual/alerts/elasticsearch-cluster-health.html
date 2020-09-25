@@ -161,29 +161,29 @@
       </a>
     </div>
 
-   <h1 id='header'>Elasticsearch cluster health</h1><p>Elasticsearch reports cluster health as one of three possible states, based on<br />
+   <h1 id='header'>Elasticsearch cluster health</h1><p>Elasticsearch reports cluster health as one of three possible states, based on
 the state of its <a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/_basic_concepts.html#_shards_amp_replicas">primary and replica shards</a>.</p>
 
 <ul>
-  <li><code>green</code> - all primary and secondary (replica) shards are allocated. There are<br />
+  <li><code>green</code> - all primary and secondary (replica) shards are allocated. There are
 two (or more) copies of all shards across the nodes on the cluster.</li>
-  <li><code>yellow</code> - all primary shards are allocated, but at least one replica shard<br />
-is not allocated. Any shards that only exist as a primary are at risk of data<br />
+  <li><code>yellow</code> - all primary shards are allocated, but at least one replica shard
+is not allocated. Any shards that only exist as a primary are at risk of data
 loss <em>should another node in the cluster fail</em>.</li>
-  <li><code>red</code> - at least one primary shard is not allocated. This can happen when an<br />
-entire cluster is cold started, before it's initially allocated the primary<br />
+  <li><code>red</code> - at least one primary shard is not allocated. This can happen when an
+entire cluster is cold started, before it's initially allocated the primary
 shards. If it happens at other times this may be a sign of data loss.</li>
 </ul>
 
-<p>More <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/cluster-health.html">comprehensive documentation on cluster health</a><br />
+<p>More <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/cluster-health.html">comprehensive documentation on cluster health</a>
 can be found in the Elasticsearch documentation.</p>
 
-<p>Make sure you understand the consequences of the problem before jumping to a<br />
+<p>Make sure you understand the consequences of the problem before jumping to a
 solution.</p>
 
-<p>Icinga uses the <code>check_elasticsearch_aws</code> check from <a href="https://github.com/alphagov/nagios-plugins/">nagios-plugins</a> to<br />
-monitor the health of the AWS managed Elasticsearch cluster. This plugin uses<br />
-various endpoints of the Elasticsearch API, but also extrapolates additional<br />
+<p>Icinga uses the <code>check_elasticsearch_aws</code> check from <a href="https://github.com/alphagov/nagios-plugins/">nagios-plugins</a> to
+monitor the health of the AWS managed Elasticsearch cluster. This plugin uses
+various endpoints of the Elasticsearch API, but also extrapolates additional
 information to help you diagnose any problems.</p>
 
 <h3 id="investigating-problems">Investigating problems</h3>
@@ -192,14 +192,14 @@ information to help you diagnose any problems.</p>
 
 <p>Follow the <a href="/manual/access-aws-console.html">instructions to login to the AWS Console UI</a>.</p>
 
-<p>There are tabs for 'Cluster health' and 'Instance health'.  The graphs in the<br />
-console link to AWS Cloudwatch, where historic metrics can be viewed over custom<br />
+<p>There are tabs for 'Cluster health' and 'Instance health'.  The graphs in the
+console link to AWS Cloudwatch, where historic metrics can be viewed over custom
 time periods.</p>
 
 <h4 id="use-the-elasticsearch-api">Use the Elasticsearch API</h4>
 
-<p>An alternative to using the dashboard is accessing the Elasticsearch health API<br />
-yourself. Start with the <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/cluster-health.html"><code>/_cluster/health</code> endpoint</a><br />
+<p>An alternative to using the dashboard is accessing the Elasticsearch health API
+yourself. Start with the <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/cluster-health.html"><code>/_cluster/health</code> endpoint</a>
 and go from there.</p>
 
 <p>Response JSON from the <code>/_cluster/health</code> endpoint looks like:</p>
@@ -217,7 +217,7 @@ and go from there.</p>
   </span><span class="nl">"unassigned_shards"</span><span class="p">:</span><span class="mi">0</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>A tunnel to Elasticsearch in a specific environment (e.g staging) can be created<br />
+<p>A tunnel to Elasticsearch in a specific environment (e.g staging) can be created
 using the following:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>ssh -At jumpbox.staging.govuk.digital -L 9200:localhost:9200 "ssh -q \`govuk_node_list --single-node -c search\` -L 9200:elasticsearch6.blue.staging.govuk-internal.digital:80"
@@ -230,9 +230,9 @@ using the following:</p>
 
 <h3 id="fixing-issues-with-the-cluster">Fixing issues with the cluster</h3>
 
-<p>GOV.UK have a Enterprise level support plan with AWS for staging and<br />
-production. Since we are using a managed service, AWS should be the first point<br />
-of contact for fixing issues with the Elasticsearch cluster.  They can be<br />
+<p>GOV.UK have a Enterprise level support plan with AWS for staging and
+production. Since we are using a managed service, AWS should be the first point
+of contact for fixing issues with the Elasticsearch cluster.  They can be
 contacted by telephone, live chat or support request.</p>
 
 <p>Response times are:</p>
@@ -245,7 +245,7 @@ contacted by telephone, live chat or support request.</p>
   <li>Business-critical system down: 15 minutes</li>
 </ul>
 
-<p>All requests are created through the <a href="https://console.aws.amazon.com/support/home">AWS Console</a>.<br />
+<p>All requests are created through the <a href="https://console.aws.amazon.com/support/home">AWS Console</a>.
 Be sure to assume the correct role first, for the environment in question.</p>
 
 

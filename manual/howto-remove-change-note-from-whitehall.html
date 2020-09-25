@@ -150,10 +150,10 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#publishing'>Publishing</a></p> <h1 id='header'>Remove a change note in Whitehall</h1><p>Change notes are called editorial remarks in Whitehall. An Edition can<br />
-have multiple editorial remarks and they are visible only in Whitehall<br />
-Admin. However, an Edition in the Publishing API can only have one <code>change_note</code>, which is public-facing. The Publishing API creates a list of all the change notes<br />
-from all versions of the edition and presents them to the Content Store.<br />
+  <p><a href='/manual.html#publishing'>Publishing</a></p> <h1 id='header'>Remove a change note in Whitehall</h1><p>Change notes are called editorial remarks in Whitehall. An Edition can
+have multiple editorial remarks and they are visible only in Whitehall
+Admin. However, an Edition in the Publishing API can only have one <code>change_note</code>, which is public-facing. The Publishing API creates a list of all the change notes
+from all versions of the edition and presents them to the Content Store.
 You can read more about this in the Publishing API <a href="https://docs.publishing.service.gov.uk/apis/publishing-api/model.html#changenote">docs</a>.</p>
 
 <h3 id="remove-a-change-note">Remove a change note</h3>
@@ -163,25 +163,25 @@ You can read more about this in the Publishing API <a href="https://docs.publish
 <h4 id="editorial-remark">Editorial Remark</h4>
 
 <ol>
-  <li>Obtain the content ID of the document on which the change note was created.<br />
-This document will contain multiple editions. You need to extract the<br />
+  <li>Obtain the content ID of the document on which the change note was created.
+This document will contain multiple editions. You need to extract the
 <code>editorial_remark</code> from these editions.</li>
   <li>Create a data migration in Whitehall <a href="https://github.com/alphagov/whitehall/blob/19cd7d72de32454d532c195f35b027fa1b3ba6ac/db/data_migration/README.md">docs here</a></li>
-  <li>In the data migration, search for the document by the content ID and<br />
+  <li>In the data migration, search for the document by the content ID and
 extract the <code>editorial_remark</code> that contains the text you are looking to delete.</li>
-  <li>If such an editorial remark is present, then destroy the <code>editorial_remark</code><br />
+  <li>If such an editorial remark is present, then destroy the <code>editorial_remark</code>
 and check that it is no longer displayed.</li>
 </ol>
 
 <h4 id="change-note">Change Note</h4>
 
-<p>Rake Tasks exist in both Publishing API and Whitehall to quickly remove change notes for a document. The tasks take a content id, content locale and the text of the change note.<br />
+<p>Rake Tasks exist in both Publishing API and Whitehall to quickly remove change notes for a document. The tasks take a content id, content locale and the text of the change note.
 There are two interfaces for dry and real runs, to ensure the correct change note is being targetted before removing it.</p>
 
 <p><strong>Note</strong></p>
 <blockquote>
-  <p>It performs a fuzzy-search of the change note text, and will return the first best match. So searching for<br />
-generic words such as "Update" may not return the exact ChangeNote you desire. It is advised to use the<br />
+  <p>It performs a fuzzy-search of the change note text, and will return the first best match. So searching for
+generic words such as "Update" may not return the exact ChangeNote you desire. It is advised to use the
 dry run first to ensure the correct ChangeNote will be deleted.</p>
 </blockquote>
 
@@ -189,7 +189,7 @@ dry run first to ensure the correct ChangeNote will be deleted.</p>
 
 <p><strong>Note</strong></p>
 <blockquote>
-  <p>Individual publishing apps may have their own equivalent of this task. If possible, remove change notes in the<br />
+  <p>Individual publishing apps may have their own equivalent of this task. If possible, remove change notes in the
 specific publishing application: use this Publishing API task as a last resort!</p>
 </blockquote>
 

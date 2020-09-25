@@ -256,7 +256,7 @@ keys *
 <p>This means that <a href="/manual/sidekiq.html">Sidekiq</a> jobs are failing.</p>
 
 <ul>
-  <li>Check the Sidekiq <a href="https://grafana.blue.production.govuk.digital/dashboard/file/sidekiq.json">'Retry set size'</a> graph to see if we have a<br />
+  <li>Check the Sidekiq <a href="https://grafana.blue.production.govuk.digital/dashboard/file/sidekiq.json">'Retry set size'</a> graph to see if we have a
 high number of failed jobs.</li>
   <li>Are the workers reporting any problems or any issues being raised in <a href="https://sentry.io/organizations/govuk">Sentry</a>?</li>
   <li>Check <a href="https://kibana.logit.io/s/2dd89c13-a0ed-4743-9440-825e2e52329e/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-1h,mode:quick,to:now))&amp;_a=(columns:!('@message',host),index:'*-*',interval:auto,query:(query_string:(query:'@type:%20sidekiq%20AND%20application:%20email-alert-api')),sort:!('@timestamp',desc))">Kibana</a> for Sidekiq error logs (<code>application: &lt;app&gt; AND @type: sidekiq</code>).</li>
@@ -267,7 +267,7 @@ high number of failed jobs.</li>
 <p>This means the time it takes for a <a href="/manual/sidekiq.html">Sidekiq</a> job to be processed is unusually high.</p>
 
 <ul>
-  <li>Check the Sidekiq <a href="https://grafana.blue.production.govuk.digital/dashboard/file/sidekiq.json">'Queue Length'</a> graph to see if we have a<br />
+  <li>Check the Sidekiq <a href="https://grafana.blue.production.govuk.digital/dashboard/file/sidekiq.json">'Queue Length'</a> graph to see if we have a
 high number of jobs queued up.</li>
   <li>Check the <a href="https://grafana.blue.production.govuk.digital/dashboard/file/machine.json">Machine dashboard</a> or the <a href="https://grafana.production.govuk.digital/dashboard/file/aws-rds.json?orgId=1&amp;var-region=eu-west-1&amp;var-dbinstanceidentifier=blue-postgresql-primary&amp;from=now-3h&amp;to=now">AWS RDS postgres dashboard</a> to see if we're experiencing resourcing issues.</li>
   <li>Are the workers reporting any problems or any issues being raised in <a href="https://sentry.io/organizations/govuk">Sentry</a>?</li>

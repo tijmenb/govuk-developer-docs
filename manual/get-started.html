@@ -344,7 +344,7 @@ git clone git@github.com:alphagov/govuk-puppet.git
 </code></pre></div>
 <h2 id="7-get-aws-access">7. Get AWS access</h2>
 
-<p>To work with <a href="https://github.com/alphagov/govuk-aws">govuk-aws</a> and <a href="https://github.com/alphagov/govuk-aws-data">govuk-aws-data</a>,<br />
+<p>To work with <a href="https://github.com/alphagov/govuk-aws">govuk-aws</a> and <a href="https://github.com/alphagov/govuk-aws-data">govuk-aws-data</a>,
 you will require an account in AWS.</p>
 
 <h3 id="request-a-gds-aws-account">Request a GDS AWS account</h3>
@@ -386,7 +386,7 @@ you will require an account in AWS.</p>
 
 <h3 id="generate-a-pair-of-access-keys">Generate a pair of access keys</h3>
 
-<p>You have to generate an AWS Access Key and Secret Key to be able to<br />
+<p>You have to generate an AWS Access Key and Secret Key to be able to
 perform operations with AWS on the command-line.</p>
 
 <ol>
@@ -394,7 +394,7 @@ perform operations with AWS on the command-line.</p>
   <li>Click on your email address in the top right.</li>
   <li>Click 'My Security Credentials'.</li>
   <li>Click 'Create access key'.</li>
-  <li>Copy/paste them into the inputs that the gds-cli provides for you,<br />
+  <li>Copy/paste them into the inputs that the gds-cli provides for you,
 if you're following <a href="#first-run">the setup instructions</a>.</li>
 </ol>
 
@@ -423,13 +423,13 @@ if you're following <a href="#first-run">the setup instructions</a>.</li>
   <p>Note: There is a limit on the number of people that can be in each group. If you find that the limit has been hit, try and identify any users who no longer need access and can be removed. Otherwise, a new group will need to be created.</p>
 </blockquote>
 
-<p>The identifier you need to add is called the "User ARN". You can find this by going<br />
+<p>The identifier you need to add is called the "User ARN". You can find this by going
 to the <a href="https://console.aws.amazon.com/iam/home?region=eu-west-1#/users">users page in AWS IAM</a> and selecting your profile.</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>arn:aws:iam::&lt;account-id&gt;:user/&lt;firstname.lastname&gt;@digital.cabinet-office.gov.uk
 </code></pre></div>
-<p>After your PR has been merged, someone from the <code>govuk-administrators</code><br />
-or <code>govuk-internal-administrators</code> group needs to deploy the<br />
+<p>After your PR has been merged, someone from the <code>govuk-administrators</code>
+or <code>govuk-internal-administrators</code> group needs to deploy the
 <code>infra-security</code> project.</p>
 
 <h2 id="8-use-your-aws-access">8. Use your AWS access</h2>
@@ -464,7 +464,7 @@ Enter token <span class="k">for </span>arn:aws:iam::123456789012:mfa/firstname.l
 
 <h3 id="get-your-role">Get Your Role</h3>
 
-<p>Work out which <a href="/manual/set-up-aws-account.html#4-get-the-appropriate-access">list of users you're part of in govuk-aws-data</a>.<br />
+<p>Work out which <a href="/manual/set-up-aws-account.html#4-get-the-appropriate-access">list of users you're part of in govuk-aws-data</a>.
 You're about to use it in the 'Web Console' section below.</p>
 
 <h3 id="usage">Usage</h3>
@@ -475,11 +475,11 @@ You're about to use it in the 'Web Console' section below.</p>
 
 <div class="highlight"><pre class="highlight shell"><code>gds aws govuk-integration-readonly <span class="nt">-l</span>
 </code></pre></div>
-<p>Replace <code>readonly</code> with the non-pluralised version of your role name. For example,<br />
-if you want to assume the <code>govuk-powerusers</code> role on Staging, you would run<br />
+<p>Replace <code>readonly</code> with the non-pluralised version of your role name. For example,
+if you want to assume the <code>govuk-powerusers</code> role on Staging, you would run
 <code>gds aws govuk-staging-poweruser -l</code>.</p>
 
-<p><code>-l</code> opens the web browser and logs you in. For a full list of CLI parameters,<br />
+<p><code>-l</code> opens the web browser and logs you in. For a full list of CLI parameters,
 consult the <a href="https://github.com/alphagov/gds-cli">gds-cli README</a>.</p>
 
 <h4 id="terraform">Terraform</h4>
@@ -494,8 +494,8 @@ consult the <a href="https://github.com/alphagov/gds-cli">gds-cli README</a>.</p
 </code></pre></div>
 <h2 id="youre-all-done">You're all done!</h2>
 
-<p>You're set up and ready to go. It might be worth reading and bookmarking<br />
-the <a href="/manual/architecture-deep-dive.html">architectural deep-dive of GOV.UK</a> to<br />
+<p>You're set up and ready to go. It might be worth reading and bookmarking
+the <a href="/manual/architecture-deep-dive.html">architectural deep-dive of GOV.UK</a> to
 familiarise yourself with how things fit together.</p>
 
 

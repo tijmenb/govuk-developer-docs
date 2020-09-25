@@ -163,7 +163,7 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#aws'>AWS</a></p> <h1 id='header'>Migration to AWS</h1><p>To bring the GOV.UK platform in line with the <a href="https://www.gov.uk/service-manual/technology/deciding-how-to-host-your-service">guidance detailed in the Service Manual</a>,<br />
+  <p><a href='/manual.html#aws'>AWS</a></p> <h1 id='header'>Migration to AWS</h1><p>To bring the GOV.UK platform in line with the <a href="https://www.gov.uk/service-manual/technology/deciding-how-to-host-your-service">guidance detailed in the Service Manual</a>,
 it is being migrated to <a href="https://aws.amazon.com/">Amazon Web Services</a>.</p>
 
 <p>At the moment, all GOV.UK applications are running in AWS except for Signon and most of the publisher apps.</p>
@@ -195,8 +195,8 @@ puppetmaster-1.management
 <h4 id="service-resolution">Service resolution</h4>
 
 <blockquote>
-  <p>Please note<br />
-During the migration to AWS, the presence and value of the app_domain, app_domain_internal and Plek service environment variables are dependent on the migration state of an application as well as its dependencies and can be non-intuitive.<br />
+  <p>Please note
+During the migration to AWS, the presence and value of the app_domain, app_domain_internal and Plek service environment variables are dependent on the migration state of an application as well as its dependencies and can be non-intuitive.
 If in doubt, please talk to RE:GOV.UK (e.g. in Slack #re-govuk) to make sure your configuration change is consistent with your intention.</p>
 </blockquote>
 
@@ -266,37 +266,37 @@ publishing-api.blue.integration.govuk-internal.digital has address 10.1.5.50
 
 <h4 id="redis">Redis</h4>
 
-<p>We are using <a href="https://aws.amazon.com/elasticache/">Amazon Elasticache</a> instead of managing our own Redis<br />
+<p>We are using <a href="https://aws.amazon.com/elasticache/">Amazon Elasticache</a> instead of managing our own Redis
 instances.</p>
 
 <h3 id="architecture-changes">Architecture changes</h3>
 
 <h4 id="removal-of-load-balancer-tiers">Removal of load balancer tiers</h4>
 
-<p>Due to the use of <a href="https://aws.amazon.com/elasticloadbalancing/">Elastic Load Balancing</a> we no longer have a need to maintain<br />
+<p>Due to the use of <a href="https://aws.amazon.com/elasticloadbalancing/">Elastic Load Balancing</a> we no longer have a need to maintain
 our own nginx load balancers, and so these have been removed from the stack. See the <a href="https://github.com/alphagov/govuk-aws/blob/master/docs/architecture/decisions/0026-remove-load-balancer-tier.md">related ADR</a> for further details.</p>
 
 <h4 id="merging-of-mysql-database-servers">Merging of MySQL database servers</h4>
 
-<p>Traditionally, we had a separate MySQL server for Whitehall. Rather than manage multiple RDS instances,<br />
+<p>Traditionally, we had a separate MySQL server for Whitehall. Rather than manage multiple RDS instances,
 we have merged this into the main MySQL server. See the <a href="https://github.com/alphagov/govuk-aws/blob/master/docs/architecture/decisions/0019-centralise-mysql-databases.md">relevant ADR</a> for details.</p>
 
 <h3 id="deploying-infrastructure">Deploying infrastructure</h3>
 
-<p><a href="https://terraform.io">Terraform</a> is used to manage our <a href="https://en.wikipedia.org/wiki/Infrastructure_as_Code">Infrastructure as Code</a>. This code is stored<br />
+<p><a href="https://terraform.io">Terraform</a> is used to manage our <a href="https://en.wikipedia.org/wiki/Infrastructure_as_Code">Infrastructure as Code</a>. This code is stored
 in <a href="https://github.com/alphagov/govuk-aws">govuk-aws</a>.</p>
 
 <p>See the <a href="/manual/deploying-terraform.html">documentation</a> to make and deploy changes to the infrastructure.</p>
 
 <h3 id="automated-application-deployments">Automated application deployments</h3>
 
-<p>If an EC2 instance is terminated, it will be automatically rebuilt by the autoscaling group. If an instance runs deployable applications,<br />
-it will automatically start a deployment of the applications it runs using the <code>Deploy_App</code> Jenkins job. It deploys the <code>deployed-to-&lt;environment&gt;</code> branch,<br />
+<p>If an EC2 instance is terminated, it will be automatically rebuilt by the autoscaling group. If an instance runs deployable applications,
+it will automatically start a deployment of the applications it runs using the <code>Deploy_App</code> Jenkins job. It deploys the <code>deployed-to-&lt;environment&gt;</code> branch,
 and runs the <code>deploy:without_migrations</code> task.</p>
 
 <p>If an instance is having issues, terminating the instance may be the quickest way of ensuring a clean redeploy the applications.</p>
 
-<p>Be aware of instances that run a lot of applications that this may block ongoing deployments due to the time it takes to deploy multiple<br />
+<p>Be aware of instances that run a lot of applications that this may block ongoing deployments due to the time it takes to deploy multiple
 applications.</p>
 
 <p>For a list of what applications run on which instance types, see the <code>node_class:</code> entry in the relevant hieradata for the environment:</p>

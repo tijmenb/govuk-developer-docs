@@ -149,13 +149,13 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#backups'>Backups</a></p> <h1 id='header'>Rotate offsite backup GPG keys</h1><p>To encrypt our offsite backups, we use GPG keys which are valid for a year. For<br />
+  <p><a href='/manual.html#backups'>Backups</a></p> <h1 id='header'>Rotate offsite backup GPG keys</h1><p>To encrypt our offsite backups, we use GPG keys which are valid for a year. For
 good security practice we rotate these keys each year.</p>
 
 <h2 id="generate-a-new-key">Generate a new key</h2>
 
-<p>When creating a new key it is important you reuse the existing <code>passphrase</code> as<br />
-otherwise the incremental backup will fail as historical data is unable to be<br />
+<p>When creating a new key it is important you reuse the existing <code>passphrase</code> as
+otherwise the incremental backup will fail as historical data is unable to be
 access/unencrypted previous diffs.</p>
 
 <ol>
@@ -179,10 +179,10 @@ access/unencrypted previous diffs.</p>
 <p>The following files need to be updated with the new key details:</p>
 
 <ul>
-  <li>Update the <a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata/production.yaml">govuk-puppet hieradata</a>,<br />
+  <li>Update the <a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata/production.yaml">govuk-puppet hieradata</a>,
 updating the <code>_: &amp;offsite_gpg_key</code> key with the new fingerprint value.</li>
-  <li>Update the <a href="https://github.com/alphagov/govuk-secrets/blob/master/puppet/hieradata/production_credentials.yaml">encrypted govuk-secrets repo hieradata</a>,<br />
-updating both <code>backup::assets::backup_private_gpg_key</code> and <code>backup::assets::backup_private_gpg_key_passphrase</code> with<br />
+  <li>Update the <a href="https://github.com/alphagov/govuk-secrets/blob/master/puppet/hieradata/production_credentials.yaml">encrypted govuk-secrets repo hieradata</a>,
+updating both <code>backup::assets::backup_private_gpg_key</code> and <code>backup::assets::backup_private_gpg_key_passphrase</code> with
 the relevant values.</li>
 </ul>
 

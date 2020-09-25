@@ -167,35 +167,35 @@
 
 <p>Used by GOV.UK product teams to test changes to software.</p>
 
-<p>Right now this environment is also used by content editors at GDS and in other departments<br />
-to preview their content changes. This functionality should be replaced by draft preview<br />
+<p>Right now this environment is also used by content editors at GDS and in other departments
+to preview their content changes. This functionality should be replaced by draft preview
 functionality as part of the publishing platform.</p>
 
 <p>Integration is hosted on <a href="/manual/govuk-in-aws.html">AWS</a>.</p>
 
 <h2 id="staging">Staging</h2>
 
-<p>Used by GOV.UK product teams while deploying changes to ensure that they behave correctly<br />
-in a production-like environment. This means that staging must be similar to production<br />
+<p>Used by GOV.UK product teams while deploying changes to ensure that they behave correctly
+in a production-like environment. This means that staging must be similar to production
 so that we're able to test things like the performance impact of changes.</p>
 
-<p>Staging is primarily hosted by Carrenza in their London datacentre.<br />
-It is currently being migrated to <a href="/manual/govuk-in-aws.html">AWS</a>. Check individual application developer<br />
+<p>Staging is primarily hosted by Carrenza in their London datacentre.
+It is currently being migrated to <a href="/manual/govuk-in-aws.html">AWS</a>. Check individual application developer
 docs to see if it is hosted with AWS or Carrenza.</p>
 
-<p>Access to Staging is restricted to office IPs, so you'll need to <a href="manual/get-started.html#4-connecting-to-the-gds-vpn">be<br />
-on the VPN</a>.<br />
-Carrenza configuration can be found in<br />
-<a href="https://github.com/alphagov/govuk-provisioning/blob/master/vcloud-edge_gateway/rules/includes/firewall.mustache#L34">govuk-provisioning</a>,<br />
-and AWS configuration in<br />
+<p>Access to Staging is restricted to office IPs, so you'll need to <a href="manual/get-started.html#4-connecting-to-the-gds-vpn">be
+on the VPN</a>.
+Carrenza configuration can be found in
+<a href="https://github.com/alphagov/govuk-provisioning/blob/master/vcloud-edge_gateway/rules/includes/firewall.mustache#L34">govuk-provisioning</a>,
+and AWS configuration in
 <a href="https://github.com/alphagov/govuk-aws/blob/master/terraform/projects/infra-security-groups/cache.tf">govuk-aws-data</a>.</p>
 
 <h2 id="production">Production</h2>
 
 <p>The thing that runs the website for real people.</p>
 
-<p>Production is primarily hosted by Carrenza in their Slough datacentre.<br />
-It is currently being migrated to <a href="/manual/govuk-in-aws.html">AWS</a>. Check individual application developer<br />
+<p>Production is primarily hosted by Carrenza in their Slough datacentre.
+It is currently being migrated to <a href="/manual/govuk-in-aws.html">AWS</a>. Check individual application developer
 docs to see if it is hosted with AWS or Carrenza.</p>
 
 

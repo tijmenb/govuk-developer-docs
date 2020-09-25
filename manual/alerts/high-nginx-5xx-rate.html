@@ -171,17 +171,17 @@
 
 <h2 id="spikes">Spikes</h2>
 
-<p>The alert should link to a graphite graph - often certain applications<br />
-such as Whitehall can have spikes - if you can determine this is a spike<br />
-it is best to acknowledge the alert and let a team that is working on the app<br />
+<p>The alert should link to a graphite graph - often certain applications
+such as Whitehall can have spikes - if you can determine this is a spike
+it is best to acknowledge the alert and let a team that is working on the app
 know (or alert Platform Health).</p>
 
 <h2 id="scaling-up">Scaling up</h2>
 
-<p>Sometimes a high 5xx rate can be because of a sudden increase in traffic to the<br />
-site. You can use the <a href="https://grafana.production.govuk.digital/dashboard/file/nginx_requests.json?refresh=1m&amp;orgId=1&amp;from=now-30m&amp;to=now">Nginx Requests (AWS)</a> dashboard to see<br />
-if there are an unusually high number of requests to a particular machine<br />
-class. If there are, you may want to consider<br />
+<p>Sometimes a high 5xx rate can be because of a sudden increase in traffic to the
+site. You can use the <a href="https://grafana.production.govuk.digital/dashboard/file/nginx_requests.json?refresh=1m&amp;orgId=1&amp;from=now-30m&amp;to=now">Nginx Requests (AWS)</a> dashboard to see
+if there are an unusually high number of requests to a particular machine
+class. If there are, you may want to consider
 <a href="/manual/auto-scaling-groups.html#manually-scaling">scaling up the number of machines available</a> to handle the requests.</p>
 
 <blockquote>
@@ -192,23 +192,23 @@ class. If there are, you may want to consider<br />
 
 <h2 id="unknown-internal-error"><code>UNKNOWN: INTERNAL ERROR</code></h2>
 
-<p>If the message is "UNKNOWN: INTERNAL ERROR: RuntimeError: no valid<br />
-datapoints" or "UNKNOWN: INTERNAL ERROR: RuntimeError: no data returned<br />
-for target", it probably means that statsd or collectd stopped<br />
-submitting data for a period. Statsd metrics (those that begin with<br />
-<code>stats.</code>) don't get created until the first event of a given type. For<br />
-infrequently-used apps which rarely have errors, the <code>http_5xx</code> may<br />
-never get created. You can force creation by creating a zero-value<br />
+<p>If the message is "UNKNOWN: INTERNAL ERROR: RuntimeError: no valid
+datapoints" or "UNKNOWN: INTERNAL ERROR: RuntimeError: no data returned
+for target", it probably means that statsd or collectd stopped
+submitting data for a period. Statsd metrics (those that begin with
+<code>stats.</code>) don't get created until the first event of a given type. For
+infrequently-used apps which rarely have errors, the <code>http_5xx</code> may
+never get created. You can force creation by creating a zero-value
 <code>http_500</code> counter:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>fab $environment -H frontend-1.frontend statsd.create_counter:frontend-1_frontend.nginx_logs.static_publishing_service_gov_uk.http_500
 </code></pre></div>
-<p>Note that the <code>http_5xx</code> counters are created by carbon-aggregator, so<br />
-they will automatically be created when a corresponding <code>http_500</code><br />
-counter gets created. You should <em>not</em> create a statsd counter for<br />
+<p>Note that the <code>http_5xx</code> counters are created by carbon-aggregator, so
+they will automatically be created when a corresponding <code>http_500</code>
+counter gets created. You should <em>not</em> create a statsd counter for
 <code>http_5xx</code> as this will confuse carbon-aggregator.</p>
 
-<p>For collectd metrics (those without a leading <code>stats.</code> prefix), you<br />
+<p>For collectd metrics (those without a leading <code>stats.</code> prefix), you
 probably just need to wait for the metric to get created.</p>
 
 

@@ -159,11 +159,11 @@
 
 <h2 id="rotating-api-tokens">Rotating API Tokens</h2>
 
-<p>One or more tokens for API Users are about to expire. You should rotate<br />
+<p>One or more tokens for API Users are about to expire. You should rotate
 expiring tokens to ensure the associated application keeps working.</p>
 
-<p>As a working example, let's say we have an alert like <em>Content Publisher token<br />
-for Publishing API expires in X days</em>. In this example, the API User is<br />
+<p>As a working example, let's say we have an alert like <em>Content Publisher token
+for Publishing API expires in X days</em>. In this example, the API User is
 <em>Content Publisher</em> and the application is <em>Publishing API</em>.</p>
 
 <ul>
@@ -171,33 +171,33 @@ for Publishing API expires in X days</em>. In this example, the API User is<br /
 </ul>
 
 <blockquote>
-  <p>Check the <em>Last synced at</em> time to see if the API User is still using the<br />
-application. If you are confident the token is unused, the you can just<br />
+  <p>Check the <em>Last synced at</em> time to see if the API User is still using the
+application. If you are confident the token is unused, the you can just
 click the <em>Revoke</em> button to remove it and there's no need to continue.</p>
 </blockquote>
 
 <ul>
-  <li>Click <em>Add application token</em>, select the application and click <em>Create<br />
+  <li>Click <em>Add application token</em>, select the application and click <em>Create
 access token</em>.</li>
   <li>Copy the new token and prepare to replace it in <a href="https://github.com/alphagov/govuk-secrets">govuk-secrets</a>.</li>
 </ul>
 
 <blockquote>
-  <p>How to do the last step depends on the application, but it should be<br />
-something like <code>rake eyaml:edit[integration,apps]</code>, depending on the<br />
+  <p>How to do the last step depends on the application, but it should be
+something like <code>rake eyaml:edit[integration,apps]</code>, depending on the
 environment you're working on.</p>
 </blockquote>
 
 <ul>
   <li>Find a line like <code>govuk::apps::content_publisher::publishing_api_bearer_token...</code></li>
   <li>Replace the long string within <code>GPG[xxxxxx]</code> with the new token.</li>
-  <li>Make a PR with your change and once it is merged deploy the change with<br />
+  <li>Make a PR with your change and once it is merged deploy the change with
 Puppet.</li>
 </ul>
 
 <blockquote>
-  <p>Changes to govuk-secrets do not automatically trigger a Puppet deploy. One<br />
-way to work around this is to <a href="https://deploy.production.govuk.digital/job/Deploy_Puppet/">rebuild the last release</a>. You<br />
+  <p>Changes to govuk-secrets do not automatically trigger a Puppet deploy. One
+way to work around this is to <a href="https://deploy.production.govuk.digital/job/Deploy_Puppet/">rebuild the last release</a>. You
 then need to wait for Puppet to run on each of the affected machines.</p>
 </blockquote>
 
@@ -208,13 +208,13 @@ then need to wait for Puppet to run on each of the affected machines.</p>
 </ul>
 
 <blockquote>
-  <p>How to check the new token works depends on the application. One way to check<br />
-the token works is to manually open a console for the application and call<br />
+  <p>How to check the new token works depends on the application. One way to check
+the token works is to manually open a console for the application and call
 one of the remote APIs using <a href="https://github.com/alphagov/gds-api-adapters/blob/master/lib/gds_api.rb">gds-api-adapters</a>.</p>
 </blockquote>
 
-<p>Finally, most applications should automatically restart when Puppet updates the<br />
-token on each machine, but you may need to <a href="/manual/restart-application.html">do this manually</a> so<br />
+<p>Finally, most applications should automatically restart when Puppet updates the
+token on each machine, but you may need to <a href="/manual/restart-application.html">do this manually</a> so
 that it picks up the new token from the environment.</p>
 
 

@@ -157,7 +157,7 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#databases'>Databases</a></p> <h1 id='header'>Resync a PostgreSQL Standby in Carrenza/6DG</h1><p>If there is a need to resync the Postgresql standby machine from its primary,<br />
+  <p><a href='/manual.html#databases'>Databases</a></p> <h1 id='header'>Resync a PostgreSQL Standby in Carrenza/6DG</h1><p>If there is a need to resync the Postgresql standby machine from its primary,
 there are 2 methods:</p>
 
 <ol>
@@ -182,16 +182,16 @@ there are 2 methods:</p>
 <div class="highlight"><pre class="highlight plaintext"><code>govuk_puppet --disable "resyncing postgresql from wal-e S3 backups"
 </code></pre></div>  </li>
   <li>
-    <p>Follow the steps in this <a href="/manual/postgresql-backups.html#wal-e-failing-with-errors-about-gpg">doc</a><br />
-to remove the password from the GPG key so that the WAL-E restoration process<br />
+    <p>Follow the steps in this <a href="/manual/postgresql-backups.html#wal-e-failing-with-errors-about-gpg">doc</a>
+to remove the password from the GPG key so that the WAL-E restoration process
 can automatically decrypt the backups from S3.</p>
 
-    <p>The passphrase is in the pass store of the GOV.UK secrets under:<br />
-<code>postgresql-backups/&lt;environment&gt;/postgresql-primary</code><br />
+    <p>The passphrase is in the pass store of the GOV.UK secrets under:
+<code>postgresql-backups/&lt;environment&gt;/postgresql-primary</code>
 where <code>&lt;environment&gt;</code> is the GOV.UK environment where you are doing the restoration.</p>
   </li>
   <li>
-    <p>Edit the file <code>/var/lib/postgresql/9.3/main/recovery.conf</code> by appending the<br />
+    <p>Edit the file <code>/var/lib/postgresql/9.3/main/recovery.conf</code> by appending the
 following line:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>restore_command = 'envdir /etc/wal-e/env.d /usr/local/bin/wal-e wal-fetch %f %p'
@@ -202,7 +202,7 @@ following line:</p>
 <div class="highlight"><pre class="highlight plaintext"><code>sudo /etc/init.d/postgresql restart
 </code></pre></div>  </li>
   <li>
-    <p>Tail the log to see if the process of restoration is working and when<br />
+    <p>Tail the log to see if the process of restoration is working and when
 it has finished. Run:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>tail -f /var/log/postgresql/postgresql-9.3-main.log
@@ -249,8 +249,8 @@ pg_basebackup: base backup completed
 
 <h2 id="restarting-collectd">Restarting collectd</h2>
 
-<p>If you are resyncing because the standby has fallen too far behind primary,<br />
-you might need to restart <code>collectd</code> on the standby machine to resolve the<br />
+<p>If you are resyncing because the standby has fallen too far behind primary,
+you might need to restart <code>collectd</code> on the standby machine to resolve the
 incinga alerts:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>sudo service collectd restart

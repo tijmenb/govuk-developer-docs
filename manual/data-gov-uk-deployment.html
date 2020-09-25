@@ -185,28 +185,28 @@
 
 <h3 id="paas-staging-and-production-environments">PaaS Staging and Production Environments</h3>
 
-<p><a href="/apps/datagovuk_publish.html">Publish</a> and <a href="/apps/datagovuk_find.html">Find</a> are provisioned on <a href="https://docs.cloud.service.gov.uk/#set-up-command-line">GOV.UK PaaS</a>. Each app repo<br />
-contains a set of manifests that specify the container settings for when it's<br />
+<p><a href="/apps/datagovuk_publish.html">Publish</a> and <a href="/apps/datagovuk_find.html">Find</a> are provisioned on <a href="https://docs.cloud.service.gov.uk/#set-up-command-line">GOV.UK PaaS</a>. Each app repo
+contains a set of manifests that specify the container settings for when it's
 deployed.</p>
 
-<p>The deployment for both apps can be triggered automatically via GitHub flow, or<br />
+<p>The deployment for both apps can be triggered automatically via GitHub flow, or
 manually via command line tools.</p>
 
 <h4 id="staging">Staging</h4>
 
-<p>The deployment to staging is triggered when a PR gets merged into master. You<br />
+<p>The deployment to staging is triggered when a PR gets merged into master. You
 can check the <a href="https://travis-ci.org/alphagov/datagovuk_find">Travis logs of the <code>master</code> build</a> to see progress.</p>
 
 <p>You can check the deployment on <a href="https://staging.data.gov.uk/">staging.data.gov.uk</a></p>
 
 <h4 id="production">Production</h4>
 
-<p>The deployment to production is triggered when a <a href="https://github.com/alphagov/datagovuk_find/releases">new release</a> with an appropriate version<br />
+<p>The deployment to production is triggered when a <a href="https://github.com/alphagov/datagovuk_find/releases">new release</a> with an appropriate version
 number is created in GitHub.</p>
 
 <p>To create a new release, provide a new version number, release title and description. The version number must include the leading 'v' to trigger a deployment, for example: <code>v1.0.0</code></p>
 
-<p>This deployment behaviour is defined in <a href="https://github.com/alphagov/datagovuk_publish/blob/master/.travis.yml#L30-L50">Publish's travis.yml</a><br />
+<p>This deployment behaviour is defined in <a href="https://github.com/alphagov/datagovuk_publish/blob/master/.travis.yml#L30-L50">Publish's travis.yml</a>
 and in <a href="https://github.com/alphagov/datagovuk_find/blob/af8cfa61584b16e4e1ad7bedbd1b7f890cec940d/.travis.yml#L44-L48">Find's travis.yml</a>.</p>
 
 <p>The process to manually deploy is as follows.</p>

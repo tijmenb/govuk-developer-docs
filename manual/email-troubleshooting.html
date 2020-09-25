@@ -157,39 +157,39 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#emails'>Emails</a></p> <h1 id='header'>Email troubleshooting</h1><p>This document has tips for troubleshooting unsent emails. For an overview of our<br />
+  <p><a href='/manual.html#emails'>Emails</a></p> <h1 id='header'>Email troubleshooting</h1><p>This document has tips for troubleshooting unsent emails. For an overview of our
 email architecture, read <a href="/manual/email-notifications-how-they-work.html">Email notifications: how they work</a>.</p>
 
 <h2 id="general-troubleshooting-tips">General troubleshooting tips</h2>
 
 <h3 id="check-the-current-health-of-the-ecosystem">Check the current health of the ecosystem</h3>
 
-<p>You can check the <a href="https://grafana.production.govuk.digital/dashboard/file/email_alert_api_technical.json?refresh=10s&amp;orgId=1">Email Alert API Technical dashboard</a> to monitor<br />
+<p>You can check the <a href="https://grafana.production.govuk.digital/dashboard/file/email_alert_api_technical.json?refresh=10s&amp;orgId=1">Email Alert API Technical dashboard</a> to monitor
 if emails are going out.</p>
 
 <h3 id="check-that-notify-sent-the-email">Check that Notify sent the email</h3>
 
-<p>Log in to the Notify account by going to <a href="https://www.notifications.service.gov.uk">https://www.notifications.service.gov.uk</a>.<br />
-The login credentials are in the <a href="https://github.com/alphagov/govuk-secrets/tree/master/pass/2ndline/govuk-notify">2nd line password store</a> under<br />
-<code>govuk-notify/2nd-line-support</code>. Two-factor authentication links for logging in are<br />
+<p>Log in to the Notify account by going to <a href="https://www.notifications.service.gov.uk">https://www.notifications.service.gov.uk</a>.
+The login credentials are in the <a href="https://github.com/alphagov/govuk-secrets/tree/master/pass/2ndline/govuk-notify">2nd line password store</a> under
+<code>govuk-notify/2nd-line-support</code>. Two-factor authentication links for logging in are
 sent to the 2nd line email address.</p>
 
-<p>Click "GOV.UK Email" to visit the dashboard, then click on "emails sent", which<br />
+<p>Click "GOV.UK Email" to visit the dashboard, then click on "emails sent", which
 will take you to a form where you can search by email address.</p>
 
 <h3 id="check-the-courtesy-copy-inbox">Check the courtesy copy inbox</h3>
 
-<p>A courtesy copy of every email sent from integration, staging and production<br />
-is available in the <a href="https://groups.google.com/a/digital.cabinet-office.gov.uk/forum/#!forum/govuk-email-courtesy-copies">'govuk-email-courtesy-copies' Google Group</a>.<br />
-Integration and staging emails have a subject prefixed by the<br />
+<p>A courtesy copy of every email sent from integration, staging and production
+is available in the <a href="https://groups.google.com/a/digital.cabinet-office.gov.uk/forum/#!forum/govuk-email-courtesy-copies">'govuk-email-courtesy-copies' Google Group</a>.
+Integration and staging emails have a subject prefixed by the
 environment name.</p>
 
 <blockquote>
   <p><strong>Note</strong></p>
 
-  <p>Courtesy copies are sent separately to normal emails. Therefore, it is not<br />
-safe to rely on the courtesy copy Google Group to guarantee that emails<br />
-are being sent to subscribers, and instead a better test is to<br />
+  <p>Courtesy copies are sent separately to normal emails. Therefore, it is not
+safe to rely on the courtesy copy Google Group to guarantee that emails
+are being sent to subscribers, and instead a better test is to
 subscribe yourself and check that emails arrive.</p>
 </blockquote>
 

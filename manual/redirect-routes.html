@@ -161,16 +161,16 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#routing'>Routing</a></p> <h1 id='header'>Redirect a route</h1><p>Sometimes, there is a need to manually redirect existing URLs to another<br />
-internal location, usually due to content being archived or because the<br />
+  <p><a href='/manual.html#routing'>Routing</a></p> <h1 id='header'>Redirect a route</h1><p>Sometimes, there is a need to manually redirect existing URLs to another
+internal location, usually due to content being archived or because the
 slug has been changed.</p>
 
-<p>There is also a regular requirement for creating short URLs on behalf of<br />
+<p>There is also a regular requirement for creating short URLs on behalf of
 departments, usually for use with for campaign materials.</p>
 
 <h2 id="getting-information-on-current-redirects">Getting information on current redirects</h2>
 
-<p>To find if there is already a redirect for a particular path, open a router-api<br />
+<p>To find if there is already a redirect for a particular path, open a router-api
 console:</p>
 
 <div class="highlight"><pre class="highlight console"><code><span class="gp">$</span><span class="w"> </span>gds govuk connect app-console <span class="nt">-e</span> production router_backend/router-api
@@ -183,39 +183,39 @@ console:</p>
 
 <h2 id="redirecting-from-the-original-publishing-app">Redirecting from the original publishing app</h2>
 
-<p>The preferred method of creating redirects is to use the publishing app that<br />
-originally published the content to unpublish it and redirect it to another<br />
+<p>The preferred method of creating redirects is to use the publishing app that
+originally published the content to unpublish it and redirect it to another
 page using the Publishing API.</p>
 
-<p>This ensures that the workflow and publishing history stays within the app<br />
+<p>This ensures that the workflow and publishing history stays within the app
 wherever possible.</p>
 
 <h2 id="using-the-short-url-manager">Using the Short URL Manager</h2>
 
-<p>If the redirect is from a URL that is not a currently-published content item,<br />
-you should first look to use the <a href="https://short-url-manager.publishing.service.gov.uk">Short URL Manager</a> to<br />
-create a redirect request. Requests are checked and approved by content<br />
+<p>If the redirect is from a URL that is not a currently-published content item,
+you should first look to use the <a href="https://short-url-manager.publishing.service.gov.uk">Short URL Manager</a> to
+create a redirect request. Requests are checked and approved by content
 designers, after which they are made live.</p>
 
 <p>Redirects created in Short URL Manager are published via the Publishing API.</p>
 
-<p>Specific Signon <a href="https://github.com/alphagov/short-url-manager/#permissions">permissions</a> are required to<br />
-make and approve redirect requests through the Short URL Manager. Additionally,<br />
-there is a <code>advanced_options</code> permission which enables creating redirects for<br />
-pages that are already owned by other apps, creating <code>prefix</code> type redirects,<br />
+<p>Specific Signon <a href="https://github.com/alphagov/short-url-manager/#permissions">permissions</a> are required to
+make and approve redirect requests through the Short URL Manager. Additionally,
+there is a <code>advanced_options</code> permission which enables creating redirects for
+pages that are already owned by other apps, creating <code>prefix</code> type redirects,
 and using non-default values for the <code>segments_mode</code>.</p>
 
 <h2 id="fixing-incorrect-corporate-information-page-redirects">Fixing incorrect Corporate Information page redirects</h2>
 
-<p>There have been a few occasions where Corporate Information pages have<br />
-started redirecting the English version to a translation. Should this<br />
+<p>There have been a few occasions where Corporate Information pages have
+started redirecting the English version to a translation. Should this
 happen, the redirects can be identified with:</p>
 
 <div class="highlight"><pre class="highlight ruby"><code><span class="no">Route</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="ss">incoming_path: </span><span class="sr">/\/about/</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">route</span><span class="o">|</span>
   <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">route</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">route</span><span class="p">.</span><span class="nf">incoming_path</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">#{</span><span class="n">route</span><span class="p">.</span><span class="nf">redirect_to</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">route</span><span class="p">.</span><span class="nf">handler</span> <span class="o">==</span> <span class="s2">"redirect"</span>
 <span class="k">end</span>
 </code></pre></div>
-<p>That will list the id and paths for each redirect. Redirects from the<br />
+<p>That will list the id and paths for each redirect. Redirects from the
 English version to a translation, for example:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>579a109cd068b406250014e4 /government/organisations/companies-house/about/access-and-opening -&gt; /government/organisations/companies-house/about/access-and-opening.cy
@@ -236,8 +236,8 @@ English version to a translation, for example:</p>
 
 <h2 id="redirects-from-campaign-sites">Redirects from campaign sites</h2>
 
-<p>The campaigns platform is a WordPress site managed by dxw. Redirects from a<br />
-<code>*.campaign.gov.uk</code> site require a support ticket. Currently, James Whitmarsh or<br />
+<p>The campaigns platform is a WordPress site managed by dxw. Redirects from a
+<code>*.campaign.gov.uk</code> site require a support ticket. Currently, James Whitmarsh or
 Kelvin Gan can raise a ticket.</p>
 
 

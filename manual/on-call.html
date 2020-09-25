@@ -177,7 +177,7 @@
   <p>This page is for before you go on call to prep for incident handling.</p>
 </blockquote>
 
-<p>GOV.UK developers and reliability engineers are part of an on-call rota<br />
+<p>GOV.UK developers and reliability engineers are part of an on-call rota
 to keep GOV.UK running at night, on the weekends and on public holidays.</p>
 
 <h2 id="on-call-checklist">On call checklist</h2>
@@ -185,21 +185,21 @@ to keep GOV.UK running at night, on the weekends and on public holidays.</p>
 <p>You should do these things before going on call so you're prepared.</p>
 
 <ol>
-  <li>Have the numbers of other people on your shift saved in your phone. This<br />
+  <li>Have the numbers of other people on your shift saved in your phone. This
 includes whoever is on Escalations. Get these numbers from PagerDuty.</li>
-  <li>Ensure you have an up to date local copy of the <a href="https://github.com/alphagov/govuk-developer-docs/">Developer Docs</a> repository<br />
+  <li>Ensure you have an up to date local copy of the <a href="https://github.com/alphagov/govuk-developer-docs/">Developer Docs</a> repository
 and that you can build it.</li>
   <li>Make sure your <a href="https://github.com/alphagov/fabric-scripts/"><code>fabric-scripts</code></a> are up to date.</li>
   <li>Make sure you can VPN to the office or disaster recovery location.</li>
-  <li>Ensure your PagerDuty alert settings will wake you if you're called. You might want<br />
-to install the <a href="https://www.pagerduty.com/features/mobile-incident-management/">PagerDuty App</a><br />
+  <li>Ensure your PagerDuty alert settings will wake you if you're called. You might want
+to install the <a href="https://www.pagerduty.com/features/mobile-incident-management/">PagerDuty App</a>
 on your phone.</li>
   <li>Ensure you can <a href="https://github.com/alphagov/govuk-secrets/">decrypt secrets</a> with your GPG setup.</li>
   <li>Ensure you have single-sign-on set up for GOV.UK PaaS (<a href="https://docs.cloud.service.gov.uk/get_started.html#use-single-sign-on">instructions on setting up single-sign-on</a>)</li>
-  <li>Ensure you can access the <code>govuk_development</code> organisation in GOV.UK PaaS<br />
+  <li>Ensure you can access the <code>govuk_development</code> organisation in GOV.UK PaaS
 from the command line (<a href="https://docs.cloud.service.gov.uk/get_started.html#set-up-the-cloud-foundry-command-line">instructions for setting up the cloud foundry command line</a>).</li>
-  <li>Ensure you know how to escalate an issue to RE, ie infrastructure<br />
-issues or if you need to <a href="/manual/connect-to-vcloud-director.html">access the Carrenza vCloud<br />
+  <li>Ensure you know how to escalate an issue to RE, ie infrastructure
+issues or if you need to <a href="/manual/connect-to-vcloud-director.html">access the Carrenza vCloud
 Director</a>.</li>
   <li>Read these documents:
     <ul>
@@ -215,17 +215,17 @@ Director</a>.</li>
 
 <h3 id="automated-monitoring">Automated monitoring</h3>
 
-<p>We use PagerDuty for automated monitoring. You can set up your PagerDuty account<br />
-to notify you however you want (phone call, SMS, email, push notification).<br />
+<p>We use PagerDuty for automated monitoring. You can set up your PagerDuty account
+to notify you however you want (phone call, SMS, email, push notification).
 There are 2 ways that this might contact you:</p>
 
 <ul>
-  <li>Any Icinga checks that 'use' <code>govuk_urgent_priority</code> will cause<br />
-PagerDuty to be notified. You can get the most up to date list of these<br />
+  <li>Any Icinga checks that 'use' <code>govuk_urgent_priority</code> will cause
+PagerDuty to be notified. You can get the most up to date list of these
 by searching the Puppet repo for <code>govuk_urgent_priority</code>.</li>
-  <li>There are a couple of checks defined in Pingdom which notify PagerDuty directly rather<br />
-than using GOV.UK's internal monitoring. These are normally for key parts of the website<br />
-like the homepage and site search. They are useful when network access to all the<br />
+  <li>There are a couple of checks defined in Pingdom which notify PagerDuty directly rather
+than using GOV.UK's internal monitoring. These are normally for key parts of the website
+like the homepage and site search. They are useful when network access to all the
 machines running GOV.UK is down.</li>
 </ul>
 
@@ -233,28 +233,28 @@ machines running GOV.UK is down.</li>
 
 <h3 id="phone-calls-from-people">Phone calls from people</h3>
 
-<p>Senior members of GOV.UK may phone you if they've been contacted by other parts of government.<br />
-These phone calls will generally come from the group that is on the rota for the<br />
+<p>Senior members of GOV.UK may phone you if they've been contacted by other parts of government.
+These phone calls will generally come from the group that is on the rota for the
 'Escalations' contact number.</p>
 
 <h2 id="responding-to-being-contacted">Responding to being contacted</h2>
 
 <h3 id="automated-monitoring-1">Automated monitoring</h3>
 
-<p>If you're available to investigate the problem, acknowledge the alert in<br />
+<p>If you're available to investigate the problem, acknowledge the alert in
 PagerDuty to prevent the next person being phoned.</p>
 
-<p>Try to diagnose what the problem is. If you're comfortable that you understand<br />
-the problem there's no need to escalate to the next person. If you're not sure<br />
-you completely understand what's going on, it's better to escalate the alert<br />
+<p>Try to diagnose what the problem is. If you're comfortable that you understand
+the problem there's no need to escalate to the next person. If you're not sure
+you completely understand what's going on, it's better to escalate the alert
 in PagerDuty.</p>
 
-<p>If you escalate a problem, stay online to support the other person and to<br />
-increase your understanding of what's going on. If a problem is escalated<br />
+<p>If you escalate a problem, stay online to support the other person and to
+increase your understanding of what's going on. If a problem is escalated
 to you, explain what you're doing to the person who escalated to you.</p>
 
-<p>If the technical people on-call don't understand what's going on, the final<br />
-escalation will be to a senior member of GOV.UK who can make a decision about<br />
+<p>If the technical people on-call don't understand what's going on, the final
+escalation will be to a senior member of GOV.UK who can make a decision about
 how serious the problem is and contact other people on GOV.UK if required.</p>
 
 <h3 id="phone-calls-from-people-1">Phone calls from people</h3>
@@ -266,20 +266,20 @@ how serious the problem is and contact other people on GOV.UK if required.</p>
   <li>Government has decided to do <a href="/manual/emergency-publishing.html">emergency publishing</a></li>
 </ul>
 
-<p>There's a separate process for urgent changes to content which doesn't require technical<br />
+<p>There's a separate process for urgent changes to content which doesn't require technical
 support (assuming everything is working).</p>
 
 <h2 id="on-call-charter">On call charter</h2>
 
 <ul>
   <li>Be available to be phoned in the evenings and at weekends</li>
-  <li>Be able to be online to start investigating a problem within half an hour<br />
+  <li>Be able to be online to start investigating a problem within half an hour
 of being notified about it</li>
-  <li>Don't worry if you're not able to answer the phone immediately - that's<br />
+  <li>Don't worry if you're not able to answer the phone immediately - that's
 why we have more than one person on-call</li>
-  <li>Nobody is expected to understand every part of GOV.UK - you don't need to<br />
+  <li>Nobody is expected to understand every part of GOV.UK - you don't need to
 know how to fix every issue on your own</li>
-  <li>Logs are not as important as being available - if you need to lose some logs<br />
+  <li>Logs are not as important as being available - if you need to lose some logs
 in order to bring the site back up, that's probably a good trade-off to make</li>
   <li>Get paid. Make sure you submit your <a href="https://docs.google.com/forms/d/e/1FAIpQLSd8DX3B0L6az_aHEfWBegK5ABIPhfARgQZ0OpdEW9bIhMk5Fg/viewform">payment claim form</a> after your shift.</li>
 </ul>

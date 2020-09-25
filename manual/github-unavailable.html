@@ -180,7 +180,7 @@
 
 <ol>
   <li>
-    <p>In the root of the local repo, run the following commands to install the AWS<br />
+    <p>In the root of the local repo, run the following commands to install the AWS
 credential helper and add CodeCommit as a remote:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>git config credential.helper '!aws codecommit credential-helper $@'
@@ -199,14 +199,14 @@ git remote add aws https://git-codecommit.eu-west-2.amazonaws.com/v1/repos/&lt;a
     <p>Checkout a new branch on the upstream by running <code>git checkout -b aws/my-super-secret-fix</code></p>
   </li>
   <li>
-    <p>Make and commit your changes to this branch, and make sure all tests run successfully<br />
+    <p>Make and commit your changes to this branch, and make sure all tests run successfully
 locally (since CodeCommit does not run tests)</p>
   </li>
   <li>
     <p>Push your changes to CodeCommit by running <code>git push</code></p>
   </li>
   <li>
-    <p>Tag your changes by running <code>git tag release_XYZ</code>, where XYZ is one more that the latest<br />
+    <p>Tag your changes by running <code>git tag release_XYZ</code>, where XYZ is one more that the latest
 release tag for the application you're working on, as reported by the Release app</p>
   </li>
   <li>
@@ -221,11 +221,11 @@ release tag for the application you're working on, as reported by the Release ap
     <p>Review the pull request on AWS CodeCommit through the <a href="https://eu-west-1.console.aws.amazon.com/codesuite/codecommit/repositories?region=eu-west-1#">AWS Console</a> (access to GOV.UK repos must be granted by a GDS AWS administrator).</p>
   </li>
   <li>
-    <p>Create a release tag manually in git. This should follow the standard format<br />
+    <p>Create a release tag manually in git. This should follow the standard format
 <code>release_X</code>. Tag the branch directly instead of merging it.</p>
   </li>
   <li>
-    <p>Don't use the release app. Go directly to the <code>Deploy_App</code> Jenkins job, and<br />
+    <p>Don't use the release app. Go directly to the <code>Deploy_App</code> Jenkins job, and
 check <code>DEPLOY_FROM_AWS_CODECOMMIT</code>.</p>
   </li>
 </ol>
@@ -246,9 +246,9 @@ check <code>DEPLOY_FROM_AWS_CODECOMMIT</code>.</p>
 
 <h4 id="troubleshooting">Troubleshooting</h4>
 
-<p>If running any <code>git</code> commands against CodeCommit returns you a 403, you probably<br />
-have expired credentials stored in your macOS keychain from a previous attempt.<br />
-Apparently macOS stores these the first time you use it and subsequently tries<br />
+<p>If running any <code>git</code> commands against CodeCommit returns you a 403, you probably
+have expired credentials stored in your macOS keychain from a previous attempt.
+Apparently macOS stores these the first time you use it and subsequently tries
 to use them again despite you setting new AWS credentials.</p>
 
 <p>To fix this:</p>

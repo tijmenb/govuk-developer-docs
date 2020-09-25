@@ -176,11 +176,11 @@
             
   <p><a href='/manual.html#publishing'>Publishing</a></p> <h1 id='header'>Support government changes</h1><h2 id="change-a-government-in-whitehall">Change a government in Whitehall</h2>
 
-<p>Following a General Election or other reason for governmental change the<br />
+<p>Following a General Election or other reason for governmental change the
 current Government in Whitehall will need to be closed, and a new one created.</p>
 
-<p>The Content Support team will normally be the ones who close the government and<br />
-re-assign ministers once a new government has been opened. However, a developer<br />
+<p>The Content Support team will normally be the ones who close the government and
+re-assign ministers once a new government has been opened. However, a developer
 will often be required to monitor the queues, as detailed below.</p>
 
 <h3 id="closing-a-government">Closing a government</h3>
@@ -193,12 +193,12 @@ government</code> link.</li>
   <li>Close the government.</li>
 </ol>
 
-<p>This will close the current government and remove all <a href="https://www.integration.publishing.service.gov.uk/government/ministers">ministerial<br />
+<p>This will close the current government and remove all <a href="https://www.integration.publishing.service.gov.uk/government/ministers">ministerial
 appointments</a>.</p>
 
-<p>This will cause a high number of documents to be represented by the Publishing<br />
-API which might mean some delays on content being up to date on the website.<br />
-Previous tests have shown that it takes around 3.5 hours for the queues to<br />
+<p>This will cause a high number of documents to be represented by the Publishing
+API which might mean some delays on content being up to date on the website.
+Previous tests have shown that it takes around 3.5 hours for the queues to
 clear in integration.</p>
 
 <p>Grafana monitoring for:</p>
@@ -216,31 +216,31 @@ clear in integration.</p>
 
 <p><a href="https://whitehall-admin.integration.publishing.service.gov.uk/government/admin/governments/new">Create a new government</a></p>
 
-<p>This will instantly create a new government. Changes can be seen in the Rails<br />
+<p>This will instantly create a new government. Changes can be seen in the Rails
 console by running <code>Government.current</code>.</p>
 
-<p>The new government should also instantly appear in the response from<br />
+<p>The new government should also instantly appear in the response from
 <a href="https://www.integration.publishing.service.gov.uk/api/governments">/api/governments</a>.</p>
 
 <h3 id="applying-a-banner-to-political-content-published-by-the-previous-government">Applying a banner to political content published by the previous government</h3>
 
-<p>Content in Whitehall can be marked as political. Political content which was<br />
-published under a previous government is <a href="https://github.com/alphagov/whitehall/blob/e518218355d158bfff036a02e312dda714da0aa6/app/models/edition.rb#L647"><code>historic?</code></a>. This is<br />
-highlighted on the page, and in search results. This feature is also known as<br />
+<p>Content in Whitehall can be marked as political. Political content which was
+published under a previous government is <a href="https://github.com/alphagov/whitehall/blob/e518218355d158bfff036a02e312dda714da0aa6/app/models/edition.rb#L647"><code>historic?</code></a>. This is
+highlighted on the page, and in search results. This feature is also known as
 <em>history mode</em>.</p>
 
 <p>See these pages for example:</p>
 
-<p><a href="https://www.gov.uk/government/speeches/the-issuing-withdrawal-or-refusal-of-passports">A content page</a><br />
+<p><a href="https://www.gov.uk/government/speeches/the-issuing-withdrawal-or-refusal-of-passports">A content page</a>
 <a href="https://www.gov.uk/search/all?keywords=The+issuing%2C+withdrawal+or+refusal+of+passports&amp;order=relevance">A search results page</a></p>
 
-<p>Marking content as political can happen automatically through the<br />
-<a href="https://github.com/alphagov/whitehall/blob/master/lib/political_content_identifier.rb">PoliticalContentIdentifier</a>. The <code>political</code> flag on an <code>Edition</code> can also<br />
+<p>Marking content as political can happen automatically through the
+<a href="https://github.com/alphagov/whitehall/blob/master/lib/political_content_identifier.rb">PoliticalContentIdentifier</a>. The <code>political</code> flag on an <code>Edition</code> can also
 be set manually.</p>
 
 <h4 id="reindexing-political-content-in-search">Reindexing political content in search</h4>
 
-<p>There is a Rake task to reindex all political content in search. This must be<br />
+<p>There is a Rake task to reindex all political content in search. This must be
 done after a government is closed.</p>
 
 <ul>
@@ -251,9 +251,9 @@ done after a government is closed.</p>
 
 <h3 id="backdating">Backdating</h3>
 
-<p>If we need to backdate a government or split a single government into two<br />
-distinct dates, we need to run a rake task to republish all political content<br />
-from Whitehall to properly associate content with the government at it's first<br />
+<p>If we need to backdate a government or split a single government into two
+distinct dates, we need to run a rake task to republish all political content
+from Whitehall to properly associate content with the government at it's first
 published date:</p>
 
 <ul>
@@ -264,7 +264,7 @@ published date:</p>
 
 <h3 id="ending-ministerial-roles-without-closing-a-government">Ending ministerial roles without closing a government</h3>
 
-<p>If we need to end all ministerial roles without explicitly closing a government,<br />
+<p>If we need to end all ministerial roles without explicitly closing a government,
 we can run a rake task:</p>
 
 <ul>
@@ -273,21 +273,21 @@ we can run a rake task:</p>
 <li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=whitehall&amp;MACHINE_CLASS=whitehall_backend&amp;RAKE_TASK=election:end_ministerial_appointments">⚠️ Run election:end_ministerial_appointments on Production ⚠️</a></li>
 </ul>
 
-<p>This will end all ministerial roles except the Prime Minister. You might have to<br />
+<p>This will end all ministerial roles except the Prime Minister. You might have to
 do that one manually.</p>
 
 <h2 id="machinery-of-government-changes">Machinery of Government Changes</h2>
 
-<p>Following machinery of government changes, developers can help content<br />
+<p>Following machinery of government changes, developers can help content
 designers make bulk changes to documents and users.</p>
 
 <h3 id="bulk-changing-users">Bulk changing users</h3>
 
-<p>There is a Rake task in Signon to change the organisation that a user belongs<br />
-to in bulk:<br />
+<p>There is a Rake task in Signon to change the organisation that a user belongs
+to in bulk:
 <a href="https://github.com/alphagov/signon/blob/256ede9caa6061fd68b1daffd7123fff49df679f/lib/tasks/data_hygiene.rake#L3"><code>data_hygiene:bulk_update_organisation[csv_file]</code></a>.</p>
 
-<p>It accepts a CSV file which should have at least the following columns (in any<br />
+<p>It accepts a CSV file which should have at least the following columns (in any
 order):</p>
 
 <table>
@@ -313,17 +313,17 @@ order):</p>
   </tbody>
 </table>
 
-<p><strong>Note:</strong> It may be necessary to leave the old users around so they can still<br />
-edit content for the old organisation. In that case you can bulk invite new<br />
+<p><strong>Note:</strong> It may be necessary to leave the old users around so they can still
+edit content for the old organisation. In that case you can bulk invite new
 users <a href="https://signon.publishing.service.gov.uk/batch_invitations/new">using the interface in Signon</a>.</p>
 
 <h3 id="bulk-retagging-documents">Bulk retagging documents</h3>
 
-<p>There is a Rake task in Whitehall to change the lead and supporting<br />
-organisations that a document is tagged to in bulk:<br />
+<p>There is a Rake task in Whitehall to change the lead and supporting
+organisations that a document is tagged to in bulk:
 <a href="https://github.com/alphagov/whitehall/blob/917085dca58fb58dbf65c7e226ad445cc1f27bdd/lib/tasks/data_hygiene.rake#L37"><code>data_hygiene:bulk_update_organisation[csv_file]</code></a>.</p>
 
-<p>It accepts a CSV file which should have at least the following columns (in any<br />
+<p>It accepts a CSV file which should have at least the following columns (in any
 order):</p>
 
 <table>

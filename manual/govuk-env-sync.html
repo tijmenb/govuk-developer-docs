@@ -189,7 +189,7 @@
 
 <p>Data sanitisation (removal of sensitive data) for the Integration environment is done by SQL scripts which run as part of the restore transaction at the destination. While not ideal, this is the same approach as <a href="/manual/alerts/data-sync.html">env-sync-and-backup</a> and allows reuse of the same sanitisation scripts.</p>
 
-<p><img src="/manual/images/govuk_env_sync.png" alt="Schematic of the data flow of the govuk_env_sync data synchronisation" /><br />
+<p><img src="/manual/images/govuk_env_sync.png" alt="Schematic of the data flow of the govuk_env_sync data synchronisation" />
 Figure 1:  Schematic of the data flow of the govuk_env_sync data synchronisation.</p>
 
 <p>In practice, some Integration databases pull from Production (with sanitisation) rather than from Staging. This is done to reduce the number of cron job timing dependencies and to save resources where large databases do not need to be backed up from Staging.</p>
@@ -367,8 +367,8 @@ path="postgresql-backend"
 <p>See <a href="/manual/alerts/data-sync.html#govuk_env_sync-the-new-way">data sync playbook</a>.</p>
 
 <blockquote>
-  <p><strong>Traffic replay using <a href="/manual/alerts/gor.html">Gor</a> is disabled between 22:00 and<br />
-08:00 UTC daily whilst the data sync pull jobs take place. This is to prevent<br />
+  <p><strong>Traffic replay using <a href="/manual/alerts/gor.html">Gor</a> is disabled between 22:00 and
+08:00 UTC daily whilst the data sync pull jobs take place. This is to prevent
 lots of errors while we are dropping databases.</strong></p>
 </blockquote>
 

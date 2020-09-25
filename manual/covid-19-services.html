@@ -245,8 +245,8 @@
 
 <h2 id="offer-coronavirus-support-from-your-business">Offer coronavirus support from your business</h2>
 
-<p>This service allows businesses to tell us how they might be able to<br />
-help with the response to coronavirus.  This may include goods or<br />
+<p>This service allows businesses to tell us how they might be able to
+help with the response to coronavirus.  This may include goods or
 services such as medical equipment, hotel rooms or childcare.</p>
 
 <ul>
@@ -257,18 +257,18 @@ services such as medical equipment, hotel rooms or childcare.</p>
 
 <h2 id="get-coronavirus-support-as-an-extremely-vulnerable-person">Get coronavirus support as an extremely vulnerable person</h2>
 
-<p>This service allows people identified as vulnerable by the NHS to<br />
-tell us if they need help accessing essential supplies and support.<br />
-Users will have received a link to the service in a letter or a text<br />
-message from the NHS, or been advised by their GP to fill in the form.<br />
-They can fill the form in themselves, or someone else can fill it in<br />
+<p>This service allows people identified as vulnerable by the NHS to
+tell us if they need help accessing essential supplies and support.
+Users will have received a link to the service in a letter or a text
+message from the NHS, or been advised by their GP to fill in the form.
+They can fill the form in themselves, or someone else can fill it in
 for them.</p>
 
-<p>There is also an interactive voice response (IVR) automated phone<br />
-service provided by AWS. This is for users who do not have access to<br />
+<p>There is also an interactive voice response (IVR) automated phone
+service provided by AWS. This is for users who do not have access to
 the internet.</p>
 
-<p>The service is also known as the Shielded Vulnerable service, or<br />
+<p>The service is also known as the Shielded Vulnerable service, or
 SV.</p>
 
 <ul>
@@ -279,13 +279,13 @@ SV.</p>
 
 <h2 id="find-support-if-youre-affected-by-coronavirus">Find support if you're affected by coronavirus</h2>
 
-<p>This service allows the public - who may not have been eligible for<br />
-the extremely vulnerable service - to find information about what help<br />
-is available if they're struggling with unemployment, an inability to<br />
-get food, having somewhere to live, or their general wellbeing as a<br />
+<p>This service allows the public - who may not have been eligible for
+the extremely vulnerable service - to find information about what help
+is available if they're struggling with unemployment, an inability to
+get food, having somewhere to live, or their general wellbeing as a
 result of coronavirus.</p>
 
-<p>The service is also known as the Non-Shielded Vulnerable service, or<br />
+<p>The service is also known as the Non-Shielded Vulnerable service, or
 NSV.</p>
 
 <ul>
@@ -328,12 +328,12 @@ NSV.</p>
 
 <h3 id="session-storage">Session storage</h3>
 
-<p>While the user is filling out the form, we use session storage to<br />
+<p>While the user is filling out the form, we use session storage to
 store the user's data.</p>
 
-<p>For the vulnerable people form and find support form, we store session data for<br />
-4 hours in an encrypted cookie, persisted in the browser and sent back to the<br />
-server for every question.  Cookies have a limit of 4KB, so this approach could<br />
+<p>For the vulnerable people form and find support form, we store session data for
+4 hours in an encrypted cookie, persisted in the browser and sent back to the
+server for every question.  Cookies have a limit of 4KB, so this approach could
 cause errors if the user submits large inputs.</p>
 
 <p>For the business volunteering form, we store the following for 4 hours:</p>
@@ -345,43 +345,43 @@ cause errors if the user submits large inputs.</p>
 
 <h3 id="data-storage">Data storage</h3>
 
-<p>For all but the find support form, when the user submits the form on<br />
-the "Check your answers" page, the application writes user data to the<br />
+<p>For all but the find support form, when the user submits the form on
+the "Check your answers" page, the application writes user data to the
 database.</p>
 
-<p>For the find support form, user responses are written to the database<br />
-on submission of the final question. There is no "Check your answers"<br />
+<p>For the find support form, user responses are written to the database
+on submission of the final question. There is no "Check your answers"
 page.</p>
 
-<p>The vulnerable people form application only has permission to write<br />
-items to the database. For security and privacy reasons, there's no<br />
+<p>The vulnerable people form application only has permission to write
+items to the database. For security and privacy reasons, there's no
 way to read or change already-submitted user data.</p>
 
-<p>Developers should not have access to the production database for<br />
+<p>Developers should not have access to the production database for
 the vulnerable people form application.</p>
 
-<p>The business volunteering form and find support form applications can both read<br />
+<p>The business volunteering form and find support form applications can both read
 and write to their databases as the security and privacy requirements are lower.</p>
 
-<p>Developers may treat data in the business volunteering form and find support<br />
-form to the same standards as any other GOV.UK personal data store, and are able<br />
+<p>Developers may treat data in the business volunteering form and find support
+form to the same standards as any other GOV.UK personal data store, and are able
 to access it for legitimate development duties.</p>
 
 <h2 id="hosting">Hosting</h2>
 
 <h3 id="paas">PaaS</h3>
 
-<p>All applications are hosted on GOV.UK Platform as a Service (PaaS) in<br />
-the Ireland region.  PaaS provides a scalable hosting platform based<br />
-on CloudFoundry managed by GDS.  You can read more in the <a href="https://docs.cloud.service.gov.uk/">PaaS<br />
+<p>All applications are hosted on GOV.UK Platform as a Service (PaaS) in
+the Ireland region.  PaaS provides a scalable hosting platform based
+on CloudFoundry managed by GDS.  You can read more in the <a href="https://docs.cloud.service.gov.uk/">PaaS
 technical documentation</a>.</p>
 
 <h4 id="get-access">Get access</h4>
 
-<p>To get access, email<br />
-govuk-senior-tech-members@digital.cabinet-office.gov.uk and ask for an<br />
-invite to the <code>govuk_development</code> organisation.  They need to give you<br />
-a role that lets you access both <code>staging</code> and <code>production</code> spaces and<br />
+<p>To get access, email
+govuk-senior-tech-members@digital.cabinet-office.gov.uk and ask for an
+invite to the <code>govuk_development</code> organisation.  They need to give you
+a role that lets you access both <code>staging</code> and <code>production</code> spaces and
 the applications inside.</p>
 
 <h4 id="log-in">Log in</h4>
@@ -393,27 +393,27 @@ the applications inside.</p>
   <li>Select staging or production with <code>cf target -s &lt;staging or production&gt;</code></li>
 </ol>
 
-<p>All applications are Rails applications, and use the<br />
-<a href="https://docs.cloud.service.gov.uk/deploying_apps.html#deploy-a-ruby-on-rails-app"><code>ruby_buildpack</code></a> to build and deploy to PaaS.  You can read more<br />
-about <a href="https://docs.cloud.service.gov.uk/managing_apps.html#managing-apps">managing PaaS applications</a> and <a href="https://docs.cloud.service.gov.uk/monitoring_apps.html#monitoring-apps">monitoring PaaS<br />
+<p>All applications are Rails applications, and use the
+<a href="https://docs.cloud.service.gov.uk/deploying_apps.html#deploy-a-ruby-on-rails-app"><code>ruby_buildpack</code></a> to build and deploy to PaaS.  You can read more
+about <a href="https://docs.cloud.service.gov.uk/managing_apps.html#managing-apps">managing PaaS applications</a> and <a href="https://docs.cloud.service.gov.uk/monitoring_apps.html#monitoring-apps">monitoring PaaS
 applications</a>.</p>
 
 <h4 id="manage-backing-services">Manage backing services</h4>
 
-<p>The business volunteer application uses PaaS's <a href="https://docs.cloud.service.gov.uk/deploying_services/redis/#redis">Redis backing<br />
-service</a>.  The backing service is attached to the<br />
-application by a setting in the <code>manifest.yml</code> file in the repository<br />
+<p>The business volunteer application uses PaaS's <a href="https://docs.cloud.service.gov.uk/deploying_services/redis/#redis">Redis backing
+service</a>.  The backing service is attached to the
+application by a setting in the <code>manifest.yml</code> file in the repository
 root.</p>
 
-<p>The JSON data in the <code>VCAP_SERVICES</code> environment variable exposes<br />
+<p>The JSON data in the <code>VCAP_SERVICES</code> environment variable exposes
 settings and credentials for the backing service automatically.</p>
 
 <h3 id="aws">AWS</h3>
 
-<p>We have two AWS accounts (staging and production) for CDN and data<br />
-storage. They contain DynamoDB, IAM and CloudFront resources,<br />
-which were provisioned by Terraform in the <a href="https://github.com/alphagov/covid-engineering/blob/master/reliability-engineering/terraform/deployments/corona-data-prod/account/iam.tf#L296-L386">alphagov/covid-engineering<br />
-repository</a>. Members of the GOV.UK Coronavirus<br />
+<p>We have two AWS accounts (staging and production) for CDN and data
+storage. They contain DynamoDB, IAM and CloudFront resources,
+which were provisioned by Terraform in the <a href="https://github.com/alphagov/covid-engineering/blob/master/reliability-engineering/terraform/deployments/corona-data-prod/account/iam.tf#L296-L386">alphagov/covid-engineering
+repository</a>. Members of the GOV.UK Coronavirus
 Services team have access.</p>
 
 <p>To log in to AWS:</p>
@@ -429,21 +429,21 @@ Services team have access.</p>
 
 <h2 id="deployment">Deployment</h2>
 
-<p>Deployment is managed via <a href="https://cd.gds-reliability.engineering/">TechOps shared Concourse</a>.<br />
-CI/CD pipelines are configured under the <code>govuk-tools</code> team. You can<br />
-read about what Concourse is, its access controls, <a href="https://reliability-engineering.cloudapps.digital/continuous-deployment.html#secrets">configuring secrets</a>,<br />
-and how to administer it, on the <a href="/manual/concourse.html">Concourse</a><br />
+<p>Deployment is managed via <a href="https://cd.gds-reliability.engineering/">TechOps shared Concourse</a>.
+CI/CD pipelines are configured under the <code>govuk-tools</code> team. You can
+read about what Concourse is, its access controls, <a href="https://reliability-engineering.cloudapps.digital/continuous-deployment.html#secrets">configuring secrets</a>,
+and how to administer it, on the <a href="/manual/concourse.html">Concourse</a>
 developer docs page.</p>
 
-<p>In terms of these applications, any changes to application code on the<br />
-master branch are continuously deployed to staging.  Smoke tests are<br />
-set up to run on staging, if these pass the applications are<br />
-automatically deployed to production.  The smoke tests are the feature<br />
+<p>In terms of these applications, any changes to application code on the
+master branch are continuously deployed to staging.  Smoke tests are
+set up to run on staging, if these pass the applications are
+automatically deployed to production.  The smoke tests are the feature
 tests within the application repository.</p>
 
-<p>The Concourse deployment pipeline and task configuration for each<br />
-application is stored in the "concourse" directory at the root of each<br />
-repository. Changes to these pipelines apply automatically when pushed<br />
+<p>The Concourse deployment pipeline and task configuration for each
+application is stored in the "concourse" directory at the root of each
+repository. Changes to these pipelines apply automatically when pushed
 to <code>master</code>.</p>
 
 <p>Links to Concourse Pipelines:</p>
@@ -456,17 +456,17 @@ to <code>master</code>.</p>
 
 <h3 id="zero-downtime-deployment">Zero-Downtime Deployment</h3>
 
-<p>The deployment tasks use the CloudFoundry v3 API commands in order to<br />
+<p>The deployment tasks use the CloudFoundry v3 API commands in order to
 support zero-downtime deployment and various new features.</p>
 
-<p>When working with the cf cli tool, use the <code>v3</code> prefixed commands.<br />
+<p>When working with the cf cli tool, use the <code>v3</code> prefixed commands.
 For example: <code>cf v3-apps</code>.</p>
 
 <h3 id="cancelling-a-failed-deployment">Cancelling a failed deployment</h3>
 
-<p>Occasionally a zero-downtime deployment may fail.  This can occur if<br />
-the application fails to start, or the required number of app<br />
-instances cannot be created in time.  To cancel and roll back to the<br />
+<p>Occasionally a zero-downtime deployment may fail.  This can occur if
+the application fails to start, or the required number of app
+instances cannot be created in time.  To cancel and roll back to the
 previous deployment, run: <code>cf v3-cancel-zdt-push &lt;app-name&gt;</code>.</p>
 
 <h3 id="links-to-staging">Links to Staging</h3>
@@ -477,7 +477,7 @@ previous deployment, run: <code>cf v3-cancel-zdt-push &lt;app-name&gt;</code>.</
   <li><a href="https://govuk-coronavirus-find-support-stg.cloudapps.digital/urgent-medical-help"><code>govuk-coronavirus-find-support-form</code></a></li>
 </ul>
 
-<p>These are protected by HTTP basic auth.  You can find the credentials<br />
+<p>These are protected by HTTP basic auth.  You can find the credentials
 in govuk-secrets and get them by running:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>cd ~/govuk/govuk-secrets/pass
@@ -485,10 +485,10 @@ in govuk-secrets and get them by running:</p>
 </code></pre></div>
 <h2 id="monitoring">Monitoring</h2>
 
-<p>There's a <a href="https://gds.splunkcloud.com/en-GB/app/gds-006-govuk/d006_coronavirus">Splunk dashboard</a> for all of these services.  To<br />
-access Splunk, you need to have the <code>GDS-006-GOVUK</code> permission on your<br />
-Google account.  To get this permission, raise an IT Helpdesk ticket<br />
-and post in <code>#cyber-security-help</code> to get them to confirm the request<br />
+<p>There's a <a href="https://gds.splunkcloud.com/en-GB/app/gds-006-govuk/d006_coronavirus">Splunk dashboard</a> for all of these services.  To
+access Splunk, you need to have the <code>GDS-006-GOVUK</code> permission on your
+Google account.  To get this permission, raise an IT Helpdesk ticket
+and post in <code>#cyber-security-help</code> to get them to confirm the request
 is legitimate.</p>
 
 <p>Application errors are sent to the GOV.UK hosted Sentry:</p>
@@ -499,42 +499,42 @@ is legitimate.</p>
   <li><a href="https://sentry.io/organizations/govuk/issues/?project=5192076"><code>govuk-coronavirus-find-support-form</code></a></li>
 </ul>
 
-<p>These are under the GOV.UK Sentry account and you can sign in with<br />
+<p>These are under the GOV.UK Sentry account and you can sign in with
 your Google Account.</p>
 
-<p>Logs for all applications are streamed to Logit and can be found in<br />
+<p>Logs for all applications are streamed to Logit and can be found in
 following dashboards:</p>
 
-<p><a href="https://logit.io/a/1c6b2316-16e2-4ca5-a3df-ff18631b0e74/s/04b46992-f653-4c14-965c-236e9a6c2777/kibana/access">GOV.UK Production Corona Forms</a><br />
+<p><a href="https://logit.io/a/1c6b2316-16e2-4ca5-a3df-ff18631b0e74/s/04b46992-f653-4c14-965c-236e9a6c2777/kibana/access">GOV.UK Production Corona Forms</a>
 <a href="https://logit.io/a/1c6b2316-16e2-4ca5-a3df-ff18631b0e74/s/7a0be476-6535-4544-8318-4c7a130948e8/kibana/access">GOV.UK Staging Corona Forms</a></p>
 
 <h2 id="confirmation-emails">Confirmation emails</h2>
 
 <h3 id="govuk-notify">GOV.UK Notify</h3>
 
-<p>The business volunteering service sends confirmation emails on form submission,<br />
+<p>The business volunteering service sends confirmation emails on form submission,
 using GOV.UK Notify.</p>
 
-<p>Sidekiq is used to manage the queuing of email jobs. The application <a href="https://github.com/alphagov/govuk-coronavirus-business-volunteer-form#running-sidekiq">README</a><br />
+<p>Sidekiq is used to manage the queuing of email jobs. The application <a href="https://github.com/alphagov/govuk-coronavirus-business-volunteer-form#running-sidekiq">README</a>
 details how to manage the Sidekiq queue.</p>
 
-<p>To login to the <a href="https://www.notifications.service.gov.uk/sign-in">GOV.UK Notify Dashboard</a><br />
+<p>To login to the <a href="https://www.notifications.service.gov.uk/sign-in">GOV.UK Notify Dashboard</a>
 obtain the credentials using govuk-secrets:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>cd ~/govuk/govuk-secrets/pass
 pass govuk-notify/govuk-coronavirus-services
 </code></pre></div>
-<p>In staging only, emails are sent to <code>coronavirus-services-smoke-tests@digital.cabinet-office.gov.uk</code><br />
+<p>In staging only, emails are sent to <code>coronavirus-services-smoke-tests@digital.cabinet-office.gov.uk</code>
 rather than the form submitter.</p>
 
 <h2 id="extracting-form-responses-business-volunteering-only">Extracting form responses (business volunteering only)</h2>
 
-<p>Cabinet Office require data exports at regular intervals.  A<br />
-<a href="https://github.com/alphagov/govuk-coronavirus-business-volunteer-form/blob/5aed27777a22035b1b4f7ea9eafe612b105469a1/concourse/pipeline.yml#L99-L107">recurring Concourse job</a><br />
-exports the data to a S3 bucket each day between midnight and 1am.<br />
+<p>Cabinet Office require data exports at regular intervals.  A
+<a href="https://github.com/alphagov/govuk-coronavirus-business-volunteer-form/blob/5aed27777a22035b1b4f7ea9eafe612b105469a1/concourse/pipeline.yml#L99-L107">recurring Concourse job</a>
+exports the data to a S3 bucket each day between midnight and 1am.
 Details of the bucket can be obtained using <code>cf services</code> and <code>cf env</code>.</p>
 
-<p>Should further exports be required, there is a rake task to export<br />
+<p>Should further exports be required, there is a rake task to export
 the data for a single day in JSON format.</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>cf v3-ssh govuk-coronavirus-business-volunteer-form
@@ -552,7 +552,7 @@ $ rake export:form_responses["&lt;date&gt;"]
   <li>if a service has a high rate of 5xx errors</li>
 </ul>
 
-<p>You should find the Monitoring and Useful commands sections in this<br />
+<p>You should find the Monitoring and Useful commands sections in this
 document helpful when investigating this issue.</p>
 
 <p>Useful Slack channels:</p>
@@ -565,8 +565,8 @@ document helpful when investigating this issue.</p>
 
 <h3 id="service-downtime">Service downtime**</h3>
 
-<p>The GOV.UK Pingdom account is configured to checks if the first of<br />
-each form service page is up. If it can't reach a page for a<br />
+<p>The GOV.UK Pingdom account is configured to checks if the first of
+each form service page is up. If it can't reach a page for a
 configured period of time, it will call you.</p>
 
 <p>The login credentials for the service are in govuk-secrets pass.</p>
@@ -577,14 +577,14 @@ configured period of time, it will call you.</p>
   <p><strong>Note:</strong> Connect to the VPN to view Prometheus and AlertManager UIs.</p>
 </blockquote>
 
-<p>These alerts are triggered by <a href="https://prom-1.monitoring.gds-reliability.engineering/alerts">Reliability Engineering's Prometheus</a><br />
+<p>These alerts are triggered by <a href="https://prom-1.monitoring.gds-reliability.engineering/alerts">Reliability Engineering's Prometheus</a>
 when the applications are serving a high number of 5xx errors.</p>
 
-<p>The configuration for the alert is stored in the<br />
+<p>The configuration for the alert is stored in the
 <a href="https://github.com/alphagov/prometheus-aws-configuration-beta/blob/b33139a4ed06fc77e4687f8b6dee20577717fdb8/terraform/modules/prom-ec2/alerts-config/alerts/govuk-coronavirus-services-alerts.yml">prometheus-aws-configuration-beta</a> repository.</p>
 
-<p>You can also view the alert in <a href="https://alerts.monitoring.gds-reliability.engineering/#/alerts">AlertManager</a>, which sends<br />
-the Prometheus alerts to PagerDuty. You can silence the alert through<br />
+<p>You can also view the alert in <a href="https://alerts.monitoring.gds-reliability.engineering/#/alerts">AlertManager</a>, which sends
+the Prometheus alerts to PagerDuty. You can silence the alert through
 the user interface, or use the <code>amtool</code> cli to end the alert.</p>
 
 <p>This alert indicates a problem with the application origin servers.</p>
@@ -595,16 +595,16 @@ the user interface, or use the <code>amtool</code> cli to end the alert.</p>
   <li>See the monitoring section, to look at some graphs</li>
   <li>Check the logs to see which requests are failing</li>
   <li>Check the commit log to see if there was a recent change</li>
-  <li>Check the concourse pipeline to see if there was a recent deploy, or<br />
+  <li>Check the concourse pipeline to see if there was a recent deploy, or
 if the smoke test is failing</li>
-  <li>Check the <code>/metrics</code> endpoints on the apps, to see if they are<br />
+  <li>Check the <code>/metrics</code> endpoints on the apps, to see if they are
 serving metrics to prometheus correctly</li>
 </ul>
 
 <h4 id="deactivate-prometheus-alerts-for-these-services">Deactivate Prometheus alerts for these services</h4>
 
 <blockquote>
-  <p><strong>Note:</strong> you should only do this if you have confirmed that there is<br />
+  <p><strong>Note:</strong> you should only do this if you have confirmed that there is
 a problem with the alert.</p>
 </blockquote>
 
@@ -619,13 +619,13 @@ a problem with the alert.</p>
 
 <h3 id="what-things-will-call-you">What things will call you</h3>
 
-<p>The GOV.UK PagerDuty will page on-call/2ndline if these services<br />
+<p>The GOV.UK PagerDuty will page on-call/2ndline if these services
 experience issues. See the Alerting section above.</p>
 
 <h3 id="useful-commands">Useful commands</h3>
 
 <blockquote>
-  <p><strong>Note:</strong> Make sure to use the <code>v3-</code> commands for things like<br />
+  <p><strong>Note:</strong> Make sure to use the <code>v3-</code> commands for things like
 restarting or deploying apps, to do so in a zero-downtime way.</p>
 </blockquote>
 
@@ -651,7 +651,7 @@ restarting or deploying apps, to do so in a zero-downtime way.</p>
 </code></pre></div>
 <h3 id="escalating-to-paas-support">Escalating to PaaS support</h3>
 
-<p>PaaS support contact details are in the <a href="https://docs.google.com/document/d/17XUuPaZ5FufyXH00S9qukl6Kf3JbJtAqwHR3eOBVBpI/edit">legacy opsmanual doc</a> under the<br />
+<p>PaaS support contact details are in the <a href="https://docs.google.com/document/d/17XUuPaZ5FufyXH00S9qukl6Kf3JbJtAqwHR3eOBVBpI/edit">legacy opsmanual doc</a> under the
 heading "PaaS Support (COVID-19 forms)".</p>
 
 

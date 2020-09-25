@@ -161,7 +161,7 @@
             
   <p><a href='/manual.html#monitoring'>Monitoring</a></p> <h1 id='header'>Use Nagstamon for monitoring Icinga</h1><p><img src="/images/nagstamon.png" alt="nagstamon" /></p>
 
-<p><a href="https://nagstamon.ifw-dresden.de/">Nagstamon</a> can access multiple Icinga instances, display the<br />
+<p><a href="https://nagstamon.ifw-dresden.de/">Nagstamon</a> can access multiple Icinga instances, display the
 alerts, and allow you to easily act on them.</p>
 
 <h2 id="installation">Installation</h2>
@@ -170,12 +170,12 @@ alerts, and allow you to easily act on them.</p>
 
 <h3 id="mac-users">Mac users</h3>
 
-<p>Double-click the downloaded <code>.dmg</code>. Drag the app into your<br />
+<p>Double-click the downloaded <code>.dmg</code>. Drag the app into your
 Apps folder, then double-click the app.</p>
 
-<p>On first run, it may be blocked as an unverified app.<br />
-Go to "Security &amp; Privacy", and under the "General" tab there<br />
-should be a message relating to your attempt to open Nagstamon.<br />
+<p>On first run, it may be blocked as an unverified app.
+Go to "Security &amp; Privacy", and under the "General" tab there
+should be a message relating to your attempt to open Nagstamon.
 Click "Open anyway".</p>
 
 <h2 id="connecting-to-icinga">Connecting to Icinga</h2>
@@ -187,8 +187,8 @@ Click "Open anyway".</p>
   <li>Select "New server…".</li>
   <li>Choose "Monitor Type" of "Icinga".</li>
   <li>Enter an appropriate "Monitor name", "GOV.UK Integration" for example.</li>
-  <li>Enter the URL for the Icinga instance to the Monitor URL and Monitor<br />
-CGI URL fields (i.e. <code>https://alert.integration.publishing.service.gov.uk/</code><br />
+  <li>Enter the URL for the Icinga instance to the Monitor URL and Monitor
+CGI URL fields (i.e. <code>https://alert.integration.publishing.service.gov.uk/</code>
 should be entered in both fields for integration).</li>
   <li>Leave the Username and Password blank, and tick "Save password".</li>
   <li>Click "OK".</li>
@@ -196,11 +196,11 @@ should be entered in both fields for integration).</li>
 
 <h3 id="actions">Actions</h3>
 
-<p>Nagstamon supports performing actions, you can configure it to connect<br />
-to the relevant host via SSH, which can make it easier to investigate<br />
+<p>Nagstamon supports performing actions, you can configure it to connect
+to the relevant host via SSH, which can make it easier to investigate
 and resolve issues.</p>
 
-<p>Both these commands assume that you have the <a href="/manual/get-started.html"><code>gds-cli</code> and<br />
+<p>Both these commands assume that you have the <a href="/manual/get-started.html"><code>gds-cli</code> and
 <code>govuk-connect</code> set up</a>.</p>
 
 <p>To configure an SSH action:</p>
@@ -217,7 +217,7 @@ and resolve issues.</p>
       <li>For macOS, enter the following command in the "String" field:
         <ul>
           <li><code>osascript -e 'tell app "Terminal" to do script "gds govuk connect ssh --hosting-and-environment-from-alert-url $MONITOR$ $ADDRESS$"'</code></li>
-          <li>For GNU/Linux, with the Gnome Terminal installed (which includes<br />
+          <li>For GNU/Linux, with the Gnome Terminal installed (which includes
 Ubuntu), use the following command:
             <ul>
               <li><code>/usr/bin/gnome-terminal -x gds govuk connect ssh --hosting-and-environment-from-alert-url $MONITOR$ $ADDRESS$</code></li>

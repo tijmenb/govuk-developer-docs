@@ -141,11 +141,11 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#assets'>Assets</a></p> <h1 id='header'>Upload an asset to asset-manager</h1><p>Some publishing apps such as <a href="/apps/publisher.html">Mainstream Publisher</a> do not provide the facility for editors to upload<br />
-assets such as images and PDFs. In these rare cases, we can upload assets to asset-manager manually<br />
+  <p><a href='/manual.html#assets'>Assets</a></p> <h1 id='header'>Upload an asset to asset-manager</h1><p>Some publishing apps such as <a href="/apps/publisher.html">Mainstream Publisher</a> do not provide the facility for editors to upload
+assets such as images and PDFs. In these rare cases, we can upload assets to asset-manager manually
 and give the URL to content editors to embed.</p>
 
-<p>Production assets are replicated to staging and integration nightly, so it is best to simply perform<br />
+<p>Production assets are replicated to staging and integration nightly, so it is best to simply perform
 the upload directly in production. First, upload the asset to a backend machine:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>gds govuk connect scp-push -e production aws/backend:1 my_file.jpg /tmp

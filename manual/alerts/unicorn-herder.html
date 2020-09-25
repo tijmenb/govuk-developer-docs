@@ -160,15 +160,15 @@
 
    <h1 id='header'>Unicorn Herder</h1><h3 id="app-unicornherder-running">'app unicornherder running'</h3>
 
-<p>This alert means the Unicorn Herder process has disappeared for the<br />
-named app, so the app is still running but we don't know about it and<br />
+<p>This alert means the Unicorn Herder process has disappeared for the
+named app, so the app is still running but we don't know about it and
 can't control it.</p>
 
-<p>At the moment, the fix is to run the <a href="/manual/tools.html#fabric-scripts">Fabric</a><br />
-task <code>vm.bodge_unicorn</code> for that app. (The name of the task should give a clue<br />
+<p>At the moment, the fix is to run the <a href="/manual/tools.html#fabric-scripts">Fabric</a>
+task <code>vm.bodge_unicorn</code> for that app. (The name of the task should give a clue
 as to why I say "At the moment".)</p>
 
-<p>Configure and activate your fabric environment as described in the<br />
+<p>Configure and activate your fabric environment as described in the
 <a href="https://github.com/alphagov/fabric-scripts/blob/master/README.md">fabric-scripts README</a>.</p>
 
 <p>Then run the <code>vm.bodge_unicorn</code> task for the affected machine and application:</p>

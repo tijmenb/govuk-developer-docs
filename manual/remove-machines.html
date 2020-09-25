@@ -171,15 +171,15 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#infrastructure'>Infrastructure</a></p> <h1 id='header'>Remove a machine</h1><p>Before you start, make sure that the machines you are removing are no longer<br />
+  <p><a href='/manual.html#infrastructure'>Infrastructure</a></p> <h1 id='header'>Remove a machine</h1><p>Before you start, make sure that the machines you are removing are no longer
 needed for anything.</p>
 
 <h2 id="carrenza">Carrenza</h2>
 
 <h2 id="1-remove-the-node-from-the-puppetmaster">1. Remove the node from the puppetmaster</h2>
 
-<p>You need to remove the nodes from the puppetmaster in each environment.<br />
-This is needed to clean up exported resources from Puppet, including<br />
+<p>You need to remove the nodes from the puppetmaster in each environment.
+This is needed to clean up exported resources from Puppet, including
 removing checks from Icinga.</p>
 
 <p>First, disable Puppet on the machines you wish to remove.</p>
@@ -192,7 +192,7 @@ removing checks from Icinga.</p>
 
 <div class="highlight"><pre class="highlight console"><code><span class="gp">$</span><span class="w"> </span>govuk_node_clean &lt;machine_name&gt;
 </code></pre></div>
-<p>Where <code>&lt;machine_name&gt;</code> might be <code>machine-name-1.vdc-name.production</code> (Carrenza)<br />
+<p>Where <code>&lt;machine_name&gt;</code> might be <code>machine-name-1.vdc-name.production</code> (Carrenza)
 To find the names of the machines, you can list the nodes on puppetmaster:</p>
 
 <div class="highlight"><pre class="highlight console"><code><span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>puppet cert list <span class="nt">--all</span>
@@ -203,51 +203,51 @@ To find the names of the machines, you can list the nodes on puppetmaster:</p>
 Notice: Revoked certificate with serial 127
 Notice: Removing file Puppet::SSL::Certificate redirector-1.redirector.production at <span class="s1">'/etc/puppet/ssl/ca/signed/redirector-1.redirector.production.pem'</span>
 </code></pre></div>
-<p>After this, Icinga will forget about the machine when it next<br />
+<p>After this, Icinga will forget about the machine when it next
 runs Puppet. You can force this with:</p>
 
 <div class="highlight"><pre class="highlight console"><code><span class="gp">$</span><span class="w"> </span>ssh monitoring-1.management.production
 <span class="gp">$</span><span class="w"> </span>govuk_puppet <span class="nt">--test</span>
 </code></pre></div>
-<p>You may need to wait a few minutes, but it should then disappear from<br />
+<p>You may need to wait a few minutes, but it should then disappear from
 the "Host Detail" page in Icinga.</p>
 
 <h3 id="2-remove-from-vcloud-director">2. Remove from vCloud Director</h3>
 
-<p>Sign in to the vCloud Director instance for the given environment.<br />
-Go to 'My Cloud', search for the given machine, stop it, and then<br />
+<p>Sign in to the vCloud Director instance for the given environment.
+Go to 'My Cloud', search for the given machine, stop it, and then
 delete it.</p>
 
 <h3 id="3-remove-from-govuk-provisioning">3. Remove from govuk-provisioning</h3>
 
-<p>If your machine class matches a vDC, be careful not to remove firewall<br />
+<p>If your machine class matches a vDC, be careful not to remove firewall
 rules that apply to the vDC.</p>
 
 <h2 id="aws">AWS</h2>
 
 <h3 id="1-remove-from-terraform">1. Remove from Terraform</h3>
 
-<p>If you're removing a class of machines, first <a href="/manual/deploying-terraform.html#ci-jenkins">deploy Terraform</a><br />
-for the relevant project using the <code>destroy</code> action. This will remove all the<br />
+<p>If you're removing a class of machines, first <a href="/manual/deploying-terraform.html#ci-jenkins">deploy Terraform</a>
+for the relevant project using the <code>destroy</code> action. This will remove all the
 EC2 instances.</p>
 
 <p>Then, remove the project itself from <a href="https://github.com/alphagov/govuk-aws/tree/master/terraform/projects">govuk-aws</a>.</p>
 
-<p>If you're removing a single machine, change the <code>asg_size</code> for the<br />
-relevant project in <a href="https://github.com/alphagov/govuk-aws-data/tree/master/data">govuk-aws-data</a><br />
-(<a href="https://github.com/alphagov/govuk-aws-data/blob/master/data/app-whitehall-backend/production/common.tfvars#L4">example</a>) and deploy Terraform.  Unlike<br />
-Carrenza, it is not possible to disable alerts for the machine before<br />
-it is removed, as the ASG will terminate arbitrary instances to shrink<br />
+<p>If you're removing a single machine, change the <code>asg_size</code> for the
+relevant project in <a href="https://github.com/alphagov/govuk-aws-data/tree/master/data">govuk-aws-data</a>
+(<a href="https://github.com/alphagov/govuk-aws-data/blob/master/data/app-whitehall-backend/production/common.tfvars#L4">example</a>) and deploy Terraform.  Unlike
+Carrenza, it is not possible to disable alerts for the machine before
+it is removed, as the ASG will terminate arbitrary instances to shrink
 to the desired size.</p>
 
-<p>If there are particular machines in the ASG that you do not want terminated<br />
-you can enable "Scale in Protection" on them before you reduce the size of the ASG. You<br />
+<p>If there are particular machines in the ASG that you do not want terminated
+you can enable "Scale in Protection" on them before you reduce the size of the ASG. You
 can find <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-termination.html">more information on this in the AWS Docs</a>.</p>
 
 <h3 id="2-remove-the-node-from-the-puppetmaster">2. Remove the node from the puppetmaster</h3>
 
-<p>Icinga will forget about the machine after Puppet runs on the<br />
-puppetmaster and then on the monitoring machine, which could be up to<br />
+<p>Icinga will forget about the machine after Puppet runs on the
+puppetmaster and then on the monitoring machine, which could be up to
 an hour.  You can force this by running Puppet on the puppetmaster:</p>
 
 <div class="highlight"><pre class="highlight console"><code><span class="gp">$</span><span class="w"> </span>gds govuk connect <span class="nt">-e</span> &lt;environment&gt; ssh puppetmaster

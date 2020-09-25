@@ -154,15 +154,15 @@
       </a>
     </div>
 
-   <h1 id='header'>Fastly error rate for GOV.UK</h1><p>We get response code reporting from Fastly (with a 15 minute delay). It<br />
-averages out the last 15 minutes worth of 5xx errors. This is a useful<br />
-supplementary metric to highlight low-level errors that occur over a longer<br />
+   <h1 id='header'>Fastly error rate for GOV.UK</h1><p>We get response code reporting from Fastly (with a 15 minute delay). It
+averages out the last 15 minutes worth of 5xx errors. This is a useful
+supplementary metric to highlight low-level errors that occur over a longer
 period of time.</p>
 
 <p>The alert appears on <code>monitoring-1.management</code>.</p>
 
-<p>It is possible to <a href="/manual/query-cdn-logs.html">query the CDN logs using AWS Athena</a>.<br />
-The following query gets a count of URLs where a 5xx error has been served<br />
+<p>It is possible to <a href="/manual/query-cdn-logs.html">query the CDN logs using AWS Athena</a>.
+The following query gets a count of URLs where a 5xx error has been served
 between the given timestamps:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>SELECT url, status, COUNT(*) AS count
@@ -183,8 +183,8 @@ ORDER BY count DESC
 
 <h2 id="unknown-alert"><code>Unknown</code> alert</h2>
 
-<p>The alert appears on <code>monitoring-1.management</code>. Collectd uses the Fastly<br />
-API to get statistics which it pushes to Graphite. If the alert is unknown,<br />
+<p>The alert appears on <code>monitoring-1.management</code>. Collectd uses the Fastly
+API to get statistics which it pushes to Graphite. If the alert is unknown,
 collectd likely cannot talk to Fastly so restart collectd.</p>
 
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">sudo </span>service collectd restart

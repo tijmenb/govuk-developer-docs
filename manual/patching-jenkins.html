@@ -168,20 +168,20 @@
 </code></pre></div>
 <p>Log in to the Jenkins UI and go to "Manage Jenkins" -&gt; "Manage Plugins".</p>
 
-<p>Select all outstanding updates and kick off the install. Wait for the downloads<br />
+<p>Select all outstanding updates and kick off the install. Wait for the downloads
 to complete, install and restart the service.</p>
 
-<p>Back on the machine terminal, run the following command to see the currently<br />
+<p>Back on the machine terminal, run the following command to see the currently
 installed plugins in a hieradata like format:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>sudo jenkins-cli list-plugins |sort| awk '{ if ($NF ~ /\(.*\)/) print $1":\n  version:", "'\''" $(NF-1) "'\''"; else print $1":\n  version:", "'\''" $NF "'\''" }'
 </code></pre></div>
 <p>Update the class hieradata with the list of plugins. Check <a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata/class/ci_master.yaml">this example</a>.</p>
 
-<p>Use <code>git diff</code> to ensure version numbers are updated. If new plugins appear to be<br />
+<p>Use <code>git diff</code> to ensure version numbers are updated. If new plugins appear to be
 present, double-check with someone else.</p>
 
-<p><strong>Be aware that the "credentials" plugin is pulled in using the upstream Puppet<br />
+<p><strong>Be aware that the "credentials" plugin is pulled in using the upstream Puppet
 module, so ensure that this not added to hiera</strong></p>
 
 <p>Re-enable Puppet on the machine when the PR has been merged and deployed.</p>
@@ -190,7 +190,7 @@ module, so ensure that this not added to hiera</strong></p>
 
 <p>Grab the latest Debian package from the <a href="https://pkg.jenkins.io/debian-stable/">Jenkins site</a>.</p>
 
-<p>Upload it to <code>apt-1.management</code> in Production (we only use a single apt machine<br />
+<p>Upload it to <code>apt-1.management</code> in Production (we only use a single apt machine
 across all environments).</p>
 
 <p>Run the following commands to add it to the Jenkins repo:</p>
@@ -207,10 +207,10 @@ sudo -i aptly publish switch stable govuk-jenkins govuk-jenkins-$(date +%Y%m%d)
 
 <h3 id="manual-test-upgrade">Manual test upgrade</h3>
 
-<p>You can manually test a new version before doing the steps outlined above to get<br />
+<p>You can manually test a new version before doing the steps outlined above to get
 it officially into Puppet.</p>
 
-<p>Find the latest version on the Jenkins site and set appropriately below:<br />
+<p>Find the latest version on the Jenkins site and set appropriately below:
 <a href="https://jenkins.io/download/">https://jenkins.io/download/</a></p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>export VERSION='2.46.2'

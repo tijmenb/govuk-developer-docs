@@ -149,17 +149,17 @@
       </a>
     </div>
 
-   <h1 id='header'>High zombie procs</h1><p>You can check what the zombie processes are by SSHing onto the machine<br />
+   <h1 id='header'>High zombie procs</h1><p>You can check what the zombie processes are by SSHing onto the machine
 and running the command:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>ps -A -o user,pid,ppid,state,cmd | awk 'NR==1 || $4=="Z" { print }'
 </code></pre></div>
-<p>The <code>PPID</code> field gives you the parent process ID, which you may be able<br />
-to use to diagnose what caused the problem, or at least which process to<br />
+<p>The <code>PPID</code> field gives you the parent process ID, which you may be able
+to use to diagnose what caused the problem, or at least which process to
 restart.</p>
 
-<p>If there are a number of zombie processes on one of the backend machines,<br />
-restarting Imminence (with <code>sudo service imminence restart</code>) may fix the<br />
+<p>If there are a number of zombie processes on one of the backend machines,
+restarting Imminence (with <code>sudo service imminence restart</code>) may fix the
 problem; if that doesn't help, reboot the machine at a convenient time.</p>
 
 

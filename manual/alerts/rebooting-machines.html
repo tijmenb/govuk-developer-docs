@@ -209,21 +209,21 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#infrastructure'>Infrastructure</a></p> <h1 id='header'>Reboot a machine</h1><p>Under normal circumstances most machines reboot automatically when an update is required.<br />
+  <p><a href='/manual.html#infrastructure'>Infrastructure</a></p> <h1 id='header'>Reboot a machine</h1><p>Under normal circumstances most machines reboot automatically when an update is required.
 Some machines need to be rebooted manually.</p>
 
-<p>Note that much of the following documentation assumes you have correctly<br />
+<p>Note that much of the following documentation assumes you have correctly
 <a href="https://github.com/alphagov/fabric-scripts#setup">set up your fabric scripts</a>.</p>
 
 <h2 id="automatic-rebooting">Automatic rebooting</h2>
 
-<p>If machines are not rebooting automatically, there may be a problem with the locking mechanism.<br />
+<p>If machines are not rebooting automatically, there may be a problem with the locking mechanism.
 See next section.</p>
 
 <h3 id="checking-locking-status">Checking locking status</h3>
 
-<p><a href="https://github.com/coreos/locksmith">locksmith</a> manages unattended reboots to<br />
-ensure that systems are available. It is possible that a problem could occur<br />
+<p><a href="https://github.com/coreos/locksmith">locksmith</a> manages unattended reboots to
+ensure that systems are available. It is possible that a problem could occur
 where they can't reboot automatically.</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>$ fab &lt;environment&gt; all locksmith.status
@@ -234,7 +234,7 @@ where they can't reboot automatically.</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>$ fab &lt;environment&gt; -H &lt;machine-name&gt; locksmith.unlock:"&lt;machine-name&gt;"
 </code></pre></div>
-<p>Machines that are safe to reboot should then do so at the scheduled<br />
+<p>Machines that are safe to reboot should then do so at the scheduled
 time.</p>
 
 <h2 id="manual-rebooting">Manual rebooting</h2>
@@ -247,26 +247,26 @@ time.</p>
 
 <ul>
   <li>Do not reboot more than one machine of the same class at the same time.</li>
-  <li>There are Icinga alerts that warn if machines need rebooting. Those<br />
-alerts will tell you if it's a manual reboot, and whether it's in-<br />
+  <li>There are Icinga alerts that warn if machines need rebooting. Those
+alerts will tell you if it's a manual reboot, and whether it's in-
 or out-of-hours.</li>
-  <li>There is <a href="#rebooting-guidance-for-aws">extra guidance if the machine you are rebooting is in AWS</a>.<br />
+  <li>There is <a href="#rebooting-guidance-for-aws">extra guidance if the machine you are rebooting is in AWS</a>.
 You may wish to pair with the RE interruptible/on call person.</li>
   <li>There are also <a href="#rebooting-guidance-for-carrenza">things to consider when rebooting Carrenza machines</a>.</li>
 </ul>
 
 <h3 id="rebooting-one-machine">Rebooting one machine</h3>
 
-<p>First check whether the machine is safe to reboot. This information is<br />
-stored in puppet in hieradata. For example,<br />
-<a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata/class/mysql_master.yaml">here</a><br />
-is an example of a machine that cannot be safely rebooted. The<br />
-<a href="https://github.com/alphagov/govuk-puppet/blob/master/modules/govuk_safe_to_reboot/manifests/init.pp">default</a><br />
+<p>First check whether the machine is safe to reboot. This information is
+stored in puppet in hieradata. For example,
+<a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata/class/mysql_master.yaml">here</a>
+is an example of a machine that cannot be safely rebooted. The
+<a href="https://github.com/alphagov/govuk-puppet/blob/master/modules/govuk_safe_to_reboot/manifests/init.pp">default</a>
 is <code>safe_to_reboot::can_reboot: 'yes'</code>.</p>
 
 <blockquote>
-  <p>If there is an incident which requires the rebooting of a machine<br />
-otherwise marked as 'no', then it may be done provided any downstream<br />
+  <p>If there is an incident which requires the rebooting of a machine
+otherwise marked as 'no', then it may be done provided any downstream
 effects of this reboot have been considered.</p>
 </blockquote>
 
@@ -274,39 +274,39 @@ effects of this reboot have been considered.</p>
 
 <div class="highlight"><pre class="highlight shell"><code><span class="nb">sudo </span>reboot
 </code></pre></div>
-<p>Alternatively, there is a Fabric task to schedule a machine for downtime<br />
+<p>Alternatively, there is a Fabric task to schedule a machine for downtime
 in Nagios for 20 minutes and then reboot it:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>fab $environment -H graphite-1.management vm.reboot
 </code></pre></div>
 <h3 id="rebooting-guidance-for-aws">Rebooting guidance for AWS</h3>
 
-<p>If rebooting machines in AWS, extended reboot times may result in the<br />
-relevant machine being terminated automatically. If this happens, a<br />
+<p>If rebooting machines in AWS, extended reboot times may result in the
+relevant machine being terminated automatically. If this happens, a
 new machine will be created automatically.</p>
 
-<p>There have been a few cases when a reboot in AWS has not come back successfully<br />
-and RE will be able to help in these cases. It also means RE can investigate<br />
-any problems so it doesn't happen again and we have confidence in our ability<br />
+<p>There have been a few cases when a reboot in AWS has not come back successfully
+and RE will be able to help in these cases. It also means RE can investigate
+any problems so it doesn't happen again and we have confidence in our ability
 to reboot machines in AWS.</p>
 
 <p>There's a <a href="#rebooting-cache-machines-in-aws">section on rebooting <code>cache</code> machines in AWS</a>.</p>
 
 <h3 id="rebooting-guidance-for-carrenza">Rebooting guidance for Carrenza</h3>
 
-<p>There is a known issue whereby adding an extra disk using the LSI<br />
-Logic Parallel (SCSI) controller to a VM causes the BIOS boot order to<br />
-change, meaning that the system disk cannot be found and the OS does<br />
-not boot when the affected VM is restarted. See the<br />
-manual entry on <a href="/manual/adding-disks-in-vcloud.html">adding disks</a> for<br />
+<p>There is a known issue whereby adding an extra disk using the LSI
+Logic Parallel (SCSI) controller to a VM causes the BIOS boot order to
+change, meaning that the system disk cannot be found and the OS does
+not boot when the affected VM is restarted. See the
+manual entry on <a href="/manual/adding-disks-in-vcloud.html">adding disks</a> for
 more info.</p>
 
 <h2 id="special-cases">Special cases</h2>
 
 <h3 id="rebooting-cache-machines-in-aws">Rebooting Cache machines in AWS</h3>
 
-<p>The <code>cache</code> machines run the <code>router</code> app which handles live user traffic.<br />
-To safely reboot them without serving too many errors to users, we must<br />
+<p>The <code>cache</code> machines run the <code>router</code> app which handles live user traffic.
+To safely reboot them without serving too many errors to users, we must
 remove them from the AWS load balancer target groups before rebooting:</p>
 
 <ol>
@@ -332,8 +332,8 @@ remove them from the AWS load balancer target groups before rebooting:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>$ fab $environment puppet_class:mongodb::server hosts
 </code></pre></div>
-<p>All secondary Mongo machines will reboot overnight. If you don't need to<br />
-reboot the cluster right now, step the current primary down and allow it<br />
+<p>All secondary Mongo machines will reboot overnight. If you don't need to
+reboot the cluster right now, step the current primary down and allow it
 to reboot overnight:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>$ fab $environment -H $hostname mongo.step_down_primary
@@ -352,26 +352,26 @@ to reboot overnight:</p>
 
 <h3 id="rebooting-redis-machines">Rebooting Redis machines</h3>
 
-<p>Unless there are urgent updates to apply, these machines should not be<br />
-rebooted during working hours in production. Other services rely directly on<br />
+<p>Unless there are urgent updates to apply, these machines should not be
+rebooted during working hours in production. Other services rely directly on
 particular Redis hosts and may error if they are unvailable.</p>
 
-<p>Reboots of these machines, in the production environment, should be organised<br />
+<p>Reboots of these machines, in the production environment, should be organised
 by On Call staff and search-api workers must be restarted (by re-deploying the latest release) after the reboot.</p>
 
-<p>They may be rebooted in working hours in other environments, however you<br />
-should notify colleagues before doing so as this may remove in-flight jobs<br />
+<p>They may be rebooted in working hours in other environments, however you
+should notify colleagues before doing so as this may remove in-flight jobs
 that Sidekiq has added to the Redis queues but not yet processed.</p>
 
 <h3 id="rebooting-rabbitmq-machines">Rebooting RabbitMQ machines</h3>
 
-<p>There's a Fabric task to reboot all nodes in the RabbitMQ cluster,<br />
+<p>There's a Fabric task to reboot all nodes in the RabbitMQ cluster,
 waiting for the cluster to recover before rebooting the next node.</p>
 
 <blockquote>
   <p><strong>Note</strong></p>
 
-  <p>We have had a couple of incidents after running this script, so it should only<br />
+  <p>We have had a couple of incidents after running this script, so it should only
 be done in-hours and requires careful monitoring. See:</p>
 
   <p>1) <a href="https://docs.google.com/document/d/19gCq7p7OggkG0pGNL8iAspfnwR1UrsZfDQnOYniQlvM/edit?pli=1#">No non-idle RabbitMQ consumers</a> - This required killing RabbitMQ processes to resolve.</p>
@@ -379,8 +379,8 @@ be done in-hours and requires careful monitoring. See:</p>
   <p>2) <a href="https://docs.google.com/document/d/1ia3OGn-v0bimW4P0vRtKUVeVVNh7VEiXjHqlc9jfeFY/edit#heading=h.p99426yo0rbv">Publishing API jobs became stuck</a> - This required restarting Publishing API workers to resolve.</p>
 </blockquote>
 
-<p>If there are problems with the cluster (eg, a partition has happened),<br />
-the <code>safe_reboot</code> script will not reboot anything, and you'll need to<br />
+<p>If there are problems with the cluster (eg, a partition has happened),
+the <code>safe_reboot</code> script will not reboot anything, and you'll need to
 take manual action to resolve the problem.</p>
 
 <ul>
@@ -389,35 +389,35 @@ take manual action to resolve the problem.</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>fab &lt;environment&gt; class:rabbitmq rabbitmq.safe_reboot
 </code></pre></div>
-<p>If any applications start alerting due to <code>rabbitmq-1</code> being rebooted<br />
-then either add a note here about how to make that application recover,<br />
+<p>If any applications start alerting due to <code>rabbitmq-1</code> being rebooted
+then either add a note here about how to make that application recover,
 or get the team responsible to make it point to the cluster.</p>
 
 <h3 id="rebooting-asset-master-and-slave-machines">Rebooting asset master and slave machines</h3>
 
-<p>Unless there are urgent updates to apply the master machine should not be<br />
-rebooted in production during working hours - as the master machine is required<br />
+<p>Unless there are urgent updates to apply the master machine should not be
+rebooted in production during working hours - as the master machine is required
 for attachments to be uploaded.</p>
 
-<p>The slave machines can be rebooted as they hold a copy of data and are resynced<br />
+<p>The slave machines can be rebooted as they hold a copy of data and are resynced
 regularly.</p>
 
-<p>Reboots of the master machine should be organised by On Call staff,<br />
+<p>Reboots of the master machine should be organised by On Call staff,
 for the production environment.</p>
 
-<p>You may reboot the master machine in the staging environment during working<br />
-hours however it is prudent to warn colleagues that uploading attachments will<br />
+<p>You may reboot the master machine in the staging environment during working
+hours however it is prudent to warn colleagues that uploading attachments will
 be unavailable during this period.</p>
 
 <h3 id="rebooting-router-backend-machines">Rebooting router-backend machines</h3>
 
-<p>Router backend machines are instances of MongoDB machines and can be rebooted<br />
+<p>Router backend machines are instances of MongoDB machines and can be rebooted
 as per the <a href="#rebooting-mongodb-machines">MongoDB rebooting guidance</a>.</p>
 
 <h3 id="rebooting-jumpbox-machines">Rebooting jumpbox machines</h3>
 
-<p>These machines are safe to reboot during the day. During the night they<br />
-are involved in a data sync processes and rebooting could cause the data<br />
+<p>These machines are safe to reboot during the day. During the night they
+are involved in a data sync processes and rebooting could cause the data
 sync to fail.</p>
 
 <h3 id="rebooting-backend-lb-machines-carrenza-only">Rebooting backend-lb machines (Carrenza only)</h3>
@@ -434,8 +434,8 @@ sync to fail.</p>
       <p>Doing this may trigger a PagerDuty alert and trigger 5xx errors on Fastly.</p>
     </blockquote>
   </li>
-  <li>Find the IP addresses of backend-lb-1 and backend-lb-2 for the<br />
-  environment. They will be listed in <a href="https://github.com/alphagov/govuk-provisioning/">this<br />
+  <li>Find the IP addresses of backend-lb-1 and backend-lb-2 for the
+  environment. They will be listed in <a href="https://github.com/alphagov/govuk-provisioning/">this
   repo</a>.</li>
   <li>Use vCloud Director to update the NAT rule to point to backend-lb-2.
     <ul>
@@ -457,8 +457,8 @@ sync to fail.</p>
 
 <h3 id="rebooting-mysql-backup-machines-carrenza-only">Rebooting MySQL backup machines (Carrenza only)</h3>
 
-<p>The MySQL backup machines <a href="https://github.com/alphagov/govuk-puppet/commit/0e1615bf31f714994b43142ecf915330d4d46af5">create a file during the backup<br />
-process</a>.<br />
+<p>The MySQL backup machines <a href="https://github.com/alphagov/govuk-puppet/commit/0e1615bf31f714994b43142ecf915330d4d46af5">create a file during the backup
+process</a>.
 If that file exists, the machine isn't safe to reboot.</p>
 
 <ul>
@@ -468,7 +468,7 @@ If that file exists, the machine isn't safe to reboot.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>fab &lt;environment&gt; -H mysql-backup-1.backend sdo:'test -e /var/lock/mysql-backup.lock'
 </code></pre></div>  </li>
   <li>
-    <p>If the file doesn't exist (that command returns non-0), reboot the<br />
+    <p>If the file doesn't exist (that command returns non-0), reboot the
 machine:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>fab &lt;environment&gt; -H mysql-backup-1.backend vm.reboot
@@ -477,35 +477,35 @@ machine:</p>
 
 <h3 id="rebooting-mysql-master-and-slave-machines-carrenza-only">Rebooting MySQL master and slave machines (Carrenza only)</h3>
 
-<p>Unless there are urgent updates to apply, these machines should not be<br />
-rebooted during working hours in production. Applications write to the<br />
-masters and read from the slaves (with the exception of the slave within<br />
+<p>Unless there are urgent updates to apply, these machines should not be
+rebooted during working hours in production. Applications write to the
+masters and read from the slaves (with the exception of the slave within
 the Disaster Recovery environment).</p>
 
-<p>Reboots of these machines, in the production environment, should be organised<br />
+<p>Reboots of these machines, in the production environment, should be organised
 by On Call staff.</p>
 
-<p>They may be rebooted in working hours in the staging environment, however you<br />
+<p>They may be rebooted in working hours in the staging environment, however you
 should notify colleagues before doing so.</p>
 
 <h3 id="rebooting-whitehall-mysql-slave-machines">Rebooting Whitehall MySQL slave machines</h3>
 
-<p>The whitehall-mysql-slave-1 machine is used by the frontend component<br />
-of Whitehall, so this'll be impacted when rebooting. The other<br />
+<p>The whitehall-mysql-slave-1 machine is used by the frontend component
+of Whitehall, so this'll be impacted when rebooting. The other
 whitehall-mysql-slave machines are not used by Whitehall frontend.</p>
 
 <h3 id="rebooting-postgresql-primary-and-standby-machines-carrenza-only">Rebooting PostgreSQL primary and standby machines (Carrenza only)</h3>
 
-<p>Unless there are urgent updates to apply, these machines should not be<br />
-rebooted in production during working hours. Applications read and write<br />
-to the primary machines, and some applications (e.g. Bouncer) read from the<br />
-standby machines (with the exception of the slave within the Disaster Recovery<br />
+<p>Unless there are urgent updates to apply, these machines should not be
+rebooted in production during working hours. Applications read and write
+to the primary machines, and some applications (e.g. Bouncer) read from the
+standby machines (with the exception of the slave within the Disaster Recovery
 environment).</p>
 
-<p>Reboots of these machines, in the production environment, should be organised<br />
+<p>Reboots of these machines, in the production environment, should be organised
 by On Call staff.</p>
 
-<p>They may be rebooted in working hours in the staging environment, however you<br />
+<p>They may be rebooted in working hours in the staging environment, however you
 should notify colleagues before doing so.</p>
 
 

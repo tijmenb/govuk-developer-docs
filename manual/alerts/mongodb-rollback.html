@@ -166,35 +166,35 @@
 
    <h1 id='header'>MongoDB rollback</h1><h3 id="what-is-a-rollback">What is a rollback</h3>
 
-<p>Explanation from the <a href="http://docs.mongodb.org/manual/core/replication/#replica-set-rollbacks">MongoDB<br />
+<p>Explanation from the <a href="http://docs.mongodb.org/manual/core/replication/#replica-set-rollbacks">MongoDB
 documentation</a>:</p>
 
 <blockquote>
-  <p>In some failover situations primaries will have accepted write<br />
-operations that have not replicated to the secondaries after a<br />
-failover occurs. This case is rare and typically occurs as a result of<br />
-a network partition with replication lag. When this member (the former<br />
-primary) rejoins the replica set and attempts to continue replication<br />
-as a secondary the former primary must revert these operations or<br />
-"roll back" these operations to maintain database consistency across<br />
+  <p>In some failover situations primaries will have accepted write
+operations that have not replicated to the secondaries after a
+failover occurs. This case is rare and typically occurs as a result of
+a network partition with replication lag. When this member (the former
+primary) rejoins the replica set and attempts to continue replication
+as a secondary the former primary must revert these operations or
+"roll back" these operations to maintain database consistency across
 the replica set.</p>
 </blockquote>
 
 <h3 id="how-to-investigate">How to investigate</h3>
 
-<p>The rolled-back records can be viewed with<br />
-<a href="http://docs.mongodb.org/manual/reference/program/bsondump/">bsondump</a><br />
+<p>The rolled-back records can be viewed with
+<a href="http://docs.mongodb.org/manual/reference/program/bsondump/">bsondump</a>
 which will output human readable JSON.</p>
 
-<p>Some judgement is required to determine whether it is necessary to<br />
-recover the rolled-back data. In one example, we found that the user had<br />
-resubmitted the affected record(s) a few minutes later, presumably in<br />
+<p>Some judgement is required to determine whether it is necessary to
+recover the rolled-back data. In one example, we found that the user had
+resubmitted the affected record(s) a few minutes later, presumably in
 response to a UI error. Therefore recovery was not necessary.</p>
 
 <h3 id="how-to-recover">How to recover</h3>
 
-<p>If you are happy that the rolled-back data should be restored and<br />
-doesn't conflict with any existing records, then you can use<br />
+<p>If you are happy that the rolled-back data should be restored and
+doesn't conflict with any existing records, then you can use
 <a href="http://docs.mongodb.org/manual/reference/program/mongorestore/">mongorestore</a>.</p>
 
 <p>The following arguments are necessary:</p>
@@ -214,12 +214,12 @@ Thu May 30 13:56:52 licensify-audit.audit.2013-05-30T12-45-42.1.bson
 Thu May 30 13:56:52 going into namespace [licensify-audit.audit]
 1 objects found
 </code></pre></div>
-<p>Unfortunately <code>mongorestore</code> may not give any feedback about whether the<br />
-restore was successful. It is advisable to check the logs on the host<br />
-you referenced, and query MongoDB for the <code>_id</code> of the records you<br />
+<p>Unfortunately <code>mongorestore</code> may not give any feedback about whether the
+restore was successful. It is advisable to check the logs on the host
+you referenced, and query MongoDB for the <code>_id</code> of the records you
 expect.</p>
 
-<p>When satisfied, the BSON files and rollback directory can be deleted.<br />
+<p>When satisfied, the BSON files and rollback directory can be deleted.
 This will resolve the Nagios alert.</p>
 
 

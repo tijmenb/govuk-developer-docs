@@ -156,14 +156,14 @@
             
   <p><a href='/manual.html#publishing'>Publishing</a></p> <h1 id='header'>Change a slug and create redirect in Whitehall</h1><h2 id="change-a-slug-and-create-a-redirect-in-whitehall">Change a slug and create a redirect in Whitehall</h2>
 
-<p>In Whitehall, we have Rake Tasks to change slugs and create redirects for<br />
-various entities: <code>Person</code>, <code>Role</code>, <code>Document</code>, <code>PolicyGroup</code>, <code>WorldLocation</code>,<br />
+<p>In Whitehall, we have Rake Tasks to change slugs and create redirects for
+various entities: <code>Person</code>, <code>Role</code>, <code>Document</code>, <code>PolicyGroup</code>, <code>WorldLocation</code>,
 <code>Organisation</code>, <code>WorldwideOrganisation</code> and <code>StatisticsAnnoucement</code>.</p>
 
 <h3 id="rake-tasks">Rake Tasks</h3>
 
-<p>These Rake Tasks also reindex the entity with its new slug and republish it to<br />
-Publishing API, which automatically handles the redirect. They all take the old<br />
+<p>These Rake Tasks also reindex the entity with its new slug and republish it to
+Publishing API, which automatically handles the redirect. They all take the old
 slug and the new slug as arguments.</p>
 
 <ul>
@@ -239,14 +239,14 @@ slug and the new slug as arguments.</p>
 
 <h3 id="issues">Issues</h3>
 
-<p>If you run a task and find the redirect has worked but the new location returns<br />
-a 404, it's likely because the republish command is languishing in the<br />
-low-priority queue (<a href="https://grafana.production.govuk.digital/dashboard/file/sidekiq.json?refresh=1m&amp;orgId=1&amp;var-Application=publishing-api&amp;var-Queues=All&amp;from=now-30m&amp;to=now">check queue volumes in Grafana</a>).<br />
-Whitehall appears to put the redirect in the high priority queue, so there can<br />
+<p>If you run a task and find the redirect has worked but the new location returns
+a 404, it's likely because the republish command is languishing in the
+low-priority queue (<a href="https://grafana.production.govuk.digital/dashboard/file/sidekiq.json?refresh=1m&amp;orgId=1&amp;var-Application=publishing-api&amp;var-Queues=All&amp;from=now-30m&amp;to=now">check queue volumes in Grafana</a>).
+Whitehall appears to put the redirect in the high priority queue, so there can
 be a delay between the redirect being applied and the content being republished.</p>
 
-<p>This should resolve itself over time, but if you need to process the content<br />
-change more quickly, run <code>represent_downstream:high_priority:content_id[CONTENT_ID]</code><br />
+<p>This should resolve itself over time, but if you need to process the content
+change more quickly, run <code>represent_downstream:high_priority:content_id[CONTENT_ID]</code>
 to put it in the high priority queue:</p>
 
 <ul>

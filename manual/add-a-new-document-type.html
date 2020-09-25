@@ -159,8 +159,8 @@
 
 <h2 id="add-the-document-type-in-the-govuk-content-schema-repo">Add the document type in the govuk-content-schema repo</h2>
 
-<p>You need to add the document type into the<br />
-<a href="https://github.com/alphagov/govuk-content-schemas/blob/master/lib/govuk_content_schemas/allowed_document_types.yml">allowed document types</a> in<br />
+<p>You need to add the document type into the
+<a href="https://github.com/alphagov/govuk-content-schemas/blob/master/lib/govuk_content_schemas/allowed_document_types.yml">allowed document types</a> in
 <a href="https://github.com/alphagov/govuk-content-schemas">govuk-content-schemas</a>.</p>
 
 <p>Once you have added the document type you should:</p>
@@ -182,8 +182,8 @@
 
 <p>The rake task will publish the route using the new document type.</p>
 
-<p>Before you begin, you must identify which publishing and rendering applications<br />
-will use the document type. You need to include these as parameters (payload)<br />
+<p>Before you begin, you must identify which publishing and rendering applications
+will use the document type. You need to include these as parameters (payload)
 when you generate the route.</p>
 
 <p>Examples of implementation:</p>
@@ -192,14 +192,14 @@ when you generate the route.</p>
   <li><a href="https://github.com/alphagov/collections-publisher/pull/250">https://github.com/alphagov/collections-publisher/pull/250</a></li>
 </ul>
 
-<p>You should publish your new content item with your document type to the<br />
-Publishing API, especially if you want it to be part of search, as it makes it<br />
+<p>You should publish your new content item with your document type to the
+Publishing API, especially if you want it to be part of search, as it makes it
 easy to integrate search this way.</p>
 
 <blockquote>
   <p><strong>Note</strong></p>
 
-  <p>Having a document type with <code>placeholder</code> prefix will not publish routes. More<br />
+  <p>Having a document type with <code>placeholder</code> prefix will not publish routes. More
 information can be found here under <a href="https://github.com/alphagov/content-store/blob/f5bf2ae1d86b6a38d52d22074c0d13acf2a0413c/doc/route_registration.md#placeholder-items">placeholder items</a>.</p>
 </blockquote>
 

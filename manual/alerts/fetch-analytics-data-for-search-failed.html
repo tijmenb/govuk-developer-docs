@@ -149,36 +149,36 @@
       </a>
     </div>
 
-   <h1 id='header'>Fetch analytics data for search failed</h1><p>This checks the latest build state of <a href="https://deploy.blue.production.govuk.digital/job/search-api-fetch-analytics-data/">a job in production<br />
-Jenkins</a><br />
-which runs every night and updates all documents in the search index with pageview data from<br />
+   <h1 id='header'>Fetch analytics data for search failed</h1><p>This checks the latest build state of <a href="https://deploy.blue.production.govuk.digital/job/search-api-fetch-analytics-data/">a job in production
+Jenkins</a>
+which runs every night and updates all documents in the search index with pageview data from
 Google Analytics.</p>
 
-<p>The only downside of this not running is that the popularity data is slightly<br />
+<p>The only downside of this not running is that the popularity data is slightly
 out of date.  This job should not be run in working hours.</p>
 
 <p>This job has two parts:</p>
 
 <ol>
-  <li>Page view data is fetched from Google Analytics.  This process<br />
+  <li>Page view data is fetched from Google Analytics.  This process
 seems to sometimes hang, resulting in stuck jobs.</li>
-  <li>The search index is locked and popularity score of every page is<br />
+  <li>The search index is locked and popularity score of every page is
 updated.</li>
 </ol>
 
-<p>If the job fails or gets stuck in part 1, you can cancel it and leave<br />
+<p>If the job fails or gets stuck in part 1, you can cancel it and leave
 it to run the next day.</p>
 
-<p>If the job fails or gets stuck in part 2, the search indices may still<br />
-be locked.  If that's the case, documents will be missing from search.<br />
+<p>If the job fails or gets stuck in part 2, the search indices may still
+be locked.  If that's the case, documents will be missing from search.
 First unlock the indices:</p>
 
 <div class="highlight"><pre class="highlight shell"><code>bundle <span class="nb">exec </span>rake search:unlock <span class="nv">SEARCH_INDEX</span><span class="o">=</span>all
 </code></pre></div>
-<p>Then see the <a href="/manual/fix-out-of-date-search-indices.html">"fix out-of-date search indices"</a><br />
+<p>Then see the <a href="/manual/fix-out-of-date-search-indices.html">"fix out-of-date search indices"</a>
 docs.</p>
 
-<p>If the job is failing often, make sure the team currently responsible for search<br />
+<p>If the job is failing often, make sure the team currently responsible for search
 are aware of the problem (or Platform Health).</p>
 
 

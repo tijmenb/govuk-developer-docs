@@ -171,15 +171,15 @@
 
 <h2 id="elasticsearch-connectivity-is-not-ok">Elasticsearch connectivity is not OK</h2>
 
-<p>The Search API uses elasticsearch as an underlying data store and search<br />
+<p>The Search API uses elasticsearch as an underlying data store and search
 engine.</p>
 
-<p>If the application cannot connect to the elasticsearch cluster,<br />
+<p>If the application cannot connect to the elasticsearch cluster,
 this will prevent end users performing searches.</p>
 
 <p>Note: We use a managed elasticsearch, <a href="https://aws.amazon.com/elasticsearch-service/">Amazon Elasticsearch Service</a>, rather than running our own.</p>
 
-<p>To solve this issue, look at the logs of the application to see what<br />
+<p>To solve this issue, look at the logs of the application to see what
 is wrong.</p>
 
 <h3 id="how-do-i-investigate-this">How do I investigate this?</h3>
@@ -194,13 +194,13 @@ is wrong.</p>
 
 <h2 id="reranker-is-not-ok">Reranker is not OK</h2>
 
-<p>The Search API uses machine learning to rank search results based on<br />
-analytics data.  If this alert fires, something has gone wrong with<br />
-that process and we're serving results as they were ordered by<br />
+<p>The Search API uses machine learning to rank search results based on
+analytics data.  If this alert fires, something has gone wrong with
+that process and we're serving results as they were ordered by
 elasticsearch.</p>
 
-<p>Unlike the other healthcheck failures, this does not mean that Search<br />
-API is serving errors.  Only that it is serving potentially worse<br />
+<p>Unlike the other healthcheck failures, this does not mean that Search
+API is serving errors.  Only that it is serving potentially worse
 results.</p>
 
 <p>The machine learning model is hosted in <a href="https://aws.amazon.com/sagemaker/">Amazon SageMaker</a>.</p>

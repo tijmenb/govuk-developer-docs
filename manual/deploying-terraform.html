@@ -174,7 +174,7 @@
 
 <h3 id="1-check-that-you-have-sufficient-access">1. Check that you have sufficient access</h3>
 
-<p>Which changes you can deploy depends on the level of access you have<br />
+<p>Which changes you can deploy depends on the level of access you have
 to our AWS environments.</p>
 
 <ul>
@@ -187,19 +187,19 @@ to our AWS environments.</p>
 
 <h3 id="2-install-gds-cli">2. Install <code>gds-cli</code></h3>
 
-<p><a href="https://github.com/alphagov/gds-cli"><code>gds-cli</code></a> is the <a href="/manual/get-started.html">preferred way</a> of obtaining<br />
+<p><a href="https://github.com/alphagov/gds-cli"><code>gds-cli</code></a> is the <a href="/manual/get-started.html">preferred way</a> of obtaining
 AWS credentials.</p>
 
 <p>As of version <code>v2.15.0</code> of <code>gds-cli</code>, you can use it to deploy terraform via Jenkins.</p>
 
 <h3 id="3-get-github-credentials">3. Get GitHub Credentials</h3>
 
-<p>You need to obtain your GitHub credentials by creating a read-only GitHub personal access token. This <a href="https://github.com/settings/tokens">GitHub personal access token</a> should be<br />
+<p>You need to obtain your GitHub credentials by creating a read-only GitHub personal access token. This <a href="https://github.com/settings/tokens">GitHub personal access token</a> should be
 created with the <code>read:org</code> scope only.</p>
 
 <blockquote>
-  <p>Take care to store and handle the token securely. If you accidentally share your token,<br />
-  <a href="https://github.com/settings/tokens">revoke it immediately</a> and follow the<br />
+  <p>Take care to store and handle the token securely. If you accidentally share your token,
+  <a href="https://github.com/settings/tokens">revoke it immediately</a> and follow the
   <a href="https://sites.google.com/a/digital.cabinet-office.gov.uk/gds/working-at-the-white-chapel-building/security/security-incidents">instructions for reporting a potential data security incident</a>.</p>
 </blockquote>
 
@@ -237,7 +237,7 @@ gds govuk terraform <span class="nt">-e</span> &lt;environment&gt; <span class="
 
 <h3 id="2-deployrb-script-in-govuk-aws">2. <code>deploy.rb</code> script in govuk-aws</h3>
 
-<p>The Ruby script <a href="https://github.com/alphagov/govuk-aws/blob/master/tools/deploy.rb"><code>tools/deploy.rb</code></a> in the <code>govuk-aws</code> repository takes care of requesting temporary<br />
+<p>The Ruby script <a href="https://github.com/alphagov/govuk-aws/blob/master/tools/deploy.rb"><code>tools/deploy.rb</code></a> in the <code>govuk-aws</code> repository takes care of requesting temporary
 AWS credentials with an assumed role and queuing the deployment Jenkins job.</p>
 
 <p>You can use it by running:</p>

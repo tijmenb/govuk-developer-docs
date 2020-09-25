@@ -141,47 +141,47 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#infrastructure'>Infrastructure</a></p> <h1 id='header'>Renew a TLS certificate for GOV.UK</h1><p>This document covers how to renew wildcard TLS certificates for<br />
-<code>*.publishing.service.gov.uk</code>, <code>*.staging.publishing.service.gov.uk</code><br />
-and <code>*.integration.publishing.service.gov.uk</code>. It is a task performed<br />
+  <p><a href='/manual.html#infrastructure'>Infrastructure</a></p> <h1 id='header'>Renew a TLS certificate for GOV.UK</h1><p>This document covers how to renew wildcard TLS certificates for
+<code>*.publishing.service.gov.uk</code>, <code>*.staging.publishing.service.gov.uk</code>
+and <code>*.integration.publishing.service.gov.uk</code>. It is a task performed
 by Reliability Engineering.</p>
 
-<p>Credentials for the Fastly dashboard and Zendesk support sites are in the<br />
+<p>Credentials for the Fastly dashboard and Zendesk support sites are in the
 <a href="https://github.com/alphagov/govuk-secrets/blob/master/pass/2ndline/fastly">2nd line password store</a>.</p>
 
 <ol>
-  <li><a href="/manual/generate-csr.html">Generate a Certificate Signing Request (CSR)</a> for a<br />
+  <li><a href="/manual/generate-csr.html">Generate a Certificate Signing Request (CSR)</a> for a
 <em>renewal</em>.</li>
-  <li>Log into Gandi <a href="https://github.com/alphagov/govuk-secrets/blob/master/pass/infra/gandi/govuk.gpg">using the credentials in the infra password<br />
+  <li>Log into Gandi <a href="https://github.com/alphagov/govuk-secrets/blob/master/pass/infra/gandi/govuk.gpg">using the credentials in the infra password
 store</a>.</li>
-  <li>Go to the account dashboard and find the list of TLS certificates on the<br />
+  <li>Go to the account dashboard and find the list of TLS certificates on the
 account.</li>
-  <li>Find the certificate you wish to renew and click Renew. You need to<br />
+  <li>Find the certificate you wish to renew and click Renew. You need to
 request a wildcard certificate (for example, <code>*.publishing.service.gov.uk</code>).</li>
-  <li>Go through the steps on the renewal form until you reach a page requesting a<br />
+  <li>Go through the steps on the renewal form until you reach a page requesting a
 Certificate Signing Request.</li>
-  <li>Upload the CSR to Gandi by pasting the contents of the .csr file into the<br />
+  <li>Upload the CSR to Gandi by pasting the contents of the .csr file into the
 text box.</li>
-  <li>Next, choose DNS validation to validate it and follow the instructions to add<br />
+  <li>Next, choose DNS validation to validate it and follow the instructions to add
 the relevant DNS records.</li>
-  <li>Pay for it - we don't have a stored payment method, so find the person with<br />
-the GDS credit card. Or raise a request for temporary credit card details from<br />
+  <li>Pay for it - we don't have a stored payment method, so find the person with
+the GDS credit card. Or raise a request for temporary credit card details from
 PMO by sending an email to pmo@digital.cabinet-office.gov.uk.</li>
-  <li>Once the certificate has been renewed, paste the contents of the resulting<br />
-.crt file into Puppet hieradata for the relevant environment in the<br />
+  <li>Once the certificate has been renewed, paste the contents of the resulting
+.crt file into Puppet hieradata for the relevant environment in the
 <a href="https://github.com/alphagov/govuk-secrets/puppet">govuk-secrets</a> repository.</li>
   <li>Deploy Puppet to update the certificate in the relevant environment.</li>
-  <li>Import the certificate to AWS ACM. Login to the AWS console in the appropriate<br />
-environment and follow the instructions <a href="https://docs.aws.amazon.com/acm/latest/userguide/import-certificate-api-cli.html">here</a>.<br />
-The chain cert is the second certificate under "wildcard_publishing_certificate"<br />
+  <li>Import the certificate to AWS ACM. Login to the AWS console in the appropriate
+environment and follow the instructions <a href="https://docs.aws.amazon.com/acm/latest/userguide/import-certificate-api-cli.html">here</a>.
+The chain cert is the second certificate under "wildcard_publishing_certificate"
 in <a href="https://github.com/alphagov/govuk-secrets/puppet">govuk-secrets</a>.</li>
-  <li><em>For staging and integration only:</em><br />
-Go to the Fastly interface and then to Configure -&gt; HTTPS and network.<br />
-Go to TLS certificates and upload your new cert.<br />
-(You do not need to do this for production because we use a different certificate<br />
+  <li><em>For staging and integration only:</em>
+Go to the Fastly interface and then to Configure -&gt; HTTPS and network.
+Go to TLS certificates and upload your new cert.
+(You do not need to do this for production because we use a different certificate
 there)</li>
-  <li><em>For staging and integration only:</em><br />
-In TLS domains click on more details and then select your new certificate<br />
+  <li><em>For staging and integration only:</em>
+In TLS domains click on more details and then select your new certificate
 under CERTIFICATE BEING USED.</li>
 </ol>
 

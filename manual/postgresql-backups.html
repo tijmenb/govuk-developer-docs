@@ -169,37 +169,37 @@
 
 <h2 id="carrenza6dg-wal-e-backups-to-s3">Carrenza/6DG WAL-E Backups to S3</h2>
 
-<p>We use <a href="https://github.com/wal-e/wal-e">WAL-E</a> to do continuous archiving to an Amazon S3 bucket.<br />
-PostgreSQL uses a method of <a href="https://www.postgresql.org/docs/9.3/static/continuous-archiving.html">archiving</a> transaction logs: this means<br />
-that transaction logs are copied to a place on disk, and are rotated by a set<br />
+<p>We use <a href="https://github.com/wal-e/wal-e">WAL-E</a> to do continuous archiving to an Amazon S3 bucket.
+PostgreSQL uses a method of <a href="https://www.postgresql.org/docs/9.3/static/continuous-archiving.html">archiving</a> transaction logs: this means
+that transaction logs are copied to a place on disk, and are rotated by a set
 amount of time or disk usage.</p>
 
-<p>WAL-E uses this function and makes it easy to upload the archived logs to a<br />
-different location, using environmental variables to specify where the logs<br />
+<p>WAL-E uses this function and makes it easy to upload the archived logs to a
+different location, using environmental variables to specify where the logs
 should go. It also specifies encryption details.</p>
 
-<p>The archived transactions logs are based upon a "base" backup, which is taken<br />
-every night. By default we rotate a new transaction log every 5 minutes, so in<br />
-theory we can recover point in time backups to specific time and dates in this<br />
+<p>The archived transactions logs are based upon a "base" backup, which is taken
+every night. By default we rotate a new transaction log every 5 minutes, so in
+theory we can recover point in time backups to specific time and dates in this
 timeframe.</p>
 
-<p>To restore, we can use the commands specified in the WAL-E documentation:<br />
-<code>backup-fetch</code> and <code>wal-fetch</code>. To make this easier, a script has been written<br />
-to automate the restore of the very latest backup available<br />
-(<code>/usr/local/bin/wal-e_restore</code>). The environmental variables which define the<br />
-AWS credentials will need to be present. After the base backup is imported you<br />
+<p>To restore, we can use the commands specified in the WAL-E documentation:
+<code>backup-fetch</code> and <code>wal-fetch</code>. To make this easier, a script has been written
+to automate the restore of the very latest backup available
+(<code>/usr/local/bin/wal-e_restore</code>). The environmental variables which define the
+AWS credentials will need to be present. After the base backup is imported you
 can watch postgres restoring WAL chunks by <code>tail -f</code> on the postgres log.</p>
 
-<p>Replication to the standby databases may fail after restoring a backup to the<br />
-primary. The solution is to also restore the backup to the standby, at which<br />
-point normal replication will take over. You can also<br />
+<p>Replication to the standby databases may fail after restoring a backup to the
+primary. The solution is to also restore the backup to the standby, at which
+point normal replication will take over. You can also
 <a href="/manual/setup-postgresql-replication.html#syncing-a-standby">resync it from the primary</a>.</p>
 
 <h3 id="wal-e-failing-with-errors-about-gpg">WAL-E failing with errors about GPG</h3>
 
-<p>WAL-E does not work with password-protected GPG secret keys, but ours are. If<br />
-backup restoration is failing with errors about GPG or things not being the<br />
-expected format (eg, complaining that a file doesn't have a valid lzo or tar<br />
+<p>WAL-E does not work with password-protected GPG secret keys, but ours are. If
+backup restoration is failing with errors about GPG or things not being the
+expected format (eg, complaining that a file doesn't have a valid lzo or tar
 header), the key may be password-protected.</p>
 
 <p>You can edit the key in-place to remove the password:</p>

@@ -141,17 +141,17 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#accounts'>Accounts</a></p> <h1 id='header'>Remove a user from Puppet</h1><p>Removing a user from our infrastructure via Puppet is a 2 change process that<br />
-requires a deploy in the middle. The first change ensures that when Puppet<br />
-runs the user's home directory is removed; the second change removes the<br />
-user from Puppet itself. If the user is just removed from Puppet their files<br />
+  <p><a href='/manual.html#accounts'>Accounts</a></p> <h1 id='header'>Remove a user from Puppet</h1><p>Removing a user from our infrastructure via Puppet is a 2 change process that
+requires a deploy in the middle. The first change ensures that when Puppet
+runs the user's home directory is removed; the second change removes the
+user from Puppet itself. If the user is just removed from Puppet their files
 will remain on our servers forever more.</p>
 
 <ol>
   <li>First find the user manifest in: <a href="https://github.com/alphagov/govuk-puppet/tree/master/modules/users/manifests">modules/users/manifests</a>.</li>
-  <li>Add an entry to the govuk_user class of <code>ensure =&gt; absent</code>. Here is an<br />
+  <li>Add an entry to the govuk_user class of <code>ensure =&gt; absent</code>. Here is an
 <a href="https://github.com/alphagov/govuk-puppet/commit/0757bad41ed577f15c7f5d9e508f55e78c612ddb">example</a>.</li>
-  <li>Once this has been raised as a PR and merged, deploy Puppet to all<br />
+  <li>Once this has been raised as a PR and merged, deploy Puppet to all
 environments.</li>
   <li>Create a PR in <a href="https://github.com/alphagov/govuk-secrets">GOV.UK secrets</a> that:
     <ul>

@@ -151,14 +151,14 @@
 
    <h1 id='header'>Whitehall app healthcheck not ok</h1><p>See also: <a href="/manual/alerts/app-healthcheck-not-ok.html">how healthcheck alerts work on GOV.UK</a></p>
 
-<p>If the message is a warning about <code>scheduled_queue</code>, eg '850 scheduled<br />
-edition(s); 840 job(s) queued', this alert means that the number of<br />
-editions in the database which are scheduled to be published in the<br />
-future is different from the number currently in the queue. This can<br />
-happen in Staging and Integration as a result of the data sync from<br />
+<p>If the message is a warning about <code>scheduled_queue</code>, eg '850 scheduled
+edition(s); 840 job(s) queued', this alert means that the number of
+editions in the database which are scheduled to be published in the
+future is different from the number currently in the queue. This can
+happen in Staging and Integration as a result of the data sync from
 Production.</p>
 
-<p>Run the <code>publishing:scheduled:requeue_all_jobs</code> Rake task to requeue all<br />
+<p>Run the <code>publishing:scheduled:requeue_all_jobs</code> Rake task to requeue all
 scheduled editions:</p>
 
 <ul>
