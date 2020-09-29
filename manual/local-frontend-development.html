@@ -165,9 +165,9 @@
             
   <p><a href='/manual.html#frontend'>Frontend</a></p> <h1 id='header'>Local frontend development</h1><h2 id="using-startup-scripts">Using startup scripts</h2>
 
-<p>If you are making changes to a frontend app and nothing else, you can view these changes by running the application <code>./startup.sh</code> script:</p>
+<p>If you are making changes to a frontend app and nothing else, you can view these changes by running the application's <code>./startup.sh</code> script. This example is for <a href="https://github.com/alphagov/government-frontend">government-frontend</a>, but these instructions apply to any frontend app.</p>
 
-<div class="highlight"><pre class="highlight shell"><code><span class="nb">cd</span> /govuk/frontend
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">cd</span> /govuk/government-frontend
 ./startup.sh <span class="nt">--live</span>
 <span class="c"># Check the output to see what port the app is running on, e.g: localhost:3005</span>
 </code></pre></div>
@@ -189,7 +189,7 @@
 make government-frontend
 
 <span class="nb">cd</span> /govuk/government-frontend
-govuk-docker up government-frontend-app-live
+govuk-docker up government-frontend-app-live <span class="c"># or govuk-docker-up app-live</span>
 <span class="c"># You can now view the app on government-frontend.dev.gov.uk</span>
 </code></pre></div>
 <p>If you want to test changes in <a href="https://github.com/alphagov/govuk_publishing_components">govuk_publishing_components</a> against a frontend app, you need to edit your frontend app Gemfile first:</p>
@@ -197,16 +197,15 @@ govuk-docker up government-frontend-app-live
 <div class="highlight"><pre class="highlight ruby"><code><span class="n">gem</span> <span class="s1">'govuk_publishing_components'</span><span class="p">,</span> <span class="ss">path: </span><span class="s1">'../govuk_publishing_components'</span>
 </code></pre></div>
 <div class="highlight"><pre class="highlight shell"><code><span class="nb">cd</span> /govuk/government-frontend
-bundle <span class="nb">install
+govuk-docker-run bundle <span class="nb">install
 </span>govuk-docker up government-frontend-app-live
 <span class="c"># You can now view the app on government-frontend.dev.gov.uk</span>
 </code></pre></div>
 <p>If you want to test changes in static against a frontend app, you need to tell Docker to look at your local version of static rather than live:</p>
 
 <div class="highlight"><pre class="highlight shell"><code><span class="nb">cd</span> /govuk/govuk-docker/projects/government-frontend
-vim docker-compose.yml
 </code></pre></div>
-<p>Edit the docker-compose.yml live config to depend on static and remove the live static environment:</p>
+<p>Open <code>government-frontend</code>'s <code>docker-compose.yml</code> file, then edit the live config to depend on static and remove the live static environment:</p>
 
 <div class="highlight"><pre class="highlight yaml"><code>  <span class="na">government-frontend-app-live</span><span class="pi">:</span>
     <span class="s">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*government-frontend-app</span>
@@ -280,17 +279,17 @@ govuk-docker up government-frontend-app-live
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-07-09">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-03-29">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 9 January 2020.
+      This page was last reviewed on 29 September 2020.
 
-        It needs to be reviewed again on 9 July 2020
+        It needs to be reviewed again on 29 March 2021
         by the page owner <a href="">#govuk-developers</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 9 July 2020
+      This page was set to be reviewed before 29 March 2021
        by the page owner <a href="">#govuk-developers</a>.
       This might mean the content is out of date.
     </div>
