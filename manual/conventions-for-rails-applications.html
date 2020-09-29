@@ -345,12 +345,11 @@ that are preferred to manual stubbing;</li>
 </ul>
 
 <p>The conventional testing framework for JavaScript files in GOV.UK Rails
-applications is <a href="https://github.com/jasmine/jasmine-gem">Jasmine</a>. This is dictated by Jasmine integrating
+applications is <a href="https://github.com/jasmine/jasmine-gem">jasmine</a>. This is dictated by jasmine integrating
 with the <a href="#frontend-assets">asset-pipeline</a> which rules out other common JavaScript testing
-frameworks such as Jest or Karma. Jasmine should be <a href="https://github.com/alphagov/service-manual-publisher/commit/adcc93f3c4aa92f6fa6ea590bbf9fef852991199">configured</a>
-to run tests with Chrome headless using <a href="https://github.com/jasmine/jasmine_selenium_runner">jasmine_selenium_runner</a> - this
-replaces the default runtime of PhantomJS (which is a project no longer
-under development).</p>
+frameworks such as Jest or Karma. <a href="https://github.com/alphagov/content-publisher/blob/f26d9b551842fdf2084159b5b7f1bb078da56936/spec/javascripts/support/jasmine_helper.rb">Jasmine should be configured to run tests
+with Chrome headless</a> as opposed to the default PhantomJS
+(which is a project no longer under development).</p>
 
 <h2 id="configuration">Configuration</h2>
 
