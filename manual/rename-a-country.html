@@ -146,10 +146,13 @@
             <a href="#4-update-smart-answers"><span>4. Update Smart-answers</span></a>
           </li>
           <li>
-            <a href="#5-update-email-alert-api"><span>5. Update Email-alert-api</span></a>
+            <a href="#5-update-email-alert-api"><span>5. Update Email Alert API</span></a>
           </li>
           <li>
             <a href="#6-remove-duplicate-search-results"><span>6. Remove duplicate search results</span></a>
+          </li>
+          <li>
+            <a href="#7-update-specialist-publisher"><span>7. Update Specialist Publisher</span></a>
           </li>
         </ul>
       </li>
@@ -174,6 +177,8 @@
 <p>Renaming a country affects these pages:</p>
 
 <ul>
+  <li>https://www.gov.uk/export-health-certificates (country filter)</li>
+  <li>https://www.gov.uk/international-development-funding (country filter)</li>
   <li>https://www.gov.uk/foreign-travel-advice/<code>&lt;country_slug&gt;</code></li>
   <li>https://www.gov.uk/world/<code>&lt;country_slug&gt;</code></li>
   <li>https://www.gov.uk/world/<code>&lt;country_slug&gt;</code>/news</li>
@@ -294,7 +299,7 @@
   </li>
 </ol>
 
-<h3 id="5-update-email-alert-api">5. Update Email-alert-api</h3>
+<h3 id="5-update-email-alert-api">5. Update Email Alert API</h3>
 
 <p>The country's subscription list(s) <code>title</code> and <code>slug</code> needs to be updated, such as:</p>
 
@@ -323,6 +328,44 @@
 <p>In <a href="https://github.com/alphagov/whitehall">Whitehall</a> run <code>SearchIndexDeleteWorker.perform_async(instance.search_index['slug'], instance.rummager_index)</code></p>
 
 <p>Failing this, there is a <a href="https://github.com/alphagov/search-api/blob/4f106e40f2c1690d631f699bf8fc63dc39268866/lib/tasks/delete.rake#L9">rake task</a> that takes care of this.</p>
+
+<h3 id="7-update-specialist-publisher">7. Update Specialist Publisher</h3>
+
+<ol>
+  <li>
+    <p>Create a content schemas <a href="https://github.com/alphagov/govuk-content-schemas/pull/1014">pull request</a> to support both countries temporarily (around the data migration).</p>
+  </li>
+  <li>
+    <p>Create a <a href="https://github.com/alphagov/specialist-publisher/pull/1722/commits/79c10d173f8294fef25b07678a7e74213e78e424">pull request</a> to support both countries temporarily (around the data migration).</p>
+  </li>
+  <li>
+    <p>Deploy govuk-content-schemas and Specialist Publisher to production.</p>
+  </li>
+  <li>
+    <p>Run the rake task <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=specialist-publisher&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=publishing_api:publish_finder[export_health_certificate]">publishing_api:publish_finder[export_health_certificates]</a> to update the finder options.</p>
+  </li>
+  <li>
+    <p>Run the rake task <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=specialist-publisher&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=publishing_api:publish_finder[export_health_certificate]">publishing_api:publish_finder[international_development_funds]</a> to update the finder options.</p>
+  </li>
+  <li>
+    <p>Run the rake task <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=specialist-publisher&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=rename_country:all[macedonia,north-macedonia]">rename_country:all[old_slug,new_slug]</a></p>
+  </li>
+  <li>
+    <p>Check <a href="https://www-origin.integration.publishing.service.gov.uk/export-health-certificates?destination_country%5B%5D=north-macedonia">the finder</a> to see the documents appear with the new country filter</p>
+  </li>
+  <li>
+    <p>Create a final content schemas <a href="https://github.com/alphagov/govuk-content-schemas/pull/1015">pull request</a> to remove the old country from the schema (after the migration).</p>
+  </li>
+  <li>
+    <p>Create a final <a href="https://github.com/alphagov/specialist-publisher/pull/1724">pull request</a> to remove the old country from the finders.</p>
+  </li>
+  <li>
+    <p>Deploy govuk-content-schemas and Specialist Publisher to production.</p>
+  </li>
+  <li>
+    <p>Re-publish the finders as above.</p>
+  </li>
+</ol>
 
 
   <div class='related-content'>
