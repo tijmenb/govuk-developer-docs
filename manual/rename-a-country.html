@@ -254,7 +254,9 @@
 <p>In <a href="https://github.com/alphagov/whitehall">Whitehall</a>:</p>
 
 <ol>
-  <li>Create a <a href="https://github.com/alphagov/whitehall/pull/4643/files">data migration</a> to update the <code>slug</code> and <code>name</code> fields of the <code>WorldLocation</code> table.</li>
+  <li>
+    <p>Create a <a href="https://github.com/alphagov/whitehall/pull/4643/files">data migration</a> to update the <code>slug</code> and <code>name</code> fields of the <code>WorldLocation</code> table.</p>
+  </li>
   <li>Deploy the pull request
     <ul>
       <li>After deploying, run the <a href="https://deploy.integration.publishing.service.gov.uk/job/Run_Whitehall_Data_Migrations/">Whitehall data migrations</a> job</li>
@@ -333,37 +335,34 @@
 
 <ol>
   <li>
-    <p>Create a content schemas <a href="https://github.com/alphagov/govuk-content-schemas/pull/1014">pull request</a> to support both countries temporarily (around the data migration).</p>
+    <p>Create and deploy pull requests for GOV.UK Content Schemas (<a href="https://github.com/alphagov/govuk-content-schemas/pull/1014">example</a>) and Specialist Publisher (<a href="https://github.com/alphagov/specialist-publisher/pull/1722/commits/79c10d173f8294fef25b07678a7e74213e78e424">example</a>) to support both countries temporarily (during the data migration).</p>
+  </li>
+  <li>Run the rake task <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=specialist-publisher&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=publishing_api:publish_finder[finder]">publishing_api:publish_finder[finder]</a> to republish the updated finders:
+    <ul>
+      <li><code>export_health_certificates</code></li>
+      <li><code>international_development_funds</code></li>
+    </ul>
   </li>
   <li>
-    <p>Create a <a href="https://github.com/alphagov/specialist-publisher/pull/1722/commits/79c10d173f8294fef25b07678a7e74213e78e424">pull request</a> to support both countries temporarily (around the data migration).</p>
+    <p>Run the rake task <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=specialist-publisher&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=rename_country:all[country_slug,new_country_slug]">rename_country:all[country_slug,new_country_slug]</a> to republish all the relevant documents.</p>
+  </li>
+  <li>Check the country filter options have updated and documents appear with the new country filter set. This could take a few minutes due to the time it takes to republish the finder and all its associated documents.
+    <ul>
+      <li><a href="https://www-origin.integration.publishing.service.gov.uk/export-health-certificates?cachebust=123">Export Health Certificates</a>.</li>
+      <li><a href="https://www-origin.integration.publishing.service.gov.uk/international-development-funding?cachebust=123">International Development Funds</a>.</li>
+    </ul>
   </li>
   <li>
-    <p>Deploy govuk-content-schemas and Specialist Publisher to production.</p>
+    <p>Create and deploy another pull request for GOV.UK Content Schemas (<a href="https://github.com/alphagov/govuk-content-schemas/pull/1015">example</a>) and Specialist Publisher (<a href="https://github.com/alphagov/specialist-publisher/pull/1724">example</a>) to remove support for the old country.</p>
   </li>
   <li>
-    <p>Run the rake task <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=specialist-publisher&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=publishing_api:publish_finder[export_health_certificate]">publishing_api:publish_finder[export_health_certificates]</a> to update the finder options.</p>
+    <p>Re-publish the finders again, as above.</p>
   </li>
-  <li>
-    <p>Run the rake task <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=specialist-publisher&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=publishing_api:publish_finder[export_health_certificate]">publishing_api:publish_finder[international_development_funds]</a> to update the finder options.</p>
-  </li>
-  <li>
-    <p>Run the rake task <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=specialist-publisher&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=rename_country:all[macedonia,north-macedonia]">rename_country:all[old_slug,new_slug]</a></p>
-  </li>
-  <li>
-    <p>Check <a href="https://www-origin.integration.publishing.service.gov.uk/export-health-certificates?destination_country%5B%5D=north-macedonia">the finder</a> to see the documents appear with the new country filter</p>
-  </li>
-  <li>
-    <p>Create a final content schemas <a href="https://github.com/alphagov/govuk-content-schemas/pull/1015">pull request</a> to remove the old country from the schema (after the migration).</p>
-  </li>
-  <li>
-    <p>Create a final <a href="https://github.com/alphagov/specialist-publisher/pull/1724">pull request</a> to remove the old country from the finders.</p>
-  </li>
-  <li>
-    <p>Deploy govuk-content-schemas and Specialist Publisher to production.</p>
-  </li>
-  <li>
-    <p>Re-publish the finders as above.</p>
+  <li>Run the rake task <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=data_migration:update_subscriber_list_tag[field,old_slug,new_slug]]">data_migration:update_subscriber_list_tag[field,old_slug,new_slug]</a> to update the matching criteria for any subscriber lists in Email Alert API with keys of:
+    <ul>
+      <li><code>location</code></li>
+      <li><code>destination_country</code></li>
+    </ul>
   </li>
 </ol>
 
