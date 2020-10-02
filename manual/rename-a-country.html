@@ -314,7 +314,7 @@
 <ol>
   <li>Run the rake task <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=data_migration:find_subscriber_list_by_title[country_name]">data_migration:find_subscriber_list_by_title[title]</a>
   with the country name to see which subscription lists need to be updated</li>
-  <li>Run the rake task <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=data_migration:update_subscriber_list[country_slug,new_title,new_country_slug]">data_migration:update_subscriber_list[slug,new_title,new_slug]</a>
+  <li>Run the rake task <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=data_migration:update_subscriber_list[country_slug,&quot;new_title&quot;,new_country_slug]">data_migration:update_subscriber_list[slug,"new_title",new_slug]</a>
   to update the subscription lists</li>
 </ol>
 
@@ -358,7 +358,7 @@
   <li>
     <p>Re-publish the finders again, as above.</p>
   </li>
-  <li>Run the rake task <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=data_migration:update_subscriber_list_tag[field,old_slug,new_slug]]">data_migration:update_subscriber_list_tag[field,old_slug,new_slug]</a> to update the matching criteria for any subscriber lists in Email Alert API with keys of:
+  <li>Run the rake task <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=data_migration:update_subscriber_list_tag[field,country_slug,new_country_slug]]">data_migration:update_subscriber_list_tag[field,country_slug,new_country_slug]</a> to update the matching criteria for any subscriber lists in Email Alert API with keys of:
     <ul>
       <li><code>location</code></li>
       <li><code>destination_country</code></li>
