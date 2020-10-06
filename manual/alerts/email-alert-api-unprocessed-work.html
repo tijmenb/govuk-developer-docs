@@ -8,23 +8,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-    <title>Email Alert API: Unprocessed content changes - GOV.UK Developer Documentation</title>
+    <title>Email Alert API: Unprocessed work - GOV.UK Developer Documentation</title>
 
     <link href="/stylesheets/manifest.css" rel="stylesheet" />
 
-    <link rel="canonical" href="https://docs.publishing.service.gov.uk/manual/alerts/email-alert-api-unprocessed-content-changes.html">
+    <link rel="canonical" href="https://docs.publishing.service.gov.uk/manual/alerts/email-alert-api-unprocessed-work.html">
 
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:domain" content="docs.publishing.service.gov.uk" />
       <meta name="twitter:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
-      <meta name="twitter:title" content="Email Alert API: Unprocessed content changes - GOV.UK Developer Documentation" />
-      <meta name="twitter:url" content="https://docs.publishing.service.gov.uk/manual/alerts/email-alert-api-unprocessed-content-changes.html" />
+      <meta name="twitter:title" content="Email Alert API: Unprocessed work - GOV.UK Developer Documentation" />
+      <meta name="twitter:url" content="https://docs.publishing.service.gov.uk/manual/alerts/email-alert-api-unprocessed-work.html" />
 
       <meta property="og:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
       <meta property="og:site_name" content="GOV.UK Developer Documentation" />
-      <meta property="og:title" content="Email Alert API: Unprocessed content changes" />
+      <meta property="og:title" content="Email Alert API: Unprocessed work" />
       <meta property="og:type" content="object" />
-      <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/alerts/email-alert-api-unprocessed-content-changes.html" />
+      <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/alerts/email-alert-api-unprocessed-work.html" />
 
     
   </head>
@@ -129,14 +129,13 @@
                   <a href='/manual.html' class="toc__back-link govuk-link">&lsaquo; Manual</a>
   <ul>
   <li>
-    <a href="#header"><span>Email Alert API: Unprocessed content changes</span></a>
+    <a href="#header"><span>Email Alert API: Unprocessed work</span></a>
     <ul>
       <li>
-        <ul>
-          <li>
-            <a href="#still-stuck"><span>Still stuck?</span></a>
-          </li>
-        </ul>
+        <a href="#automatic-recovery"><span>Automatic recovery</span></a>
+      </li>
+      <li>
+        <a href="#manual-steps-to-fix"><span>Manual steps to fix</span></a>
       </li>
     </ul>
   </li>
@@ -153,54 +152,81 @@
       This page describes what to do in case of an
       <a href='https://docs.publishing.service.gov.uk/manual/tools.html#icinga'>Icinga alert</a>.
       For more information you could
-      <a href='https://github.com/alphagov/govuk-puppet/search?utf8=%E2%9C%93&q=email-alert-api-unprocessed-content-changes'>
+      <a href='https://github.com/alphagov/govuk-puppet/search?utf8=%E2%9C%93&q=email-alert-api-unprocessed-work'>
         search the govuk-puppet repo for the source of the alert
       </a>
     </div>
 
-   <h1 id='header'>Email Alert API: Unprocessed content changes</h1><p>This alert indicates that Email Alert API has <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/process_content_change_worker.rb">content changes that were not
-processed</a> within 2 hours. Processing a content change
-is the means to establish which subscriber lists should be notified when GOV.UK
-content changes and the process to generate individual emails for the change in
-content.</p>
-
-<p>We generally expect a content change to be have processed within 30 minutes of
-it's creation. At 30 minute intervals a job, <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/recover_lost_jobs_worker.rb">RecoverLostJobsWorker</a>, will try
-to requeue any content changes that have not been processed within an hour.</p>
-
-<p>Thus, seeing this alert indicates that we likely have a problem that needs
-manual intervention. Potential causes would be:</p>
+   <h1 id='header'>Email Alert API: Unprocessed work</h1><p>This alert indicates that Email Alert API has work that has not been processed in the generous amount of time we expect it to have been. Which alert you see depends on the type of work.</p>
 
 <ul>
   <li>
-    <p><a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/process_content_change_worker.rb">ProcessContentChangeWorker</a> is failing to process content changes due to
-some error</p>
+    <p><strong><a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/process_content_change_worker.rb"><code>unprocessed content changes</code></a></strong>.</p>
+
+    <ul>
+      <li>This means there is a signficiant delay in generating emails for subscribers with "immediate" frequency subscriptions in response to <a href="https://github.com/alphagov/email-alert-api/blob/master/docs/api.md#post-content-changes">a change in some content</a> on GOV.UK.</li>
+    </ul>
   </li>
   <li>
-    <p>Sidekiq not running or not operating correctly</p>
+    <p><strong><a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/process_message_worker.rb"><code>unprocessed messages</code></a></strong>.</p>
+
+    <ul>
+      <li>This means there is a significant delay in generating emails for subscribers with "immediate" frequency subscriptions in response to <a href="https://github.com/alphagov/email-alert-api/blob/master/docs/api.md#post-messages">a custom message</a>.</li>
+    </ul>
   </li>
   <li>
-    <p>Content changes taking an abormally long time to process, which may indicate
-degraded system performance or an unexpectedly large task as part of
-processing. This scenario may resolve automatically.</p>
+    <p><strong><code>incomplete digest runs</code></strong>.</p>
+
+    <ul>
+      <li>
+        <p>This could be due to a failure in any of three workers:</p>
+
+        <ul>
+          <li><a href="https://github.com/alphagov/email-alert-api/blob/a656389b1abdd46226ca37c1682c318f1c2eafee/app/workers/daily_digest_initiator_worker.rb">[Daily/Weekly]DigestInitiatorWorker</a> generates a DigestRunSubscriber work item for each subscriber.</li>
+          <li><a href="https://github.com/alphagov/email-alert-api/blob/a656389b1abdd46226ca37c1682c318f1c2eafee/app/workers/digest_email_generation_worker.rb">DigestEmailGenerationWorker</a> does the work of generating the digest email for a specific subscriber.</li>
+          <li><a href="https://github.com/alphagov/email-alert-api/blob/a656389b1abdd46226ca37c1682c318f1c2eafee/app/workers/digest_run_completion_marker_worker.rb">DigestRunCompletionMarkerWorker</a> periodically scans all the work items to see if the run is complete.</li>
+        </ul>
+      </li>
+    </ul>
   </li>
 </ul>
 
-<p>To diagnose this problem, consult <a href="https://sentry.io/organizations/govuk/issues/?project=202220&amp;statsPeriod=6h">Sentry</a> to see if there are errors reported.</p>
+<p>Each of the alerts is based on custom metrics that we collect using <a href="https://github.com/alphagov/email-alert-api/blob/a656389b1abdd46226ca37c1682c318f1c2eafee/app/workers/metrics_collection_worker.rb">a periodic job</a>. The metric will be something like "amount of unprocessed work older than X amount of time" (<a href="https://github.com/alphagov/email-alert-api/blob/a656389b1abdd46226ca37c1682c318f1c2eafee/app/workers/metrics_collection_worker/content_change_exporter.rb#L16">example</a>).</p>
 
-<p>If you find nothing conclusive in Sentry, go to the <a href="https://kibana.logit.io/s/2dd89c13-a0ed-4743-9440-825e2e52329e/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-1h,mode:quick,to:now))&amp;_a=(columns:!('@message',host),index:'*-*',interval:auto,query:(query_string:(query:'@type:%20sidekiq%20AND%20application:%20email-alert-api%20AND%20@fields.worker:%20ProcessContentChangeWorker')),sort:!('@timestamp',desc))">ProcessContentChangeWorker
-sidekiq logs</a> and check the jobs are running correctly.</p>
+<h2 id="automatic-recovery">Automatic recovery</h2>
 
-<p>If the problem persists, run the <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/recover_lost_jobs_worker.rb">RecoverLostJobsWorker</a> and/or
-<a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/process_content_change_worker.rb">ProcessContentChangeWorker</a> directly to see if any problems occur in real-time.</p>
+<p>Sometimes we lose work due to <a href="https://github.com/mperham/sidekiq/wiki/Problems-and-Troubleshooting#my-sidekiq-process-is-crashing-what-do-i-do">a flaw with the Sidekiq queueing system</a>. In order to cope with this scenario, a <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/recover_lost_jobs_worker.rb">RecoverLostJobsWorker</a> runs every 30 minutes, and will try to requeue work that has not been processed <a href="https://github.com/alphagov/email-alert-api/blob/2f3931ac1ca25fe8c79b2405af98d1de55e1d47b/app/workers/recover_lost_jobs_worker/unprocessed_check.rb#L13">within an hour</a>. If work is being repeatedly lost, the alert will fire and you'll need to investigate manually.</p>
 
-<h3 id="still-stuck">Still stuck?</h3>
+<h2 id="manual-steps-to-fix">Manual steps to fix</h2>
+
+<p>Things to check:</p>
 
 <ul>
-  <li><a href="/apis/email-alert-api/troubleshooting.html">Email Alert API troubleshooting</a> for more information</li>
-  <li><a href="https://grafana.production.govuk.digital/dashboard/file/sidekiq.json?refresh=1m&amp;orgId=1&amp;var-Application=email-alert-api&amp;var-Queues=All&amp;from=now-3h&amp;to=now">Email Alert API Sidekiq dashboard</a> to check if jobs are being processed</li>
-  <li><a href="https://grafana.production.govuk.digital/dashboard/file/email_alert_api_technical.json?refresh=1m&amp;orgId=1">Email Alert API Technical dashboard</a> to check if emails are going out</li>
+  <li>
+    <p>Check <a href="https://sentry.io/organizations/govuk/issues/?project=202220&amp;statsPeriod=6h">Sentry</a> for errors.</p>
+  </li>
+  <li>
+    <p>Check the <a href="https://grafana.production.govuk.digital/dashboard/file/sidekiq.json?refresh=1m&amp;orgId=1&amp;var-Application=email-alert-api&amp;var-Queues=All&amp;from=now-3h&amp;to=now">Sidekiq dashboard</a> for worker failures.</p>
+  </li>
+  <li>
+    <p>Check <a href="https://kibana.logit.io/s/2dd89c13-a0ed-4743-9440-825e2e52329e/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-1h,mode:quick,to:now))&amp;_a=(columns:!('@message',host),index:'*-*',interval:auto,query:(query_string:(query:'@type:%20sidekiq%20AND%20application:%20email-alert-api%20AND%20@fields.worker:%20ProcessContentChangeWorker')),sort:!('@timestamp',desc))">Kibana</a> for errors - use <code>@fields.worker: &lt;worker class&gt;</code> for the query.</p>
+  </li>
+  <li>
+    <p>Check the <a href="https://grafana.production.govuk.digital/dashboard/file/email_alert_api_technical.json?refresh=1m&amp;orgId=1">Email Alert API Technical dashboard</a> for performance issues.</p>
+  </li>
 </ul>
+
+<p>If all else fails, you can try running the work manually from a console. <a href="https://github.com/alphagov/email-alert-api/blob/2f3931ac1ca25fe8c79b2405af98d1de55e1d47b/app/workers/recover_lost_jobs_worker/unprocessed_check.rb#L13">The automatic recovery worker</a> code is a good example of how to do this, but you will need to use <code>new.perform</code> instead of <code>perform_async</code>.</p>
+
+<blockquote>
+  <p>A digest run may be "complete" - all work items generated, all work items processed - but not marked as such. In this case, you will need to use slightly different commands to investigate the incomplete run:</p>
+
+<div class="highlight"><pre class="highlight ruby"><code><span class="c1"># find which digests are "incomplete"</span>
+<span class="no">DigestRun</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="s2">"created_at &lt; ?"</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="nf">hour</span><span class="p">.</span><span class="nf">ago</span><span class="p">).</span><span class="nf">where</span><span class="p">(</span><span class="ss">completed_at: </span><span class="kp">nil</span><span class="p">)</span>
+
+<span class="c1"># try manually marking it as complete</span>
+<span class="no">DigestRunCompletionMarkerWorker</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">perform</span>
+</code></pre></div></blockquote>
 
 
 
@@ -216,8 +242,6 @@ sidekiq logs</a> and check the jobs are running correctly.</p>
 
           <ul class="govuk-list">
             <li><a href="/manual/alerts/email-alert-api-high-queue-latency.html">Email Alert API: high latency for sidekiq queue</a></li>
-            <li><a href="/manual/alerts/email-alert-api-incomplete-digest-runs.html">Email Alert API: Incomplete digest runs</a></li>
-            <li><a href="/manual/alerts/email-alert-api-unprocessed-messages.html">Email Alert API: Unprocessed messages</a></li>
             <li><a href="/manual/alerts/publisher-unprocessed-fact-check-emails.html">Publisher: Unprocessed fact-check emails</a></li>
             <li><a href="/manual/alerts/email-alerts-travel-medical.html">Travel Advice or Drug and Medical Device email alerts not sent</a></li>
           </ul>
@@ -226,17 +250,17 @@ sidekiq logs</a> and check the jobs are running correctly.</p>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2021-02-07">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-04-05">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 7 August 2020.
+      This page was last reviewed on 5 October 2020.
 
-        It needs to be reviewed again on 7 February 2021
+        It needs to be reviewed again on 5 April 2021
         by the page owner <a href="">#govuk-2ndline</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 7 February 2021
+      This page was set to be reviewed before 5 April 2021
        by the page owner <a href="">#govuk-2ndline</a>.
       This might mean the content is out of date.
     </div>
@@ -246,8 +270,8 @@ sidekiq logs</a> and check the jobs are running correctly.</p>
 
           <aside>
               <ul class="contribution-banner">
-                <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/alerts/email-alert-api-unprocessed-content-changes.html.md">View source</a></li>
-                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'Email%20Alert%20API:%20Unprocessed%20content%20changes'&amp;body=Problem%20with%20'Email%20Alert%20API:%20Unprocessed%20content%20changes'%20(https://docs.publishing.service.gov.uk/manual/alerts/email-alert-api-unprocessed-content-changes.html)">Report problem</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/alerts/email-alert-api-unprocessed-work.html.md">View source</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'Email%20Alert%20API:%20Unprocessed%20work'&amp;body=Problem%20with%20'Email%20Alert%20API:%20Unprocessed%20work'%20(https://docs.publishing.service.gov.uk/manual/alerts/email-alert-api-unprocessed-work.html)">Report problem</a></li>
                 <li><a href="https://github.com/alphagov/govuk-developer-docs">GitHub Repo</a></li>
               </ul>
           </aside>
