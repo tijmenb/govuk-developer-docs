@@ -16,9 +16,9 @@ content-tagger,#govuk-platform-health,#govuk-platform-health,https://docs.publis
 datagovuk_find,#govuk-platform-health,#govuk-datagovuk,https://docs.publishing.service.gov.uk/apps/datagovuk_find.html,https://github.com/alphagov/datagovuk_find,paas
 datagovuk_publish,#govuk-platform-health,#govuk-datagovuk,https://docs.publishing.service.gov.uk/apps/datagovuk_publish.html,https://github.com/alphagov/datagovuk_publish,paas
 datagovuk_reference,,,https://docs.publishing.service.gov.uk/apps/datagovuk_reference.html,https://github.com/alphagov/datagovuk_reference,heroku
-email-alert-api,#govuk-notifications-dev,#govuk-notifications-dev,https://docs.publishing.service.gov.uk/apps/email-alert-api.html,https://github.com/alphagov/email-alert-api,aws
-email-alert-frontend,#govuk-notifications-dev,#govuk-notifications-dev,https://docs.publishing.service.gov.uk/apps/email-alert-frontend.html,https://github.com/alphagov/email-alert-frontend,aws
-email-alert-service,#govuk-notifications-dev,#govuk-notifications-dev,https://docs.publishing.service.gov.uk/apps/email-alert-service.html,https://github.com/alphagov/email-alert-service,aws
+email-alert-api,#govuk-notifications,#govuk-notifications,https://docs.publishing.service.gov.uk/apps/email-alert-api.html,https://github.com/alphagov/email-alert-api,aws
+email-alert-frontend,#govuk-notifications,#govuk-notifications,https://docs.publishing.service.gov.uk/apps/email-alert-frontend.html,https://github.com/alphagov/email-alert-frontend,aws
+email-alert-service,#govuk-notifications,#govuk-notifications,https://docs.publishing.service.gov.uk/apps/email-alert-service.html,https://github.com/alphagov/email-alert-service,aws
 feedback,#govuk-platform-health,#govuk-platform-health,https://docs.publishing.service.gov.uk/apps/feedback.html,https://github.com/alphagov/feedback,aws
 finder-frontend,#govuk-platform-health,#govuk-platform-health,https://docs.publishing.service.gov.uk/apps/finder-frontend.html,https://github.com/alphagov/finder-frontend,aws
 frontend,#govuk-platform-health,#govuk-platform-health,https://docs.publishing.service.gov.uk/apps/frontend.html,https://github.com/alphagov/frontend,aws
