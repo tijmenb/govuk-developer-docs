@@ -164,11 +164,7 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
   <p><a href='/manual.html#aws'>AWS</a></p> <h1 id='header'>Migration to AWS</h1><p>To bring the GOV.UK platform in line with the <a href="https://www.gov.uk/service-manual/technology/deciding-how-to-host-your-service">guidance detailed in the Service Manual</a>,
-it is being migrated to <a href="https://aws.amazon.com/">Amazon Web Services</a>.</p>
-
-<p>At the moment, all GOV.UK applications are running in AWS except for Signon and most of the publisher apps.</p>
-
-<p>Please refer to the <a href="https://release.publishing.service.gov.uk/applications">Release app</a> to determine where an app is currently located.</p>
+it has been migrated to <a href="https://aws.amazon.com/">Amazon Web Services</a>.</p>
 
 <p>Most services run on <a href="https://aws.amazon.com/ec2/">Amazon EC2</a>, but there are some differences in the infrastructure that you should be aware of.</p>
 
@@ -193,12 +189,6 @@ puppetmaster-1.management
 <p>Please see <a href="/manual/howto-ssh-to-machines.html">the documentation</a> about accessing the environment.</p>
 
 <h4 id="service-resolution">Service resolution</h4>
-
-<blockquote>
-  <p>Please note
-During the migration to AWS, the presence and value of the app_domain, app_domain_internal and Plek service environment variables are dependent on the migration state of an application as well as its dependencies and can be non-intuitive.
-If in doubt, please talk to RE:GOV.UK (e.g. in Slack #re-govuk) to make sure your configuration change is consistent with your intention.</p>
-</blockquote>
 
 <p>Traditionally resolving a service name to an IP would be handled by hardcoding names and IPs in <code>/etc/hosts</code>.</p>
 
@@ -334,17 +324,17 @@ applications.</p>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-09-09">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-01-13">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 9 June 2020.
+      This page was last reviewed on 13 October 2020.
 
-        It needs to be reviewed again on 9 September 2020
+        It needs to be reviewed again on 13 January 2021
         by the page owner <a href="">#re-govuk</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 9 September 2020
+      This page was set to be reviewed before 13 January 2021
        by the page owner <a href="">#re-govuk</a>.
       This might mean the content is out of date.
     </div>

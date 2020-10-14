@@ -134,9 +134,6 @@
       <li>
         <a href="#aws"><span>AWS</span></a>
       </li>
-      <li>
-        <a href="#carrenza"><span>Carrenza</span></a>
-      </li>
     </ul>
   </li>
 </ul>
@@ -162,73 +159,6 @@ machine will result in downtime.</p>
   <li>Select Terminate from the Actions -&gt; Instance State menu</li>
   <li>The AWS Auto Scaling Group will reprovision the instance automatically</li>
 </ol>
-
-<h2 id="carrenza">Carrenza</h2>
-
-<ol>
-  <li>
-    <p>Schedule downtime for your host in Icinga using our <a href="https://github.com/alphagov/fabric-scripts">Fabric
-scripts</a>. This will
-prevent Icinga from alerting while you reprovision the machine:</p>
-
-<div class="highlight"><pre class="highlight plaintext"><code>fab $environment nagios.schedule_downtime:mybox-2.somevdc.production,20
-</code></pre></div>  </li>
-  <li>Stop the machine in the vCloud Director.</li>
-  <li>Delete the machine in the vCloud Director.</li>
-  <li>
-    <p>Remove the certificate for the relevant machine on the
-organisation's Puppet master, e.g.</p>
-
-<div class="highlight"><pre class="highlight plaintext"><code>sudo puppet cert clean mybox-2.somevdc.production
-</code></pre></div>  </li>
-  <li>
-    <p>Ensure that the Puppet master will sign the certificate for the
-newly reprovisoned VM; after 5 minutes the Puppet client will
-timeout and you would need to initiate the signing request
-again manually.</p>
-
-    <p>An easy way to do this is to run the following loop on
-<code>puppetmaster-1.management</code> and monitor the output:</p>
-
-<div class="highlight"><pre class="highlight plaintext"><code>screen
-while true; do sudo puppet cert sign --all; sleep 10; done
-</code></pre></div>
-    <p>Don't forget to kill the screen session when you're done.</p>
-  </li>
-  <li>Reprovision the box using the "Launch VMs" Jenkins job in the
-enviroment's <code>deploy</code> Jenkins instance.</li>
-  <li>Remove any entries for the box from your SSH
-<code>~/.ssh/known_hosts</code> file.</li>
-  <li>
-    <p>Wait for the box to run Puppet so you can log in. It make take a few
-minutes before you can SSH into the box:</p>
-
-<div class="highlight"><pre class="highlight plaintext"><code>until ssh mybox-2.somevdc.production; do sleep 10; done
-</code></pre></div>  </li>
-  <li>
-    <p>Check <code>/var/log/userdata.log</code> for Puppet run errors, and perhaps
-re-run Puppet manually to assert that all's well:</p>
-
-<div class="highlight"><pre class="highlight plaintext"><code>sudo less /var/log/userdata.log
-govuk_puppet -v
-</code></pre></div>  </li>
-  <li>Check all the services are running as expected, and if so, remove
-the downtime from Nagios (this can be done from the "Downtime" link
-in the left-hand sidebar).</li>
-</ol>
-
-<blockquote>
-  <p><strong>Note</strong></p>
-
-  <p>If you are still unable to connect to the newly reprovisioned VM after
-a long period of time (e.g. 20 minutes), try connecting to the
-machine's console from the vCloud Director. VMs have been known to
-wait at the Grub bootloader screen; if this is the case, press the
-enter key in the console to start Linux.</p>
-
-  <p>You won't be able to connect to the Flash console if you're using the
-"emergency" SSH tunnel to access vCloud.</p>
-</blockquote>
 
 
   <div class='related-content'>
@@ -273,17 +203,17 @@ enter key in the console to start Linux.</p>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-09-30">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-04-13">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 30 March 2020.
+      This page was last reviewed on 13 October 2020.
 
-        It needs to be reviewed again on 30 September 2020
+        It needs to be reviewed again on 13 April 2021
         by the page owner <a href="">#re-govuk</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 30 September 2020
+      This page was set to be reviewed before 13 April 2021
        by the page owner <a href="">#re-govuk</a>.
       This might mean the content is out of date.
     </div>
