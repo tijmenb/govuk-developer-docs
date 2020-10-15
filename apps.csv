@@ -25,9 +25,6 @@ frontend,#govuk-platform-health,#govuk-platform-health,https://docs.publishing.s
 government-frontend,#govuk-platform-health,#govuk-platform-health,https://docs.publishing.service.gov.uk/apps/government-frontend.html,https://github.com/alphagov/government-frontend,aws
 govuk-alert-tracker,,,https://docs.publishing.service.gov.uk/apps/govuk-alert-tracker.html,https://github.com/alphagov/govuk-alert-tracker,heroku
 govuk-content-store-examples,,,https://docs.publishing.service.gov.uk/apps/govuk-content-store-examples.html,https://github.com/alphagov/govuk-content-schemas,heroku
-govuk-coronavirus-business-volunteer-form,#govuk-corona-services-tech,#govuk-corona-services-tech,https://docs.publishing.service.gov.uk/apps/govuk-coronavirus-business-volunteer-form.html,https://github.com/alphagov/govuk-coronavirus-business-volunteer-form,paas
-govuk-coronavirus-find-support,#govuk-smart-answers-devs,#govuk-smart-answers-devs,https://docs.publishing.service.gov.uk/apps/govuk-coronavirus-find-support.html,https://github.com/alphagov/govuk-coronavirus-find-support,paas
-govuk-coronavirus-vulnerable-people-form,#govuk-corona-services-tech,#govuk-corona-services-tech,https://docs.publishing.service.gov.uk/apps/govuk-coronavirus-vulnerable-people-form.html,https://github.com/alphagov/govuk-coronavirus-vulnerable-people-form,paas
 govuk-dependencies,#govuk-platform-health,#govuk-platform-health,https://docs.publishing.service.gov.uk/apps/govuk-dependencies.html,https://github.com/alphagov/govuk-dependencies,heroku
 govuk-display-screen,,,https://docs.publishing.service.gov.uk/apps/govuk-display-screen.html,https://github.com/alphagov/govuk-display-screen,heroku
 govuk-knowledge-graph,#govuk-data-labs,#govuk-data-labs,https://docs.publishing.service.gov.uk/apps/govuk-knowledge-graph.html,https://github.com/alphagov/govuk-knowledge-graph,none
