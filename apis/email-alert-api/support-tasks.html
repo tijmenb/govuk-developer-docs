@@ -243,7 +243,7 @@ You can find out the slug of the subscriber list by running the <code>view_subsc
 <p><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=support:unsubscribe_all_subscriptions%5Bemail@example.org%5D">⚙ Run rake task on production</a></p>
 <h2 id="send-a-test-email">Send a test email</h2>
 <p>To send a test email to an email address (doesn't have to be subscribed to anything):</p>
-<pre lang="bash"><code>$ bundle exec rake deliver:deliver_to_test_email[&lt;email_address&gt;]
+<pre lang="bash"><code>$ bundle exec rake support:send_test_email[&lt;email_address&gt;]
 </code></pre>
 <h2 id="resend-failed-emails">Resend failed emails</h2>
 <p>There are two Rake tasks available to resend emails which didn't send for<br>
