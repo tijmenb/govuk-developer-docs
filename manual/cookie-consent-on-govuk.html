@@ -175,8 +175,7 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#cookies'>Cookies</a></p> <h1 id='header'>Cookie consent on GOV.UK</h1><p>This is technical documentation for the <a href="https://www.gov.uk/">GOV.UK</a> team in the <a href="https://gds.blog.gov.uk/about/">Government
-Digital Service (GDS)</a>.</p>
+  <p><a href='/manual.html#cookies'>Cookies</a></p> <h1 id='header'>Cookie consent on GOV.UK</h1><p>This is technical documentation for the <a href="https://www.gov.uk/">GOV.UK</a> team in the <a href="https://gds.blog.gov.uk/about/">Government Digital Service (GDS)</a>.</p>
 
 <h2 id="overview">Overview</h2>
 
@@ -193,24 +192,24 @@ Digital Service (GDS)</a>.</p>
 <ul>
   <li><a href="https://govuk-publishing-components.herokuapp.com/component-guide/cookie_banner">Cookie banner component</a></li>
   <li><a href="https://github.com/alphagov/static/blob/54706a6eddcf71e2d6cd36b3239798293530d4e6/app/views/layouts/govuk_template.html.erb#L50">Page template which pulls in the cookie banner</a></li>
-  <li><a href="https://www.gov.uk/help/cookies">cookie settings page</a>. This is published as a <a href="/manual/publish_special_routes.html">special route</a>. See the <a href="https://github.com/alphagov/frontend/blob/master/app/views/help/cookie_settings.html.erb">Cookie settings page in Frontend GitHub repo</a>.</li>
+  <li><a href="https://www.gov.uk/help/cookies">Cookie settings page</a>. This is published as a <a href="/manual/publish_special_routes.html">special route</a>. See the <a href="https://github.com/alphagov/frontend/blob/master/app/views/help/cookie_settings.html.erb">Cookie settings page in Frontend GitHub repo</a>.</li>
   <li><a href="https://www.gov.uk/help/cookie-details">Cookie details page</a>. This is a standard help page, created in Publisher.</li>
 </ul>
 
 <p>When a user first lands on GOV.UK, they are given a default consent cookie that looks like this:</p>
 
-<p><code>cookies_policy={"essential":true,"settings":false,"usage":false,"campaigns":false}</code></p>
-
+<div class="highlight"><pre class="highlight javascript"><code><span class="nx">cookies_policy</span> <span class="o">=</span> <span class="p">{</span> <span class="dl">"</span><span class="s2">essential</span><span class="dl">"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="dl">"</span><span class="s2">settings</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="dl">"</span><span class="s2">usage</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="dl">"</span><span class="s2">campaigns</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span> <span class="p">}</span>
+</code></pre></div>
 <p>This cookies_policy cookie is the key to the GOV.UK cookie consent mechanism. If any of these values read as false, cookies of that type will not be set.</p>
 
 <p>For example, the below cookie will result in Google Analytics tracking being disabled for that user:</p>
 
-<p><code>cookies_policy={"essential":true,"settings":true,"usage":false,"campaigns":true}</code></p>
-
+<div class="highlight"><pre class="highlight javascript"><code><span class="nx">cookies_policy</span> <span class="o">=</span> <span class="p">{</span> <span class="dl">"</span><span class="s2">essential</span><span class="dl">"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="dl">"</span><span class="s2">settings</span><span class="dl">"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="dl">"</span><span class="s2">usage</span><span class="dl">"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="dl">"</span><span class="s2">campaigns</span><span class="dl">"</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
+</code></pre></div>
 <p>If the user clicks “Accept cookies” within the cookie banner or changes their cookie settings on the settings page, they get an additional cookie that ensures they don’t see the cookie banner again:</p>
 
-<p><code>cookies_preferences_set</code></p>
-
+<div class="highlight"><pre class="highlight javascript"><code><span class="nx">cookies_preferences_set</span>
+</code></pre></div>
 <p>Users can still change their consent via the <a href="https://www.gov.uk/help/cookies">cookie settings page</a>.</p>
 
 <h2 id="special-cases">Special Cases</h2>
@@ -223,8 +222,8 @@ Digital Service (GDS)</a>.</p>
 
 <p>We also set the following property to disable tracking:</p>
 
-<p><code>window['ga-disable-UA-26179049-1'] = true;</code>`</p>
-
+<div class="highlight"><pre class="highlight javascript"><code><span class="nb">window</span><span class="p">[</span><span class="dl">'</span><span class="s1">ga-disable-UA-26179049-1</span><span class="dl">'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span>
+</code></pre></div>
 <p>This is the <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/user-opt-out">recommended approach</a> by Google for user opt-out of tracking.</p>
 
 <h3 id="youtube">Youtube</h3>
@@ -310,17 +309,17 @@ Digital Service (GDS)</a>.</p>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-06-19">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-04-06">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 19 December 2019.
+      This page was last reviewed on 6 October 2020.
 
-        It needs to be reviewed again on 19 June 2020
+        It needs to be reviewed again on 6 April 2021
         by the page owner <a href="">#govuk-developers</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 19 June 2020
+      This page was set to be reviewed before 6 April 2021
        by the page owner <a href="">#govuk-developers</a>.
       This might mean the content is out of date.
     </div>
