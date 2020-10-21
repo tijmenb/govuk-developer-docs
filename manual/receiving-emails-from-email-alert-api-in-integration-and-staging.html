@@ -167,7 +167,7 @@ make changes to <a href="https://github.com/alphagov/govuk-puppet">govuk-puppet<
     <p>Create a branch with your changes and push them to GitHub. Deploy the changes by running the <a href="https://deploy.integration.publishing.service.gov.uk/job/Deploy_Puppet">deploy-puppet</a> job for the environment you're testing on, providing your branch name instead of a release tag.</p>
   </li>
   <li>
-    <p>Once these changes have been deployed and the environment variable <code>EMAIL_ADDRESS_OVERRIDE_WHITELIST</code> is populated with your address you can test that you can receive emails by running the <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=support:deliver_to_test_email[your.name@digital.cabinet-office.gov.uk]">support:deliver_to_test_email[name@example.com]</a> rake task.</p>
+    <p>Once these changes have been deployed and the environment variable <code>EMAIL_ADDRESS_OVERRIDE_WHITELIST</code> is populated with your address you can test that you can receive emails by running the <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=support:send_test_email[your.name@digital.cabinet-office.gov.uk]">support:send_test_email[name@example.com]</a> rake task.</p>
   </li>
 </ol>
 

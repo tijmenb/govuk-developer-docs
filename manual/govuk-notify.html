@@ -173,8 +173,8 @@ of 350 requests per second and a daily limit of 30 million emails per day
 (Notify's daily allowance with Amazon SES) meaning we should adhere to these
 limits when using Notify to deliver emails for our applications. The rate
 limit of 350 requests per second is set in email-alert-api and can be found in the
-<a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/delivery_request_worker.rb#L52">DeliveryRequestWorker</a>. If you wish to double check
-these figures you could ask in their slack channel #govuk-notify.</p>
+<a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/send_email_worker.rb#L4">SendEmailWorker</a>. If you wish to double check these figures
+you could ask in their slack channel #govuk-notify.</p>
   </li>
   <li>
     <p><strong>GOV.UK Publishing</strong></p>
