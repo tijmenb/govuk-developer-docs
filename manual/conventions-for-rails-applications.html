@@ -141,6 +141,9 @@
             <a href="#use-govuk-supporting-gems"><span>Use GOV.UK supporting Gems</span></a>
           </li>
           <li>
+            <a href="#gemfile-organisation"><span>Gemfile organisation</span></a>
+          </li>
+          <li>
             <a href="#data-storage"><span>Data storage</span></a>
           </li>
           <li>
@@ -168,6 +171,9 @@
           </li>
           <li>
             <a href="#inject-secrets-with-environment-variables"><span>Inject secrets with environment variables</span></a>
+          </li>
+          <li>
+            <a href="#specify-london-as-the-timezone"><span>Specify London as the timezone</span></a>
           </li>
           <li>
             <a href="#use-api_only-mode-for-api-projects"><span>Use api_only mode for API projects</span></a>
@@ -273,6 +279,38 @@ iterations to be pushed out. It is encouraged that gems are iterated or issues
 filed (<a href="https://github.com/alphagov/govuk_app_config/issues/121">example</a>) when apps need to vary from conventions
 introduced by these gems.</p>
 
+<h3 id="gemfile-organisation">Gemfile organisation</h3>
+
+<p>Aim for your Gemfile to feel consistent, logical and concise. It is easy for
+these files to become confusing with arbitrary orderings and a sporadic
+approach to versioning (<a href="https://github.com/alphagov/publisher/blob/c8ccf5458c0497ebdf3776085316fc6750172cb8/Gemfile#L3-L23">example</a>). However, this can
+be avoided by following simple conventions.</p>
+
+<p>The first gem in your Gemfile should be <code>"rails"</code> as the root dependency of
+the application. This should have the version of Rails specified as an absolute
+version number (for example <code>"6.0.3.4"</code> rather than relative <code>"~&gt; 6.0"</code>) which
+stops any other gems being able to alter the version of Rails used.</p>
+
+<p>You should then declare the other gems your application needs to run in
+all environments, which should be followed by
+<a href="https://bundler.io/v1.5/groups.html">groups</a> to specify gem dependencies
+for particular environments (typically development and test).</p>
+
+<p>You should avoid specifying the version of a gem (known as pinning) unless
+you have a specific need to do so. Pinning a version is rarely necessary
+as the Gemfile.lock file already stores the particular version used
+and typically we intend to keep applications compatible with a current
+version of a gem. Avoiding this makes future maintainers of your Gemfile not
+need to consider whether a versioning choice was arbitrary or specific - it
+also makes for a file that is easier to read - <a href="https://github.com/alphagov/email-alert-api/blob/6409c1d57771c18b7b0a917f4634594ca6e7b52d/Gemfile">example</a>.</p>
+
+<p>Should you have a need to specify a particular version of the gem (for example,
+to indicate lack of compatibility with a newer release) leave a comment to
+explain the particular version. This documents why we need to care
+about the gem version. For example:</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code>gem "elasticsearch", "~&gt; 6" # We need a 6.x release to interface with Elasticsearch 6
+</code></pre></div>
 <h3 id="data-storage">Data storage</h3>
 
 <p>For non-specialist database needs you should use
@@ -384,6 +422,17 @@ with a few problems, most notably that we run our apps in Rails
 "production" environment in numerous places (integration, staging,
 production) and need different secrets for them.</p>
 
+<h3 id="specify-london-as-the-timezone">Specify London as the timezone</h3>
+
+<p>Configure your Rails application to consider the local timezone to be London
+time, this can be done with <code>config.time_zone = "London"</code> in your
+<code>config/application.rb</code>. This allows the presentation of dates to users, and
+any time based logic, to automatically be in UK time.</p>
+
+<p>Note, you shouldn't change the default configuration for the ActiveRecord
+timezone (<code>config.active_record.default_timezone</code>). This should remain as UTC
+which keeps the database un-opinionated on timezone.</p>
+
 <h3 id="use-api_only-mode-for-api-projects">Use <code>api_only</code> mode for API projects</h3>
 
 <p>For applications that do not serve requests to a web browser you should
@@ -463,7 +512,7 @@ different abstractions (unit, integration and functional)</a>.</p>
 
 <p>When testing Rails applications from the perspective of an end user it is
 conventional to use RSpec Rails' <a href="https://relishapp.com/rspec/rspec-rails/docs/feature-specs/feature-spec">feature specs</a> (new applications should
-use the more modern equivalent <a href="https://relishapp.com/rspec/rspec-rails/docs/system-specs/system-spec">system specs</a>) via <a href="https://github.com/alphagov/govuk_test">govuk_test</a>'s
+use the more modern equivalent: <a href="https://relishapp.com/rspec/rspec-rails/docs/system-specs/system-spec">system specs</a>) via <a href="https://github.com/alphagov/govuk_test">govuk_test</a>'s
 <a href="https://teamcapybara.github.io/capybara/">Capybara</a> configuration.</p>
 
 <p>GOV.UK have adopted the <a href="https://www.futurelearn.com/info/blog/how-we-write-readable-feature-tests-with-rspec">Future Learn readable feature test</a>
@@ -473,10 +522,9 @@ the code used to perform the test.</p>
 
 <h3 id="testing-controllers">Testing controllers</h3>
 
-<p>For testing controllers in Rails applications it is recommended to use
-<a href="https://relishapp.com/rspec/rspec-rails/docs/request-specs/request-spec">request specs</a>, which have been the <a href="https://medium.com/just-tech/rspec-controller-or-request-specs-d93ef563ef11">recommended
-approach</a> to replace <a href="https://relishapp.com/rspec/rspec-rails/docs/controller-specs">controller specs</a> reflecting the
-<a href="https://github.com/rails/rails/issues/18950">direction of Rails 5</a>.</p>
+<p>Use <a href="https://relishapp.com/rspec/rspec-rails/docs/request-specs/request-spec">request specs</a> for testing controllers, this is the <a href="https://medium.com/just-tech/rspec-controller-or-request-specs-d93ef563ef11">recommended
+approach</a> to replace <a href="https://relishapp.com/rspec/rspec-rails/docs/controller-specs">controller specs</a> reflecting a
+<a href="https://github.com/rails/rails/issues/18950">direction introduced in Rails 5</a>.</p>
 
 
 
@@ -510,17 +558,17 @@ approach</a> to replace <a href="https://relishapp.com/rspec/rspec-rails/docs/co
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2021-05-26">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-10-22">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 26 May 2020.
+      This page was last reviewed on 22 October 2020.
 
-        It needs to be reviewed again on 26 May 2021
+        It needs to be reviewed again on 22 October 2021
         by the page owner <a href="">#govuk-developers</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 26 May 2021
+      This page was set to be reviewed before 22 October 2021
        by the page owner <a href="">#govuk-developers</a>.
       This might mean the content is out of date.
     </div>
