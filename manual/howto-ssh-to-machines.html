@@ -165,9 +165,15 @@
 
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>gds govuk connect <span class="nt">-e</span> staging ssh cache
 </code></pre></div>
-<p>This will automatically SSH into a random <code>cache</code> machine on AWS. To see all classes, run:</p>
+<p>This will automatically SSH into a random <code>cache</code> machine on AWS.</p>
+
+<p>To see all classes, run:</p>
 
 <div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>gds govuk connect <span class="nt">-e</span> staging ssh <span class="k">*</span>
+</code></pre></div>
+<p>You can connect to specific machines if you know their internal IP address:</p>
+
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>gds govuk connect ssh <span class="nt">-e</span> integration ip-10-1-6-234.eu-west-1.compute.internal
 </code></pre></div>
 <p>You can also start a Rails Console on a remote server, from your local machine:</p>
 
@@ -253,17 +259,17 @@ ip-10-12-6-44.eu-west-1.compute.internal
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-11-15">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-04-21">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 15 May 2020.
+      This page was last reviewed on 21 October 2020.
 
-        It needs to be reviewed again on 15 November 2020
+        It needs to be reviewed again on 21 April 2021
         by the page owner <a href="">#govuk-developers</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 15 November 2020
+      This page was set to be reviewed before 21 April 2021
        by the page owner <a href="">#govuk-developers</a>.
       This might mean the content is out of date.
     </div>
