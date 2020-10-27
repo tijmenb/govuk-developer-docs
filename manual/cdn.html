@@ -188,7 +188,7 @@
   <li><a href="https://github.com/alphagov/govuk-cdn-config-secrets">CDN config secrets</a></li>
 </ul>
 
-<p>These are deployed to <a href="https://deploy.integration.publishing.service.gov.uk/job/Deploy_CDN/">integration</a>, <a href="https://deploy.staging.publishing.service.gov.uk/job/Deploy_CDN/">staging</a> and <a href="https://deploy.publishing.service.gov.uk/job/Deploy_CDN/">production</a>.</p>
+<p>These are deployed to <a href="https://deploy.integration.publishing.service.gov.uk/job/Deploy_CDN/">integration</a>, <a href="https://deploy.blue.staging.govuk.digital/job/Deploy_CDN/">staging</a> and <a href="https://deploy.blue.production.govuk.digital/job/Deploy_CDN/">production</a>.</p>
 
 <p>Some configuration isn't scripted, such as logging. The www, bouncer and assets services send logs to S3 which can be <a href="/manual/query-cdn-logs.html">queried</a>. These logging endpoints are configured directly in the Fastly UI.</p>
 
@@ -306,7 +306,7 @@ done</span>
 
 <p>Banning IPs shouldn't be taken lightly as IP address can be shared by multiple user devices and the user behind an IP address can change over time, so there's always a chance that we may block a legitimate user.</p>
 
-<p>You can change the list of banned IP addresses by modifying the <a href="https://github.com/alphagov/govuk-cdn-config-secrets/blob/master/fastly/dictionaries/config/ip_address_blacklist.yaml">YAML config file</a> and <a href="https://deploy.publishing.service.gov.uk/job/Update_CDN_Dictionaries/build">deploying the configuration</a>.</p>
+<p>You can change the list of banned IP addresses by modifying the <a href="https://github.com/alphagov/govuk-cdn-config-secrets/blob/master/fastly/dictionaries/config/ip_address_blacklist.yaml">YAML config file</a> and <a href="https://deploy.blue.production.govuk.digital/job/Update_CDN_Dictionaries/build">deploying the configuration</a>.</p>
 
 <h2 id="bouncers-fastly-service">Bouncer's Fastly service</h2>
 
@@ -360,17 +360,17 @@ done</span>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-08-11">
+              <div data-module='page-expiry' data-last-reviewed-on="2021-04-26">
     <div class='page-expiry--not-expired'>
-      This page was last reviewed on 11 February 2020.
+      This page was last reviewed on 26 October 2020.
 
-        It needs to be reviewed again on 11 August 2020
+        It needs to be reviewed again on 26 April 2021
         by the page owner <a href="">#govuk-developers</a>
         .
     </div>
 
     <div class='page-expiry--expired'>
-      This page was set to be reviewed before 11 August 2020
+      This page was set to be reviewed before 26 April 2021
        by the page owner <a href="">#govuk-developers</a>.
       This might mean the content is out of date.
     </div>
