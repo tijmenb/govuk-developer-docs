@@ -1,6 +1,8 @@
 
 
 
+
+
 <!doctype html>
 <html lang="en" class="govuk-template no-js">
   <head>
@@ -141,7 +143,11 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#security'>Security</a></p> <h1 id='header'>Block access to arbitrary URLs in the GOV.UK estate</h1><p>During a recent security incident it became necessary to block a GOV.UK
+  <p><a href='/manual.html#security'>Security</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/34d8296e3789e211c90e0dca1ec30633505445e5">28 Oct 2020</a>
+</div>
+
+ <h1 id='header'>Block access to arbitrary URLs in the GOV.UK estate</h1> <p>During a recent security incident it became necessary to block a GOV.UK
 section in order to prevent access to sensitive data.</p>
 
 <p>A quick way to achieve this is to manually add a <code>location</code> block to the NGINX
@@ -237,22 +243,7 @@ Alternatively, changes to the app may remove the offending content.</li>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2021-04-13">
-    <div class='page-expiry--not-expired'>
-      This page was last reviewed on 13 October 2020.
-
-        It needs to be reviewed again on 13 April 2021
-        by the page owner <a href="">#re-govuk</a>
-        .
-    </div>
-
-    <div class='page-expiry--expired'>
-      This page was set to be reviewed before 13 April 2021
-       by the page owner <a href="">#re-govuk</a>.
-      This might mean the content is out of date.
-    </div>
-  </div>
-
+            
           </main>
 
           <aside>

@@ -1,6 +1,8 @@
 
 
 
+
+
 <!doctype html>
 <html lang="en" class="govuk-template no-js">
   <head>
@@ -163,7 +165,11 @@
       </a>
     </div>
 
-   <h1 id='header'>Smokey loop tests</h1><p><a href="https://github.com/alphagov/smokey">Smokey</a> runs in a continuous loop in each environment.
+     <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/34d8296e3789e211c90e0dca1ec30633505445e5">28 Oct 2020</a>
+</div>
+
+ <h1 id='header'>Smokey loop tests</h1> <p><a href="https://github.com/alphagov/smokey">Smokey</a> runs in a continuous loop in each environment.
 and dumps the output of each run into a <code>tmp/smokey.json</code> file.
 We have <a href="https://github.com/alphagov/govuk-puppet/blob/master/modules/monitoring/manifests/checks/smokey.pp">Icinga checks</a> for <a href="https://github.com/alphagov/smokey/blob/master/docs/writing-tests.md#alerting-in-icinga">most Smokey features</a>, so that
 we are alerted when some aspect of GOV.UK may be in trouble.</p>
@@ -231,22 +237,7 @@ hieradata. Here's an <a href="https://github.com/alphagov/govuk-secrets/pull/307
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2021-01-08">
-    <div class='page-expiry--not-expired'>
-      This page was last reviewed on 8 July 2020.
-
-        It needs to be reviewed again on 8 January 2021
-        by the page owner <a href="">#govuk-2ndline</a>
-        .
-    </div>
-
-    <div class='page-expiry--expired'>
-      This page was set to be reviewed before 8 January 2021
-       by the page owner <a href="">#govuk-2ndline</a>.
-      This might mean the content is out of date.
-    </div>
-  </div>
-
+            
           </main>
 
           <aside>

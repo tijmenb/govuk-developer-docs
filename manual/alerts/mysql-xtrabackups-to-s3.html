@@ -1,6 +1,8 @@
 
 
 
+
+
 <!doctype html>
 <html lang="en" class="govuk-template no-js">
   <head>
@@ -161,7 +163,11 @@
       </a>
     </div>
 
-   <h1 id='header'>MySQL Xtrabackups to S3</h1><p>We send backups to an Amazon S3 bucket every 15 minutes. This is
+     <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/34d8296e3789e211c90e0dca1ec30633505445e5">28 Oct 2020</a>
+</div>
+
+ <h1 id='header'>MySQL Xtrabackups to S3</h1> <p>We send backups to an Amazon S3 bucket every 15 minutes. This is
 performed using a nightly "base" backup and "incremental" backups which
 run every 15 minutes, which are linked to the base backup.</p>
 
@@ -201,22 +207,7 @@ point to connectivity to Amazon S3.</p>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-10-22">
-    <div class='page-expiry--not-expired'>
-      This page was last reviewed on 22 April 2020.
-
-        It needs to be reviewed again on 22 October 2020
-        by the page owner <a href="">#re-govuk</a>
-        .
-    </div>
-
-    <div class='page-expiry--expired'>
-      This page was set to be reviewed before 22 October 2020
-       by the page owner <a href="">#re-govuk</a>.
-      This might mean the content is out of date.
-    </div>
-  </div>
-
+            
           </main>
 
           <aside>

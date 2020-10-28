@@ -1,6 +1,8 @@
 
 
 
+
+
 <!doctype html>
 <html lang="en" class="govuk-template no-js">
   <head>
@@ -191,7 +193,11 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#cdn-caching'>CDN & Caching</a></p> <h1 id='header'>Query CDN logs</h1><p>The <a href="/manual/cdn.html">CDN</a> log files are sent to Amazon S3 every 15 minutes
+  <p><a href='/manual.html#cdn-caching'>CDN & Caching</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/34d8296e3789e211c90e0dca1ec30633505445e5">28 Oct 2020</a>
+</div>
+
+ <h1 id='header'>Query CDN logs</h1> <p>The <a href="/manual/cdn.html">CDN</a> log files are sent to Amazon S3 every 15 minutes
 and are stored for 120 days. The data in these log files can be queried via
 <a href="https://aws.amazon.com/athena/">Amazon Athena</a> to gain a variety of insights into GOV.UK traffic.</p>
 
@@ -452,22 +458,7 @@ problem or update the log formatting in Fastly to resolve the issue.</p>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2021-02-20">
-    <div class='page-expiry--not-expired'>
-      This page was last reviewed on 20 February 2020.
-
-        It needs to be reviewed again on 20 February 2021
-        by the page owner <a href="">#govuk-developers</a>
-        .
-    </div>
-
-    <div class='page-expiry--expired'>
-      This page was set to be reviewed before 20 February 2021
-       by the page owner <a href="">#govuk-developers</a>.
-      This might mean the content is out of date.
-    </div>
-  </div>
-
+            
           </main>
 
           <aside>

@@ -1,6 +1,8 @@
 
 
 
+
+
 <!doctype html>
 <html lang="en" class="govuk-template no-js">
   <head>
@@ -149,7 +151,11 @@
       </a>
     </div>
 
-   <h1 id='header'>RabbitMQ: high watermark has been exceeded</h1><p>The RabbitMQ server detects the total amount of RAM installed on startup. By
+     <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/34d8296e3789e211c90e0dca1ec30633505445e5">28 Oct 2020</a>
+</div>
+
+ <h1 id='header'>RabbitMQ: high watermark has been exceeded</h1> <p>The RabbitMQ server detects the total amount of RAM installed on startup. By
 default, when the RabbitMQ server uses above 40% of the installed RAM, it
 raises a memory alarm and blocks all connections. Once the memory alarm has
 cleared (e.g. due to the server paging messages to disk or delivering them to
@@ -179,22 +185,7 @@ $ rabbitmq-plugins enable rabbitmq_management
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-10-01">
-    <div class='page-expiry--not-expired'>
-      This page was last reviewed on 1 April 2020.
-
-        It needs to be reviewed again on 1 October 2020
-        by the page owner <a href="">#govuk-2ndline</a>
-        .
-    </div>
-
-    <div class='page-expiry--expired'>
-      This page was set to be reviewed before 1 October 2020
-       by the page owner <a href="">#govuk-2ndline</a>.
-      This might mean the content is out of date.
-    </div>
-  </div>
-
+            
           </main>
 
           <aside>

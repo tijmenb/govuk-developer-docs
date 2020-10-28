@@ -1,6 +1,8 @@
 
 
 
+
+
 <!doctype html>
 <html lang="en" class="govuk-template no-js">
   <head>
@@ -158,7 +160,11 @@
       </a>
     </div>
 
-   <h1 id='header'>Email Alert API: high latency for sidekiq queue</h1><h3 id="high-queue-latency-queue_latency">High queue latency (queue_latency)</h3>
+     <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/34d8296e3789e211c90e0dca1ec30633505445e5">28 Oct 2020</a>
+</div>
+
+ <h1 id='header'>Email Alert API: high latency for sidekiq queue</h1> <h3 id="high-queue-latency-queue_latency">High queue latency (queue_latency)</h3>
 
 <p>This means the time it takes for a job to be processed is unusually high. See
 the Sidekiq <a href="https://grafana.blue.production.govuk.digital/dashboard/file/sidekiq.json?refresh=1m&amp;orgId=1&amp;var-Application=email-alert-api&amp;var-Queues=All&amp;from=now-3h&amp;to=now">'Queue Latency'</a> graph for more detail.</p>
@@ -207,22 +213,7 @@ dashboard</a> to see if we're experiencing resourcing issues.</li>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2021-02-05">
-    <div class='page-expiry--not-expired'>
-      This page was last reviewed on 5 August 2020.
-
-        It needs to be reviewed again on 5 February 2021
-        by the page owner <a href="">#govuk-2ndline</a>
-        .
-    </div>
-
-    <div class='page-expiry--expired'>
-      This page was set to be reviewed before 5 February 2021
-       by the page owner <a href="">#govuk-2ndline</a>.
-      This might mean the content is out of date.
-    </div>
-  </div>
-
+            
           </main>
 
           <aside>
