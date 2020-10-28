@@ -351,9 +351,85 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>This app publishes contact information for a given organisation to GOV.UK. It replaces the <a href="http://search2.hmrc.gov.uk/kb5/hmrc/contactus/home.page">HMRC contact us application</a> and although it works for any organisation, only HMRC currently uses it.</p>
+<h2 id="live-examples">Live examples</h2>
+<p><a href="https://github.com/alphagov/finder-frontend">finder-frontend</a> displays the index page for an organisation's contacts:</p>
+<ul>
+<li><a href="https://www.gov.uk/government/organisations/hm-revenue-customs/contact">https://www.gov.uk/government/organisations/hm-revenue-customs/contact</a></li>
+</ul>
+<p><a href="https://github.com/alphagov/government-frontend">government-frontend</a><br />
+displays the contacts themselves, fetching them from content store:</p>
+<ul>
+<li><a href="https://www.gov.uk/government/organisations/hm-revenue-customs/contact/alcohol-duties-national-registration-unit">https://www.gov.uk/government/organisations/hm-revenue-customs/contact/alcohol-duties-national-registration-unit</a></li>
+</ul>
+<h2 id="technical-documentation">Technical documentation</h2>
+<p>This is a Ruby on Rails application that provides a private admin UI for signon users with permission to allow them to manage the contacts for their organisation.</p>
+<p>The app has its own database (MySQL), which is used by the admin UI. This is in contrast to the separate <a href="https://github.com/alphagov/government-frontend">government-frontend</a> app which reads contacts from the <a href="https://github.com/alphagov/content-store">content-store</a>. The admin UI part of this app handles publishing the contacts to the <a href="https://github.com/alphagov/publishing-api">publishing-api</a> so that they are present for <a href="https://github.com/alphagov/finder-frontend">finder-frontend</a> and <a href="https://github.com/alphagov/government-frontend">government-frontend</a> to read.</p>
+<h3 id="dependencies">Dependencies</h3>
+<ul>
+<li>Ruby 2.3.0</li>
+<li>MySQL</li>
+<li>
+<a href="https://github.com/alphagov/whitehall">whitehall</a>
+<ol>
+<li>to access the organisations API and maintain parity with the organisations managed in whitehall.</li>
+<li>to access the world locations API to provide the correct list of countries for the country dropdown in the address form</li>
+</ol>
+</li>
+<li>
+<a href="https://github.com/alphagov/signonotron2">signon</a> - for managing user authentication</li>
+<li>
+<a href="https://github.com/alphagov/content-store">content-store</a> - for doing some<br />
+command-line based tasks to withdraw and redirect a contact</li>
+</ul>
+<h3 id="running-the-application">Running the application</h3>
+<p><code>./startup.sh</code></p>
+<p>This runs <code>bundle install</code> to install dependencies and runs the app on port <code>3051</code>. When using the GOV.UK development VM it will be available at <a href="http://contacts-admin.dev.gov.uk/admin">http://contacts-admin.dev.gov.uk/admin</a>.</p>
+<p>By default, this application uses the GOV.UK preview environment for assets. To run against a local version of static, you need to set <code>STATIC_DEV</code> to<br />
+"<a href="http://static.dev.gov.uk">http://static.dev.gov.uk</a>".</p>
+<h3 id="running-the-test-suite">Running the test suite</h3>
+<p><code>bundle exec rake</code></p>
+<p>The tests in this project rely upon <a href="http://github.com/alphagov/govuk-content-schemas">govuk-content-schemas</a>. By default these should be in the parent directory, otherwise you can specify their location with the <code>GOVUK_CONTENT_SCHEMAS_PATH</code> environment variable.</p>
+<h3 id="tasks">Tasks</h3>
+<p>Rake tasks can be found in the standard location: <code>lib/tasks</code>. The implementation of many of these can be found in <code>app/tasks</code> and <code>app/interactors</code> so they can also be run from the console.</p>
+<h3 id="database-setup">Database setup</h3>
+<p>The best way to get a database with good seed data is to use a dump from preview; alternatively you can load the database schema and use the old initial seed data:</p>
+<pre><code>bundle exec rake db:schema:load
+bundle exec rake db:seed
+bundle exec rake contacts:import_hmrc DATA_FILE=db/contact-records.csv
+</code></pre>
+<h2 id="redirecting-removed-contacts">Redirecting removed contacts</h2>
+<p>The Web UI of the app issues a “gone” item to the publishing api when a contact is deleted. Sometimes the correct thing to do is to issue a “redirect” instead. There is no web UI for this but there are two rake tasks to achieve this depending on the state of the contact to be redirected.</p>
+<h3 id="for-contacts-that-still-exist">For contacts that still exist</h3>
+<p>The rake task is <code>contacts:remove_with_redirect</code>, and is invoked as follows:</p>
+<pre><code>$ cd /var/apps/contacts
+$ sudo -u deploy govuk_setenv contacts bundle exec rake contacts:remove_with_redirect[contact-to-remove-slug,path-to-redirect-to]
+</code></pre>
+<h3 id="for-contacts-that-have-been-removed-already">For contacts that have been removed already</h3>
+<p>The rake task is <code>contacts:replace_gone_with_redirect</code>, and is invoked as follows:</p>
+<pre><code>$ cd /var/apps/contacts
+$ sudo -u deploy govuk_setenv contacts bundle exec rake contacts:replace_gone_with_redirect[removed-contact-slug,organisation-slug,path-to-redirect-to]
+</code></pre>
+<p>This will fail if any of the following are true</p>
+<ol>
+<li>
+<code>removed-contact-slug</code> references a contact object in the Contacts Admin database</li>
+<li>the path constructed by <code>removed-contact-slug</code> and <code>organisation-slug</code> does not refer to a “gone” item in content store</li>
+</ol>
+<h2 id="licence">Licence</h2>
+<p><a href="LICENCE">MIT License</a></p>
+  </div>
 
 
 

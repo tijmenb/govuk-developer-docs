@@ -332,9 +332,120 @@
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>Machine learning model to recommend related content</p>
+<h2 id="project-organization">Project Organization</h2>
+<pre><code>├── LICENSE
+├── Makefile           &lt;- Makefile with commands like `make data` or `make train`
+├── README.md          &lt;- The top-level README for developers using this project.
+├── data
+│   ├── external       &lt;- Data from third party sources.
+│   ├── interim        &lt;- Intermediate data that has been transformed.
+│   ├── processed      &lt;- The final, canonical data sets for modeling.
+│   └── raw            &lt;- The original, immutable data dump.
+│
+├── docs               &lt;- A default Sphinx project; see sphinx-doc.org for details
+│
+├── models             &lt;- Trained and serialized models, model predictions, or model summaries
+│
+├── notebooks          &lt;- Jupyter notebooks. Naming convention is a number (for ordering),
+│                         the creator's initials, and a short `-` delimited description, e.g.
+│                         `1.0-jqp-initial-data-exploration`.
+│
+├── references         &lt;- Data dictionaries, manuals, and all other explanatory materials.
+│
+├── reports            &lt;- Generated analysis as HTML, PDF, LaTeX, etc.
+│   └── figures        &lt;- Generated graphics and figures to be used in reporting
+│
+├── requirements.txt   &lt;- The requirements file for reproducing the analysis environment, e.g.
+│                         generated with `pip freeze &gt; requirements.txt`
+│
+├── setup.py           &lt;- makes project pip installable (pip install -e .) so src can be imported
+├── src                &lt;- Source code for use in this project.
+│   ├── __init__.py    &lt;- Makes src a Python module
+│   │
+│   ├── data           &lt;- Scripts to download or generate data
+│   │   └── make_dataset.py
+│   │
+│   ├── features       &lt;- Scripts to turn raw data into features for modeling
+│   │   └── build_features.py
+│   │
+│   ├── models         &lt;- Scripts to train models and then use trained models to make
+│   │   │                 predictions
+│   │   ├── predict_model.py
+│   │   └── train_model.py
+│   │
+│   └── visualization  &lt;- Scripts to create exploratory and results oriented visualizations
+│       └── visualize.py
+│
+└── tox.ini            &lt;- tox file with settings for running tox; see tox.testrun.org
+</code></pre>
+<hr />
+<!-- raw HTML omitted -->
+<h2 id="python-environment">Python environment</h2>
+<p>Need to set and activate environment variables before running pipeline. To run the make_functional_edges_and_weights.py<br />
+script, use command line to <code>export GOOGLE_APPLICATION_CREDENTIALS='path/to/GOV-UK BigQuery analytics-fa2ed548d98c.json'</code></p>
+<p>Environment variables are also used to locate data and model directories: DATA_DIR and MODEL_DIR.<br />
+Make sure these are activated before runnning data pipeline.</p>
+<h2 id="rules-for-displaying-automated-related-links">Rules for displaying automated related links</h2>
+<p><strong>Do-not-display-automated-related-links-from these-pages</strong></p>
+<ul>
+<li>items with curated related links (ordered-related-items)</li>
+<li>document_type=="fatality_notice"</li>
+<li>document_type=="smart_answer" [except we have previously identified these looking for string matches]</li>
+</ul>
+<pre><code>(~related_links.link.str.contains("/y/")) &amp;
+                              (~related_links.link.str.endswith("/y")) &amp;
+                              (~related_links.link.str.contains("/no/")) &amp;
+                              (~related_links.link.str.endswith("/no")) &amp; 
+                              (~related_links.link.str.contains("/education/"))
+</code></pre>
+<ul>
+<li>'/contact-student-finance-england'</li>
+<li>'/student-finance-forms'</li>
+<li>'/funding-for-postgraduate-study'</li>
+<li>'/advanced-learner-loan'</li>
+<li>'/teacher-training-funding'</li>
+<li>'/extra-money-pay-university'</li>
+<li>'/nhs-bursaries'</li>
+<li>'/travel-grants-students-england'</li>
+<li>'/career-development-loans'</li>
+<li>'/care-to-learn'</li>
+<li>'/dance-drama-awards'</li>
+<li>'/social-work-bursaries'</li>
+<li>'/apply-for-bankruptcy'</li>
+<li>'/view-driving-licence'</li>
+<li>'/being-taken-to-employment-tribunal-by-employee'</li>
+<li>'/employment-tribunals'</li>
+<li>'/staying-uk-eu-citizen'</li>
+<li>'/report-driving-medical-condition'</li>
+<li>'/check-flood-risk'</li>
+</ul>
+<p><strong>do-not-suggest-these-links-from-other-pages</strong></p>
+<ul>
+<li>document_type is in this list: ["consultation_outcome",<br />
+"closed_consultation",<br />
+"open_consultation",<br />
+"fatality_notice"]</li>
+<li>'/apply-for-bankruptcy'</li>
+<li>'/view-driving-licence'</li>
+<li>'/being-taken-to-employment-tribunal-by-employee'</li>
+<li>'/employment-tribunals'</li>
+<li>'/staying-uk-eu-citizen'</li>
+<li>'/report-driving-medical-condition'</li>
+<li>'/check-flood-risk' (edited)</li>
+</ul>
+  </div>
 
 
 

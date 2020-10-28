@@ -351,9 +351,33 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>Maslow is a tool to create and manage needs. It's a Rails app which is<br />
+part of the GOV.UK Publishing Platform.</p>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>Ruby</li>
+<li>Bundler</li>
+<li>The Ruby Gems listed in the Gemfile</li>
+<li>A running instance of the <a href="https://github.com/alphagov/publishing-api">Publishing API</a>
+</li>
+</ul>
+<h2 id="user-accounts">User accounts</h2>
+<p>Authentication is provided by the <a href="https://github.com/alphagov/gds-sso">GDS-SSO</a> gem, and in the production environment an instance of <a href="https://github.com/alphagov/signon">Signon</a> must be running in order to sign in.</p>
+<p>In the development environment, the mock strategy is used by default. This removes the requirement for authentication, instead returning the first user in the database as the current user. For this to work, a user must exist - there's a user defined in <code>db/seeds.rb</code>.</p>
+<h2 id="licence">Licence</h2>
+<p><a href="LICENCE">MIT License</a></p>
+  </div>
 
 
 

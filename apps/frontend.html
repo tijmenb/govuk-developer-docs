@@ -376,9 +376,162 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/draft_frontend
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    <!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<h2 id="live-examples">Live examples</h2>
+<h3 id="formats">Formats</h3>
+<p>Simple smart answer</p>
+<ul>
+<li><a href="https://www.gov.uk/settle-in-the-uk">https://www.gov.uk/settle-in-the-uk</a></li>
+</ul>
+<p>Transaction start pages:</p>
+<ul>
+<li><a href="https://www.gov.uk/register-to-vote">https://www.gov.uk/register-to-vote</a></li>
+<li><a href="https://www.gov.uk/vehicle-tax">https://www.gov.uk/vehicle-tax</a></li>
+<li><a href="https://www.gov.uk/find-a-job">https://www.gov.uk/find-a-job</a></li>
+</ul>
+<h3 id="hard-coded-routes">Hard-coded routes</h3>
+<ul>
+<li>
+<a href="https://www.gov.uk/">https://www.gov.uk/</a> (homepage)</li>
+<li>
+<a href="https://www.gov.uk/tour">https://www.gov.uk/tour</a> (tour of GOV.UK)</li>
+<li>
+<a href="https://www.gov.uk/help">https://www.gov.uk/help</a> (help index page)</li>
+<li><a href="https://www.gov.uk/help/cookies">https://www.gov.uk/help/cookies</a></li>
+<li><a href="https://www.gov.uk/help/ab-testing">https://www.gov.uk/help/ab-testing</a></li>
+<li>
+<a href="https://www.gov.uk/foreign-travel-advice">https://www.gov.uk/foreign-travel-advice</a> (travel advice index page)</li>
+<li><a href="https://www.gov.uk/find-local-council">https://www.gov.uk/find-local-council</a></li>
+<li><a href="https://www.gov.uk/passport-interview-office">https://www.gov.uk/passport-interview-office</a></li>
+</ul>
+<h3 id="licence-finders">Licence finders</h3>
+<p>Some examples:</p>
+<ul>
+<li><a href="https://www.gov.uk/riding-establishment-licence">https://www.gov.uk/riding-establishment-licence</a></li>
+<li><a href="https://www.gov.uk/premises-licence">https://www.gov.uk/premises-licence</a></li>
+<li><a href="https://www.gov.uk/temporary-events-notice">https://www.gov.uk/temporary-events-notice</a></li>
+<li><a href="https://www.gov.uk/apply-skip-permit">https://www.gov.uk/apply-skip-permit</a></li>
+<li><a href="https://www.gov.uk/street-collection-licence">https://www.gov.uk/street-collection-licence</a></li>
+<li><a href="https://www.gov.uk/zoo-licence">https://www.gov.uk/zoo-licence</a></li>
+<li><a href="https://www.gov.uk/premises-licence-scotland">https://www.gov.uk/premises-licence-scotland</a></li>
+<li><a href="https://www.gov.uk/house-to-house-collection-licence">https://www.gov.uk/house-to-house-collection-licence</a></li>
+<li><a href="https://www.gov.uk/public-charitable-collection-permit-scotland">https://www.gov.uk/public-charitable-collection-permit-scotland</a></li>
+<li><a href="https://www.gov.uk/late-hours-catering-licence-scotland">https://www.gov.uk/late-hours-catering-licence-scotland</a></li>
+<li><a href="https://www.gov.uk/food-business-registration">https://www.gov.uk/food-business-registration</a></li>
+<li><a href="https://www.gov.uk/cooling-tower-notification">https://www.gov.uk/cooling-tower-notification</a></li>
+<li><a href="https://www.gov.uk/performing-animals-registration">https://www.gov.uk/performing-animals-registration</a></li>
+</ul>
+<h3 id="transaction-done-pages">Transaction done pages</h3>
+<ul>
+<li><a href="https://www.gov.uk/done/transaction-finished">https://www.gov.uk/done/transaction-finished</a></li>
+<li><a href="https://www.gov.uk/done/driving-transaction-finished">https://www.gov.uk/done/driving-transaction-finished</a></li>
+</ul>
+<h3 id="transaction-done-with-survey-pages">Transaction done with survey pages</h3>
+<p>Standard survey:</p>
+<ul>
+<li><a href="https://www.gov.uk/done/check-settled-status">https://www.gov.uk/done/check-settled-status</a></li>
+</ul>
+<p>Assisted digital satisfaction surveys:</p>
+<ul>
+<li><a href="https://www.gov.uk/done/register-flood-risk-exemption">https://www.gov.uk/done/register-flood-risk-exemption</a></li>
+<li><a href="https://www.gov.uk/done/waste-carrier-or-broker-registration">https://www.gov.uk/done/waste-carrier-or-broker-registration</a></li>
+<li><a href="https://www.gov.uk/done/register-waste-exemption">https://www.gov.uk/done/register-waste-exemption</a></li>
+</ul>
+<h3 id="calendars">Calendars</h3>
+<ul>
+<li><a href="https://www.gov.uk/bank-holidays">https://www.gov.uk/bank-holidays</a></li>
+<li><a href="https://www.gov.uk/when-do-the-clocks-change">https://www.gov.uk/when-do-the-clocks-change</a></li>
+</ul>
+<h2 id="nomenclature">Nomenclature</h2>
+<ul>
+<li>
+<strong>format</strong>: our phrase for a type of content</li>
+<li>
+<strong>scope</strong>: each type of calendar (eg daylight saving, bank holidays) is known as a scope. A scope has its own view templates, JSON data source and primary route.</li>
+</ul>
+<h2 id="technical-documentation">Technical documentation</h2>
+<p>Frontend is a Ruby on Rails application that renders the citizen-facing part of formats stored in the Content Store. It looks up the passed-in slug in the Content Store.</p>
+<p>It also serves the homepage as a hard-coded route.</p>
+<p>See <code>app/views/root</code> for some bespoke transaction start pages.</p>
+<p>Calendar JSON data files are stored in <code>lib/data/&lt;scope&gt;.json</code>, with a <code>divisions</code> hash for separate data per region (<code>united-kingdom</code>, <code>england-and-wales</code>, <code>scotland</code> or <code>northern-ireland</code>).</p>
+<p>Each scope's data file contains a list of divisions, containing a list of years, each with a list of events:</p>
+<pre lang="json"><code>{
+  "title": "UK bank holidays",
+  "description": "UK bank holidays calendar - see UK bank holidays and public holidays for 2012 and 2013",
+  "divisions": {
+    "england-and-wales": {
+      "title": "England and Wales",
+      "2011": [{
+        "title": "New Year's Day",
+        "date": "02/01/2011",
+        "notes": "Substitute day"
+      }]
+    }
+  }
+}
+</code></pre>
+<p>The division <code>title</code> attribute is optional.  If this is not present the slug will be humanized and used instead.</p>
+<h3 id="dependencies">Dependencies</h3>
+<ul>
+<li>
+<a href="https://github.com/alphagov/static">alphagov/static</a> - provides shared templates, styles, and JavaScript</li>
+<li>
+<a href="https://github.com/alphagov/content-store">alphagov/content-store</a> - provides raw data for rendering formats</li>
+<li>
+<a href="https://github.com/alphagov/mapit">alphagov/mapit</a> - provides postcode lookups</li>
+<li>
+<a href="https://github.com/alphagov/imminence">alphagov/imminence</a> - provides places lookups (e.g. for find-my-nearest)</li>
+<li>
+<a href="https://github.com/alphagov/publishing-api">alphagov/publishing-api</a> - this app sends data to the content-store</li>
+</ul>
+<h3 id="running-the-application">Running the application</h3>
+<p>To run the application standalone, run <a href="https://github.com/alphagov/static">static</a> and execute the following command:</p>
+<pre><code>PLEK_SERVICE_STATIC_URI=http://127.0.0.1:3013 ./startup.sh
+</code></pre>
+<p>which uses a local copy of static.</p>
+<p>Note that you will have to have <a href="https://github.com/alphagov/mapit">GOV.UK Mapit</a> running locally. A valid dataset will have to be loaded for Mapit or postcode lookups will not succeed. This is part of the standard GOV.UK data replication steps.</p>
+<p>To run in a full development stack (with DNS, all apps running etc.) use<code>./startup.sh</code>.</p>
+<p>If you are using the GDS development virtual machine then the application will be available on the host at <a href="http://frontend.dev.gov.uk/">http://frontend.dev.gov.uk/</a></p>
+<h3 id="running-the-test-suite">Running the test suite</h3>
+<p><code>bundle exec rake</code> runs the test suite.</p>
+<h2 id="additional-information-for-calendars">Additional information for calendars</h2>
+<p>Send the calendars to the publishing-api:</p>
+<pre><code>bundle exec rake publishing_api:publish
+</code></pre>
+<p>Search indexing is performed automatically on data sent to publishing api.</p>
+<p>A rake task has been created to generate the bank holidays JSON for a given year. They need to be then inserted, and modified to<br />
+take into account any additions/modifications made by proclamation.<br />
+Run the rake task like this:</p>
+<pre><code>bundle exec rake bank_holidays:generate_json[2016]
+</code></pre>
+<h3 id="canonical-sources">Canonical sources</h3>
+<ul>
+<li>
+<p>For summer time, we can use the <a href="http://www.legislation.gov.uk/ukpga/1972/6">Summer Time Act 1972</a>.</p>
+</li>
+<li>
+<p>Bank holidays are determined both by law and by proclamation. We use the following legislation: the <a href="http://www.legislation.gov.uk/ukpga/1971/80/schedule/1">Banking and Financial Dealings Act 1971</a><br />
+and the <a href="http://www.legislation.gov.uk/asp/2007/2/section/1">St Andrew's Day Bank Holiday Act</a>.</p>
+</li>
+<li>
+<p>The proclamations of holidays are published in <a href="https://www.thegazette.co.uk/all-notices/notice?noticetypes=1101&amp;sort-by=latest-date&amp;text=%22Banking+and+Financial%22">The Gazette</a>.<br />
+Holidays are announced there 6 months to one year in advance, usually between the months of May and July for the following year.</p>
+</li>
+</ul>
+<h2 id="licence">Licence</h2>
+<p><a href="LICENCE.txt">MIT Licence</a></p>
+  </div>
 
 
 

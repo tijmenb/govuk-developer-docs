@@ -351,9 +351,65 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/draft_frontend
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>A frontend for creating and managing email subscriptions.</p>
+<h2 id="overview">Overview</h2>
+<h3 id="signup">Signup</h3>
+<p>This app provides three routes for signing up to email:</p>
+<ul>
+<li>A <code>/email-signup?link=/:base_path</code> route [<a href="https://www.gov.uk/email-signup/?topic=/money">example</a>].</li>
+</ul>
+<p>This route supports signup to several types of content. It was <a href="https://github.com/alphagov/email-alert-frontend/pull/33">originally specific to the taxonomy</a> (despite the generic name), and then <a href="https://github.com/alphagov/email-alert-frontend/pull/451">got re-purposed for other document types</a>.</p>
+<ul>
+<li>A <strong>legacy</strong> <code>/:base_path/email-signup</code> route [<a href="https://www.gov.uk/foreign-travel-advice/canada/email-signup">example</a>].</li>
+</ul>
+<p>Each of these routes corresponds to a content item with an <a href="https://github.com/alphagov/govuk-content-schemas/blob/master/formats/email_alert_signup.jsonnet"><code>email_alert_signup</code> schema</a>. At the time of writing, <code>/foreign-travel-advice/*</code> still uses this route.</p>
+<ul>
+<li>A <code>/email/subscriptions/new</code> route [<a href="https://www.gov.uk/email/subscriptions/new?topic_id=statistics-with-1-research-and-statistic-5e2982632b">example</a>].</li>
+</ul>
+<p>This route enables any other application to offer a fully customised email signup experience that is not reliant on the content store.</p>
+<p>It is used by apps like <a href="https://github.com/alphagov/finder-frontend">finder-frontend</a>, where a new subscriber list is created from the combination of selected filters.</p>
+<h3 id="double-opt-in">Double Opt-In</h3>
+<p>In order to verify the email for a new subscription:</p>
+<ul>
+<li>We <a href="https://github.com/alphagov/email-alert-frontend/pull/629">send a verification email using email-alert-api</a>
+</li>
+<li>The email <a href="https://github.com/alphagov/email-alert-api/pull/1051">contains a link with a unique token for the subscription</a>*</li>
+<li>Clicking on the link <a href="https://github.com/alphagov/email-alert-frontend/pull/615">completes the signup process</a>
+</li>
+</ul>
+<p>* Note that <a href="https://github.com/alphagov/email-alert-api/pull/1083">the token strategy has changed over time</a>.</p>
+<h3 id="manage">Manage</h3>
+<p>This allows the user to list, modify and delete their subscriptions [<a href="https://www.gov.uk/email/manage/authenticate">login</a>]. It uses a similar, but separate email/token process to authenticate a user, establishing a session for them to make their changes.</p>
+<h2 id="nomenclature">Nomenclature</h2>
+<h3 id="tags-and-links">Tags and links</h3>
+<p>Uniquely define a list people can subscribe to. The criteria within are used to figure out whether an update is relevant subscribers in the list. Defined in <a href="https://github.com/alphagov/email-alert-api/blob/master/doc/matching-content-to-subscriber-lists.md">the docs for email-alert-api</a>.</p>
+<pre><code>tags: { topics: { any: ["business-tax/vat"] } }
+</code></pre>
+<pre><code>links: { topics: { any: ["1ddaaacb-0981-4abc-a532-a5111f2bea6b"] } }
+</code></pre>
+<h3 id="legacy-tags-and-links-yay">Legacy tags and links (yay)</h3>
+<p>These terms are also used by <a href="https://github.com/alphagov/govuk-content-schemas/blob/master/formats/email_alert_signup.jsonnet">the legacy <code>email_alert_signup</code> schema</a>. Note that the flat lists of base paths or Content IDs are interpreted as "any" in the above definition.</p>
+<pre><code>"tags": { "countries": ["foreign-travel-advice/canada"] }
+</code></pre>
+<pre><code>"links": { "countries": ["f402b8de-2e99-4ff3-949f-31fe65796cae"] }
+</code></pre>
+<h2 id="running-the-test-suite">Running the test suite</h2>
+<pre><code>$ bundle exec rake
+</code></pre>
+<h2 id="licence">Licence</h2>
+<p><a href="LICENCE">MIT License</a></p>
+  </div>
 
 
 

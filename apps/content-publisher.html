@@ -366,9 +366,70 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>A unified publishing application for content on GOV.UK</p>
+<h2 id="nomenclature">Nomenclature</h2>
+<ul>
+<li>Content - Some text (<a href="https://github.com/alphagov/govuk-content-schemas">and related fields</a>) a user wants to publish</li>
+<li>Revision - A version of a piece of content in a particular locale</li>
+<li>Edition - A revision that is in the Publishing API</li>
+<li>Document - All revisions of a piece of content in a particular locale</li>
+</ul>
+<h2 id="technical-documentation">Technical documentation</h2>
+<p>This is a Ruby on Rails application.</p>
+<h3 id="dependencies">Dependencies</h3>
+<ul>
+<li>
+<a href="https://www.postgresql.org/">postgresql</a> - provides a backing database</li>
+<li>
+<a href="https://redis.io/">redis</a> - used as a storage layer for asynchronous job processing</li>
+<li>
+<a href="https://yarnpkg.com/">yarn</a> - package manager for JavaScripts</li>
+<li>
+<a href="https://www.imagemagick.org/script/index.php">imagemagick</a> - image manipulation library</li>
+</ul>
+<h3 id="running-the-application">Running the application</h3>
+<p>The first time you run this application for development, enable <code>debug</code> and <code>pre_release_features</code> permissions:</p>
+<pre><code>bundle exec rake development_permissions
+</code></pre>
+<p>To enable them for your GOV.UK account add them to your account in <a href="https://github.com/alphagov/signon">Signon</a>.</p>
+<h3 id="running-the-test-suite">Running the test suite</h3>
+<pre><code>yarn install
+
+# ruby tests
+bundle exec rspec
+
+# JS tests (in console, or in browser)
+bundle exec rake jasmine:ci
+bundle exec rake jasmine
+</code></pre>
+<blockquote>
+<p><a href="https://github.com/alphagov/content-publisher/commit/184a93d23551161125c1ac6ff3d9287eafabbc3d">Our test environment is setup to render 'real' error pages, instead of raising an exception</a>. This can make it hard to debug a test failure, as the actual error won't appear in the test output. Instead, you can see it in <code>log/test.log</code>.</p>
+</blockquote>
+<h3 id="further-documentation">Further documentation</h3>
+<ul>
+<li><a href="docs/approach-to-analytics.md">Approach to analytics</a></li>
+<li><a href="docs/editing-change-note-history.md">Editing change note history</a></li>
+<li><a href="docs/history-mode.md">History mode</a></li>
+<li><a href="docs/import-from-whitehall.md">Importing documents from Whitehall</a></li>
+<li><a href="docs/removing-documents.md">Removing documents</a></li>
+<li><a href="docs/scheduled-publishing.md">Scheduled publishing</a></li>
+<li><a href="docs/testing-strategy.md">Testing strategy</a></li>
+<li><a href="docs/user-permissions.md">User permissions</a></li>
+</ul>
+<h2 id="licence">Licence</h2>
+<p><a href="LICENCE">MIT License</a></p>
+  </div>
 
 
 

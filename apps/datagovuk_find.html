@@ -334,9 +334,68 @@
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    <p><a href="https://codeclimate.com/github/datagovuk/find_data_beta"><img src="https://codeclimate.com/github/datagovuk/find_data_beta/badges/gpa.svg" alt="Code Climate" /></a><br />
+<a href="https://codeclimate.com/github/datagovuk/find_data_beta/coverage"><img src="https://codeclimate.com/github/datagovuk/find_data_beta/badges/coverage.svg" alt="Test Coverage" /></a></p>
+
+<p>This repository contains the beta-stage frontend component of data.gov.uk</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>You will need to install the following for development.</p>
+<ul>
+<li>
+<a href="https://github.com/rbenv/rbenv">rbenv</a> or similar to manage ruby versions</li>
+<li>
+<a href="https://rubygems.org/gems/bundler">bundler</a> to manage gems</li>
+<li>
+<a href="https://www.elastic.co/">elasticsearch</a> search engine</li>
+<li>
+<a href="https://www.postgresql.org/">postgresql</a> database</li>
+<li>
+<a href="https://yarnpkg.com/en/">yarn</a> to manage node packages</li>
+<li>
+<a href="https://github.com/alphagov/datagovuk_publish/">data.gov.uk Publish</a> to populate elasticsearch</li>
+</ul>
+<p>Most of these can be installed with Homebrew on a Mac.</p>
+<h2 id="getting-started">Getting Started</h2>
+<p>First run <code>bin/setup</code> to bundle, etc. Then run <code>rails s</code>.</p>
+<h2 id="deployment">Deployment</h2>
+<p>You can track the deployments on travis - <a href="https://travis-ci.org/alphagov/datagovuk_find">https://travis-ci.org/alphagov/datagovuk_find</a>.</p>
+<h3 id="staging">Staging</h3>
+<p>To deploy to staging merge a PR into master.</p>
+<p>Test that your changes are working here - <a href="https://staging.data.gov.uk">https://staging.data.gov.uk</a> before releasing to Production.</p>
+<h3 id="production">Production</h3>
+<p>To deploy to production you need to tag the release, the tag needs to be in this format - <code>v9.9.9</code> where 9 is a number and the leading <code>v</code> is required. E.g. <code>v0.1.11</code> is valid, <code>0.1.11</code> is not.</p>
+<h2 id="developing-against-production-elasticsearch">Developing against production elasticsearch</h2>
+<p>Grab the full URL (including HTTP Basic username and password) from the paas.<br />
+You can do this with <code>cf env find-data-beta</code>.</p>
+<p>Open up an SSH tunnel to allow access to the elasticsearch instance:</p>
+<pre><code>cf ssh -N -L &lt;es-port&gt;:&lt;es-host&gt;:&lt;es-port&gt; find-data-beta
+</code></pre>
+<p>You can use any port you like for the local connection (i.e., the first <code>&lt;es-port&gt;</code>)<br />
+but I would recommend using the same port as the remote side to reduce confusion.</p>
+<p>Set the following environment variables (via direnv or other method of your choice):</p>
+<ul>
+<li><code>ES_HOST="https://&lt;username&gt;:&lt;password&gt;@localhost:&lt;es-port&gt;"</code></li>
+<li><code>ES_INDEX="datasets-production"</code></li>
+</ul>
+<p>If you're using direnv you'll need to add <code>export </code> in front of those lines in<br />
+your <code>.envrc</code>.</p>
+<p>After (re)starting your Rails server, any requests to your local instance will<br />
+behave the same as production.</p>
+<p>If you're having connection issues, try opening new tabs in your terminal to<br />
+ensure all your environment variables are cleared and refreshed.</p>
+<h2 id="testing-on-docker-ckan">Testing on docker ckan</h2>
+<p>Source the <code>bin/setup-docker-test.sh</code> script in order to set up the environment variables for testing and install chrome on the debian docker container.</p>
+  </div>
 
 
 

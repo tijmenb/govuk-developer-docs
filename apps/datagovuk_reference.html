@@ -329,9 +329,43 @@
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    <h2 id="reference-data-gov-uk">reference.data.gov.uk</h2>
+<p>This is the source for <a href="http://reference.data.gov.uk">http://reference.data.gov.uk</a>. It is hosted on Heroku<br />
+and paid for on the GOV.UK account.</p>
+<p>It contains:</p>
+<ul>
+<li>Static files that were on reference.data.gov.uk (<a href="/www">www</a>)</li>
+<li>Nginx configuration to host these static files (<a href="/config/nginx.conf.erb">config/nginx.conf.erb</a>)</li>
+<li>Nginx configuration to make some redirects to The National Archives</li>
+<li>
+<a href="/pom.xml">Configuration</a> to build epimorphics' <a href="https://github.com/epimorphics/IntervalServer">IntervalServer</a>
+</li>
+</ul>
+<p>It requires these Heroku buildpacks, in this order:</p>
+<ol>
+<li><a href="https://github.com/heroku/heroku-buildpack-java">https://github.com/heroku/heroku-buildpack-java</a></li>
+<li><a href="https://github.com/heroku/heroku-buildpack-nginx">https://github.com/heroku/heroku-buildpack-nginx</a></li>
+</ol>
+<p>It is configured to be automatically deployed to Heroku on pushes to master.</p>
+<h3 id="contributing-raising-issues-and-support">Contributing, raising issues and support</h3>
+<p>Please raise any issues in the GitHub <a href="../../issues">issue tracker</a>. GOV.UK currently<br />
+doesn't have any work planned to support this project, but may do in the<br />
+future.</p>
+<p>Contributions are accepted via Pull Requests. Members of GOV.UK will review<br />
+these and merge them as time allows.</p>
+<h3 id="licence">Licence</h3>
+<p><a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3</a></p>
+  </div>
 
 
 

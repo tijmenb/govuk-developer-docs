@@ -328,9 +328,85 @@
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>This repo is a thin wrapper around the <a href="https://github.com/bethesque/pact_broker">Pact Broker Gem</a> that<br />
+allows Pact Broker to be run on unicorn server on the<br />
+<a href="https://docs.cloud.service.gov.uk/">Government PAAS</a>.</p>
+<p>It is used by projects such as <a href="https://github.com/alphagov/publishing-api">Publishing API</a>,<br />
+<a href="https://github.com/alphagov/gds-api-adapters">GDS API Adapters</a> and <a href="https://github.com/alphagov/content-store">Content Store</a> for<br />
+contract testing.</p>
+<h2 id="run-this-locally">Run this locally</h2>
+<h3 id="install-dependencies">Install dependencies</h3>
+<pre><code>$ bundle install
+</code></pre>
+<h3 id="create-a-postgresql-database">Create a PostgreSQL database</h3>
+<pre><code>$ psql postgres
+&gt; create database pact_broker;
+&gt; CREATE USER pact_broker WITH PASSWORD 'pact_broker';
+&gt; GRANT ALL PRIVILEGES ON DATABASE pact_broker to pact_broker;
+</code></pre>
+<h3 id="set-up-environment-variables">Set up environment variables</h3>
+<pre><code>$ export AUTH_USERNAME=username
+$ export AUTH_PASSWORD=password
+$ export DATABASE_URL=postgresql://pact_broker@localhost/pact_broker
+</code></pre>
+<h3 id="run-the-app">Run the app</h3>
+<pre><code>$ bundle exec unicorn
+</code></pre>
+<h2 id="deploy-a-change-to-the-paas">Deploy a change to the PAAS</h2>
+<p>You'll need a cloud foundry account for <a href="https://docs.cloud.service.gov.uk/">Government PAAS</a> and<br />
+be in the <code>govuk_development</code> organisation with access to the <code>sandbox</code> space.</p>
+<p>From there you should be able to see this app (<code>pact-broker</code>) by running:</p>
+<pre><code>$ cf apps
+</code></pre>
+<p>Then when you have made your changes you can push a new deployment with:</p>
+<pre><code>$ cf push pact-broker
+</code></pre>
+<h2 id="run-this-on-the-government-paas">Run this on the <a href="https://docs.cloud.service.gov.uk/">Government PAAS</a>
+</h2>
+<h3 id="space-for-the-app">Space for the app</h3>
+<p>You may be given a space by your organisation manager, or need to create one<br />
+for the application.</p>
+<p>At the time of writing this app runs on the <code>govuk_development</code> organisation<br />
+in the <code>sandbox</code> space</p>
+<h3 id="push-the-app-to-the-paas">Push the app to the PAAS</h3>
+<p>As we've not set everything up we don't want to start the app now.</p>
+<pre><code>$ cf push pact-broker --no-start
+</code></pre>
+<p>we can pass a <code>-n HOSTNAME</code> argument here to specify the hostname, otherwise<br />
+it will use the default one of <code>pact-broker</code> (as specified in<br />
+<a href="manifest.yml">manifest.yml</a>)</p>
+<h3 id="create-a-database">Create a database</h3>
+<p>There's a number of different database plans available, but the "Free" one<br />
+should be sufficient:</p>
+<pre><code>$ cf create-service postgres Free pact-broker-db
+</code></pre>
+<p>This will take a few minutes. Once completed it can be bound to the application:</p>
+<pre><code>$ cf bind-service pact-broker pact-broker-db
+</code></pre>
+<h3 id="set-up-environment-variables-for-credentials">Set up environment variables for credentials</h3>
+<p>This application requires basic auth credentials of <code>AUTH_USERNAME</code> and<br />
+<code>AUTH_PASSWORD</code>.</p>
+<pre><code>$ cf set-env pact-broker AUTH_USERNAME username
+$ cf set-env pact-broker AUTH_PASSWORD password
+</code></pre>
+<h3 id="start-the-app">Start the app</h3>
+<pre><code>$ cf start pact-broker
+</code></pre>
+<p>And then you'll probably want it to run on 2 instances:</p>
+<pre><code>$ cf scale pact-broker -i 2
+</code></pre>
+  </div>
 
 
 

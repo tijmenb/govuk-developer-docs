@@ -329,9 +329,44 @@
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>This repo is part of the <a href="https://github.com/alphagov/tech-docs-template">tech-docs-template</a>, and is used in<br />
+conjunction with the <a href="https://alphagov.github.io/tech-docs-manual/#last-reviewed-on-and-review-in">page expiry feature</a> that is part of the<br />
+<a href="https://github.com/alphagov/tech-docs-gem">tech-docs-gem</a></p>
+<p>Concourse CI will run the script once a day during weekdays.<br />
+It will look at the pages API for your site, find all pages that have expired, and post a Slack message to the owner of each page to let them know that it needs reviewing.</p>
+<h2 id="usage">Usage</h2>
+<h3 id="alphagov-users">
+<code>alphagov</code> users</h3>
+<p>If you are part of the <code>alphagov</code> GitHub organisation you can enable the notifier by raising a PR to add your published documentation to the <a href="https://github.com/alphagov/tech-docs-monitor/blob/master/Rakefile"><code>Rakefile</code></a>:</p>
+<pre><code>pages_urls = [
+  "https://gds-way.cloudapps.digital/api/pages.json",
+  "https://docs.publishing.service.gov.uk/api/pages.json",
+  "your-docs-site.cloudapps.digital"
+]
+</code></pre>
+<h3 id="general-configuration">General configuration</h3>
+<p>The following environment variables are necessary:</p>
+<ul>
+<li>
+<code>SLACK_WEBHOOK_URL</code>: The Slack webhook URL to allow messages to be posted.</li>
+<li>
+<code>REALLY_POST_TO_SLACK</code>: Messages will only be posted to Slack if the value of<br />
+this var is <code>1</code>.</li>
+</ul>
+<h2 id="licence">Licence</h2>
+<p>The gem is available as open source under the terms of the <a href="LICENCE">MIT License</a>.</p>
+  </div>
 
 
 

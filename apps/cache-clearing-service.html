@@ -350,9 +350,33 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>This is a message queue consumer application which clears Fastly and Varnish<br />
+caches when new content is published.</p>
+<h2 id="technical-documentation">Technical documentation</h2>
+<p>Messages are read from the <code>published_documents</code> exchange which carries<br />
+documents published from all publishing applications.</p>
+<p>When the service detects a published document it clears the cache in Fastly and<br />
+Varnish for that path.</p>
+<h3 id="running-the-application">Running the application</h3>
+<pre lang="sh"><code>$ bin/cache_clearing_service
+</code></pre>
+<h3 id="running-the-test-suite">Running the test suite</h3>
+<pre lang="sh"><code>$ bundle exec rspec
+</code></pre>
+<h2 id="licence">Licence</h2>
+<p><a href="LICENCE.md">MIT Licence</a></p>
+  </div>
 
 
 

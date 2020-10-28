@@ -356,9 +356,73 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>A web service that takes an input of URIs. It performs a number of checks on<br />
+them to determine whether these are things that should be linked to.</p>
+<h2 id="nomenclature">Nomenclature</h2>
+<ul>
+<li>
+<strong>Link</strong>: The consideration of a URI and all resulting redirects<br />
+that may occur from it.</li>
+<li>
+<strong>Check</strong>: The process of taking a URI and checking it as a Link<br />
+for any problems that may affecting linking to it within content.</li>
+<li>
+<strong>Batch</strong>: The functionality to check multiple URIs in a grouping</li>
+</ul>
+<h2 id="technical-documentation">Technical documentation</h2>
+<p>This is a Ruby on Rails application that acts as web service for performing<br />
+links. Communication to and from this service is done through a RESTful JSON<br />
+API. The majority of link checking is done through a background worker than<br />
+uses Sidekiq. There is a webhook functionality for applications to receive<br />
+notifications when link checking is complete.</p>
+<p>The HTTP API is defined in <a href="docs/api.md">docs/api.md</a>.</p>
+<h3 id="dependencies">Dependencies</h3>
+<ul>
+<li>
+<a href="https://www.postgresql.org/">PostgreSQL</a> - provides a database</li>
+<li>
+<a href="https://redis.io">redis</a> - provides queue storage for Sidekiq jobs</li>
+</ul>
+<h3 id="running-the-application">Running the application</h3>
+<p>Start the web app with:</p>
+<pre lang="bash"><code>$ ./startup.sh
+</code></pre>
+<p>Application will be available on port 3208 - <a href="http://localhost:3208">http://localhost:3208</a> or if you<br />
+are using the development VM <a href="http://link-checker-api.dev.gov.uk">http://link-checker-api.dev.gov.uk</a></p>
+<p>Start the sidekiq worker with:</p>
+<pre lang="bash"><code>$ bundle exec sidekiq -C config/sidekiq.yml
+</code></pre>
+<h3 id="running-the-test-suite">Running the test suite</h3>
+<pre lang="bash"><code>$ bundle exec rspec
+</code></pre>
+<h3 id="report-rake-task">Report rake task</h3>
+<pre lang="bash"><code>$ bundle exec rake report[links.csv]
+</code></pre>
+<p>This will produce a report of all broken links stored in the link checker and when they were last checked.</p>
+<h3 id="example-api-output">Example API output</h3>
+<pre><code>$ curl -s http://link-checker-api.dev.gov.uk/check\?uri\=https%3A%2F%2Fwww.gov.uk%2F\&amp;synchronous\=true | jq
+{
+  "uri": "https://www.gov.uk/",
+  "status": "ok",
+  "checked": "2017-04-12T18:47:16Z",
+  "errors": {},
+  "warnings": {}
+}
+</code></pre>
+<h2 id="licence">Licence</h2>
+<p><a href="LICENSE">MIT License</a></p>
+  </div>
 
 
 

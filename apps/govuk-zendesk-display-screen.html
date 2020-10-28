@@ -329,9 +329,30 @@
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>Displays some high-level statistics from a given Zendesk view. Used to display the number of tickets currently on the 2nd line queue.</p>
+<p><img src="docs/displayscreen.png" alt="GOV.UK Zendesk Display Screen" /></p>
+<h2 id="running">Running</h2>
+<p><code>ZENDESK_SUBDOMAIN=govuk ZENDESK_API_USERNAME=something@example.com ZENDESK_API_TOKEN=ABCDEFG ZENDESK_VIEW_ID=123456789 AUTH_USERNAME=username AUTH_PASSWORD=password bundle exec puma</code></p>
+<h3 id="colour-coding">Colour coding</h3>
+<p>All stats are coloured green if they are 0, amber if they are between 1 and 4, and red if they are 5 or over.</p>
+<h3 id="dark-mode">Dark mode</h3>
+<p>Dark mode is set by default and results in a dark background and light text. To disable dark mode, add <code>?dark_mode=false</code> to the URL.</p>
+<h3 id="hiding-the-low-queue">Hiding the low queue</h3>
+<p>The low queue is regularly used for tickets that are handed off to others or awaiting some other action, therefore the display screen hides it by default. To show it, add <code>?hide_low_queue=false</code> to the URL.</p>
+<h2 id="licence">Licence</h2>
+<p><a href="LICENCE">MIT License</a></p>
+  </div>
 
 
 

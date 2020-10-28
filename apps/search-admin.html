@@ -351,23 +351,65 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 <h2 id="example-pages-published-by-search-admin">Example pages published by search-admin</h2>
 
 <ul>
-    <li><a href="https://www.nhs.uk/">NHS</a></li>
-    <li><a href="https://www.moneyadviceservice.org.uk/en/categories/managing-debt">Debt management - Money Advice Service</a></li>
-    <li><a href="http://www.oadby-wigston.gov.uk">Oadby and Wigston Borough Council</a></li>
-    <li><a href="http://www.hambleton.gov.uk/">Hambleton District Council</a></li>
-    <li><a href="http://www.pembrokeshire.gov.uk">Pembrokeshire County Council</a></li>
-    <li><a href="https://ve-vjday75.gov.uk/">VE Day and VJ Day: Marking 75 years since the end of the Second World War</a></li>
-    <li><a href="http://www.newark-sherwooddc.gov.uk">Newark and Sherwood District Council</a></li>
-    <li><a href="http://www.westsussex.gov.uk/">West Sussex County Council</a></li>
-    <li><a href="http://www.renfrewshire.gov.uk">Renfrewshire Council</a></li>
-    <li><a href="http://www.oldham.gov.uk/">Oldham Metropolitan Borough Council</a></li>
+    <li><a href="http://www.cheltenham.gov.uk">Cheltenham Borough Council</a></li>
+    <li><a href="http://www.boston.gov.uk">Boston Borough Council</a></li>
+    <li><a href="https://www.nhs.uk/conditions/stress-anxiety-depression/benefits-of-talking-therapy/">Talking therapy - NHS</a></li>
+    <li><a href="http://www.caerphilly.gov.uk">Caerphilly County Borough Council</a></li>
+    <li><a href="http://www.kingston.gov.uk/">Royal Borough of Kingston upon Thames Council</a></li>
+    <li><a href="http://www.carrickfergus.org">Carrickfergus Borough Council</a></li>
+    <li><a href="http://www.rushmoor.gov.uk">Rushmoor Borough Council</a></li>
+    <li><a href="http://www.northumberland.gov.uk">Northumberland County Council</a></li>
+    <li><a href="http://www.mendip.gov.uk">Mendip District Council</a></li>
+    <li><a href="https://nationalcareersservice.direct.gov.uk/advice/courses/">Courses and learning - National Careers Service</a></li>
 </ul>
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>The <code>search-admin</code> application manages search "best bets" and "external links" along with other search and browse data.</p>
+<h2 id="screenshots">Screenshots</h2>
+<p><img src="docs/images/screenshot.png" alt="Search Admin" /></p>
+<h2 id="live-example">Live example</h2>
+<ul>
+<li><a href="https://search-admin.publishing.service.gov.uk/">https://search-admin.publishing.service.gov.uk/</a></li>
+</ul>
+<h2 id="technical-documentation">Technical documentation</h2>
+<p>This is a Ruby on Rails application that manages search "best bets" and "external links" along with other search and browse data. It is behind the signon authentication system and doesn't have a public API.</p>
+<h3 id="dependencies">Dependencies</h3>
+<ul>
+<li>
+<a href="https://github.com/alphagov/publishing-api">alphagov/publishing-api</a> - search-admin publishes external links to the publishing API</li>
+<li>
+<a href="https://github.com/alphagov/search-api">alphagov/search-api</a> - search-admin sends updates to search-api when best bets are edited</li>
+</ul>
+<h3 id="running-the-application">Running the application</h3>
+<p><code>./startup.sh</code></p>
+<p>The app runs on port 3073. If you're using the dev VM it will be available at <a href="http://search-admin.dev.gov.uk/">http://search-admin.dev.gov.uk/</a></p>
+<h4 id="creating-the-mysql-user">Creating the mysql user</h4>
+<p>The database.yml for this project is checked into source control so<br />
+you'll need a local user with credentials that match those in<br />
+database.yml.</p>
+<pre lang="sql"><code>    mysql&gt; create user 'search_admin'@'localhost' identified by 'search_admin';
+    mysql&gt; grant all on `search_admin\_%`.* to search_admin@localhost;
+    mysql&gt; flush privileges;
+</code></pre>
+<h3 id="running-the-test-suite">Running the test suite</h3>
+<p><code>bundle exec rake</code></p>
+<h3 id="external-links">External links</h3>
+<p>Run <code>bundle exec rake publish_external_links:publishing_api</code> to send all external links to the publishing API.</p>
+<h2 id="licence">Licence</h2>
+<p><a href="LICENSE">MIT License</a></p>
+  </div>
 
 
 

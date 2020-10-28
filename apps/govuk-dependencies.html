@@ -333,9 +333,64 @@
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>A tool for:</p>
+<ul>
+<li>Viewing all of the outstanding open pull requests made by Dependabot to GOV.UK repos</li>
+<li>Sending Slack messages to GDS Teams reminding them of open Dependabot PRs for their applications</li>
+</ul>
+<h2 id="screenshots">Screenshots</h2>
+<p><img src="https://user-images.githubusercontent.com/976254/35578664-b0617926-05dc-11e8-9281-3b307a8792c4.png" alt="screenshot" /></p>
+<h2 id="live-examples">Live examples</h2>
+<ul>
+<li><a href="https://govuk-dependencies.herokuapp.com/">https://govuk-dependencies.herokuapp.com/</a></li>
+</ul>
+<h2 id="technical-documentation">Technical documentation</h2>
+<p>This is a Sinatra application that uses the GitHub API in order to get a list of of PRs made<br />
+by Dependabot and groups them in various ways:</p>
+<ul>
+<li>By application</li>
+<li>By team</li>
+<li>By gem</li>
+</ul>
+<h3 id="dependencies">Dependencies</h3>
+<ul>
+<li>
+<a href="https://github.com/octokit/octokit.rb">octokit/octokit.rb</a> - Used for interacting with the GitHub API</li>
+</ul>
+<h3 id="running-the-application">Running the application</h3>
+<p><code>bundle exec rackup</code></p>
+<p>Running this will start your application at <a href="localhost:9292">localhost:9292</a></p>
+<h3 id="running-the-test-suite">Running the test suite</h3>
+<p><code>bundle exec rake</code></p>
+<h3 id="environment-variables">Environment variables</h3>
+<ul>
+<li>
+<code>GITHUB_TOKEN</code> - OAuth token generated on GitHub which does not require any special permissions
+<ul>
+<li>Used to interact with the GitHub API, although not required it will help avoid limiting</li>
+</ul>
+</li>
+<li>
+<code>SLACK_WEBHOOK_URL</code> - The webhook URL for sending Slack messages to</li>
+<li>
+<code>DEPENDAPANDA_SECRET</code> - Secret token for manually requesting Slack messages</li>
+</ul>
+<h3 id="rate-limiting">Rate limiting</h3>
+<p>If you find yourself being rate limited by GitHub - you can define the <code>GITHUB_TOKEN</code> environment variable.<br />
+This needs to be a token generated from GitHub, however as the repositories are all public it needs no special<br />
+permissions.</p>
+  </div>
 
 
 

@@ -351,9 +351,21 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/frontend
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>This application exposes the user needs and metrics about content on GOV.UK.</p>
+<p>It fetches performance data metrics from the <a href="https://github.com/alphagov/backdrop"><code>backdrop read API</code></a> and content details (including user needs) from the <a href="https://github.com/alphagov/content-store"><code>content-store</code></a>.</p>
+<p>It renders URL paths prefixed with <code>info/</code>, for example: <a href="https://www.gov.uk/info/benefits-calculators">https://www.gov.uk/info/benefits-calculators</a> and <a href="https://www.gov.uk/info/employers-sick-pay">https://www.gov.uk/info/employers-sick-pay</a></p>
+  </div>
 
 
 

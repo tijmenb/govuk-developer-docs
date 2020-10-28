@@ -329,9 +329,43 @@
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>Proxy a web site to preview redirections ahead of it being transitioned to GOV.UK.</p>
+<p><a href="http://www.flickr.com/photos/psd/12187616853"><img src="http://farm3.staticflickr.com/2831/12187616853_d4b6008b5f_z.jpg" alt="sketchy explanation" title="sketchy explanation" /></a></p>
+<h2 id="run-the-tests">Run the tests</h2>
+<pre><code>$ npm install
+$ npm test
+</code></pre>
+<h2 id="development">Development</h2>
+<pre><code>$ node server.js
+</code></pre>
+<p>...then you can use <a href="http://xip.io/">nip.io</a> to make it work with localhost, eg:</p>
+<p><a href="http://www.justice.gov.uk.side-by-side.127.0.0.1.nip.io:3023/__/#/">http://www.justice.gov.uk.side-by-side.127.0.0.1.nip.io:3023/__/#/</a></p>
+<h2 id="installation">Installation</h2>
+<p>Run the server on Heroku. It requires a <code>side-by-side</code> wildcard subdomain pointed to it:</p>
+<pre><code>$ heroku domains:add *.side-by-side.publishing.service.gov.uk
+</code></pre>
+<p>Follow the returned instructions to CNAME the wildcard to Heroku.</p>
+<p>By default, the application will take its list of allowed domains from the production<br />
+instance of the GOV.UK Transition tool. This can be overridden with the <code>SIDE_BY_SIDE_HOSTS</code><br />
+environment variable. Examples:</p>
+<ul>
+<li>
+<code>SIDE_BY_SIDE_HOSTS=https://transition.publishing.service.gov.uk/hosts</code> (the default)</li>
+<li><code>SIDE_BY_SIDE_HOSTS=file:etc/hosts.json</code></li>
+<li><code>SIDE_BY_SIDE_HOSTS=https://example.com/hosts</code></li>
+</ul>
+  </div>
 
 
 

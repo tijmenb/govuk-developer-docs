@@ -351,9 +351,115 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/frontend
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>This app collects feedback from users via contact forms rendered on GOV.UK.<br />
+This data is then sent to the <code>support</code> app or <code>support-api</code> app to be dealt with.</p>
+<h2 id="contact-page-on-gov-uk">Contact Page on GOV.UK</h2>
+<p><img src="/docs/screenshots/contact_page.png?raw=true" alt="Contact Page on GOV.UK" title="Contact Page on GOV.UK" /></p>
+<h2 id="contact-form-on-gov-uk">Contact Form on GOV.UK</h2>
+<p><img src="/docs/screenshots/contact_form.png?raw=true" alt="Contact Form on GOV.UK" title="Contact Form on GOV.UK" /></p>
+<h2 id="nomenclature">Nomenclature</h2>
+<ul>
+<li>
+<strong>Feedback</strong>: All the data received from contact forms is considered to be "feedback" of some form<br />
+or other and relates to pages published on GOV.UK.</li>
+<li>
+<strong>Anonymous Contact</strong>: Part of the feedback collected by this app is anonymous, when it's<br />
+submitted via an anonymous contact form in the [feedback app][feedback].</li>
+<li>
+<strong>Named Contact</strong>: In contrast with the <code>Anonymous Contact</code> feedback, this is submitted<br />
+via a form that will require you to identify yourself. This data is sent directly<br />
+to the <code>support</code> app.</li>
+</ul>
+<h2 id="pages-rendered-by-the-application">Pages rendered by the application</h2>
+<p>Note that this list may not be complete.</p>
+<ul>
+<li><a href="https://www.gov.uk/contact/">https://www.gov.uk/contact/</a></li>
+<li><a href="https://www.gov.uk/contact/govuk">https://www.gov.uk/contact/govuk</a></li>
+<li><a href="https://www.gov.uk/contact/govuk/thankyou">https://www.gov.uk/contact/govuk/thankyou</a></li>
+<li><a href="https://www.gov.uk/contact/govuk/anonymous-feedback/thankyou">https://www.gov.uk/contact/govuk/anonymous-feedback/thankyou</a></li>
+</ul>
+<h2 id="technical-documentation">Technical documentation</h2>
+<p>This is a public facing Ruby on Rails application that collects feedback from users in multiple ways:</p>
+<ol>
+<li>Renders a contact page on GOV.UK: <code>https://www.gov.uk/contact/govuk</code>
+</li>
+<li>Collects feedback from other contact forms. Pages using the <code>static</code> app<br />
+will have a link at the bottom of the page asking: <code>Is there anything wrong with this page?</code>.<br />
+Clicking this link will show you<br />
+a form. The data from the form will be submitted to the <code>feedback</code> app.</li>
+<li>Sends feedback either to the <code>support</code> app or the <code>support-api</code> app. If the<br />
+feedback is sent to the <code>support</code> app, it will in turn create a ticket in Zendesk.<br />
+If it's sent to the <code>support-api</code> app then it will either be stored in a database<br />
+or a Zendesk ticket will be created.</li>
+<li>A certain subset of tickets ('assisted digital') have a special workflow: they're<br />
+sent once to a Google spreadsheet via the Google API, and then a subset of the data<br />
+is sent to <code>support-api</code> which will save them in its database. More documentation about<br />
+that here: <a href="docs/assisted_digital_feedback.md">docs/assisted_digital_feedback.md</a>.</li>
+<li>Handles email survey signups. A banner that shows up on <code>gov.uk</code> will ask you to<br />
+provide an email to signup to a survey. <code>feedback</code> will then email you a link to the<br />
+survey. However, it does not collect the answers. More documentation about that here:<br />
+<a href="docs/email_survey_signups.md">docs/email_survey_signups.md</a>
+</li>
+</ol>
+<h3 id="dependencies">Dependencies</h3>
+<ul>
+<li>
+<a href="https://github.com/alphagov/support-api">support-api</a> - provides an API for storing and fetching anonymous feedback about pages on GOV.UK. Data comes in from the [feedback app][feedback] on the public-facing frontend and is read by [the support app][support] on the admin-facing backend.</li>
+<li>
+<a href="https://github.com/alphagov/support">support</a> - receives feedback from the <code>feedback</code> app and creates Zendesk tickets from it.</li>
+<li>
+<a href="https://github.com/alphagov/static">static</a> - renders contact forms that will collect information that will be sent to the <code>feedback</code> app.</li>
+</ul>
+<h3 id="running-the-application">Running the application</h3>
+<p>To start the app using <code>bowler</code>:</p>
+<pre><code>bowl feedback
+</code></pre>
+<p>To start the app directly:</p>
+<pre><code>./startup.sh
+</code></pre>
+<p>This will start the app on port <code>3028</code>.</p>
+<h3 id="running-the-test-suite">Running the test suite</h3>
+<p>To run unit tests, execute the following:</p>
+<pre><code>bundle exec rake
+</code></pre>
+<h4 id="manual-testing-with-a-mock-signon-strategy">Manual testing with a mock signon strategy</h4>
+<p>Launch using <code>bowl</code> from the <code>development</code> directory:</p>
+<pre><code>development&gt; bowl feedback
+</code></pre>
+<h4 id="manual-testing-with-real-authorisation">Manual testing with real authorisation</h4>
+<p>For the feedback that is sent to the <code>support</code> app the <code>feedback</code> app needs a<br />
+bearer token for authorization because <code>support</code> is a backend app protected by<br />
+<code>signon</code>.  The same is not true for the feedback that is sent to <code>support-api</code><br />
+because it's not protected by <code>signon</code>.</p>
+<p>You can read more about how to obtain authorization in the docs:<br />
+<a href="docs/testing_with_real_authorization.md">docs/testing_with_real_authorization</a>.</p>
+<h3 id="assisted-digital-feedback">Assisted Digital Feedback</h3>
+<p>Assisted Digital feedback is stored twice.  The standard service feedback<br />
+component is sent to support-api like other tickets, but the rest of the<br />
+feedback specifically about assisted digital support is stored in a google<br />
+spreadsheet.</p>
+<p>A more thorough explanation about how assisted digital feedback works can<br />
+be found in the docs: <a href="docs/assisted_digital_feedback.md">docs/assisted_digital_feedback.md</a>.</p>
+<h3 id="email-survey-signups">Email Survey Signups</h3>
+<p>This type of feedback is not actually feedback, it's a response from a banner<br />
+displayed by static asking users to provide an email address where we can send<br />
+them a link to a survey. The survey will then be emailed to them via the<br />
+<code>feedback</code> app. Please be aware that the answers we get back on the survey will<br />
+NOT be stored in <code>feedback</code>.</p>
+<p>A more thorough explanation of how email surveys work can be found in the docs:<br />
+<a href="docs/email_survey_signups.md">docs/email_survey_signup.md</a>.</p>
+  </div>
 
 
 

@@ -350,9 +350,40 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/email_alert_api
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>This is a message queue consumer that triggers email alerts when documents are published with a major change.</p>
+<h2 id="technical-documentation">Technical documentation</h2>
+<p>Messages are read from the <code>published_documents</code> exchange which carries documents<br />
+published from all publishing applications via the content-store.</p>
+<p>When the service detects a published document which was tagged to one or more<br />
+topics, it builds an email message, and passes it to email-alert-api.</p>
+<h3 id="dependencies">Dependencies</h3>
+<ul>
+<li>redis</li>
+</ul>
+<h3 id="running-the-application">Running the application</h3>
+<p>The email-alert-service uses the <a href="https://github.com/alphagov/govuk_message_queue_consumer">govuk_message_queue_consumer</a><br />
+to connect to message queues on the <code>published_documents</code> exchange.</p>
+<p>There is a rake task to create the queues for this exchange:</p>
+<p><code>bundle exec rake message_queues:create_queues</code></p>
+<p>There are two rake tasks to start processors to consume from the queues:</p>
+<p><code>bundle exec rake message_queues:major_change_consumer</code><br />
+<code>bundle exec rake message_queues:unpublishing_consumer</code></p>
+<h3 id="running-the-test-suite">Running the test suite</h3>
+<p><code>bundle exec rspec</code></p>
+<h2 id="licence">Licence</h2>
+<p><a href="LICENCE">MIT License</a></p>
+  </div>
 
 
 

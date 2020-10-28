@@ -350,9 +350,31 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>A front end for the <a href="https://github.com/alphagov/content-data-api">Content Data API</a>.</p>
+<p>This application is currently in development for a private beta.</p>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>The <a href="https://github.com/alphagov/content-data-api">Content Data API</a>
+</li>
+</ul>
+<h2 id="running-the-test-suite">Running the test suite</h2>
+<p>To run the test suite:</p>
+<pre lang="bash"><code>$ bundle exec rake
+</code></pre>
+<h2 id="licence">Licence</h2>
+<p><a href="LICENCE">MIT License</a></p>
+  </div>
 
 
 

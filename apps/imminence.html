@@ -350,9 +350,56 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>Imminence manages sets of (somewhat) structured data for use elsewhere on GOV.UK.<br />
+It's primarily used for geographical data such as lists of registry offices, test<br />
+centres, and the like.</p>
+<p>The data is structured as a set of Services which represent a distinct type of<br />
+location. A Service can then have many Data Sets which are in turn collections of<br />
+Places. Only one Data Set will be "active" at any given time.</p>
+<p>Each data set is uploaded as a CSV file. A cron job takes care of geocoding the<br />
+places within it. It can then be manually inspected or exported as CSV, JSON or KML<br />
+so it can be tested using a variety of other tools.</p>
+<p>There is a simple JSON API for integrating the data with other applications.</p>
+<h2 id="nomenclature">Nomenclature</h2>
+<ul>
+<li>
+<strong>Services</strong>: Represent a distinct type of location (e.g. Register Offices)</li>
+<li>
+<strong>Datasets</strong>: Services can have many datasets, which are collections of Places. Only one Data Set will be "active" at any given time.</li>
+<li>
+<strong>Places</strong>: Geocoded data of individual locations which belong to a Dataset.</li>
+</ul>
+<h2 id="technical-documentation">Technical documentation</h2>
+<p>Imminence is a Ruby on Rails application backed by a MongoDB database.</p>
+<h3 id="dependencies">Dependencies</h3>
+<ul>
+<li>
+<a href="https://github.com/alphagov/mapit">alphagov/mapit</a> - provides postcode lookups</li>
+</ul>
+<h3 id="running-the-application">Running the application</h3>
+<p>From within the app root directory:</p>
+<p><code>./startup.sh</code></p>
+<p>Note that you will have to have GOV.UK Mapit running locally.</p>
+<p>In the GOV.UK DEV VM from the 'development' directory:</p>
+<p><code>bowl imminence</code></p>
+<p>Note that the app uses a local version of <a href="https://github.com/alphagov/mapit">GOV.UK Mapit</a>, therefore a valid dataset will have to be loaded for Mapit, otherwise postcode lookups will not succeed. This is part of the standard GOV.UK data replication steps.</p>
+<h3 id="running-the-test-suite">Running the test suite</h3>
+<p><code>bundle exec rake</code></p>
+<p><code>bundle exec govuk-lint-ruby app test lib</code></p>
+<h2 id="licence">Licence</h2>
+<p><a href="LICENCE">MIT License</a></p>
+  </div>
 
 
 

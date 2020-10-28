@@ -333,9 +333,196 @@
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>This repository contains the puppet modules and manifests for GOV.UK.</p>
+<h2 id="getting-started">Getting started</h2>
+<p>In order to run/test the Puppet manifests you will need Ruby 1.9.x and<br />
+Bundler.</p>
+<p>Dependencies are managed with <a href="http://bundler.io/">Bundler</a> and<br />
+<a href="http://librarian-puppet.com/">librarian-puppet</a>, but hopefully this should be<br />
+transparent unless you need to update the dependencies yourself.</p>
+<h2 id="standards">Standards</h2>
+<p>Please familiarise yourself with our Puppet standards before contributing to<br />
+this repository:</p>
+<ul>
+<li><a href="/docs/things-that-should-not-be-in-puppet.md">Things that should not be in Puppet</a></li>
+<li><a href="/docs/dependency-management.md">Dependency management</a></li>
+<li><a href="/docs/process-supervision.md">Process supervision</a></li>
+<li><a href="/docs/nagios-checks.md">Nagios checks</a></li>
+</ul>
+<p>Run <code>rake spec</code> and <code>rake lint</code> to run the tests and lint before checking in.</p>
+<h2 id="dependencies">Dependencies</h2>
+<p>All modules from librarian-puppet are cached in this repo under<br />
+<code>vendor/puppet/</code> in order to ensure that third-party code doesn't change<br />
+underneath us, protect us from downtime, and improve build times.</p>
+<h3 id="installing">Installing</h3>
+<p>If you're using this repo for the first time or the contents of<br />
+<code>Gemfile[.lock]</code> or <code>Puppetfile[.lock]</code> have recently changed then you'll<br />
+need to run:</p>
+<pre><code>$ bundle install
+$ bundle exec rake librarian:install
+</code></pre>
+<p>Please avoid using <code>librarian-puppet</code> directly because it's not very good at<br />
+respecting or maintaining its own config file.</p>
+<p>Running these commands will often be the solution to Puppet errors about<br />
+unknown classes or functions such as:</p>
+<ul>
+<li><code>Unknown function validate_bool at …</code></li>
+<li><code>Could not find class apt for …</code></li>
+<li><code>Puppet::Parser::AST::Resource failed with error ArgumentError: Invalid resource type apt::source …</code></li>
+</ul>
+<p>It may affect errors relating to classes you have not modified when running spec tests after a rebase.</p>
+<p>This should also fix errors while trying to run <code>govuk_puppet</code>, of the form:</p>
+<ul>
+<li><code>chown: changing ownership of '/home/vagrant/.puppet/[…]': Operation not permitted</code></li>
+</ul>
+<h3 id="updating">Updating</h3>
+<p>If you need to add a new module to the <code>Puppetfile</code> then you will need to<br />
+run the following to install it and update the cache:</p>
+<pre><code>$ bundle exec rake librarian:package
+</code></pre>
+<p>If you need to update an existing module to a newer version, you'll need to<br />
+run the following:</p>
+<pre><code>$ bundle exec rake 'librarian:update[alphagov/tune_ext]'
+</code></pre>
+<p>Afterwards you should commit the <code>Puppetfile</code>, <code>Puppetfile.lock</code> and any new<br />
+files in <code>vendor/puppet/</code>. If updating a module then you will need to<br />
+manually delete the old tarball from the cache directory.</p>
+<p>NB: There should <em>never</em> be any changes to <code>.librarian/puppet/config</code>.</p>
+<h2 id="testing">Testing</h2>
+<p>Assuming that your dependencies are installed, run all the tests:</p>
+<pre><code>$ bundle exec rake
+</code></pre>
+<p>The module tests are located in <code>modules/&lt;module&gt;/spec</code>. See the <a href="https://github.com/rodjek/rspec-puppet">RSpec<br />
+Puppet</a> documentation for more<br />
+details. The specs are run in parallel by default.</p>
+<p><a href="https://github.com/rodjek/puppet-lint">Puppet-lint</a> is a tool that checks various syntax and style rules common<br />
+to well written Puppet code. It can be run with:</p>
+<pre><code>$ bundle exec rake lint
+</code></pre>
+<p>This outputs a set of errors or warnings that should be fixed. See the <a href="http://docs.puppetlabs.com/guides/style_guide.html">Puppet<br />
+Style Guide</a> for more<br />
+information.</p>
+<h3 id="scoped-testing">Scoped testing</h3>
+<p>You can run the tests for a specific module or modules by setting an<br />
+environment variable, <code>mods</code> for the rake task, e.g.</p>
+<pre><code>$ bundle exec rake mods=nginx,varnish
+</code></pre>
+<p>The <code>manifests/</code> directory is considered one module called <code>manifests</code> for<br />
+this purpose.</p>
+<pre><code>$ bundle exec rake mods=manifests,govuk
+</code></pre>
+<h3 id="precommit-testing">Precommit Testing</h3>
+<p>This repo uses <a href="http://pre-commit.com/">pre-commit</a> for managing its pre-<br />
+commit hooks. This is available via brew:</p>
+<p><code>brew install pre-commit</code></p>
+<p>The pre-commit hooks are configured in the .pre-commit-config.yaml file in the<br />
+root of this repo. To make the pre-commit hooks work you first need to install<br />
+the pre-commit shim in your local .git/hooks directory:</p>
+<p><code>pre-commit install</code></p>
+<p>This will run hooks configured in <code>.pre-commit-config.yaml</code> when you run a<br />
+<code>git commit</code> and will pass each hook the list of files staged as part of the<br />
+commit. You can test the hooks by doing:</p>
+<p><code>pre-commit run</code></p>
+<p>You can also run the hooks on all files to test the status of the entire repo.<br />
+This might be useful, for example, as part of a PR builder job:</p>
+<p><code>pre-commit run --all-files</code></p>
+<h3 id="node-testing">Node testing</h3>
+<p>Some issues that span multiple classes or modules may not be picked up unit<br />
+testing. Duplicate resources and mislabelled dependencies are such examples.<br />
+To catch these, all available <code>govuk::node</code> classes can be exercised with:</p>
+<pre><code>$ bundle exec rake spec:nodes
+</code></pre>
+<p>Compiling node complete node catalogs takes quite a long time, so you may<br />
+wish to restrict it to certain classes of node by setting the environment<br />
+variable <code>classes</code> for the rake task, e.g.</p>
+<pre><code>$ bundle exec rake spec:nodes classes=frontend,backend
+</code></pre>
+<h4 id="test-hieradata">Test Hieradata</h4>
+<p>During spec tests <code>spec/fixtures/hiera/hiera.yaml</code> is used to configure hieradata which <em>only</em> uses <code>spec/fixtures/hieradata/common.yaml</code> for its values (i.e. nothing from <code>hieradata/</code>).</p>
+<p>During node tests the hieradata uses the <code>vagrant</code> environment.</p>
+<h3 id="test-coverage">Test Coverage</h3>
+<p>Each test suite's results are followed by a summary of how many resources that suite covers, how many the tests touch and the coverage as a percentage. e.g.</p>
+<pre lang="bash"><code>Total resources:   175
+Touched resources: 36
+Resource coverage: 20.57%
+</code></pre>
+<p>A list of untouched resources can be gained by setting the <code>FULL_COVERAGE_REPORT</code> environment variable before running the tests:</p>
+<pre><code>FULL_COVERAGE_REPORT=true bundle exec rake spec
+</code></pre>
+<p><em><strong>Warning</strong></em> Given the number of modules that have limited tests this will produce a very large amount of output unless the tests are scoped.</p>
+<h3 id="rspec-basic-mode">Rspec Basic Mode</h3>
+<p>It is sometimes useful to have access to the normal RSpec Rake task. This exposes the <code>SPEC</code> and <code>SPEC_OPTS</code> environment variables that mean you can set the test specification and RSpec options respectively. This gives finer grain control when it is needed. e.g.</p>
+<pre><code>$ bundle exec rake rspec_basic_mode SPEC="./modules/collectd/spec/classes/collectd__package_spec.rb:7" SPEC_OPTS="-c"
+</code></pre>
+<p>runs the single test at line 7 of <code>collectd__package_spec.rb</code> with colour mode enabled.</p>
+<p><em><strong>Warning</strong></em> using this option disables parallel running of tests and the <code>mod</code> arguments will not work.</p>
+<h3 id="vagrant-testing">Vagrant testing</h3>
+<h4 id="prerequisites">Prerequisites</h4>
+<p>You will need an up-to-date checkout of the private <code>govuk-provisioning</code><br />
+repository for node definitions.</p>
+<h4 id="setup">Setup</h4>
+<p>It is recommended that you use Vagrant &gt; 1.4 from a binary/system install.<br />
+<code>alphagov/gds-boxen</code> can set this up for you.</p>
+<h4 id="usage">Usage</h4>
+<p>You need only bring up the subset of nodes that you're working on. For<br />
+example, to bring up a frontend and backend:</p>
+<pre lang="sh"><code>vagrant up frontend-1.frontend backend-1.backend
+</code></pre>
+<p>Vagrant will run the Puppet provisioner against the node when it boots up.<br />
+Nodes should look almost identical to that of our real<br />
+production/staging/preview environments, including network addresses. To<br />
+access a node's services like HTTP/HTTPS you can point your <code>hosts</code> file to<br />
+the host-only IP address (eth1).</p>
+<p>Physical attributes like <code>memory</code> and <code>num_cores</code> will be ignored because<br />
+they don't scale appropriately to local VMs, but can still be customised as<br />
+described below.</p>
+<h4 id="customisation">Customisation</h4>
+<p>Node definitions can be overridden with a <code>nodes.local.yaml</code> file in this<br />
+directory. This is merged on top of all other node<br />
+definitions. The following keys are currently available for customisation:</p>
+<ul>
+<li>
+<code>box_dist</code> Ubuntu distribution. Currently "trusty".</li>
+<li>
+<code>box_version</code> Internal version number of the GDS basebox.</li>
+<li>
+<code>memory</code> Amount of RAM. Default is "384".</li>
+<li>
+<code>ip</code> IP address for hostonly networking. Currently all subnets are /16.</li>
+<li>
+<code>class</code> Name of the Puppet class/role.</li>
+</ul>
+<p>For example to increase the amount of RAM on a PuppetMaster:</p>
+<pre lang="yaml"><code>---
+puppetmaster-1.management:
+  memory: 768
+</code></pre>
+<h4 id="errors">Errors</h4>
+<p>Some errors that you might encounter..</p>
+<h5 id="nfs-failed-mounts">NFS failed mounts</h5>
+<pre><code>[frontend-1.frontend] Mounting NFS shared folders...
+Mounting NFS shared folders failed. This is most often caused by the NFS
+client software not being installed on the guest machine. Please verify
+that the NFS client software is properly installed, and consult any resources
+specific to the linux distro you're using for more information on how to do this.
+</code></pre>
+<p>This seems to be caused by a combination of OSX, VirtualBox, and Cisco<br />
+AnyConnect. Try temporarily disconnecting from the VPN when bringing up a<br />
+new node. You can also set <code>VAGRANT_GOVUK_NFS=no</code> as an environment variable to<br />
+disable the use of NFS. This is less performant but fine for checking puppet<br />
+runs.</p>
+  </div>
 
 
 

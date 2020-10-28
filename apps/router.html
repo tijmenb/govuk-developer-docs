@@ -350,9 +350,136 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/cache
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>This is a HTTP reverse proxy router built on top of <a href="https://github.com/alphagov/router/tree/master/triemux"><code>triemux</code></a>. It<br />
+loads a routing table into memory from a MongoDB database and acts as a:</p>
+<ul>
+<li>Reverse proxy, forwarding requests to and serving responses from multiple<br />
+backend servers on a single domain.</li>
+<li>Redirector, serving HTTP <code>301</code> and <code>302</code> redirects to new URLs.</li>
+<li>Gone responder, serving HTTP <code>410</code> responses for resources that used to<br />
+but no longer exist.</li>
+</ul>
+<p>The sister project <a href="https://github.com/alphagov/router-api"><code>router-api</code></a> provides a read/write<br />
+interface to the underlying database and route reloading.</p>
+<p>Some of the thinking behind the router is documented in <a href="https://gdstechnology.blog.gov.uk/2013/12/05/building-a-new-router-for-gov-uk/">this 2013 blog post</a>.</p>
+<h2 id="environment-assumptions">Environment assumptions</h2>
+<p>Our usage of <code>router</code> places it behind and in front of Nginx and/or Varnish.</p>
+<p>As such, there are some things that we are guarded against:</p>
+<ul>
+<li>Response buffering for slow clients</li>
+<li>Basic request sanitisation</li>
+</ul>
+<p>And some features that we have no need to implement:</p>
+<ul>
+<li>Access logging (but error logging is implemented)</li>
+<li>SSL</li>
+<li>Health check probes</li>
+<li>Custom header mangling</li>
+<li>Response rewriting</li>
+<li>Authentication</li>
+</ul>
+<h2 id="local-setup-build">Local Setup &amp; Build</h2>
+<p>The router needs to be built from within a Go <a href="https://golang.org/doc/code.html#Workspaces">workspace</a> for it to<br />
+correctly identify the vendored dependencies.  Assuming you already have Go and<br />
+a <code>$GOPATH</code> set up, you can simply run <code>go get github.com/alphagov/router</code> to<br />
+pull the source into your workspace.</p>
+<p>Once you have the code set up correctly, building and running the application<br />
+is simple:</p>
+<pre><code>make
+./router -h
+</code></pre>
+<h2 id="tests">Tests</h2>
+<p>You can run all tests by running:</p>
+<pre><code>make test
+</code></pre>
+<p>The <code>trie</code> and <code>triemux</code> sub-packages have unit tests and benchmarks written<br />
+in Go's own testing framework. To run them individually:</p>
+<pre><code>go test -bench=. ./trie ./triemux
+</code></pre>
+<p>The <code>router</code> itself doesn't really benefit from having unit tests around<br />
+individual functions. Instead it has a comprehensive set of integration<br />
+tests to exercise it's HTTP handling, error reporting, and performance.</p>
+<p>These require a local MongoDB instance and can be run with:</p>
+<pre><code>go test ./integration_tests
+</code></pre>
+<p>Some of the integration tests are optional because they have certain<br />
+environment requirements that make them unfeasible to run within CI.</p>
+<h2 id="dependencies">Dependencies</h2>
+<p>This project uses <a href="https://github.com/golang/go/wiki/Modules">Go Modules</a> to vendor its dependencies.<br />
+If you have a working [Go][go] development setup, you should be able to update the dependencies via:</p>
+<pre><code>go mod vendor
+</code></pre>
+<h2 id="data-structure">Data structure</h2>
+<p>The Router requires two MongoDB collections: <code>routes</code> and <code>backends</code>.</p>
+<h3 id="routes">Routes</h3>
+<p>The <code>routes</code> collection uses the following data structure:</p>
+<pre lang="json"><code>{
+  "_id"           : ObjectId(),
+  "route_type"    : ["prefix","exact"],
+  "incoming_path" : "/url-path/here",
+  "handler"       : ["backend", "redirect", "gone"],
+  "disabled"      : false
+}
+</code></pre>
+<p>Incoming paths with special characters must be in their % encoded form in the<br />
+database (eg spaces must be stored as <code>%20</code>).</p>
+<p>The behaviour of an enabled route is determined by <code>handler</code>. See below for<br />
+extra fields corresponding to <code>handler</code> types.</p>
+<p>If a route is disabled, the router will return a 503 for all matching requests.<br />
+This is typically used if a service needs to be taken offline for maintenance<br />
+etc.</p>
+<h4 id="backend-handler">
+<code>backend</code> handler</h4>
+<p>The <code>backend</code> handler causes the Router to reverse proxy to a named<br />
+<code>backend</code>. The following extra fields are supported:</p>
+<pre lang="json"><code>{
+  "backend_id" : "backend-id-corresponding-to-backends-collection"
+}
+</code></pre>
+<h4 id="redirect-handler">
+<code>redirect</code> handler</h4>
+<p>The <code>redirect</code> handler causes the Router to redirect the given<br />
+<code>incoming_path</code> to the path stored in <code>redirect_to</code>. The following<br />
+extra fields are supported:</p>
+<pre lang="json"><code>{
+  "redirect_to"   : "/target-of-redirect",
+  "redirect_type" : ["permanent", "temporary"]
+}
+</code></pre>
+<h4 id="gone-handler">
+<code>gone</code> handler</h4>
+<p>The <code>gone</code> handler causes the Router to return a 410 response.</p>
+<h3 id="backends">Backends</h3>
+<p>The <code>backends</code> collection uses the following data structure:</p>
+<pre lang="json"><code>{
+  "_id"         : ObjectId(),
+  "backend_id"  : "arbitrary-slug-or-name",
+  "backend_url" : "https://example.com:port/"
+}
+</code></pre>
+<h2 id="error-logging">Error logging</h2>
+<p>The logger package stores errors in logfiles and reports them to Sentry.</p>
+<h2 id="metrics">Metrics</h2>
+<p>Router exposes metrics in <a href="https://prometheus.io">Prometheus</a> format using the<br />
+<a href="https://godoc.org/github.com/dnesting/client_golang/prometheus">Go prometheus client<br />
+library</a>.</p>
+<p>See commit b443d3dd9cf776143eed270d01bd98d2233caea6 as an example for how to<br />
+add a metric.</p>
+<h2 id="license">License</h2>
+<p><code>router</code> is released under the MIT license, a copy of which can be found in<br />
+<code>LICENSE</code>.</p>
+  </div>
 
 
 

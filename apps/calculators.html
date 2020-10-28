@@ -351,9 +351,37 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/calculators_fron
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>This calculator reports how much child benefit tax you are entitled during a tax year.</p>
+<p>There is a cut-off date of 7 January 2013. This is the date <a href="https://www.gov.uk/child-benefit-tax-charge/overview">High Income Child Benefit Tax Charge</a> came in effect.<br />
+This means that if the 2012 tax year is selected the calculator will only calculate the child benefit you are entitled to from 7 Jan 2013 to 5 Apr 2013, not for the entire tax year.</p>
+<h2 id="running-the-app">Running the app</h2>
+<pre><code>./startup.sh
+</code></pre>
+<p>To run the app with the live content store and static</p>
+<pre><code>./startup.sh --live
+</code></pre>
+<p>The only content in this app is <a href="http://calculators.dev.gov.uk/child-benefit-tax-calculator/main">child-benefit-tax-calculator/main</a></p>
+<h2 id="running-tests">Running tests</h2>
+<pre><code>bundle exec rake spec
+</code></pre>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>
+<a href="https://github.com/alphagov/publishing-api">publishing-api</a>: this app sends<br />
+data to publishing-api to register URLs.</li>
+</ul>
+  </div>
 
 
 

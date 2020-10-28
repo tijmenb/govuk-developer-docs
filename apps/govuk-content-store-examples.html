@@ -329,9 +329,89 @@
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>This repo contains schemas and examples of the content that uses them on GOV.UK.</p>
+<p>The aim of it is to support 'contract testing' between the frontend and<br />
+publisher apps by expressing the schema and examples in strict, machine<br />
+processable form.</p>
+<p>We use <a href="http://json-schema.org/">JSON Schema</a> to define the schemas.</p>
+<p>For each schema, there are three possible representations:</p>
+<ul>
+<li>the 'publisher' representation, which is used when a publishing application<br />
+transmits data to the content store.</li>
+<li>the 'frontend' representation, which is produced by the content store when a<br />
+frontend application requests data</li>
+<li>the 'notification' representation, which is used when broadcasting messages about content<br />
+items on the message queue</li>
+</ul>
+<h2 id="howtos">Howtos</h2>
+<ul>
+<li><a href="docs/changing-a-schema.md">How to change a schema</a></li>
+<li><a href="docs/adding-a-new-schema.md">How to add a new content schema</a></li>
+<li><a href="docs/working-with-json-schema-keywords.md">Working with JSON Schema keywords</a></li>
+<li><a href="docs/contract-testing-howto.md">Adding contract tests to your app</a></li>
+<li><a href="docs/suggested-workflows.md">Suggested workflows</a></li>
+<li><a href="docs/why-contract-testing.md">Why do contract testing?</a></li>
+<li><a href="docs/running-frontend-against-examples.md">Running your frontend against the examples and random content (content-store not needed)</a></li>
+<li><a href="docs/deployment.md">Deployment</a></li>
+</ul>
+<h2 id="background">Background</h2>
+<h3 id="publisher-schema-defined-using-component-parts">Publisher schema defined using component parts</h3>
+<p>Schemas are built from a single file defined in the formats directory.<br />
+An example file defining the schema is available in<br />
+<a href="formats/_example.jsonnet"><code>formats/_example.jsonnet</code></a>.</p>
+<p>These files are stored in the <code>govuk-content-schemas</code> repository in the<br />
+<a href="/formats"><code>formats</code></a> subdirectory. A build process (implemented using a<br />
+<a href="/Rakefile"><code>Rakefile</code></a>) combines the three component files into the final<br />
+<code>schema.json</code> file.</p>
+<p>The generated files are all stored in the <a href="/dist/"><code>dist</code></a> subdirectory.</p>
+<p>The build process applies the rules for the various different schema<br />
+representations.</p>
+<p>There are a number of shared definitions that are used across multiple schemas<br />
+these are defined in the <a href="formats/shared"><code>formats/shared</code></a> directory.</p>
+<p>Examples of schemas are available in the <a href="examples"><code>examples</code></a> directory.</p>
+<p><strong>DO NOT EDIT FILES in the <code>dist</code> directory directly</strong>, instead, edit the source<br />
+files in the <code>formats</code> directory.</p>
+<p>In summary the folder structure is:</p>
+<pre><code>dist
+└── formats
+    └── case_study
+        ├── frontend
+        │   └── schema.json
+        └── publisher
+            └── schema.json
+examples
+└── case_study
+    └── frontend
+        ├── archived.json
+        ├── case_study.json
+        └── translated.json
+formats
+└── case_study.jsonnet
+
+</code></pre>
+<h3 id="validation-of-examples">Validation of examples</h3>
+<p>To validate examples against the generated schemas, use the <code>validate_examples</code><br />
+Rake task:</p>
+<pre lang="sh"><code>$ bundle exec rake validate_examples
+</code></pre>
+<p>This will print the errors out to the console if validation fails.</p>
+<h3 id="rakefile">Rakefile</h3>
+<p>A <code>Rakefile</code> exists which combines these scripts. It<br />
+automatically re-generates the intermediate schema files and validates all the<br />
+examples.</p>
+<p>To invoke the default task just invoke <code>rake</code> on its own.</p>
+  </div>
 
 
 

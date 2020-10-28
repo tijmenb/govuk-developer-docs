@@ -197,11 +197,7 @@
 
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
-              <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
-  Last updated: <a href="https://github.com/alphagov/whitehall/commit/de2799bd1ee5d54003bbba8266f886cbdc71205e">4 Dec 2017</a>
-</div>
-
-  <h1 class="page-title">whitehall: Link Checker API Integrations</h1>
+              <h1 class="page-title">whitehall: Link Checker API Integrations</h1>
 
   
 <p>Links on an edition are checked using the <a href="https://github.com/alphagov/link-checker-api/blob/master/docs/api.md">LinkChecker API</a>. Links are checked when the <code>Check Links</code> button is clicked on the edition show page. This fires off a request to the Link Checker API using the <a href="https://github.com/alphagov/link-checker-api/blob/master/docs/api.md#post-batch"><code>/create_batch</code></a> endpoint. Once this has checked all the links present in the edition it makes a callback with a <a href="https://github.com/alphagov/link-checker-api/blob/master/docs/api.md#batchreport-entity"><code>batch_report</code></a> that gets saved as a <code>LinkCheckerApiReport</code>.</p>

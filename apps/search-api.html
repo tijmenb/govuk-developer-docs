@@ -371,9 +371,114 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/search
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>Search API (née "rummager") indexes content into <a href="https://www.elastic.co/products/elasticsearch">Elasticsearch</a><br />
+and serves the GOV.UK Search API.</p>
+<p>GOV.UK applications use the API to search and filter GOV.UK content.<br />
+For example, <a href="https://github.com/alphagov/finder-frontend">alphagov/finder-frontend</a> uses<br />
+the search API to render <a href="https://www.gov.uk/search">site search</a> and finder pages<br />
+(such as <a href="https://www.gov.uk/aaib-reports">gov.uk/aaib-reports</a>).</p>
+<p>Search API also provides a public API: <a href="https://www.gov.uk/api/search.json?q=taxes">https://www.gov.uk/api/search.json?q=taxes</a>.</p>
+<p><img src="docs/api-screenshot.png" alt="Screenshot of API Response" /></p>
+<h2 id="api-documentation">API documentation</h2>
+<p>If you would like to use the Search API, please see the<br />
+<a href="https://docs.publishing.service.gov.uk/apis/search/search-api.html">Search API documentation</a>.</p>
+<p>You can also find some examples in the blog post:<br />
+<a href="https://gdsdata.blog.gov.uk/2016/05/26/use-the-search-api-to-get-useful-information-about-gov-uk-content/">"Use the search API to get useful information about GOV.UK content"</a>.</p>
+<h2 id="getting-started">Getting started</h2>
+<p>The instructions will help you to get Search API running<br />
+locally on your machine.</p>
+<h3 id="prequisites">Prequisites</h3>
+<p>Install <a href="https://github.com/alphagov/govuk-docker">govuk-docker</a>!</p>
+<p>govuk-docker, a wrapper around docker-compose, is the supported way<br />
+to run Search API and its dependencies locally.</p>
+<p>Once you have installed govuk-docker, run</p>
+<pre><code>cd ~/govuk/govuk-docker &amp;&amp; make search-api
+</code></pre>
+<h3 id="running-the-application">Running the application</h3>
+<p>Once you have completed the prerequisites you'll be able to run<br />
+Search API locally by running</p>
+<pre><code>cd ~/govuk/search-api &amp;&amp; govuk-docker up search-api-app
+</code></pre>
+<p>This starts the Search API application and its dependencies.</p>
+<p>The Search API will be running locally at <a href="http://search-api.dev.gov.uk/search">search-api.dev.gov.uk</a>.</p>
+<p>If you run <code>docker ps</code> this will tell you that there are containers running<br />
+for Search API, Nginx, Redis, Publishing API, and Elasticsearch.</p>
+<blockquote>
+<p>Note: If you're not using docker, you can run <code>./startup.sh</code> to start the<br />
+application. However, this is not officially supported, and you will need to<br />
+run dependencies such as Elasticsearch and Redis yourself.</p>
+</blockquote>
+<h4 id="replicating-data-locally">Replicating data locally</h4>
+<p>If you've started running Search API for the first time you probably<br />
+aren't seeing any search results for your queries. That's likely<br />
+because your local search indexes will be empty.</p>
+<p>Once you have got everything running locally, another step most<br />
+people take is to get a copy of the search indexes running locally.<br />
+This will let you search for real documents on your local machine.</p>
+<p>See the govuk-docker <a href="https://github.com/alphagov/govuk-docker#how-to-replicate-data-locally">documentation on replicating data</a>,<br />
+or run</p>
+<pre><code>gds aws govuk-integration-poweruser ./bin/replicate-elasticsearch.sh
+</code></pre>
+<p>Refer to the govuk-docker documentation for more details about<br />
+the replication scripts.</p>
+<h3 id="running-the-test-suite">Running the test suite</h3>
+<p>Complete the prerequisites, then run</p>
+<pre><code>govuk-docker run search-api-lite bundle exec rake
+</code></pre>
+<blockquote>
+<p>Note: You can also run the tests without using docker, by running<br />
+<code>bundle exec rake</code>. This is not officially supported, but can be a quick way<br />
+to run unit tests.</p>
+</blockquote>
+<h2 id="technical-documentation">Technical documentation</h2>
+<p>Search API is a Sinatra application that interfaces with Elasticsearch.</p>
+<p>Search API puts documents into Elasticsearch indexes (index time), and serves<br />
+documents in search results (query time).</p>
+<p>It does some clever stuff at both parts, but that's the meat of it.</p>
+<p>Read the <a href="/docs">documentation</a> to find out <a href="docs/indexing.md">how documents are indexed</a><br />
+or <a href="docs/how-search-works.md">how documents are retrieved</a>.</p>
+<h3 id="dependencies">Dependencies</h3>
+<p>Search API depends on other services in order to index documents and provide<br />
+relevant search results:</p>
+<ul>
+<li>
+<a href="https://github.com/elastic/elasticsearch">Elasticsearch</a> - "You Know, for Search...".</li>
+<li>
+<a href="https://redis.io/">Redis</a> - used by indexing workers.</li>
+<li>
+<a href="https://aws.amazon.com/sagemaker/">AWS Sagemaker</a> (optional) - used for <a href="docs/relevancy.md">search relevancy</a>
+</li>
+</ul>
+<p>If you use govuk-docker locally, the required dependencies will be started<br />
+automatically when you start Search API. You don't need to set these up yourself.</p>
+<p>See the <a href="docs/learning-to-rank.md">learning to rank documentation</a> for<br />
+guidance on how to run the ranking model locally.</p>
+<h3 id="additional-docs">Additional Docs</h3>
+<ul>
+<li>
+<a href="docs/new-indexing-process.md">New indexing process</a>: how to update a format to use the new indexing process</li>
+<li>
+<a href="docs/schemas.md">Schemas</a>: how to work with schemas and the document types</li>
+<li>
+<a href="docs/popularity.md">Popularity information</a>: Search API uses Google Analytics<br />
+data to improve search results.</li>
+<li>
+<a href="docs/publishing-finders.md">Publishing document finders</a>: Information about publishing finders using rake tasks</li>
+</ul>
+<h2 id="licence">Licence</h2>
+<p><a href="LICENCE.txt">MIT License</a></p>
+  </div>
 
 
 

@@ -351,9 +351,54 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/calculators_fron
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>Licence finder provides the pages that follow <a href="https://www.gov.uk/licence-finder">https://www.gov.uk/licence-finder</a> (which is served by <code>frontend</code>), specifically starting at <a href="https://www.gov.uk/licence-finder/sectors">https://www.gov.uk/licence-finder/sectors</a>.</p>
+<h2 id="local-setup">Local setup</h2>
+<p>To get set up with Licence Finder, first make sure you're up to date with puppet.</p>
+<p>Load the data into MongoDB</p>
+<pre><code>bundle exec rake data_import:all
+</code></pre>
+<p>Load the data into Elasticsearch</p>
+<pre><code>bundle exec rake search:index
+</code></pre>
+<p>Migrating your Licence data to use gds_id instead of correlation_id (This happens automatically on importing licences)</p>
+<pre><code>bundle exec rake licence_migrate
+</code></pre>
+<h3 id="running-the-application">Running the application</h3>
+<p>Using bowler on the VM from cd /var/govuk/development/:</p>
+<pre><code>bowl licencefinder
+</code></pre>
+<p>If you are using the GDS development virtual machine then the application will be available on the host at <a href="http://licencefinder.dev.gov.uk/licence-finder">http://licencefinder.dev.gov.uk/licence-finder</a></p>
+<h4 id="without-using-the-vm">Without using the VM</h4>
+<p>Licence Finder can be run against the live Content Store and Search API, however it needs local instances of Elasticsearch and MongoDB.</p>
+<p>You can use docker to create these:</p>
+<pre><code>docker run -d -p 9200:9200 -e "discovery.type=single-node" --name licence-finder-elasticsearch docker.elastic.co/elasticsearch/elasticsearch:6.8.0
+docker run -d -p 27017-27019:27017-27019 --name licence-finder-mongodb mongo:latest
+</code></pre>
+<p>Import the data and start the application:</p>
+<pre><code>export ELASTICSEARCH_URI='http://localhost:9200/'
+export MONGODB_URI='mongodb://localhost/'
+bundle exec rake data_import:all
+bundle exec rake search:index
+./startup.sh --live
+</code></pre>
+<p>The application will be available at <a href="http://localhost:3014">http://localhost:3014</a></p>
+<h3 id="publishing-to-gov-uk">Publishing to GOV.UK</h3>
+<ul>
+<li>
+<code>bundle exec rake publishing_api:publish</code> will send the licence finder pages to the publishing-api.</li>
+</ul>
+  </div>
 
 
 

@@ -358,9 +358,93 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/email_alert_api
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>Sends emails to users that subscribe to specific GOV.UK email alerts.</p>
+<p>Provides a consistent internal interface to external email<br />
+notification services. Currently supports only <a href="https://www.notifications.service.gov.uk/">GOV.UK Notify</a>.</p>
+<h2 id="nomenclature">Nomenclature</h2>
+<ul>
+<li>
+<p><strong>Content change</strong>:</p>
+<ul>
+<li>A publication event that creates or changes a content item</li>
+<li>The representation of that event for the purpose of sending emails</li>
+</ul>
+</li>
+<li>
+<p><strong>Message</strong>:</p>
+<ul>
+<li>A message, distinct from a content change, that can be sent to subscribers of a list</li>
+<li>The representation of that event for the purpose of sending emails</li>
+</ul>
+</li>
+<li>
+<p><strong>Subscriber list</strong>:</p>
+<ul>
+<li>A particular titled list that a user can sign up to</li>
+<li>Contains criteria to determine which notifications a subscriber will receive (eg. all publications by HMRC)</li>
+</ul>
+</li>
+<li>
+<p><strong>Subscriber</strong>:</p>
+<ul>
+<li>A user who has subscribed to one or more subscriber lists</li>
+</ul>
+</li>
+<li>
+<p><strong>Subscription</strong>:</p>
+<ul>
+<li>The relationship between a subscriber and the subscription lists they are subscribed to</li>
+</ul>
+</li>
+<li>
+<p><strong>Digest run</strong>:</p>
+<ul>
+<li>One batch of either daily or weekly digests representing a particular subscription that has a start and end time and a set of subscribers to send emails to</li>
+</ul>
+</li>
+<li>
+<p><strong>Email</strong>:</p>
+<ul>
+<li>An email generated from content changes or messages to be sent to subscribers</li>
+</ul>
+</li>
+</ul>
+<h2 id="technical-documentation">Technical documentation</h2>
+<h3 id="dependencies">Dependencies</h3>
+<ul>
+<li>PostgreSQL database (9.3 or higher - requires <code>json</code> with <code>json_object_keys</code> method)</li>
+<li>Redis (for <a href="http://sidekiq.org/">Sidekiq</a>)</li>
+<li>GOV.UK Notify API key and other details (see<br />
+<a href="config/email_service.yml"><code>email_service.yml</code></a> for required fields)</li>
+</ul>
+<h3 id="running-the-application">Running the application</h3>
+<pre lang="bash"><code>bundle exec rails server
+</code></pre>
+<h3 id="running-the-test-suite">Running the test suite</h3>
+<pre lang="bash"><code>bundle exec rspec
+</code></pre>
+<h2 id="documentation">Documentation</h2>
+<ul>
+<li><a href="docs/analytics.md">Analytics</a></li>
+<li><a href="docs/api.md">API</a></li>
+<li><a href="docs/matching-content-to-subscriber-lists.md">Matching content to subscriber lists</a></li>
+<li><a href="docs/support-tasks.md">Support tasks</a></li>
+<li><a href="docs/env-vars.md">ENV vars</a></li>
+</ul>
+<h2 id="licence">Licence</h2>
+<p><a href="LICENCE">MIT License</a></p>
+  </div>
 
 
 

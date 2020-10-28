@@ -335,9 +335,126 @@
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>This code extracts analytics data from google analytics and processes it such<br />
+that it can be used by the site search on gov.uk for improving search result<br />
+quality.</p>
+<h2 id="installation">Installation</h2>
+<p>Requires python 3.4.</p>
+<pre><code>virtualenv ENV
+source ENV/bin/activate
+pip install -r requirements.txt
+</code></pre>
+<p>Note for those unfamiliar with virtualenv: the "source ENV/bin/activate" line<br />
+will need to be run in each shell that you want to run the scripts in this<br />
+repository from.</p>
+<h2 id="authentication-with-google-analytics">Authentication with Google Analytics</h2>
+<p>To make the data-fetch from Google Analytics work, you'll need to fetch a<br />
+<code>client_secrets.json</code> file from google containing credentials, and use that to<br />
+generate a refresh token.  This refresh token must then be passed to the script<br />
+via an environment variable.</p>
+<p>Some details on generating these credentials are given in <a href="https://developers.google.com/analytics/solutions/articles/hello-analytics-api">the GA<br />
+tutorial</a>,<br />
+but in summary:</p>
+<ul>
+<li>
+<p>create (or already have) a google account with access to the google<br />
+analytics profile for <a href="http://www.gov.uk">www.gov.uk</a>.</p>
+</li>
+<li>
+<p>create a project in <a href="https://console.developers.google.com/project">the google developers<br />
+console</a></p>
+</li>
+<li>
+<p>For the project, go to the "APIs &amp; auth" section on the dashboard, and<br />
+ensure that the "Analytics API" is turned on.</p>
+</li>
+<li>
+<p>Go to the "Credentials" section on the dashboard, and click the "Create New<br />
+Client ID" button, to create a new OAuth 2.0 client ID.</p>
+</li>
+<li>
+<p>Pick the "Installed Application" option, and a type of "other"</p>
+</li>
+<li>
+<p>Download the JSON for the newly created client (using the "Download JSON"<br />
+button underneath it).</p>
+</li>
+<li>
+<p>Run the following command to generate the refresh token.</p>
+<pre><code>PYTHONPATH=. python scripts/setup_auth.py /path/to/client_secrets.json
+</code></pre>
+<p>It will display a url which you'll need to open with a browser that's signed<br />
+in to the google account that the client JSON was downloaded from; paste the<br />
+result into the prompt.  The command will output (to stdout) a "GAAUTH"<br />
+environment variable value which needs to be set when calling the fetching<br />
+script.</p>
+</li>
+<li>
+<p>Delete the <code>client_secrets.json</code> file after use - it shouldn't be needed<br />
+again, and this ensures it doesn't get leaked (eg, by committing it to git).</p>
+</li>
+<li>
+<p>Run the fetch script (<code>scripts/fetch.py</code>) with environment variables set.<br />
+See below for details.</p>
+</li>
+<li>
+<p>Don't commit any of the generated secrets to this git repo!  For regular<br />
+runs from Jenkins, pass the environment variables in from the Jenkins jobs.</p>
+</li>
+</ul>
+<h2 id="fetching-data">Fetching data</h2>
+<p>Ensure that the virtualenv is activated, and then run:</p>
+<pre><code>GAAUTH='...' PYTHONPATH=. python scripts/fetch.py page-traffic.dump 14
+</code></pre>
+<p>(Where <code>GAAUTH</code> is the value obtained from the <code>setup_auth.py</code> script, and<br />
+the final argument <code>14</code> is the number of days to fetch analytics data for.)</p>
+<p>This will generate a file called <code>page-traffic.dump</code>, which is in elasticsearch<br />
+bulk load format, and can be loaded into the search index using the <code>bulk_load</code><br />
+script in search-api.  This contains information on the amount of traffic each<br />
+page on GOV.UK got (after some normalisation).</p>
+<p>The fetching script fetches data from GA by making requests for each day's<br />
+data.  It caches the results for each day, so that it doesn't need to repeat<br />
+all the requests when run on a subsequent day.  By default, the cache is placed<br />
+in a directory "cache" at the top level of a checkout.  The location of the<br />
+cache can be controlled by passing a path in the <code>CACHE_DIR</code> environment<br />
+variable.  Entries which are older than 30 days will be removed from the cache<br />
+at the end of each run of the fetch script.</p>
+<h2 id="running-popularity-update-without-retrieving-ga-data">Running popularity update without retrieving GA data</h2>
+<p>When running the full script on integration and staging it is desirable that<br />
+we don't retrieve new data from GA.</p>
+<p>This can be achieved with the following command:</p>
+<pre lang="bash"><code>./nightly-run.sh SKIP_TRAFFIC_LOAD=true
+</code></pre>
+<h2 id="the-dump-format">The dump format</h2>
+<p>The dump is in Elasticsearch bulk load format.  It looks like this:</p>
+<pre lang="json"><code>{"index":{"_type":"page-traffic","_id":"/search/all"}}
+{"path_components":["/search","/search/all"],"rank_14":3,"vc_14":3201853,"vf_14":0.029424856324613228}
+</code></pre>
+<p>There are <code>rank_%i</code>, <code>vc_%i</code>, and <code>vf_%i</code> entries for each range of<br />
+days, though the nightly load script only uses 14-day ranges.</p>
+<p>The fields are:</p>
+<ul>
+<li>
+<code>path_components</code>: the path and all of its prefixes.</li>
+<li>
+<code>rank_%i</code>: the position of that page after sorting by <code>vc_%i</code> descending.</li>
+<li>
+<code>vc_%i</code>: the number of page views in the day range.</li>
+<li>
+<code>vf_%i</code>: the <code>vc_%i</code> of the page divided by the sum of the <code>vc_%i</code> values for all pages.</li>
+</ul>
+  </div>
 
 
 

@@ -357,9 +357,49 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/bouncer
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>This is a Rack-based redirector. It serves 301s and 410s from mappings created by <a href="https://github.com/alphagov/transition">Transition</a>.</p>
+<h2 id="testing-in-a-browser-in-development">Testing in a browser in development</h2>
+<p>These instructions assume you use the Dev VM, that Bouncer is running,<br />
+and that you have some data in your Transition/Bouncer database.</p>
+<p>Let's say you want to test <code>bis.gov.uk</code>.</p>
+<p>Get the IP address of your VM:</p>
+<pre><code>mac$ ping transition.dev.gov.uk
+</code></pre>
+<p>Then, add to hosts file on your Mac:</p>
+<pre><code>mac$ cat /etc/hosts
+10.1.1.254 dev.bis.gov.uk
+</code></pre>
+<p>Then on your VM, as root, add this file:</p>
+<pre><code>dev$ cat /etc/nginx/sites-available/bis.gov.uk
+server {
+  server_name dev.bis.gov.uk;
+  listen 80;
+
+  location / {
+    proxy_pass http://bouncer.dev.gov.uk-proxy;
+    proxy_set_header Host bis.gov.uk;
+  }
+}
+</code></pre>
+<p>Then link the file:</p>
+<pre><code>dev$ sudo ln -s /etc/nginx/sites-available/bis.gov.uk /etc/nginx/sites-enabled/bis.gov.uk
+</code></pre>
+<p>And restart nginx:</p>
+<pre><code>dev$ sudo service nginx restart
+</code></pre>
+<p>Now browse to <a href="http://dev.bis.gov.uk/410">http://dev.bis.gov.uk/410</a> and bask in the glory.</p>
+  </div>
 
 
 

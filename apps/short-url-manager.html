@@ -357,9 +357,62 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>Publishing tool to request, approve and create Short URLs on GOV.UK.</p>
+<h2 id="technical-documentation">Technical documentation</h2>
+<p>Short URLs are a short and easy to type URL that redirects to a piece of content at a much longer URL.</p>
+<p>They are often used on posters, in leaflets or over the phone, so they are easy to use. For example:</p>
+<pre><code>/dwp/cps5
+</code></pre>
+<p>to</p>
+<pre><code>/government/publications/your-state-pension-estimate-explained-cps5
+</code></pre>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>MongoDB - main data store</li>
+<li>Redis - for distributed locking using<br />
+<a href="https://github.com/mlanett/redis-lock">mlanett/redis-lock</a>
+</li>
+<li>
+<a href="http://github.com/alphagov/gds-sso">alphagov/gds-sso</a>: Provides authentication OmniAuth adapter to allow apps to sign in via GOV.UK auth</li>
+<li>
+<a href="http://github.com/alphagov/publishing-api">alphagov/publishing-api</a>: the central store of published content on GOV.UK. Once a redirect has been accepted, redirects are registered to this API.</li>
+</ul>
+<h2 id="running-the-application">Running the application</h2>
+<pre><code>$ ./startup.sh
+</code></pre>
+<p>If you are using the GDS development virtual machine then the application will be available on the host at <a href="http://short-url-manager.dev.gov.uk/">http://short-url-manager.dev.gov.uk/</a></p>
+<h2 id="running-the-test-suite">Running the test suite</h2>
+<pre><code>$ bundle exec rake
+</code></pre>
+<h2 id="content-schema-validations">Content Schema Validations</h2>
+<p>You will need a copy of <a href="https://github.com/alphagov/govuk-content-schemas">govuk-content-schemas</a> on your file system. By default these should be in a sibling directory to your project. Alternatively, you can specify their location with the <code>GOVUK_CONTENT_SCHEMAS_PATH</code> environment variable.</p>
+<h2 id="permissions">Permissions</h2>
+<p>Users must be given Signon permissions to access and use the features<br />
+of this tool. The available permissions are:</p>
+<ul>
+<li>
+<code>request_short_urls</code>: Can complete a form to request a new Short URL, which must be approved before being made</li>
+<li>
+<code>manage_short_urls</code>: Can approve requests for Short URLs, and create the redirects on GOV.UK</li>
+<li>
+<code>receive_notifications</code>: Will receive email notifications when a new short URL is requested.</li>
+<li>
+<code>advanced_options</code>: Can create and approve requests using advanced options (prefix type redirects, and non-default segments mode values).</li>
+</ul>
+<h2 id="licence">Licence</h2>
+<p><a href="LICENCE">MIT License</a></p>
+  </div>
 
 
 

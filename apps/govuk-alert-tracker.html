@@ -329,9 +329,26 @@
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>A script that scrapes Icinga for hard alerts and exports them to the <a href="https://datastudio.google.com/reporting/1bXgS9j2mgMJtifuQrVHaZ5rYwxKCns0k/page/gKOG">platform health dashboard</a>.</p>
+<h2 id="technical-documentation">Technical documentation</h2>
+<p>This is a simple Ruby app that runs monthly via a Jenkins job.</p>
+<h3 id="running-the-application">Running the application</h3>
+<pre><code>$ bundle exec rake run_monthly_report
+</code></pre>
+<h2 id="licence">Licence</h2>
+<p><a href="LICENCE">MIT License</a></p>
+  </div>
 
 
 

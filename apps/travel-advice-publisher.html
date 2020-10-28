@@ -373,9 +373,43 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>Travel Advice Publisher manages foreign travel advice content on GOV.UK.</p>
+<h2 id="screenshots">Screenshots</h2>
+<p><img src="docs/images/screenshot.png" alt="Travel Advice Publisher" /></p>
+<h2 id="technical-documentation">Technical documentation</h2>
+<p>Travel Advice Publisher is a Ruby on Rails content management web application<br />
+which provides a versioned workflow for drafting and publishing <a href="http://www.gov.uk/foreign-travel-advice">foreign travel<br />
+advice</a>.  The application persists<br />
+content in MongoDB and in the downstream<br />
+<a href="https://github.com/alphagov/publishing-api">publishing-api</a>.  Travel advice<br />
+content is rendered by<br />
+<a href="https://github.com/alphagov/government-frontend">government-frontend</a>.</p>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li><a href="https://github.com/alphagov/asset-manager">asset-manager</a></li>
+<li><a href="https://github.com/alphagov/content-store">content-store</a></li>
+<li><a href="https://github.com/alphagov/publishing-api">publishing-api</a></li>
+<li><a href="https://github.com/alphagov/link-checker-api">link-checker-api</a></li>
+</ul>
+<h2 id="running-the-application">Running the application</h2>
+<p><code>bundle exec rails s -p 3035</code></p>
+<h2 id="running-the-test-suite">Running the test suite</h2>
+<p><code>bundle exec rake</code></p>
+<h2 id="further-technical-information">Further technical information</h2>
+<p>Detailed technical information can be found in the <a href="docs/further-technical-information.md">travel advice publisher<br />
+documentation</a>.</p>
+  </div>
 
 
 

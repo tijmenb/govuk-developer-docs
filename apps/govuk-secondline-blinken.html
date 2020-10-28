@@ -329,9 +329,63 @@
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>BlinkenJS is the JavaScript successor to <a href="https://github.com/alphagov/blinken">Blinken</a>. It runs purely in the browser and does not require compiling or running any applications.</p>
+<p>BlinkenJS gets data from <a href="https://www.icinga.com/">Icinga</a> and displays it in a dashboard, with one status per environment. There can be multiple groups of environments.</p>
+<p>BlinkenJS is much simpler than the original Blinken - only Icinga is supported and there are no detailed pages, only a dashboard.</p>
+<h2 id="how-to-run">How to run</h2>
+<ol>
+<li>Copy <code>app/config-example.js</code> to <code>app/config.js</code> and edit it to define your groups, environments and Icinga URLs.</li>
+<li>Open <code>app/blinken.html</code> in your browser.</li>
+</ol>
+<p>The page will automatically refresh once a minute.</p>
+<p><strong>Note</strong> In order for this script to be able to access your Icinga instances, you must ensure that at least the file <code>/cgi-bin/icinga/status.cgi</code> returns the HTTP header <code>Access-Control-Allow-Origin: *</code>.</p>
+<h2 id="screenshot">Screenshot</h2>
+<p><img src="docs/screenshot.png" alt="Screenshot of BlinkenJS in action" /></p>
+<h2 id="chrome-extension">Chrome extension</h2>
+<p>The Blinken page has also been wrapped up in a Chrome extension, for a quick overview of the service status.</p>
+<h3 id="installation">Installation</h3>
+<p>The extension can be installed directly from this repository:</p>
+<ol>
+<li>
+<a href="https://github.com/alphagov/blinkenjs/archive/master.zip">Download the source</a> and unzip</li>
+<li>Visit <a href="chrome://extensions">chrome://extensions</a> in Chrome</li>
+<li>Check the "Developer mode" checkbox</li>
+<li>Click "Load unpacked extension..."</li>
+<li>Navigate to the root of this project - <code>/blinkenjs</code> - and select it</li>
+</ol>
+<p>After installation you should see a little grey icon in your toolbar. When you don't want to see it, you can right-click it and hide it.</p>
+<h3 id="configuration">Configuration</h3>
+<p>You will need to point the extension at the Icinga alert pages in order to use it. To do this, open up your <a href="chrome://extensions">extensions</a>, and find the "GOV.UK Blinken" extension. Click "Options". On this page, you should type the <a href="https://github.com/alphagov/blinkenjs/blob/master/app/config.js">Icinga URLs for each environment</a> and click "Save". Once they have been successfully configured, you should see the icon change colour in the corner.</p>
+<h3 id="usage">Usage</h3>
+<p>The icon uses the following colour scheme:</p>
+<ul>
+<li>Green means no warnings</li>
+<li>Purple means some unknown alerts, but no warnings or critical alerts</li>
+<li>Amber means some warnings, but no critical alerts</li>
+<li>Red means some critical alerts</li>
+</ul>
+<p>The big block across the top of the icon represents Production. The medium-sized one at the bottom-left represents<br />
+Staging, and the small block in the bottom-right represents Integration. AWS Staging and Production environments are<br />
+not yet represented in the icon but will be once the majority of applications have been migrated.</p>
+<p>Clicking on the icon will open up the BlinkenJS page with more information. Each environment can be clicked to be taken<br />
+to the corresponding Icinga page.</p>
+<h3 id="notifications">Notifications</h3>
+<p>The extension can also display system-wide notifications when the status of an environment changes. Clicking the notification will open the corresponding Icinga page.</p>
+<p>These notifications can be enabled/disabled on the extension settings page. Notifications can be toggled for each environment, and for each status.</p>
+<h2 id="licence">Licence</h2>
+<p><a href="LICENCE">MIT License</a></p>
+  </div>
 
 
 

@@ -351,9 +351,110 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 
 <h2 id="readme">README</h2>
 
-<p><span class="govuk-error-message">
-    Cannot fetch README without <code>GITHUB_TOKEN</code>.
-  </span></p>
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive">Warning</span>
+      The content below is pulled in directly from the repository.<br />
+      Links might not function properly.
+    </strong>
+  </div>
+
+<div class="embedded-readme">
+    
+<p>Admin interface for managing Local Authorities links including all their services and interactions.</p>
+<p>This app maps RESTful URLs onto a persistence layer. It doesn't face public users.</p>
+<h2 id="screenshots">Screenshots</h2>
+<p><img src="docs/images/local_authorities.png" alt="Local Authorities" /></p>
+<p><img src="docs/images/services.png" alt="Local Authority Services" /></p>
+<p><img src="docs/images/interactions.png" alt="Local Authority Service Interactions" /></p>
+<p><img src="docs/images/interactions_by_authority.png" alt="Interactions by Local Authority" /></p>
+<h2 id="nomenclature">Nomenclature</h2>
+<ul>
+<li>
+<strong>SNAC</strong> - Standard Names And Code - The old identifier code for locations. This is being phased out in favour of GSS codes.</li>
+<li>
+<strong>GSS</strong>  - Government Statistical Service - The new identifier code for locations.</li>
+<li>
+<strong>LGSL</strong> - Local Government Services List</li>
+<li>
+<strong>LGIL</strong> - Local Government Interactions List</li>
+</ul>
+<p>Both LGSL and LGIL codes are used for the lookups for each Local Authority and its service interactions.</p>
+<h2 id="setup">Setup</h2>
+<p>The recommended way to run Local Links Manager is with <a href="https://github.com/alphagov/govuk-docker">govuk-docker</a>.</p>
+<h3 id="run-with-govuk-docker">Run with govuk-docker</h3>
+<ul>
+<li>Run <code>make local-links-manager</code> inside govuk-docker</li>
+<li>Run <code>govuk-docker-run bundle exec rails db:seed</code> to create the default user</li>
+<li>Run <code>govuk-docker-up</code> to start the application. Visit at <a href="http://local-links-manager.dev.gov.uk/">http://local-links-manager.dev.gov.uk/</a>.</li>
+<li>
+<code>govuk-docker-run bundle exec rake</code> runs the tests.</li>
+</ul>
+<p>### Run locally</p>
+<p>You will need to have <a href="https://github.com/alphagov/mapit">Mapit</a> checked out locally,<br />
+and you'll need to <a href="https://github.com/alphagov/mapit/blob/master/import-db-from-s3.sh">import data from S3</a>.</p>
+<p><code>bundle install</code>, then <code>./startup.sh</code>. <code>bundle exec rake</code> runs the tests.</p>
+<p>Links for each local authority are available via data replication.</p>
+<h2 id="detailed-documentation">Detailed documentation</h2>
+<ul>
+<li><a href="/docs/adding-a-new-lgsl-code.md">Adding a new LGSL code</a></li>
+<li><a href="/docs/deleting-a-link.md">Deleting a local transaction link</a></li>
+<li><a href="/docs/importing-local-authorities-data.md">Importing Local Authorities data</a></li>
+<li><a href="/docs/exporting-local-authority-links.md">Exporting Local Authority links to services</a></li>
+<li><a href="/docs/checking-links.md">Checking links</a></li>
+</ul>
+<h2 id="example-api-output">Example API output</h2>
+<p><strong>Endoint for local authorities</strong></p>
+<p><code>GET /api/local-authority?authority_slug=&lt;authority_slug&gt;</code></p>
+<p>This takes parameters for Authority Slug.</p>
+<p>Returns a JSON array containing details for the local authority and (if appropriate), the county council that contains the district.</p>
+<p>This example is for <code>GET /api/local-authority?authority_slug=rochford</code></p>
+<pre><code>[
+  {
+    "name" =&gt; 'Rochford District Council',
+    "homepage_url" =&gt; "http://rochford.example.com",
+    "tier" =&gt; "district"
+  },
+  {
+    "name" =&gt; 'Essex County Council',
+    "homepage_url" =&gt; "http://essex.example.com",
+    "tier" =&gt; "county"
+  }
+]
+</code></pre>
+<p>This example is for <code>GET /api/local-authority?authority_slug=camden</code></p>
+<pre><code>[
+  {
+    "name" =&gt; 'Camden Borough Council',
+    "homepage_url" =&gt; "http://camden.example.com",
+    "tier" =&gt; "unitary"
+  }
+]
+</code></pre>
+<p>We do not require authentication for this request.</p>
+<p><strong>Endpoint for local transactions links</strong></p>
+<p><code>GET /api/link?authority_slug=&lt;authority_slug&gt;&amp;lgsl=&lt;lgsl&gt;&amp;lgil=&lt;lgil&gt;</code></p>
+<p>This takes parameters for Authority Slug, LGSL and optionally LGIL.</p>
+<p>Returns JSON details for local authority and interaction or just local authority depending whether the LGIL parameter is passed in. If the LGIL is passed in we return the link for the LGIL if it exists. If not then only the local authority details are returned. If the LGIL is not passed in it returns the appropriate fallback link. If no appropriate link is found then once again we only return the local authority details.</p>
+<pre><code>{
+  "local_authority" =&gt; {
+    "name" =&gt; "Blackburn",
+      "snac" =&gt; "00AG",
+      "tier" =&gt; "unitary",
+      "homepage_url" =&gt; "http://blackburn.example.com",
+  },
+    "local_interaction" =&gt; {
+      "lgsl_code" =&gt; 2,
+      "lgil_code" =&gt; 4,
+      "url" =&gt; "http://blackburn.example.com/abandoned-shopping-trolleys/report",
+    }
+}
+</code></pre>
+<p>We do not require authentication for this request.</p>
+<h2 id="licence">Licence</h2>
+<p><a href="LICENCE">MIT License</a></p>
+  </div>
 
 
 

@@ -1,8 +1,6 @@
 
 
 
-
-
 <!doctype html>
 <html lang="en" class="govuk-template no-js">
   <head>
@@ -143,11 +141,7 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#applications'>Applications</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/34d8296e3789e211c90e0dca1ec30633505445e5">28 Oct 2020</a>
-</div>
-
- <h1 id='header'>Node classes without redundancy</h1> <p>Below we provide a list of node classes that are not configured to be highly available (HA). This means that short outages of these machines are architecturally considered acceptable.</p>
+  <p><a href='/manual.html#applications'>Applications</a></p> <h1 id='header'>Node classes without redundancy</h1><p>Below we provide a list of node classes that are not configured to be highly available (HA). This means that short outages of these machines are architecturally considered acceptable.</p>
 
 <p>Installation of a critical software component on a non-redundant node class has caused an incident in the past. This happened when <code>pgbouncer</code>, required for all Postgresql database accesses at the time, was installed on <code>db_admin</code>, a single EC2 instance. That single instance became unavailable and took down Postgres in Production.</p>
 
@@ -198,7 +192,22 @@
 </div>
 
 
-            
+              <div data-module='page-expiry' data-last-reviewed-on="2021-02-12">
+    <div class='page-expiry--not-expired'>
+      This page was last reviewed on 12 August 2020.
+
+        It needs to be reviewed again on 12 February 2021
+        by the page owner <a href="">#re-govuk</a>
+        .
+    </div>
+
+    <div class='page-expiry--expired'>
+      This page was set to be reviewed before 12 February 2021
+       by the page owner <a href="">#re-govuk</a>.
+      This might mean the content is out of date.
+    </div>
+  </div>
+
           </main>
 
           <aside>
