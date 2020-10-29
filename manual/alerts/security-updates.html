@@ -1,6 +1,8 @@
 
 
 
+
+
 <!doctype html>
 <html lang="en" class="govuk-template no-js">
   <head>
@@ -149,7 +151,11 @@
       </a>
     </div>
 
-   <h1 id='header'>Outstanding security updates</h1><p>Machines are configured to <a href="https://help.ubuntu.com/community/AutomaticSecurityUpdates#Using_the_.22unattended-upgrades.22_package">automatically install security updates</a> on a daily basis.</p>
+     <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/3829791764d0f42e134dca99e6552e7b33e9b798">27 Jul 2020</a>
+</div>
+
+ <h1 id='header'>Outstanding security updates</h1> <p>Machines are configured to <a href="https://help.ubuntu.com/community/AutomaticSecurityUpdates#Using_the_.22unattended-upgrades.22_package">automatically install security updates</a> on a daily basis.</p>
 
 <ul>
   <li>This is triggered by the <code>/etc/cron.daily/apt</code> script.</li>
@@ -177,22 +183,7 @@ less /var/log/unattended-upgrades/unattended-upgrades.log
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2021-01-27">
-    <div class='page-expiry--not-expired'>
-      This page was last reviewed on 27 July 2020.
-
-        It needs to be reviewed again on 27 January 2021
-        by the page owner <a href="">#govuk-2ndline</a>
-        .
-    </div>
-
-    <div class='page-expiry--expired'>
-      This page was set to be reviewed before 27 January 2021
-       by the page owner <a href="">#govuk-2ndline</a>.
-      This might mean the content is out of date.
-    </div>
-  </div>
-
+            
           </main>
 
           <aside>

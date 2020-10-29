@@ -1,6 +1,8 @@
 
 
 
+
+
 <!doctype html>
 <html lang="en" class="govuk-template no-js">
   <head>
@@ -157,7 +159,11 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#cdn-caching'>CDN & Caching</a></p> <h1 id='header'>Purge a page from cache</h1><p>The <code>www.gov.uk</code> domain is served through Fastly, which honours the
+  <p><a href='/manual.html#cdn-caching'>CDN & Caching</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/87e4c1db345a31374011b564dfd4cde07864c23e">6 May 2020</a>
+</div>
+
+ <h1 id='header'>Purge a page from cache</h1> <p>The <code>www.gov.uk</code> domain is served through Fastly, which honours the
 cache control headers sent by Varnish. When new content is published, the
 <a href="https://github.com/alphagov/cache-clearing-service">Cache Clearing Service</a> should take care of purging
 the page from Varnish and Fastly.</p>
@@ -245,22 +251,7 @@ of the senior tech team before doing this, to evaluate the risk.</p>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-10-20">
-    <div class='page-expiry--not-expired'>
-      This page was last reviewed on 20 April 2020.
-
-        It needs to be reviewed again on 20 October 2020
-        by the page owner <a href="">#govuk-2ndline</a>
-        .
-    </div>
-
-    <div class='page-expiry--expired'>
-      This page was set to be reviewed before 20 October 2020
-       by the page owner <a href="">#govuk-2ndline</a>.
-      This might mean the content is out of date.
-    </div>
-  </div>
-
+            
           </main>
 
           <aside>

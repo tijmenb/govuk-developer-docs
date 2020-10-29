@@ -1,6 +1,8 @@
 
 
 
+
+
 <!doctype html>
 <html lang="en" class="govuk-template no-js">
   <head>
@@ -141,7 +143,11 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#monitoring'>Monitoring</a></p> <h1 id='header'>Debug underperforming search</h1><p>Search is one of the more load-sensitive parts of GOV.UK, as it can't
+  <p><a href='/manual.html#monitoring'>Monitoring</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/a6b360d7b854e23e90180da515c12e311e0b176c">21 Aug 2020</a>
+</div>
+
+ <h1 id='header'>Debug underperforming search</h1> <p>Search is one of the more load-sensitive parts of GOV.UK, as it can't
 be cached as effectively as more static pages.  There are two
 significant components involved in search: the search-api application,
 and the AWS-managed Elasticsearch cluster powering it.</p>
@@ -237,22 +243,7 @@ issue with Elasticsearch.</p>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-11-21">
-    <div class='page-expiry--not-expired'>
-      This page was last reviewed on 21 August 2020.
-
-        It needs to be reviewed again on 21 November 2020
-        by the page owner <a href="">#govuk-searchandnav</a>
-        .
-    </div>
-
-    <div class='page-expiry--expired'>
-      This page was set to be reviewed before 21 November 2020
-       by the page owner <a href="">#govuk-searchandnav</a>.
-      This might mean the content is out of date.
-    </div>
-  </div>
-
+            
           </main>
 
           <aside>

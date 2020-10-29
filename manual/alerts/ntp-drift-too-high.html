@@ -1,6 +1,8 @@
 
 
 
+
+
 <!doctype html>
 <html lang="en" class="govuk-template no-js">
   <head>
@@ -149,7 +151,11 @@
       </a>
     </div>
 
-   <h1 id='header'>ntp drift too high</h1><p>The <a href="http://doc.ntp.org/4.1.0/ntpd.htm">Network Time Protocol (NTP) daemon</a> (<code>ntpd</code>) is responsible for keeping system
+     <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/c30f3538fe97b381a6ae2116b51ce131147a7284">3 Aug 2020</a>
+</div>
+
+ <h1 id='header'>ntp drift too high</h1> <p>The <a href="http://doc.ntp.org/4.1.0/ntpd.htm">Network Time Protocol (NTP) daemon</a> (<code>ntpd</code>) is responsible for keeping system
 time synchronised with standard time servers on the Internet.</p>
 
 <p>The <code>ntpd.drift</code> file records the latest estimate of clock frequency error. If this value gets too high, this can be
@@ -192,22 +198,7 @@ by the <code>-B</code> flag can take <strong>hours</strong> to gradually take ef
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-09-30">
-    <div class='page-expiry--not-expired'>
-      This page was last reviewed on 30 March 2020.
-
-        It needs to be reviewed again on 30 September 2020
-        by the page owner <a href="">#govuk-2ndline</a>
-        .
-    </div>
-
-    <div class='page-expiry--expired'>
-      This page was set to be reviewed before 30 September 2020
-       by the page owner <a href="">#govuk-2ndline</a>.
-      This might mean the content is out of date.
-    </div>
-  </div>
-
+            
           </main>
 
           <aside>

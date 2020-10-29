@@ -1,6 +1,8 @@
 
 
 
+
+
 <!doctype html>
 <html lang="en" class="govuk-template no-js">
   <head>
@@ -149,7 +151,11 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#cookies'>Cookies</a></p> <h1 id='header'>Cookies and sessions in GOV.UK frontend apps</h1><p>GOV.UK frontend applications, with the exception of Licensing and Email Alert Frontend, do not currently require cookies.</p>
+  <p><a href='/manual.html#cookies'>Cookies</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/06c6d374ce782c2d8267697a6e2ae1394dd47398">30 Jun 2020</a>
+</div>
+
+ <h1 id='header'>Cookies and sessions in GOV.UK frontend apps</h1> <p>GOV.UK frontend applications, with the exception of Licensing and Email Alert Frontend, do not currently require cookies.</p>
 
 <p>We configure Varnish to strip cookies for
 <a href="https://github.com/alphagov/govuk-puppet/blob/a6c51d887a6501f02766b7279127b60f02037a7f/modules/varnish/templates/default.vcl.erb#L83">inbound</a> and <a href="https://github.com/alphagov/govuk-puppet/blob/a6c51d887a6501f02766b7279127b60f02037a7f/modules/varnish/templates/default.vcl.erb#L119">outbound</a> requests.</p>
@@ -204,22 +210,7 @@ also need to update the Varnish configuration to allow cookies for your applicat
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-12-30">
-    <div class='page-expiry--not-expired'>
-      This page was last reviewed on 30 June 2020.
-
-        It needs to be reviewed again on 30 December 2020
-        by the page owner <a href="">#govuk-frontenders</a>
-        .
-    </div>
-
-    <div class='page-expiry--expired'>
-      This page was set to be reviewed before 30 December 2020
-       by the page owner <a href="">#govuk-frontenders</a>.
-      This might mean the content is out of date.
-    </div>
-  </div>
-
+            
           </main>
 
           <aside>

@@ -1,6 +1,8 @@
 
 
 
+
+
 <!doctype html>
 <html lang="en" class="govuk-template no-js">
   <head>
@@ -152,7 +154,11 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
-  <p><a href='/manual.html#security'>Security</a></p> <h1 id='header'>Content Security Policy on GOV.UK</h1><p>Content Security Policy (CSP) is a browser standard to prevent cross-site scripting (XSS), clickjacking and other code
+  <p><a href='/manual.html#security'>Security</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/0c8a4340e9a52eac7828791328da2c911ee710ad">3 Aug 2020</a>
+</div>
+
+ <h1 id='header'>Content Security Policy on GOV.UK</h1> <p>Content Security Policy (CSP) is a browser standard to prevent cross-site scripting (XSS), clickjacking and other code
 injection attacks resulting from execution of malicious content in the context of another website. A policy, determining
 which stylesheets, scripts and other assets are allowed to run, is sent with every request and is parsed and enacted by
 the browser.</p>
@@ -231,22 +237,7 @@ account. The Lambda function itself runs in the <code>govuk-tools</code> AWS acc
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-05-03">
-    <div class='page-expiry--not-expired'>
-      This page was last reviewed on 3 February 2020.
-
-        It needs to be reviewed again on 3 May 2020
-        by the page owner <a href="">#govuk-developers</a>
-        .
-    </div>
-
-    <div class='page-expiry--expired'>
-      This page was set to be reviewed before 3 May 2020
-       by the page owner <a href="">#govuk-developers</a>.
-      This might mean the content is out of date.
-    </div>
-  </div>
-
+            
           </main>
 
           <aside>

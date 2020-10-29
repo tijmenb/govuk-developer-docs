@@ -1,6 +1,8 @@
 
 
 
+
+
 <!doctype html>
 <html lang="en" class="govuk-template no-js">
   <head>
@@ -149,7 +151,11 @@
       </a>
     </div>
 
-   <h1 id='header'>High zombie procs</h1><p>You can check what the zombie processes are by SSHing onto the machine
+     <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/c30f3538fe97b381a6ae2116b51ce131147a7284">3 Aug 2020</a>
+</div>
+
+ <h1 id='header'>High zombie procs</h1> <p>You can check what the zombie processes are by SSHing onto the machine
 and running the command:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>ps -A -o user,pid,ppid,state,cmd | awk 'NR==1 || $4=="Z" { print }'
@@ -168,22 +174,7 @@ problem; if that doesn't help, reboot the machine at a convenient time.</p>
 </div>
 
 
-              <div data-module='page-expiry' data-last-reviewed-on="2020-09-30">
-    <div class='page-expiry--not-expired'>
-      This page was last reviewed on 30 March 2020.
-
-        It needs to be reviewed again on 30 September 2020
-        by the page owner <a href="">#govuk-2ndline</a>
-        .
-    </div>
-
-    <div class='page-expiry--expired'>
-      This page was set to be reviewed before 30 September 2020
-       by the page owner <a href="">#govuk-2ndline</a>.
-      This might mean the content is out of date.
-    </div>
-  </div>
-
+            
           </main>
 
           <aside>
