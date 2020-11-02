@@ -382,6 +382,16 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/mapit
 <strong>Boundary Line</strong>: The Ordnance Survey boundary line data - one of the open data sources we use to import data.  We get GB Areas from this.</li>
 <li>
 <strong>OSNI</strong>: The Ordnance Survey of Northern Ireland - one of the providers of the open data sources we use to import data.  We get NI Areas from them.</li>
+<li>
+<strong>ONS</strong>: Office for National Statistics</li>
+<li>
+<strong>GSS</strong>: Government Statistical Service, new ONS codes - GSS codes start with a letter, and are 9 characters long e.g. <code>S14000051</code>
+</li>
+<li>
+<strong>SNAC</strong>: old ONS codes - ONS codes consist of a number and/or character combination that could be<br />
+2, 4, 6, 8, or 10 characters long, and depending on the length, may only be numbers</li>
+<li>
+<strong>SRID</strong>: spatial reference identifier</li>
 </ul>
 <h2 id="technical-documentation">Technical documentation</h2>
 <p>MapIt is a Python/Django application (backed by PostgreSQL), that provides<br />
@@ -395,11 +405,22 @@ RESTful API for looking up postcodes, council boundaries, etc.</p>
 <a href="https://github.com/alphagov/mapit-scripts">mapit-scripts</a> - scripts we use when importing data.  The data sets are released between 4 and 2 times per year, these scripts automate the process of rebuilding the db to reflect this.</li>
 </ul>
 <h3 id="running-the-application">Running the application</h3>
-<p><code>GOVUK_ENV=development ./startup.sh</code></p>
-<p>Or if you use the GDS development VM you can run this application with Bowler: <code>bowl mapit</code>.</p>
-<p>To run any other management commands (<code>.venv/bin/python ./manage.py ...</code>), you'll need the <code>GOVUK_ENV</code> environment variable set.</p>
+<p>Run <code>make mapit</code> in the <code>govuk-docker</code> repo - this will build the image and install all the dependencies.</p>
+<p>Start your Docker container by running :</p>
+<pre><code>$ govuk-docker up mapit-app
+</code></pre>
+<p>Check you are able to access <code>mapit.dev.gov.uk</code> - it is expected that the<br />
+frontend looks somewhat "broken", that's okay - we only need to worry about<br />
+the database for importing data.</p>
+<p>To run any other management commands (<code>.venv/bin/python ./manage.py ...</code>), you<br />
+will need to be in a bash shell:</p>
+<pre><code>$ docker exec -it &lt;container name&gt; /bin/bash
+</code></pre>
+<p>To run management commands in other environments, you'll need the <code>GOVUK_ENV</code> environment variable set.</p>
 <h3 id="importing-data">Importing data</h3>
 <p>Please see <a href="./IMPORTING-DATA.md">the importing data instructions</a></p>
+<h3 id="testing-a-server-with-new-data">Testing a server with new data</h3>
+<p>Please see <a href="./TESTING-SERVER.md">testing a server with an updated Mapit database</a></p>
 <h3 id="running-the-test-suite">Running the test suite</h3>
 <p><code>GOVUK_ENV=development .venv/bin/python ./manage.py test mapit mapit_gb</code></p>
 <p>Include any other edge cases, e.g parallel test runner in Whitehall</p>
