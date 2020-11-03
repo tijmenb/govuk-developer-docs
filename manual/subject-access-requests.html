@@ -160,7 +160,7 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
   <p><a href='/manual.html#2nd-line'>2nd line</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/6e2c12a436738e60cbfd9a2cb6d9dc48e5ec8f94">2 Nov 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/fbd2992851ffeec2c4c5b8e156498a523cf5e174">3 Nov 2020</a>
 </div>
 
  <h1 id='header'>Subject Access Requests</h1> <p>Subject Access Requests (often referred to as a 'SAR') allow members of the
@@ -187,7 +187,29 @@ they become easier to deal with in the future.</p>
 
 <h3 id="licensing">Licensing</h3>
 
-<p>Ask in #govuk-licensing.</p>
+<p>This involves manually querying a couple of databases. Start by logging on to the
+licensing backend machine.</p>
+
+<div class="highlight"><pre class="highlight shell"><code>gds govuk connect <span class="nt">-e</span> production ssh licensing_backend
+</code></pre></div>
+<p>Connect to MongoDB with the following command. The host may be different, and can be
+found in <code>/etc/licensing/gds-licensing-config.properties</code>.</p>
+
+<div class="highlight"><pre class="highlight shell"><code>mongo licensify-documentdb-0.ca5itorbs5wc.eu-west-1.docdb.amazonaws.com/licensify <span class="nt">-u</span> master <span class="nt">-p</span>
+</code></pre></div>
+<p>You'll be prompted for the password, which you can also find in the config file from
+above. Once you're in the DB console, run:</p>
+
+<div class="highlight"><pre class="highlight shell"><code>db.applications.find<span class="o">({</span> email: <span class="s2">"[email address]"</span> <span class="o">})</span>.count<span class="o">()</span>
+</code></pre></div>
+<p>Secondly, we need to check for any audit records, which may still exist even if the
+original licence application has been archived:</p>
+
+<div class="highlight"><pre class="highlight shell"><code>use licensify-audit
+
+db.audit.find<span class="o">({</span> detail: <span class="o">{</span> emailAddress: <span class="s2">"[email address]"</span> <span class="o">}</span> <span class="o">})</span>.count<span class="o">()</span>
+</code></pre></div>
+<p>If you still need help, try asking in #govuk-licensing.</p>
 
 
   <div class='related-content'>
