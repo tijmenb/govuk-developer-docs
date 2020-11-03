@@ -134,13 +134,16 @@
     <a href="#header"><span>Subject Access Requests</span></a>
     <ul>
       <li>
-        <a href="#known-requests"><span>Known requests</span></a>
+        <a href="#things-to-check"><span>Things to check</span></a>
         <ul>
           <li>
             <a href="#email-subscriptions"><span>Email subscriptions</span></a>
           </li>
           <li>
-            <a href="#others"><span>Others</span></a>
+            <a href="#signon"><span>Signon</span></a>
+          </li>
+          <li>
+            <a href="#licensing"><span>Licensing</span></a>
           </li>
         </ul>
       </li>
@@ -157,31 +160,34 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
   <p><a href='/manual.html#2nd-line'>2nd line</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/fa611592bd8eef2f84638e003859f4ab00a26f57">29 Oct 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/6e2c12a436738e60cbfd9a2cb6d9dc48e5ec8f94">2 Nov 2020</a>
 </div>
 
  <h1 id='header'>Subject Access Requests</h1> <p>Subject Access Requests (often referred to as a 'SAR') allow members of the
 public to get information being held about them by an organisation.</p>
 
 <p>2nd line might be needed to answer some of the questions in the request, and
-this will usually come in through the form of a Zendesk ticket. Once 2nd line
-has found the necessary information, the request might need to be passed to
-another team to fully complete the request, for example, Licensing.</p>
+this will usually come in through the form of a Zendesk ticket.</p>
 
-<h2 id="known-requests">Known requests</h2>
+<h2 id="things-to-check">Things to check</h2>
 
-<p>So far we've received requests that have asked for information on:</p>
-
-<h3 id="email-subscriptions">Email subscriptions</h3>
-
-<p>We've had requests to get information on what is held about an email address
-in terms of subscriptions. <a href="/apis/email-alert-api/support-tasks.html#view-subscribers-subscriptions">There is a rake task for that</a>.
-We also have <a href="/manual/email-alert-api-analytics.html">some documented queries that can help get this</a>.</p>
-
-<h3 id="others">Others</h3>
+<p>Sometimes the request won't be specific about where the data may be stored,
+so we should check at least the following places.</p>
 
 <p>If any other information is requested, we should update this documentation so
 they become easier to deal with in the future.</p>
+
+<h3 id="email-subscriptions">Email subscriptions</h3>
+
+<p>⚙  <a href="/apis/email-alert-api/support-tasks.html#view-subscribers-subscriptions">Run rake task on production</a></p>
+
+<h3 id="signon">Signon</h3>
+
+<p>Check if the user <a href="https://signon.publishing.service.gov.uk/users">has an account</a>.</p>
+
+<h3 id="licensing">Licensing</h3>
+
+<p>Ask in #govuk-licensing.</p>
 
 
   <div class='related-content'>
