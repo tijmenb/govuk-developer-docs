@@ -10,23 +10,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-    <title>Resync a MongoDB database - GOV.UK Developer Documentation</title>
+    <title>Fix Mapit database not available - GOV.UK Developer Documentation</title>
 
     <link href="/stylesheets/manifest.css" rel="stylesheet" />
 
-    <link rel="canonical" href="https://docs.publishing.service.gov.uk/manual/resync-mongo-db.html">
+    <link rel="canonical" href="https://docs.publishing.service.gov.uk/manual/mapit-database-not-available.html">
 
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:domain" content="docs.publishing.service.gov.uk" />
       <meta name="twitter:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
-      <meta name="twitter:title" content="Resync a MongoDB database - GOV.UK Developer Documentation" />
-      <meta name="twitter:url" content="https://docs.publishing.service.gov.uk/manual/resync-mongo-db.html" />
+      <meta name="twitter:title" content="Fix Mapit database not available - GOV.UK Developer Documentation" />
+      <meta name="twitter:url" content="https://docs.publishing.service.gov.uk/manual/mapit-database-not-available.html" />
 
       <meta property="og:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
       <meta property="og:site_name" content="GOV.UK Developer Documentation" />
-      <meta property="og:title" content="Resync a MongoDB database" />
+      <meta property="og:title" content="Fix Mapit database not available" />
       <meta property="og:type" content="object" />
-      <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/resync-mongo-db.html" />
+      <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/mapit-database-not-available.html" />
 
     
   </head>
@@ -131,7 +131,12 @@
                   <a href='/manual.html' class="toc__back-link govuk-link">&lsaquo; Manual</a>
   <ul>
   <li>
-    <a href="#header"><span>Resync a MongoDB database</span></a>
+    <a href="#header"><span>Fix Mapit database not available</span></a>
+    <ul>
+      <li>
+        <a href="#manual-process"><span>Manual process</span></a>
+      </li>
+    </ul>
   </li>
 </ul>
 
@@ -144,33 +149,72 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
   <p><a href='/manual.html#databases'>Databases</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/c30f3538fe97b381a6ae2116b51ce131147a7284">3 Aug 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/e322e20540f7e5dc1f0de57e724901650eed7bc1">2 Nov 2020</a>
 </div>
 
- <h1 id='header'>Resync a MongoDB database</h1> <blockquote>
-  <p><strong>WARNING</strong></p>
+ <h1 id='header'>Fix Mapit database not available</h1> <p>Each Mapit machine has its own PostgreSQL database which powers the Mapit
+application. When the machine is first created by AWS, the latest data is
+<a href="https://github.com/alphagov/govuk-puppet/pull/9657">supposed to be imported into the database</a>.</p>
 
-  <p>This process deletes all data from a MongoDB node and forces a full
-copy from the current primary member of the replica set. This causes
-additional load on the primary member of the replica set and reduces the
-number of available copies of the database, so is best performed at a quiet
-time. Try not to resync more than one secondary at a time.</p>
+<p>This feature is currently not working which means that new Mapit machines are
+not added to the load balancer until the data has been imported manually. There
+will also be numerous errors in Icinga related to 5xx errors and events in
+Sentry:</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code>OperationalError: could not connect to server: Connection refused
+        Is the server running on host "127.0.0.1" and accepting
+        TCP/IP connections on port 5432?
+</code></pre></div>
+<blockquote>
+  <p>RE are aware that the automatic import process doesn't work.</p>
 </blockquote>
 
-<p>To
-<a href="https://docs.mongodb.org/v2.4/tutorial/resync-replica-set-member/">resync</a>
-a member of a MongoDB cluster, run our <code>force_resync</code>
-<a href="https://github.com/alphagov/fabric-scripts">Fabric</a> script:</p>
+<h2 id="manual-process">Manual process</h2>
 
-<div class="highlight"><pre class="highlight plaintext"><code>fab $environment -H $hostname mongo.force_resync
+<p>SSH onto the machine which is experiencing the problem and run the following
+comments:</p>
+
+<ol>
+  <li>
+    <p>Stop any running PostgreSQL instance</p>
+
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>ps aux | <span class="nb">grep </span>postgresql
+<span class="nv">$ </span><span class="nb">sudo kill</span> <span class="nt">-9</span> &lt;pid&gt;
+</code></pre></div>  </li>
+  <li>
+    <p>Recreate the PostgreSQL cluster</p>
+
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">sudo </span>pg_dropcluster <span class="nt">--stop</span> 9.3 main<span class="p">;</span> <span class="nb">sudo </span>pg_createcluster 9.3 main
+</code></pre></div>  </li>
+  <li>
+    <p>Run Puppet</p>
+
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>govuk_puppet <span class="nt">--test</span>
+</code></pre></div>  </li>
+  <li>
+    <p>Check that PostgreSQL is up and running correctly</p>
+
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">sudo </span>service postgresql status
+</code></pre></div>  </li>
+  <li>
+    <p>Make the import script available</p>
+
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>wget https://raw.githubusercontent.com/alphagov/govuk-puppet/master/modules/govuk/files/etc/govuk/import_mapit_data.sh
+<span class="nv">$ </span><span class="nb">chmod</span> +x import_mapit_data.sh
+</code></pre></div>  </li>
+  <li>
+    <p>Run the import script</p>
+
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">sudo</span> ./import_mapit_data.sh
 </code></pre></div>
-<p>The <code>mongo.force_resync</code> command checks that you are not trying to
-perform a resync on the primary member.</p>
+    <p>The import script will take about 10 minutes to run. Sometimes your SSH
+connection might time out while the script runs, it's worth checking on the
+terminal every few minutes to check that hasn't happened. Once Mapit is
+healthy, the AWS load balancer will automatically detect this and add the
+machine into the rotation.</p>
+  </li>
+</ol>
 
-<p>You can run <code>mongo.status</code> at any time to see the status of the cluster:</p>
-
-<div class="highlight"><pre class="highlight plaintext"><code>fab $environment -H $hostname mongo.status
-</code></pre></div>
 
   <div class='related-content'>
 
@@ -184,7 +228,7 @@ perform a resync on the primary member.</p>
           <ul class="govuk-list">
             <li><a href="/manual/clone-mysql-slave.html">Clone a MySQL instance from one slave to another (Carrenza only)</a></li>
             <li><a href="/manual/howto-copy-postgresql-between-machines.html">Copy PostgreSQL dump from one machine to another</a></li>
-            <li><a href="/manual/mapit-database-not-available.html">Fix Mapit database not available</a></li>
+            <li><a href="/manual/resync-mongo-db.html">Resync a MongoDB database</a></li>
             <li><a href="/manual/resync-postgres-standby.html">Resync a PostgreSQL Standby in Carrenza/6DG</a></li>
           </ul>
         </div>
@@ -198,8 +242,8 @@ perform a resync on the primary member.</p>
 
           <aside>
               <ul class="contribution-banner">
-                <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/resync-mongo-db.html.md">View source</a></li>
-                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'Resync%20a%20MongoDB%20database'&amp;body=Problem%20with%20'Resync%20a%20MongoDB%20database'%20(https://docs.publishing.service.gov.uk/manual/resync-mongo-db.html)">Report problem</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/mapit-database-not-available.html.md">View source</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'Fix%20Mapit%20database%20not%20available'&amp;body=Problem%20with%20'Fix%20Mapit%20database%20not%20available'%20(https://docs.publishing.service.gov.uk/manual/mapit-database-not-available.html)">Report problem</a></li>
                 <li><a href="https://github.com/alphagov/govuk-developer-docs">GitHub Repo</a></li>
               </ul>
           </aside>
