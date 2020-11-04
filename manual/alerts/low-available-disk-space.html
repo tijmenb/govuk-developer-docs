@@ -140,6 +140,17 @@
         <a href="#low-available-disc-space-on-mntuploads-for-asset-master-1-and-asset-slave-1"><span>Low available disc space on /mnt/uploads for asset-master-1 and asset-slave-1</span></a>
       </li>
       <li>
+        <a href="#low-available-disc-space-on-mntcrawler_worker-on-mirrorer"><span>Low available disc space on /mnt/crawler_worker on mirrorer</span></a>
+        <ul>
+          <li>
+            <a href="#cause"><span>Cause</span></a>
+          </li>
+          <li>
+            <a href="#solution"><span>Solution</span></a>
+          </li>
+        </ul>
+      </li>
+      <li>
         <a href="#no-disk-space-on-the-mysql-master"><span>No disk space on the MySQL master</span></a>
       </li>
       <li>
@@ -172,7 +183,7 @@
     </div>
 
      <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/8ae645c1acb985fb363935314384736d91d4be8c">17 Sep 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/4e956d71bdf534ae900de0d3f7393831bc2c2fb9">3 Nov 2020</a>
 </div>
 
  <h1 id='header'>Low available disk space</h1> <h2 id="low-available-disk-space-on-root">Low available disk space on root</h2>
@@ -227,6 +238,40 @@ command. The command is executed in the starting directory.</p>
 <p>This command will take a while to complete, depending - of course - on
 how large your two starting folders are. After it has completed, push
 Nagios to re-check the service on each affected host.</p>
+
+<h2 id="low-available-disc-space-on-mntcrawler_worker-on-mirrorer">Low available disc space on /mnt/crawler_worker on mirrorer</h2>
+
+<p>This can be caused when the AWS autoscaler re-spins a VM and the newly created
+VM does not attach the secondary EBS volume properly. In this case, the alert
+will say <code>DISK CRITICAL: /mnt/crawler_worker not found</code>.</p>
+
+<h3 id="cause">Cause</h3>
+
+<p>An EBS volume can only be attached to one VM at a time.  When the autoscaler
+terminates a VM, AWS disconnects the EBS volume and releases a lock, whilst at
+the same time also spinning up the replacement VM.  The new VM can spin up and be
+provisioned faster than the lock can be released.</p>
+
+<h3 id="solution">Solution</h3>
+
+<p>Manually re-attach the EBS volume tagged with mirrorer to the mirrorer
+instance, then run puppet on the instance. This will cause puppet to correctly
+mount the EBS volume in /mnt/crawler_worker.</p>
+
+<ol>
+  <li>Login to the AWS Web Console: <code>gds aws govuk-integration-powerusers -l</code></li>
+  <li>Click Services -&gt; EC2</li>
+  <li>Change region to "Europe (Ireland) eu-west-1"</li>
+  <li>Click Instances on the left hand side menu bar and filter by "mirrorer"</li>
+  <li>Copy the Instance ID, it should look similar to <code>i-06887a467af1266a0</code></li>
+  <li>Left hand side menu, expand Elastic Block Store, and click Volumes</li>
+  <li>Filter by "mirrorer" and ensure that the state of the only result is "available"</li>
+  <li>Right click volume and choose "Attach Volume"</li>
+  <li>Paste the Instance ID in to the appropriate box, leaving Device as the default</li>
+  <li>Click Attach</li>
+  <li>After AWS finishes attaching the volume to the instance the state should change to "in-use"</li>
+  <li>Once it has settled to the "in-use" state, SSH in to the mirrorer instance and run <code>govuk_puppet --test</code></li>
+</ol>
 
 <h2 id="no-disk-space-on-the-mysql-master">No disk space on the MySQL master</h2>
 
