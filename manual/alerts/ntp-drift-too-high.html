@@ -152,7 +152,7 @@
     </div>
 
      <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/c30f3538fe97b381a6ae2116b51ce131147a7284">3 Aug 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/def98371bb1d95eaab9771b05ec6f2d0404a171d">2 Nov 2020</a>
 </div>
 
  <h1 id='header'>ntp drift too high</h1> <p>The <a href="http://doc.ntp.org/4.1.0/ntpd.htm">Network Time Protocol (NTP) daemon</a> (<code>ntpd</code>) is responsible for keeping system
@@ -160,20 +160,6 @@ time synchronised with standard time servers on the Internet.</p>
 
 <p>The <code>ntpd.drift</code> file records the latest estimate of clock frequency error. If this value gets too high, this can be
 an indicator of large error between the system clock and the real time.</p>
-
-<p>If the system clock is out of sync on a Vmware host, first make sure the synchronisation between guest and host has been
-disabled. This is enabled by default in the image configuration and could cause issues when ntpd is running on the same box.</p>
-
-<p>To check the status, enable or disable Vmware periodic time synchronization, we can use the <code>vmware-toolbox-cmd</code> program:</p>
-
-<div class="highlight"><pre class="highlight plaintext"><code>$ sudo vmware-toolbox-cmd timesync status
-  Enabled
-$ sudo vmware-toolbox-cmd timesync disable
-  Disabled
-$ sudo vmware-toolbox-cmd timesync status
-  Disabled
-</code></pre></div>
-<p>If the Vmware timesync is disabled, we can use <a href="https://github.com/alphagov/fabric-scripts">fabric-scripts</a> tasks to help resynchronise the system clock:</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>fab $environment -H jumpbox-1.management ntp.status
 fab $environment -H jumpbox-1.management ntp.resync
