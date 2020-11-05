@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-    <title>Datasync with govuk_env_sync - GOV.UK Developer Documentation</title>
+    <title>Environment data sync - GOV.UK Developer Documentation</title>
 
     <link href="/stylesheets/manifest.css" rel="stylesheet" />
 
@@ -19,12 +19,12 @@
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:domain" content="docs.publishing.service.gov.uk" />
       <meta name="twitter:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
-      <meta name="twitter:title" content="Datasync with govuk_env_sync - GOV.UK Developer Documentation" />
+      <meta name="twitter:title" content="Environment data sync - GOV.UK Developer Documentation" />
       <meta name="twitter:url" content="https://docs.publishing.service.gov.uk/manual/govuk-env-sync.html" />
 
       <meta property="og:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
       <meta property="og:site_name" content="GOV.UK Developer Documentation" />
-      <meta property="og:title" content="Datasync with govuk_env_sync" />
+      <meta property="og:title" content="Environment data sync" />
       <meta property="og:type" content="object" />
       <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/govuk-env-sync.html" />
 
@@ -131,7 +131,7 @@
                   <a href='/manual.html' class="toc__back-link govuk-link">&lsaquo; Manual</a>
   <ul>
   <li>
-    <a href="#header"><span>Datasync with govuk_env_sync</span></a>
+    <a href="#header"><span>Environment data sync</span></a>
     <ul>
       <li>
         <a href="#overview"><span>Overview</span></a>
@@ -147,6 +147,14 @@
           </li>
           <li>
             <a href="#meanings-of-parameters"><span>Meanings of parameters</span></a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#pausing"><span>Pausing</span></a>
+        <ul>
+          <li>
+            <a href="#resuming"><span>Resuming</span></a>
           </li>
         </ul>
       </li>
@@ -177,10 +185,10 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
   <p><a href='/manual.html#monitoring'>Monitoring</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/5d813e479c15b049a9114a0f98c73bd22a61ebf1">15 Sep 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/72d54153ebdf8c2e6afe0baa7d762a91ffc8dcec">4 Nov 2020</a>
 </div>
 
- <h1 id='header'>Datasync with govuk_env_sync</h1> <p>The govuk_env_sync data sync has been created to replace the <a href="/manual/alerts/data-sync.html">env-sync-and-backup</a> data sync in context of the GOV.UK AWS migration work. It is currently in use for backup and sync tasks in the GOV.UK AWS environments.</p>
+ <h1 id='header'>Environment data sync</h1> <p>The govuk_env_sync data sync has been created to replace the <a href="https://github.com/alphagov/env-sync-and-backup">env-sync-and-backup</a> data sync in context of the GOV.UK AWS migration work. It is currently in use for backup and sync tasks in the GOV.UK AWS environments.</p>
 
 <h2 id="overview">Overview</h2>
 
@@ -193,14 +201,14 @@
 
 <p>The environment synchronisation is achieved by granting cross-account access of the <code>govuk-&lt;environment&gt;-database-backups</code> S3 buckets. Figure 1 below illustrates the intended data flow between environments.</p>
 
-<p>Data sanitisation (removal of sensitive data) for the Integration environment is done by SQL scripts which run as part of the restore transaction at the destination. While not ideal, this is the same approach as <a href="/manual/alerts/data-sync.html">env-sync-and-backup</a> and allows reuse of the same sanitisation scripts.</p>
+<p>Data sanitisation (removal of sensitive data) for the Integration environment is done by SQL scripts which run as part of the restore transaction at the destination. While not ideal, this is the same approach as <a href="https://github.com/alphagov/env-sync-and-backup">env-sync-and-backup</a> and allows reuse of the same sanitisation scripts.</p>
 
 <p><img src="/manual/images/govuk_env_sync.png" alt="Schematic of the data flow of the govuk_env_sync data synchronisation" />
 Figure 1:  Schematic of the data flow of the govuk_env_sync data synchronisation.</p>
 
 <p>In practice, some Integration databases pull from Production (with sanitisation) rather than from Staging. This is done to reduce the number of cron job timing dependencies and to save resources where large databases do not need to be backed up from Staging.</p>
 
-<p>Unlike <a href="/manual/alerts/data-sync.html">env-sync-and-backup</a>, govuk_env_sync currently has separate cron jobs for backup and restore, and for each database in each environments.</p>
+<p>Unlike <a href="https://github.com/alphagov/env-sync-and-backup">env-sync-and-backup</a>, govuk_env_sync currently has separate cron jobs for backup and restore, and for each database in each environments.</p>
 
 <h2 id="code-base-and-deployment">Code base and deployment</h2>
 
@@ -350,6 +358,40 @@ Figure 1:  Schematic of the data flow of the govuk_env_sync data synchronisation
 
 <p>Here the timestamp argument is optional and allow to specify which timestamp (iso-datetime string of the form <code>YYYY-MM-DDTHH:MM</code>) should be restored during a <code>pull</code> operation (default is using the latest available dump).</p>
 
+<h2 id="pausing">Pausing</h2>
+
+<p>If you need to temporarily pause one of the data syncs, it can be done manually:</p>
+
+<ol>
+  <li>
+    <p>On the <code>db_admin</code> machine for the environment you want to disable the sync
+in, Puppet will need to be disabled so the paused jobs aren't
+automatically restarted:</p>
+
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>govuk_puppet <span class="nt">--disable</span> <span class="s2">"paused for data sync"</span>
+</code></pre></div>  </li>
+  <li>
+    <p>You can then list the cron jobs to find the right <code>pull</code> job for the app(s),
+then edit the crontab and remove the corresponding line(s):</p>
+
+<div class="highlight"><pre class="highlight shell"><code><span class="c"># list</span>
+<span class="nv">$ </span><span class="nb">sudo </span>crontab <span class="nt">-lu</span> govuk-backup
+<span class="c"># edit</span>
+<span class="nv">$ </span><span class="nb">sudo </span>crontab <span class="nt">-u</span> govuk-backup <span class="nt">-e</span>
+</code></pre></div>  </li>
+  <li>
+    <p>This will need to be done separately in each environment where the jobs need
+to be paused.</p>
+  </li>
+</ol>
+
+<h3 id="resuming">Resuming</h3>
+
+<p>To resume the jobs again you can re-enable Puppet and run it manually:</p>
+
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>govuk_puppet <span class="nt">--enable</span>
+<span class="nv">$ </span>govuk_puppet <span class="nt">--test</span>
+</code></pre></div>
 <h2 id="resources-managed-by-puppet">Resources managed by Puppet</h2>
 
 <h3 id="configuration-files-on-machines">Configuration files on machines</h3>
@@ -370,8 +412,32 @@ path="postgresql-backend"
 
 <h3 id="cron-jobs-and-icinga-checks">Cron jobs and Icinga checks</h3>
 
-<p>See <a href="/manual/alerts/data-sync.html#govuk_env_sync-the-new-way">data sync playbook</a>.</p>
+<p>If you get an Icinga alert about a failing task, check <code>/var/log/syslog</code> and <code>/var/log/syslog.1</code> on the machine which runs the job. If the logs don't help, you can try re-running the sync job.</p>
 
+<p>The data sync operations are executed as cron-jobs attached to the <code>govuk-backup</code> user. Run the following commands to get an overview of the jobs being run on a machine.</p>
+
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">sudo </span>crontab <span class="nt">-lu</span> govuk-backup
+
+<span class="c"># Puppet Name: pull_content_data_admin_production_daily</span>
+18 0 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> /usr/bin/ionice <span class="nt">-c</span> 2 <span class="nt">-n</span> 6 /usr/local/bin/with_reboot_lock /usr/bin/envdir /etc/govuk_env_sync/env.d /usr/local/bin/govuk_env_sync.sh <span class="nt">-f</span> /etc/govuk_env_sync/pull_content_data_admin_production_daily.cfg
+...
+
+</code></pre></div>
+<p>The cron job command does the following:</p>
+
+<ol>
+  <li>Runs the data sync job at low I/O priority:
+<code>/usr/bin/ionice -c 2 -n 6</code>. This only really matters when running on a database server, as opposed to a <code>db_admin</code> bastion host, but the command is the same in both cases.</li>
+  <li>Prevents reboot by <code>unattended-upgrades</code> while the sync job is running:
+<code>/usr/local/bin/with_reboot_lock</code></li>
+  <li>Runs the data sync job with the appropriate configuration file:
+<code>/usr/local/bin/govuk_env_sync.sh -f /etc/govuk_env_sync/pull_content_data_admin_production_daily.cfg</code></li>
+</ol>
+
+<p>To re-run a given sync job, copy the part of the cron-job corresponding to (3) and examine the output for any errors.</p>
+
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">sudo</span> <span class="nt">-u</span> govuk-backup /usr/local/bin/govuk_env_sync.sh <span class="nt">-f</span> /etc/govuk_env_sync/pull_content_data_admin_production_daily.cfg
+</code></pre></div>
 <blockquote>
   <p><strong>Traffic replay using <a href="/manual/alerts/gor.html">Gor</a> is disabled between 22:00 and
 08:00 UTC daily whilst the data sync pull jobs take place. This is to prevent
@@ -425,7 +491,7 @@ lots of errors while we are dropping databases.</strong></p>
           <aside>
               <ul class="contribution-banner">
                 <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/govuk-env-sync.html.md">View source</a></li>
-                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'Datasync%20with%20govuk_env_sync'&amp;body=Problem%20with%20'Datasync%20with%20govuk_env_sync'%20(https://docs.publishing.service.gov.uk/manual/govuk-env-sync.html)">Report problem</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'Environment%20data%20sync'&amp;body=Problem%20with%20'Environment%20data%20sync'%20(https://docs.publishing.service.gov.uk/manual/govuk-env-sync.html)">Report problem</a></li>
                 <li><a href="https://github.com/alphagov/govuk-developer-docs">GitHub Repo</a></li>
               </ul>
           </aside>
