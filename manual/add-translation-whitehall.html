@@ -136,19 +136,19 @@
       <li>
         <ul>
           <li>
-            <a href="#1-update-govuk-content-schemas"><span>1. Update GOV.UK Content Schemas</span></a>
+            <a href="#1-update-government-frontend"><span>1. Update Government Frontend</span></a>
           </li>
           <li>
-            <a href="#2-update-content-store"><span>2. Update Content Store</span></a>
+            <a href="#2-update-whitehall"><span>2. Update Whitehall</span></a>
           </li>
           <li>
-            <a href="#3-update-publishing-api"><span>3. Update Publishing API</span></a>
+            <a href="#3-update-govuk-content-schemas"><span>3. Update GOV.UK Content Schemas</span></a>
           </li>
           <li>
-            <a href="#4-update-government-frontend"><span>4. Update Government Frontend</span></a>
+            <a href="#4-update-content-store"><span>4. Update Content Store</span></a>
           </li>
           <li>
-            <a href="#5-update-whitehall"><span>5. Update Whitehall</span></a>
+            <a href="#5-update-publishing-api"><span>5. Update Publishing API</span></a>
           </li>
         </ul>
       </li>
@@ -165,7 +165,7 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
   <p><a href='/manual.html#publishing'>Publishing</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/9d53075fd1bb2cab97a828ab3ac7af861dd8a497">3 Aug 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/898cd17777fec50bbdc0770b46af6002fb093bdd">5 Nov 2020</a>
 </div>
 
  <h1 id='header'>Add support for a new translation in Whitehall</h1> <p>Useful links:</p>
@@ -176,7 +176,45 @@
   <li><a href="https://github.com/alphagov/whitehall/blob/master/docs/internationalisation_guide.md">Internationalisation guide</a></li>
 </ul>
 
-<h3 id="1-update-govuk-content-schemas">1. Update GOV.UK Content Schemas</h3>
+<h3 id="1-update-government-frontend">1. Update Government Frontend</h3>
+
+<p><a href="https://github.com/alphagov/government-frontend/pull/1382">Example PR</a></p>
+
+<p>In <a href="https://github.com/alphagov/government-frontend">Government Frontend</a>:</p>
+
+<ol>
+  <li>Add the new locale to <code>config/application.rb</code> and <code>config/locales/en.yml</code></li>
+  <li>Run <code>export LOCALE=&lt;new_locale&gt;; rake "translation:export[tmp/locale_csv,en,${LOCALE}]" &amp;&amp; rake "translation:import[${LOCALE},tmp/locale_csv/${LOCALE}.csv]"</code> to generate the locale files from the English template.</li>
+  <li>
+    <p>In <code>config/locales/&lt;new_locale&gt;.yml</code> add the language translation under the <code>language_names</code> key. For example:</p>
+
+<div class="highlight"><pre class="highlight yaml"><code><span class="na">it</span><span class="pi">:</span>
+  <span class="na">language_name</span><span class="pi">:</span>
+    <span class="na">it</span><span class="pi">:</span> <span class="s">italiano</span>
+</code></pre></div>  </li>
+</ol>
+
+<h3 id="2-update-whitehall">2. Update Whitehall</h3>
+
+<p><a href="https://github.com/alphagov/whitehall/pull/4861">Example PR</a></p>
+
+<p>In <a href="https://github.com/alphagov/whitehall">Whitehall</a>:</p>
+
+<ol>
+  <li>Add the new locale to <code>lib/whitehall.rb</code> and <code>config/locales/en.yml</code></li>
+  <li>Run <code>export LOCALE=&lt;new_locale&gt;; rake "translation:export[tmp/locale_csv,en,${LOCALE}]" &amp;&amp; rake "translation:import[${LOCALE},tmp/locale_csv/${LOCALE}.csv]"</code> to generate the locale files from the English template.</li>
+  <li>
+    <p>In <code>config/locales/&lt;new_locale&gt;.yml</code> add the language translation under the <code>language_names</code> key and the language direction under the <code>i18n.direction</code> key. For example:</p>
+
+<div class="highlight"><pre class="highlight yaml"><code><span class="na">it</span><span class="pi">:</span>
+  <span class="na">i18n</span><span class="pi">:</span>
+    <span class="na">direction</span><span class="pi">:</span> <span class="s">ltr</span>
+  <span class="na">language_name</span><span class="pi">:</span>
+    <span class="na">it</span><span class="pi">:</span> <span class="s">italiano</span>
+</code></pre></div>  </li>
+</ol>
+
+<h3 id="3-update-govuk-content-schemas">3. Update GOV.UK Content Schemas</h3>
 
 <p><a href="https://github.com/alphagov/govuk-content-schemas/pull/906">Example PR</a></p>
 
@@ -187,7 +225,7 @@
   <li>Run <code>rake</code> to generate all the schemas</li>
 </ol>
 
-<h3 id="2-update-content-store">2. Update Content Store</h3>
+<h3 id="4-update-content-store">4. Update Content Store</h3>
 
 <p><a href="https://github.com/alphagov/content-store/pull/580">Example PR</a></p>
 
@@ -197,7 +235,7 @@
   <li>Add the locale key to <code>config/application.rb</code></li>
 </ul>
 
-<h3 id="3-update-publishing-api">3. Update Publishing API</h3>
+<h3 id="5-update-publishing-api">5. Update Publishing API</h3>
 
 <p><a href="https://github.com/alphagov/publishing-api/pull/1524">Example PR</a></p>
 
@@ -206,32 +244,6 @@
 <ul>
   <li>Add the locale key to <code>config/application.rb</code></li>
 </ul>
-
-<h3 id="4-update-government-frontend">4. Update Government Frontend</h3>
-
-<p><a href="https://github.com/alphagov/government-frontend/pull/1382">Example PR</a></p>
-
-<p>In <a href="https://github.com/alphagov/government-frontend">Government Frontend</a>:</p>
-
-<ol>
-  <li>Add the new locale to <code>config/application.rb</code> and <code>config/locales/en.yml</code></li>
-  <li>Run <code>rake translation:regenerate</code> to regenerate all translations from the EN locale</li>
-  <li>Run <code>rake translation:import[locale,path]</code> to import a specific locale CSV to YAML within the app. You can also use <code>rake translation:import:all[directory]</code> to import all locales but there's no timeline for how frequently this is done, so you can expect many translation values to be missing in non EN locales.</li>
-  <li>In <code>config/locales/&lt;new_locale&gt;.yml</code> add the language translation under the <code>language_names</code> key</li>
-</ol>
-
-<h3 id="5-update-whitehall">5. Update Whitehall</h3>
-
-<p><a href="https://github.com/alphagov/whitehall/pull/4861">Example PR</a></p>
-
-<p>In <a href="https://github.com/alphagov/whitehall">Whitehall</a>:</p>
-
-<ol>
-  <li>Add the new locale to <code>lib/whitehall.rb</code> and <code>config/locales/en.yml</code></li>
-  <li>Run <code>rake translation:regenerate</code> to regenerate all translations from the EN locale</li>
-  <li>Run <code>rake translation:import[locale,path]</code> to import a specific locale CSV to YAML within the app. You can also use <code>rake translation:import:all[directory]</code> to import all locales but there's no timeline for how frequently this is done, so you can expect many translation values to be missing in non EN locales.</li>
-  <li>In <code>config/locales/&lt;new_locale&gt;.yml</code> add the language translation under the <code>language_names</code> key</li>
-</ol>
 
 
   <div class='related-content'>
