@@ -134,7 +134,18 @@
     <a href="#header"><span>Remove a machine</span></a>
     <ul>
       <li>
-        <a href="#removing-a-class-of-machine"><span>Removing a class of machine</span></a>
+        <a href="#carrenza"><span>Carrenza</span></a>
+      </li>
+      <li>
+        <a href="#1-remove-the-node-from-the-puppetmaster"><span>1. Remove the node from the puppetmaster</span></a>
+        <ul>
+          <li>
+            <a href="#2-remove-from-vcloud-director"><span>2. Remove from vCloud Director</span></a>
+          </li>
+          <li>
+            <a href="#3-remove-from-govuk-provisioning"><span>3. Remove from govuk-provisioning</span></a>
+          </li>
+        </ul>
       </li>
       <li>
         <a href="#aws"><span>AWS</span></a>
@@ -148,18 +159,7 @@
         </ul>
       </li>
       <li>
-        <a href="#carrenza"><span>Carrenza</span></a>
-      </li>
-      <li>
-        <a href="#1-remove-the-node-from-the-puppetmaster"><span>1. Remove the node from the puppetmaster</span></a>
-        <ul>
-          <li>
-            <a href="#2-remove-from-vcloud-director"><span>2. Remove from vCloud Director</span></a>
-          </li>
-          <li>
-            <a href="#3-remove-from-govuk-provisioning"><span>3. Remove from govuk-provisioning</span></a>
-          </li>
-        </ul>
+        <a href="#removing-a-class-of-machine"><span>Removing a class of machine</span></a>
       </li>
     </ul>
   </li>
@@ -174,51 +174,12 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
   <p><a href='/manual.html#infrastructure'>Infrastructure</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/c5831a932e0da5ddd21913b3aceb513503d25555">6 Nov 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/b97db06f8dc0e4e346fbc6f7137e941ea19a41cc">13 May 2020</a>
 </div>
 
  <h1 id='header'>Remove a machine</h1> <p>Before you start, make sure that the machines you are removing are no longer
 needed for anything.</p>
 
-<h2 id="removing-a-class-of-machine">Removing a class of machine</h2>
-
-<p>If you are removing a class of machines, you will need to <a href="https://github.com/alphagov/govuk-puppet/commit/8a971370a4b35de09a2e1a83ce3421f41f5d0520">remove the definitions</a> from Puppet.</p>
-
-<h2 id="aws">AWS</h2>
-
-<h3 id="1-remove-from-terraform">1. Remove from Terraform</h3>
-
-<p>If you're removing a class of machines, first <a href="/manual/deploying-terraform.html#ci-jenkins">deploy Terraform</a>
-for the relevant project using the <code>destroy</code> action. This will remove all the
-EC2 instances.</p>
-
-<p>Then, remove the project itself from <a href="https://github.com/alphagov/govuk-aws/tree/master/terraform/projects">govuk-aws</a>.</p>
-
-<p>If you're removing a single machine, change the <code>asg_size</code> for the
-relevant project in <a href="https://github.com/alphagov/govuk-aws-data/tree/master/data">govuk-aws-data</a>
-(<a href="https://github.com/alphagov/govuk-aws-data/blob/master/data/app-whitehall-backend/production/common.tfvars#L4">example</a>) and deploy Terraform.  Unlike
-Carrenza, it is not possible to disable alerts for the machine before
-it is removed, as the ASG will terminate arbitrary instances to shrink
-to the desired size.</p>
-
-<p>If there are particular machines in the ASG that you do not want terminated
-you can enable "Scale in Protection" on them before you reduce the size of the ASG. You
-can find <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-termination.html">more information on this in the AWS Docs</a>.</p>
-
-<h3 id="2-remove-the-node-from-the-puppetmaster">2. Remove the node from the puppetmaster</h3>
-
-<p>Icinga will forget about the machine after Puppet runs on the
-puppetmaster and then on the monitoring machine, which could be up to
-an hour.  You can force this by running Puppet on the puppetmaster:</p>
-
-<div class="highlight"><pre class="highlight console"><code><span class="gp">$</span><span class="w"> </span>gds govuk connect <span class="nt">-e</span> &lt;environment&gt; ssh puppetmaster
-<span class="gp">$</span><span class="w"> </span>govuk_puppet <span class="nt">--verbose</span>
-</code></pre></div>
-<p>And then on the monitoring machine:</p>
-
-<div class="highlight"><pre class="highlight console"><code><span class="gp">$</span><span class="w"> </span>gds govuk connect <span class="nt">-e</span> &lt;environment&gt; ssh monitoring
-<span class="gp">$</span><span class="w"> </span>govuk_puppet <span class="nt">--verbose</span>
-</code></pre></div>
 <h2 id="carrenza">Carrenza</h2>
 
 <h2 id="1-remove-the-node-from-the-puppetmaster">1. Remove the node from the puppetmaster</h2>
@@ -267,6 +228,46 @@ delete it.</p>
 
 <p>If your machine class matches a vDC, be careful not to remove firewall
 rules that apply to the vDC.</p>
+
+<h2 id="aws">AWS</h2>
+
+<h3 id="1-remove-from-terraform">1. Remove from Terraform</h3>
+
+<p>If you're removing a class of machines, first <a href="/manual/deploying-terraform.html#ci-jenkins">deploy Terraform</a>
+for the relevant project using the <code>destroy</code> action. This will remove all the
+EC2 instances.</p>
+
+<p>Then, remove the project itself from <a href="https://github.com/alphagov/govuk-aws/tree/master/terraform/projects">govuk-aws</a>.</p>
+
+<p>If you're removing a single machine, change the <code>asg_size</code> for the
+relevant project in <a href="https://github.com/alphagov/govuk-aws-data/tree/master/data">govuk-aws-data</a>
+(<a href="https://github.com/alphagov/govuk-aws-data/blob/master/data/app-whitehall-backend/production/common.tfvars#L4">example</a>) and deploy Terraform.  Unlike
+Carrenza, it is not possible to disable alerts for the machine before
+it is removed, as the ASG will terminate arbitrary instances to shrink
+to the desired size.</p>
+
+<p>If there are particular machines in the ASG that you do not want terminated
+you can enable "Scale in Protection" on them before you reduce the size of the ASG. You
+can find <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-termination.html">more information on this in the AWS Docs</a>.</p>
+
+<h3 id="2-remove-the-node-from-the-puppetmaster">2. Remove the node from the puppetmaster</h3>
+
+<p>Icinga will forget about the machine after Puppet runs on the
+puppetmaster and then on the monitoring machine, which could be up to
+an hour.  You can force this by running Puppet on the puppetmaster:</p>
+
+<div class="highlight"><pre class="highlight console"><code><span class="gp">$</span><span class="w"> </span>gds govuk connect <span class="nt">-e</span> &lt;environment&gt; ssh puppetmaster
+<span class="gp">$</span><span class="w"> </span>govuk_puppet <span class="nt">--verbose</span>
+</code></pre></div>
+<p>And then on the monitoring machine:</p>
+
+<div class="highlight"><pre class="highlight console"><code><span class="gp">$</span><span class="w"> </span>gds govuk connect <span class="nt">-e</span> &lt;environment&gt; ssh monitoring
+<span class="gp">$</span><span class="w"> </span>govuk_puppet <span class="nt">--verbose</span>
+</code></pre></div>
+<h2 id="removing-a-class-of-machine">Removing a class of machine</h2>
+
+<p>If you are removing a class of machines, you will need to <a href="https://github.com/alphagov/govuk-puppet/commit/8a971370a4b35de09a2e1a83ce3421f41f5d0520">remove the definitions</a> from Puppet.</p>
+
 
 
   <div class='related-content'>

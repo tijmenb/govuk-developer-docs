@@ -158,7 +158,7 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
   <p><a href='/manual.html#infrastructure'>Infrastructure</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/b3e1628891af7a48334c73a6f3e39bc746ea3f08">6 Nov 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/b8506f570dd6b0595ad316e25df722ce8d1dd661">18 May 2020</a>
 </div>
 
  <h1 id='header'>GOV.UK's environments (integration, staging, production)</h1> <p>GOV.UK has several environments with different purposes.</p>
@@ -185,18 +185,24 @@ functionality as part of the publishing platform.</p>
 in a production-like environment. This means that staging must be similar to production
 so that we're able to test things like the performance impact of changes.</p>
 
-<p>Staging is hosted on <a href="/manual/govuk-in-aws.html">AWS</a>.</p>
+<p>Staging is primarily hosted by Carrenza in their London datacentre.
+It is currently being migrated to <a href="/manual/govuk-in-aws.html">AWS</a>. Check individual application developer
+docs to see if it is hosted with AWS or Carrenza.</p>
 
 <p>Access to Staging is restricted to office IPs, so you'll need to <a href="manual/get-started.html#4-connecting-to-the-gds-vpn">be
 on the VPN</a>.
-AWS configuration can be found in
+Carrenza configuration can be found in
+<a href="https://github.com/alphagov/govuk-provisioning/blob/master/vcloud-edge_gateway/rules/includes/firewall.mustache#L34">govuk-provisioning</a>,
+and AWS configuration in
 <a href="https://github.com/alphagov/govuk-aws/blob/master/terraform/projects/infra-security-groups/cache.tf">govuk-aws-data</a>.</p>
 
 <h2 id="production">Production</h2>
 
 <p>The thing that runs the website for real people.</p>
 
-<p>Production is hosted on <a href="/manual/govuk-in-aws.html">AWS</a>.</p>
+<p>Production is primarily hosted by Carrenza in their Slough datacentre.
+It is currently being migrated to <a href="/manual/govuk-in-aws.html">AWS</a>. Check individual application developer
+docs to see if it is hosted with AWS or Carrenza.</p>
 
 
   <div class='related-content'>
