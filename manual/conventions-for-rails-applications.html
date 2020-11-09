@@ -143,6 +143,9 @@
             <a href="#use-govuk-supporting-gems"><span>Use GOV.UK supporting Gems</span></a>
           </li>
           <li>
+            <a href="#lint-your-code"><span>Lint your code</span></a>
+          </li>
+          <li>
             <a href="#gemfile-organisation"><span>Gemfile organisation</span></a>
           </li>
           <li>
@@ -219,7 +222,7 @@
             
   <p><a href='/manual.html#applications'>Applications</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/1e020b7cc84b5555bf6dde7c293a54526bb6ecf4">22 Oct 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/9628a2c44e7bb9dc3ac8b188ca10d40605dbf8de">22 Oct 2020</a>
 </div>
 
  <h1 id='header'>Conventions for Rails applications</h1> <p>The majority of GOV.UK applications are built using <a href="https://rubyonrails.org/">Ruby on Rails</a> and over
@@ -275,8 +278,6 @@ testing</li>
 for the current environment</li>
   <li><a href="https://github.com/alphagov/rubocop-govuk">rubocop-govuk</a> - Provides GOV.UK linting rules for Ruby, Rails, RSpec and
 Rake</li>
-  <li><a href="https://github.com/alphagov/scss-lint-govuk">scss-lint-govuk</a> - Provides linting for SCSS files according to GDS
-conventions</li>
   <li><a href="https://github.com/alphagov/slimmer">slimmer</a> - Provides consistent templating for apps that serve content on
 the www.gov.uk host</li>
 </ul>
@@ -285,6 +286,11 @@ the www.gov.uk host</li>
 iterations to be pushed out. It is encouraged that gems are iterated or issues
 filed (<a href="https://github.com/alphagov/govuk_app_config/issues/121">example</a>) when apps need to vary from conventions
 introduced by these gems.</p>
+
+<h3 id="lint-your-code">Lint your code</h3>
+
+<p>We have documentation on the <a href="/manual/configure-linting.html">tools and conventions</a> for
+linting GOV.UK Rails applications.</p>
 
 <h3 id="gemfile-organisation">Gemfile organisation</h3>
 
@@ -546,6 +552,7 @@ approach</a> to replace <a href="https://relishapp.com/rspec/rspec-rails/docs/co
           <ul class="govuk-list">
             <li><a href="/manual/architecture-deep-dive.html">Architectural deep-dive of GOV.UK</a></li>
             <li><a href="/manual/architecture.html">Architecture overview of GOV.UK applications</a></li>
+            <li><a href="/manual/configure-linting.html">Configure linting</a></li>
             <li><a href="/manual/non-ha-node-classes.html">Node classes without redundancy</a></li>
           </ul>
         </div>

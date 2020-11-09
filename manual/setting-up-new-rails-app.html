@@ -140,6 +140,12 @@
         <a href="#bootstrapping-a-new-application"><span>Bootstrapping a new application</span></a>
       </li>
       <li>
+        <a href="#add-a-software-licence"><span>Add a software licence</span></a>
+      </li>
+      <li>
+        <a href="#replace-the-default-readmemd"><span>Replace the default README.md</span></a>
+      </li>
+      <li>
         <a href="#puppet-dns-sentry-and-beyond"><span>Puppet, DNS, Sentry and beyond</span></a>
       </li>
       <li>
@@ -159,7 +165,7 @@
             
   <p><a href='/manual.html#applications'>Applications</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/fb32ba7b44a385dc08f60e0f7d889b7e0a034e21">15 Sep 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/134ad64aeb93c1dba23ba0132e08ef5d5a6a932c">22 Oct 2020</a>
 </div>
 
  <h1 id='header'>Set up a new Rails application</h1> 
@@ -173,112 +179,177 @@ applications</a> and
 
 <p>To create a rails app, run the following (skip uncommon stuff).</p>
 
-<div class="highlight"><pre class="highlight plaintext"><code>rails new myapp --skip-javascript --skip-test --skip-bundle --skip-spring --skip-action-cable --skip-action-mailer --skip-active-storage
+<div class="highlight"><pre class="highlight shell"><code>rails new myapp <span class="nt">--skip-javascript</span> <span class="nt">--skip-test</span> <span class="nt">--skip-bundle</span> <span class="nt">--skip-spring</span> <span class="nt">--skip-action-cable</span> <span class="nt">--skip-action-mailer</span> <span class="nt">--skip-active-storage</span>
 </code></pre></div>
 <p>Replace the Gemfile with the gems you need. Here is an example.</p>
 
-<div class="highlight"><pre class="highlight plaintext"><code>ruby File.read(".ruby-version").strip
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">source</span> <span class="s2">"https://rubygems.org"</span>
 
-source "https://rubygems.org"
+<span class="n">gem</span> <span class="s2">"rails"</span><span class="p">,</span> <span class="s2">"6.0.3.4"</span>
 
-gem "rails", "~&gt; 5.2"
+<span class="n">gem</span> <span class="s2">"bootsnap"</span><span class="p">,</span>
+<span class="n">gem</span> <span class="s2">"gds-api-adapters"</span>
+<span class="n">gem</span> <span class="s2">"gds-sso"</span>
+<span class="n">gem</span> <span class="s2">"govuk_app_config"</span>
+<span class="n">gem</span> <span class="s2">"govuk_publishing_components"</span>
+<span class="n">gem</span> <span class="s2">"pg"</span>
+<span class="n">gem</span> <span class="s2">"plek"</span>
+<span class="n">gem</span> <span class="s2">"uglifier"</span>
 
-gem "bootsnap", "~&gt; 1"
-gem "gds-api-adapters", "~&gt; 52"
-gem "gds-sso", "~&gt; 13"
-gem "govuk_app_config", "~&gt; 1"
-gem "govuk_publishing_components", "~&gt; 9.5"
-gem "pg", "~&gt; 1"
-gem "plek", "~&gt; 2"
-gem "uglifier", "~&gt; 4"
+<span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s2">"listen"</span>
+<span class="k">end</span>
 
-group :development do
-  gem "listen", "~&gt; 3"
-end
+<span class="n">group</span> <span class="ss">:test</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s2">"simplecov"</span>
+<span class="k">end</span>
 
-group :test do
-  gem "simplecov", "~&gt; 0.16"
-end
-
-group :development, :test do
-  gem "byebug", "~&gt; 10"
-  gem "rspec-rails", "~&gt; 3"
-  gem "rubocop-govuk"
-  gem "scss-lint-govuk"
-end
+<span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s2">"byebug"</span>
+  <span class="n">gem</span> <span class="s2">"govuk_test"</span>
+  <span class="n">gem</span> <span class="s2">"rspec-rails"</span>
+  <span class="n">gem</span> <span class="s2">"rubocop-govuk"</span>
+<span class="k">end</span>
 </code></pre></div>
 <p>Run <code>bundle &amp;&amp; rails g rspec:install</code> and replace <code>spec/*helper.rb</code>.</p>
 
-<div class="highlight"><pre class="highlight plaintext"><code>## spec/rails_helper.rb
-rm spec/rails_helper.rb
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">rm </span>spec/rails_helper.rb
+</code></pre></div>
+<div class="highlight"><pre class="highlight ruby"><code><span class="c1">## spec/spec_helper.rb</span>
+<span class="no">ENV</span><span class="p">[</span><span class="s2">"RAILS_ENV"</span><span class="p">]</span> <span class="o">||=</span> <span class="s2">"test"</span>
 
-## spec/spec_helper.rb
-require "byebug"
-require "simplecov"
+<span class="nb">require</span> <span class="s2">"simplecov"</span>
+<span class="no">SimpleCov</span><span class="p">.</span><span class="nf">start</span> <span class="s2">"rails"</span>
 
-ENV["RAILS_ENV"] ||= "test"
-require File.expand_path("../../config/environment", __FILE__)
-require "rspec/rails"
+<span class="nb">require</span> <span class="no">File</span><span class="p">.</span><span class="nf">expand_path</span><span class="p">(</span><span class="s2">"../../config/environment"</span><span class="p">,</span> <span class="kp">__FILE__</span><span class="p">)</span>
+<span class="nb">require</span> <span class="s2">"rspec/rails"</span>
 
-Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
-SimpleCov.start
+<span class="no">Dir</span><span class="p">[</span><span class="no">Rails</span><span class="p">.</span><span class="nf">root</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"spec/support/**/*.rb"</span><span class="p">)].</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="nb">require</span> <span class="n">f</span> <span class="p">}</span>
+<span class="no">GovukTest</span><span class="p">.</span><span class="nf">configure</span>
 
-RSpec.configure do |config|
-  config.expose_dsl_globally = false
-  config.infer_spec_type_from_file_location!
-  config.use_transactional_fixtures = true
-end
+<span class="no">RSpec</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">expose_dsl_globally</span> <span class="o">=</span> <span class="kp">false</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">infer_spec_type_from_file_location!</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">use_transactional_fixtures</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="k">end</span>
 </code></pre></div>
 <p>In config, replace the content of <code>database.yml</code> with the following.</p>
 
-<div class="highlight"><pre class="highlight plaintext"><code>default: &amp;default
-  adapter: postgresql
-  encoding: unicode
-  pool: 12
-  template: template0
+<div class="highlight"><pre class="highlight yaml"><code><span class="na">default</span><span class="pi">:</span> <span class="nl">&amp;default</span>
+  <span class="na">adapter</span><span class="pi">:</span> <span class="s">postgresql</span>
+  <span class="na">encoding</span><span class="pi">:</span> <span class="s">unicode</span>
+  <span class="na">pool</span><span class="pi">:</span> <span class="m">12</span>
+  <span class="na">template</span><span class="pi">:</span> <span class="s">template0</span>
 
-development:
-  &lt;&lt;: *default
-  database: myapp_development
-  url: &lt;%= ENV["DATABASE_URL"]%&gt;
+<span class="na">development</span><span class="pi">:</span>
+  <span class="s">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*default</span>
+  <span class="na">database</span><span class="pi">:</span> <span class="s">myapp_development</span>
+  <span class="na">url</span><span class="pi">:</span> <span class="s">&lt;%= ENV["DATABASE_URL"]%&gt;</span>
 
-test:
-  &lt;&lt;: *default
-  database: myapp_test
-  url: &lt;%= ENV["TEST_DATABASE_URL"] %&gt;
+<span class="na">test</span><span class="pi">:</span>
+  <span class="s">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*default</span>
+  <span class="na">database</span><span class="pi">:</span> <span class="s">myapp_test</span>
+  <span class="na">url</span><span class="pi">:</span> <span class="s">&lt;%= ENV["TEST_DATABASE_URL"] %&gt;</span>
 
-production:
-  &lt;&lt;: *default
-  database: myapp_production
-  url: &lt;%= ENV["DATABASE_URL"]%&gt;
+<span class="na">production</span><span class="pi">:</span>
+  <span class="s">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*default</span>
+  <span class="na">database</span><span class="pi">:</span> <span class="s">myapp_production</span>
+  <span class="na">url</span><span class="pi">:</span> <span class="s">&lt;%= ENV["DATABASE_URL"]%&gt;</span>
 </code></pre></div>
 <p>In config, replace <code>credentials.yml.env</code> and <code>master.key</code> with <code>secrets.yml</code>.</p>
 
-<div class="highlight"><pre class="highlight plaintext"><code>development:
-  secret_key_base: secret
+<div class="highlight"><pre class="highlight yaml"><code><span class="na">development</span><span class="pi">:</span>
+  <span class="na">secret_key_base</span><span class="pi">:</span> <span class="s">secret</span>
 
-test:
-  secret_key_base: secret
+<span class="na">test</span><span class="pi">:</span>
+  <span class="na">secret_key_base</span><span class="pi">:</span> <span class="s">secret</span>
 
-production:
-  secret_key_base: &lt;%= ENV['SECRET_KEY_BASE'] %&gt;
+<span class="na">production</span><span class="pi">:</span>
+  <span class="na">secret_key_base</span><span class="pi">:</span> <span class="s">&lt;%= ENV['SECRET_KEY_BASE'] %&gt;</span>
 </code></pre></div>
 <p>In config, replace the content of <code>routes.rb</code> with the following healthcheck.</p>
 
-<div class="highlight"><pre class="highlight plaintext"><code>Rails.application.routes.draw do
-  get "/healthcheck", to: proc { [200, {}, ["OK"]] }
-end
+<div class="highlight"><pre class="highlight ruby"><code><span class="no">Rails</span><span class="p">.</span><span class="nf">application</span><span class="p">.</span><span class="nf">routes</span><span class="p">.</span><span class="nf">draw</span> <span class="k">do</span>
+  <span class="n">get</span> <span class="s2">"/healthcheck"</span><span class="p">,</span> <span class="ss">to: </span><span class="no">GovukHealthcheck</span><span class="p">.</span><span class="nf">rack_response</span>
+<span class="k">end</span>
 </code></pre></div>
-<p>Now is a good time to run <code>bin/setup</code>. Lastly, create <code>lib/tasks/lint.rake</code> with this.</p>
+<p>Now is a good time to run <code>bin/setup</code>. Lastly, to ensure your application has
+beautiful consistent code, you should finish up by
+<a href="/manual/configure-linting.html">configuring linting</a> for it.</p>
 
-<div class="highlight"><pre class="highlight plaintext"><code>desc "Lint files"
-task "lint" do
-  sh "rubocop --format clang"
-  sh "scss-lint app/assets/stylesheets"
-end
+<h2 id="add-a-software-licence">Add a software licence</h2>
+
+<p>Add a LICENCE file to the project root to specify the software licence. Unless
+your project has specific needs, you should use the <a href="https://en.wikipedia.org/wiki/MIT_License">MIT License</a>.</p>
+
+<details>
+
+  <summary>MIT License for GDS projects</summary>
+
+<div class="highlight"><pre class="highlight plaintext"><code>The MIT License (MIT)
+
+Copyright (c) &lt;year&gt; Crown Copyright (Government Digital Service)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 </code></pre></div>
-<p>Then add <code>task default: %i(spec lint)</code> in Rakefile and finally run <code>rake</code>.</p>
+</details>
 
+<h2 id="replace-the-default-readmemd">Replace the default README.md</h2>
+
+<p>We have a common structure that is used for GOV.UK apps. Fill in some basic
+details to get started with your app and flesh it out further as your project
+develops.</p>
+
+<div class="highlight"><pre class="highlight markdown"><code><span class="gh"># App Name</span>
+
+One paragraph description and purpose.
+
+<span class="gu">## Screenshots (if there's a client-facing aspect of it)</span>
+
+<span class="gu">## Live examples (if available)</span>
+<span class="p">
+-</span> <span class="p">[</span><span class="nv">gov.uk/thing</span><span class="p">](</span><span class="sx">https://www.gov.uk/thing</span><span class="p">)</span>
+
+<span class="gu">## Nomenclature</span>
+<span class="p">
+-</span> <span class="gs">**Word**</span>: definition of word, and how it's used in the code
+
+<span class="gu">## Technical documentation</span>
+
+Write a single paragraph including a general technical overview of the app.
+
+<span class="gu">### Dependencies</span>
+<span class="p">
+-</span> <span class="p">[</span><span class="nv">dependency</span><span class="p">](</span><span class="sx">)</span> - purpose
+
+<span class="gu">### Running the application</span>
+
+How to run the app
+
+<span class="gu">### Running the test suite</span>
+
+How to test the app
+
+<span class="gu">## Licence</span>
+
+<span class="p">[</span><span class="nv">MIT License</span><span class="p">](</span><span class="sx">LICENCE</span><span class="p">)</span>
+</code></pre></div>
 <h2 id="puppet-dns-sentry-and-beyond">Puppet, DNS, Sentry and beyond</h2>
 
 <ul>
@@ -327,6 +398,7 @@ end
           <ul class="govuk-list">
             <li><a href="/manual/architecture-deep-dive.html">Architectural deep-dive of GOV.UK</a></li>
             <li><a href="/manual/architecture.html">Architecture overview of GOV.UK applications</a></li>
+            <li><a href="/manual/configure-linting.html">Configure linting</a></li>
             <li><a href="/manual/conventions-for-rails-applications.html">Conventions for Rails applications</a></li>
             <li><a href="/manual/non-ha-node-classes.html">Node classes without redundancy</a></li>
           </ul>
