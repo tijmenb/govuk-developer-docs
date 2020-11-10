@@ -199,7 +199,7 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
               <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/email-alert-api/commit/639552cc5430291c44f7ea268ddad1462320983f">4 Nov 2020</a>
+  Last updated: <a href="https://github.com/alphagov/email-alert-api/commit/426b4051d969db84a5f6cde78589e2aeb31b671e">10 Nov 2020</a>
 </div>
 
   <h1 class="page-title">email-alert-api: Available endpoints</h1>
@@ -363,8 +363,7 @@ new email address.</p>
 <p>It will create a new subscription between the email address and the subscriber<br>
 list. It will respond with a <code>201 Created</code> if it's a new subscription or a <code>200 OK</code> if the subscription already exists. If a subscription already exists but<br>
 the frequency is different, the current subscription is ended and a new one<br>
-with the updated frequency is created. A confirmation email will be sent if a<br>
-new subscription is created or if the subscription already exists.</p>
+with the updated frequency is created.</p>
 <blockquote>
 <p>Note: using any email address that ends with <code>@notifications.service.gov.uk</code><br>
 will not create a subscriber or a subscription, however will return a <code>201 Created</code> response.</p>
