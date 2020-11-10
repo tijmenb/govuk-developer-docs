@@ -199,7 +199,7 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
               <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/email-alert-api/commit/59baa718d99c7677bbfbcb09b9631bae40204df9">23 Jul 2020</a>
+  Last updated: <a href="https://github.com/alphagov/email-alert-api/commit/639552cc5430291c44f7ea268ddad1462320983f">4 Nov 2020</a>
 </div>
 
   <h1 class="page-title">email-alert-api: Available endpoints</h1>
@@ -306,8 +306,7 @@ slowness in the external notifications API).</p>
     "address": "test@example.com",
     "created_at": "Wed, 07 Mar 2018 17:04:28 UTC +00:00",
     "updated_at": "Wed, 07 Mar 2018 17:04:28 UTC +00:00",
-    "signon_user_uid": null,
-    "deactivated_at": null
+    "signon_user_uid": null
   },
   "subscriptions": [
     {
@@ -361,14 +360,11 @@ new email address.</p>
   "frequency": "weekly"
 }
 </code></pre>
-<p>It will create a new subscription between the email address and the<br>
-subscriber list. It will respond with a <code>201 Created</code> if it's a new<br>
-subscription or a <code>200 OK</code> if the subscription already exists. If a<br>
-subscription already exists but the frequency is different, the<br>
-current subscription is ended and a new one with the updated frequency<br>
-is created. A confirmation email will be sent if a new subscription is<br>
-created or if the subscriber is reactivated and the subscription already<br>
-exists.</p>
+<p>It will create a new subscription between the email address and the subscriber<br>
+list. It will respond with a <code>201 Created</code> if it's a new subscription or a <code>200 OK</code> if the subscription already exists. If a subscription already exists but<br>
+the frequency is different, the current subscription is ended and a new one<br>
+with the updated frequency is created. A confirmation email will be sent if a<br>
+new subscription is created or if the subscription already exists.</p>
 <blockquote>
 <p>Note: using any email address that ends with <code>@notifications.service.gov.uk</code><br>
 will not create a subscriber or a subscription, however will return a <code>201 Created</code> response.</p>
