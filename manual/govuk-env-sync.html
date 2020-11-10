@@ -134,13 +134,15 @@
     <a href="#header"><span>Environment data sync</span></a>
     <ul>
       <li>
-        <a href="#overview"><span>Overview</span></a>
+        <a href="#what-it-does"><span>What it does</span></a>
+        <ul>
+          <li>
+            <a href="#data-sanitisation"><span>Data sanitisation</span></a>
+          </li>
+        </ul>
       </li>
       <li>
-        <a href="#code-base-and-deployment"><span>Code base and deployment</span></a>
-      </li>
-      <li>
-        <a href="#configuration"><span>Configuration</span></a>
+        <a href="#how-it-works"><span>How it works</span></a>
         <ul>
           <li>
             <a href="#example-configuration"><span>Example configuration</span></a>
@@ -151,10 +153,10 @@
         </ul>
       </li>
       <li>
-        <a href="#pausing"><span>Pausing</span></a>
+        <a href="#pausing-a-data-sync"><span>Pausing a data sync</span></a>
         <ul>
           <li>
-            <a href="#resuming"><span>Resuming</span></a>
+            <a href="#resuming-a-data-sync"><span>Resuming a data sync</span></a>
           </li>
         </ul>
       </li>
@@ -186,44 +188,48 @@
             
   <p><a href='/manual.html#monitoring'>Monitoring</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/72d54153ebdf8c2e6afe0baa7d762a91ffc8dcec">4 Nov 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/346398f06a71d53cd91633fd0c059f408ae4c64b">10 Nov 2020</a>
 </div>
 
- <h1 id='header'>Environment data sync</h1> <p>The govuk_env_sync data sync has been created to replace the <a href="https://github.com/alphagov/env-sync-and-backup">env-sync-and-backup</a> data sync in context of the GOV.UK AWS migration work. It is currently in use for backup and sync tasks in the GOV.UK AWS environments.</p>
+ <h1 id='header'>Environment data sync</h1> <p>The <a href="https://github.com/alphagov/govuk-puppet/tree/master/modules/govuk_env_sync">govuk_env_sync</a> data sync is used for backup and sync tasks in the <a href="/manual/environments.html">GOV.UK AWS environments</a>. It replaces the now archived <a href="https://github.com/alphagov/env-sync-and-backup">env-sync-and-backup</a> data sync.</p>
 
-<h2 id="overview">Overview</h2>
+<h2 id="what-it-does">What it does</h2>
 
-<p>The govuk_env_sync data sync works by <code>push</code>ing a source database to S3 (except for Elasticsearch databases, which get copied to another Elasticsearch) and subsequently <code>pull</code>ing it down from there to a destination.</p>
+<p>In this context:</p>
 
 <ul>
   <li><strong>Push</strong> means <em>database dump and upload</em>.</li>
   <li><strong>Pull</strong> means <em>download and database restore</em>.</li>
 </ul>
 
-<p>The environment synchronisation is achieved by granting cross-account access of the <code>govuk-&lt;environment&gt;-database-backups</code> S3 buckets. Figure 1 below illustrates the intended data flow between environments.</p>
+<p>The govuk_env_sync data sync works by <code>push</code>ing a source database to S3 and subsequently <code>pull</code>ing it down from there to a destination. There is a different process for the Elasticsearch databases, which <a href="https://github.com/alphagov/govuk-puppet/blob/cb9351f92456ccf132e776b3b9f7129c0e654697/modules/govuk_env_sync/files/govuk_env_sync.sh#L496-L504">don't push/pull</a> but instead get <a href="https://github.com/alphagov/govuk-puppet/blob/cb9351f92456ccf132e776b3b9f7129c0e654697/modules/govuk_env_sync/files/govuk_env_sync.sh#L321-L337">copied to another Elasticsearch</a>.</p>
 
-<p>Data sanitisation (removal of sensitive data) for the Integration environment is done by SQL scripts which run as part of the restore transaction at the destination. While not ideal, this is the same approach as <a href="https://github.com/alphagov/env-sync-and-backup">env-sync-and-backup</a> and allows reuse of the same sanitisation scripts.</p>
+<p>The environment synchronisation is achieved by granting cross-account access of the <code>govuk-&lt;environment&gt;-database-backups</code> S3 buckets. Figure 1 below illustrates the intended data flow between environments.</p>
 
 <p><img src="/manual/images/govuk_env_sync.png" alt="Schematic of the data flow of the govuk_env_sync data synchronisation" />
 Figure 1:  Schematic of the data flow of the govuk_env_sync data synchronisation.</p>
 
-<p>In practice, some Integration databases pull from Production (with sanitisation) rather than from Staging. This is done to reduce the number of cron job timing dependencies and to save resources where large databases do not need to be backed up from Staging.</p>
+<p>In practice, some Integration databases pull from Production (with data sanitisation - see below) rather than from Staging. This is done to reduce the number of cron job timing dependencies and to save resources where large databases do not need to be backed up from Staging.</p>
 
-<p>Unlike <a href="https://github.com/alphagov/env-sync-and-backup">env-sync-and-backup</a>, govuk_env_sync currently has separate cron jobs for backup and restore, and for each database in each environments.</p>
+<h3 id="data-sanitisation">Data sanitisation</h3>
 
-<h2 id="code-base-and-deployment">Code base and deployment</h2>
-
-<p>The code is in the <a href="https://github.com/alphagov/govuk-puppet/tree/master/modules/govuk_env_sync">govuk_env_sync module</a> in the govuk-puppet repository.</p>
-
-<p>Rollout happens as part of the the <code>Deploy_puppet</code> Jenkins job in each environment.</p>
-
-<p>The <a href="https://github.com/alphagov/govuk-puppet/blob/master/modules/govuk_env_sync/files/govuk_env_sync.sh">govuk_env_sync.sh</a> script is provided as a Puppet file resource in the <code>files</code> directory. It is created as <code>/usr/local/bin/govuk_env_sync.sh</code>.</p>
+<p>Data sanitisation (removal of sensitive data) for the Integration environment is done by SQL scripts which run as part of the restore transaction at the destination. While not ideal, this is the same approach as <a href="https://github.com/alphagov/env-sync-and-backup">env-sync-and-backup</a> used to use and allows reuse of the same sanitisation scripts.</p>
 
 <p>Data sanitisation scripts are in the <a href="https://github.com/alphagov/govuk-puppet/tree/master/modules/govuk_env_sync/files/transformation_sql"><code>files/transformation_sql</code></a> directory. These are created under <code>/etc/govuk_env_sync/transformation_sql/</code> on the target machine.</p>
 
-<h2 id="configuration">Configuration</h2>
+<h2 id="how-it-works">How it works</h2>
 
-<p>The configuration of <code>govuk_env_sync</code> is done via hieradata entries for <code>govuk_env_sync::tasks</code>. Most (but not all) of these are in <code>db_admin.yaml</code> under <code>hieradata_aws/class/{integration,staging,production}</code>. All can be found via <code>git grep govuk_env_sync::tasks</code> within the govuk-puppet repo.</p>
+<p>The code is in the govuk_env_sync module in the govuk-puppet repository. Most of the logic is in the <a href="https://github.com/alphagov/govuk-puppet/blob/master/modules/govuk_env_sync/files/govuk_env_sync.sh">govuk_env_sync.sh</a> file, provided as a Puppet file resource in the <code>files</code> directory. It is created as <code>/usr/local/bin/govuk_env_sync.sh</code>. Rollout of changes to this code happens as part of the the <code>Deploy_puppet</code> Jenkins job in each environment.</p>
+
+<p>A <a href="https://github.com/alphagov/govuk-puppet/blob/ba370cf5970eb9023c0de5153f6acbb31aceca6b/modules/govuk_env_sync/manifests/task.pp"><code>govuk_env_sync::task</code> resource type</a> creates a configuration file and a cron job, parameterising the govuk_env_sync.sh file with the values passed to <code>govuk_env_sync::task</code>. A <a href="https://github.com/alphagov/govuk-puppet/blob/8195aa1483bc3030204e840b0b4f8a3cecab4d93/modules/govuk_env_sync/manifests/init.pp#L27"><code>create_resources(govuk_env_sync::task)</code> invocation</a> calls the <code>govuk_env_sync::task</code> for each <code>govuk_env_sync::tasks:</code> property in the hieradata. Most (but not all) of these are in <code>db_admin.yaml</code> under <code>hieradata_aws/class/{integration,staging,production}</code> (here's an <a href="https://github.com/alphagov/govuk-puppet/blob/25aba8fcf206a0685c3628e1f30b423110fbe84f/hieradata_aws/class/staging/db_admin.yaml">example of one</a>). All can be found via <code>git grep govuk_env_sync::tasks</code> within the govuk-puppet repo.</p>
+
+<p>There are separate backup and restore tasks for each database in each environment, all with different start times, so it is difficult to pinpoint exactly when the govuk_env_sync starts and ends. However, the data sync period is generally expected to run from around <a href="https://github.com/alphagov/govuk-puppet/blob/cb9351f92456ccf132e776b3b9f7129c0e654697/modules/govuk/lib/puppet/parser/functions/data_sync_times.rb#L6-L9">10pm until 8am</a>. For this reason:</p>
+
+<blockquote>
+  <p><strong>Traffic replay using <a href="/manual/alerts/goreplay.html">GoReplay</a> is disabled between 22:00 and
+08:00 UTC daily whilst the data sync pull jobs take place. This is to prevent
+lots of errors while we are dropping databases.</strong></p>
+</blockquote>
 
 <h3 id="example-configuration">Example configuration</h3>
 
@@ -359,7 +365,7 @@ Figure 1:  Schematic of the data flow of the govuk_env_sync data synchronisation
 
 <p>Here the timestamp argument is optional and allow to specify which timestamp (iso-datetime string of the form <code>YYYY-MM-DDTHH:MM</code>) should be restored during a <code>pull</code> operation (default is using the latest available dump).</p>
 
-<h2 id="pausing">Pausing</h2>
+<h2 id="pausing-a-data-sync">Pausing a data sync</h2>
 
 <p>If you need to temporarily pause one of the data syncs, it can be done manually:</p>
 
@@ -386,7 +392,7 @@ to be paused.</p>
   </li>
 </ol>
 
-<h3 id="resuming">Resuming</h3>
+<h3 id="resuming-a-data-sync">Resuming a data sync</h3>
 
 <p>To resume the jobs again you can re-enable Puppet and run it manually:</p>
 
@@ -439,12 +445,6 @@ path="postgresql-backend"
 
 <div class="highlight"><pre class="highlight shell"><code><span class="nb">sudo</span> <span class="nt">-u</span> govuk-backup /usr/local/bin/govuk_env_sync.sh <span class="nt">-f</span> /etc/govuk_env_sync/pull_content_data_admin_production_daily.cfg
 </code></pre></div>
-<blockquote>
-  <p><strong>Traffic replay using <a href="/manual/alerts/gor.html">Gor</a> is disabled between 22:00 and
-08:00 UTC daily whilst the data sync pull jobs take place. This is to prevent
-lots of errors while we are dropping databases.</strong></p>
-</blockquote>
-
 
 
   <div class='related-content'>
