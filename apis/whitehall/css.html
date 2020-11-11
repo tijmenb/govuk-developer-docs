@@ -198,21 +198,14 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
               <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
-    <div class="govuk-warning-text">
-      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-      <strong class="govuk-warning-text__text">
-        <span class="govuk-warning-text__assistive">Warning</span>
-        This document has not been updated for a while now. It may be out of date.
-      </strong>
-    </div>
 
-  Last updated: <a href="https://github.com/alphagov/whitehall/commit/75568acc535c14ba724ac7560d50bf9ebe7cdfd0">21 Sep 2017</a>
+  Last updated: <a href="https://github.com/alphagov/whitehall/commit/a6774723160e6d9133d24f4c2fe5fa6168b92d6a">23 Oct 2020</a>
 </div>
 
   <h1 class="page-title">whitehall: Whitehall CSS Styleguide</h1>
 
   
-<p>To be read in conjunction with the <a href="https://github.com/alphagov/styleguides/blob/master/css.md">GOV.UK CSS Styleguide</a></p>
+<p>To be read in conjunction with the <a href="https://gds-way.cloudapps.digital/manuals/programming-languages/css.html">GDS Way CSS styleguide</a></p>
 <h2 id="file-structure-and-scope">File structure and scope</h2>
 <p>Tech-debt creep in CSS is usually an symptom of a lack of confidence in changing or removing existing CSS. By structuring CSS in the following way, we can help reduce this risk by clearly communicating the scope of any given CSS.</p>
 <p>The stylesheets are split between frontend and admin. The frontend ones are in a much better state and should be the way the admin ones move in the future.</p>
@@ -235,8 +228,8 @@ The IE variants (<code>base-ie[6-8].scss</code> which you should never need to e
 <p>When introducing a new helper, take care to consider exactly what it is for, how it's going to be used and if it's needed at all. Helpers can be extremely difficult to manage from a legacy point of view as they can introduce coupling between markup elements creating a kind of CSS soup where it's impossible to change anything without something else changing without there being regressions.</p>
 <h3 id="-views"><code>./views</code></h3>
 <p>Views are where styling for individual layouts or partials live. In general, the css for a template should live in a scss file named after that template, but scss for partials used in multiple templates should be extracted to a separate file named after that partial. SCSS rules within these view files should never affect anything other than the coupled view file.</p>
-<p>Files should be placed and named to exactly match the partial they are styling:</p>
-<p>styling for <code>/app/views/editions/index.html.erb</code> should live at <code>app/assets/stylesheets/frontend/editions/index.scss</code><br>
+<p>Files should be placed and named to match the partial they are styling:</p>
+<p>styling for <code>/app/views/corporate_information_pages/index.html.erb</code> should live at <code>app/assets/stylesheets/frontend/corporate-information-pages/_index.scss</code><br>
 styling for <code>/app/views/shared/_featured.html.erb</code> should live at <code>app/assets/stylesheets/frontend/editions/_featured.scss</code></p>
 <p>By storing CSS in this way, we are being clear about it's scope. When a segment of the view is removed, the relevant CSS is easy to clean up.</p>
 <h3 id="-resets"><code>./resets</code></h3>
