@@ -138,12 +138,17 @@
       </li>
       <li>
         <a href="#vpn-between-aws-and-ukcloud-for-licensify-civica-payment-status-requests"><span>VPN between AWS and UKCloud for Licensify Civica payment status requests</span></a>
+        <ul>
+          <li>
+            <a href="#troubleshooting-steps"><span>Troubleshooting Steps</span></a>
+          </li>
+        </ul>
       </li>
       <li>
         <a href="#vpn-between-live-organisation-in-carrenza-and-aws-during-aws-migration"><span>VPN between live organisation in Carrenza and AWS during AWS migration</span></a>
         <ul>
           <li>
-            <a href="#troubleshooting-steps"><span>Troubleshooting Steps</span></a>
+            <a href="#troubleshooting-steps-1"><span>Troubleshooting Steps</span></a>
           </li>
         </ul>
       </li>
@@ -161,7 +166,7 @@
             
   <p><a href='/manual.html#infrastructure'>Infrastructure</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/a236cbde84e1677e6bbdf172f80bfd044100f32b">3 Aug 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/0b46ec5078f1c52f86e7beaceb0ac79603eb918c">16 Nov 2020</a>
 </div>
 
  <h1 id='header'>GOV.UK and Virtual Private Networks (VPNs)</h1> <p>GOV.UK uses several VPNs to connect environments. This page explains what they
@@ -199,6 +204,23 @@ of Licensify's payment gateways.</p>
   <li>Licencing authorities who do not use Civica are not affected.</li>
 </ul>
 
+<h3 id="troubleshooting-steps">Troubleshooting Steps</h3>
+
+<p>Troubleshooting steps (aim is to switch off and on the VPN):</p>
+
+<ol>
+  <li>Go to Production Skyscape portal, the credentials are in GOV.UK 2ndline Pass under: <code>ukcloud/portal</code>.</li>
+  <li>Once you logged in, you have to log into the <code>Production</code> organization by selecting: <code>VMWARE CLOUD</code> and then <code>GOV.UK Production</code>. You will be asked for the password again.</li>
+  <li>In the <code>Production</code> organization, go to the <code>GOV.UK Management</code> virtual datacenter.</li>
+  <li>Click <code>edges</code> in the left column to bring the list of edges.</li>
+  <li>Click on the <code>GOV.UK Management</code> edges in the right main frame and <code>Configure Services</code> above it.</li>
+  <li>In the pop-up window, click on <code>VPN</code> in the menu bar and then <code>IPsec VPN Sites</code></li>
+  <li>In the list of VPN sites, select <code>UKC Licensify to AWS</code> VPN and click on the edit icon above.</li>
+  <li>In the new pop-up window, turn the VPN off by toggling the <code>enable</code> switch and clicking <code>KEEP</code></li>
+  <li>The pop-up window will disappear and you need to click <code>save changes</code> in put into effect the VPN being now disabled.</li>
+  <li>Wait a few minutes and repeat step 7-9 to re-enable the VPN again.</li>
+</ol>
+
 <h2 id="vpn-between-live-organisation-in-carrenza-and-aws-during-aws-migration">VPN between live organisation in Carrenza and AWS during AWS migration</h2>
 
 <p>During the staged migration of the GOV.UK from Carrenza to AWS, there is a VPN
@@ -218,7 +240,7 @@ alerts will appear in Icinga</p>
   </li>
 </ol>
 
-<h3 id="troubleshooting-steps">Troubleshooting Steps</h3>
+<h3 id="troubleshooting-steps-1">Troubleshooting Steps</h3>
 
 <ol>
   <li>
