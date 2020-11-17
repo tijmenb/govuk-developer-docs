@@ -134,14 +134,10 @@
     <a href="#header"><span>GoReplay</span></a>
     <ul>
       <li>
-        <ul>
-          <li>
-            <a href="#data-sync-process-failed"><span>Data sync process failed</span></a>
-          </li>
-        </ul>
+        <a href="#goreplay-during-the-data-sync"><span>GoReplay during the data sync</span></a>
       </li>
       <li>
-        <a href="#gor-running-critical-errors-in-production"><span>gor running critical errors in production</span></a>
+        <a href="#data-sync-process-failed"><span>Data sync process failed</span></a>
       </li>
     </ul>
   </li>
@@ -165,25 +161,38 @@
 
      <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/bd88cad3d041e58936a16e9a6b4b677ced14cb05">21 Oct 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/72123691f243107fb8787fdfa62739d9f678e519">17 Nov 2020</a>
 </div>
 
  <h1 id='header'>GoReplay</h1> <p><a href="https://github.com/buger/goreplay/">GoReplay</a> (previously <a href="https://github.com/buger/goreplay/commit/74225ebb2236a46fd18a8fa4fa7de441497c13c4">"gor"</a>) is an open source tool we use
 to replay HTTP traffic from production to staging to give us greater confidence that
 our deploys are ok.</p>
 
-<p>Alerts for GoReplay might let you know that it's not running, in which case we have
-to be much more cautious with our deploys.</p>
+<p>When users make <a href="https://github.com/alphagov/govuk-puppet/blob/master/modules/router/manifests/gor.pp#L55"><code>GET</code>, <code>HEAD</code>, or <code>OPTIONS</code></a> requests on production,
+the request automatically gets played out on staging in real time. This '<a href="https://goreplay.org/shadowing.html">shadowing</a>'
+technique acts as a load test, as well as presenting our applications with real user
+queries we may not have tested for. Any errors should manifest themselves in Sentry or
+as 5xx in Grafana. We check for these errors before deploying to production, as per
+<a href="/manual/development-pipeline.html#manually-deploy-to-staging-then-production">our deploy process</a>.</p>
 
-<p>Currently the <a href="/manual/govuk-env-sync.html">govuk_env_sync</a> data sync jobs in AWS
-take place between 23:00 and 5:30 and GoReplay is disabled during this time period
-to prevent lots of errors while we are dropping databases.</p>
+<p>Read the blog post <a href="https://technology.blog.gov.uk/2013/12/13/putting-the-router-through-its-paces/#replay-production-traffic">Putting the Router through its paces</a> for a history of
+GoReplay on GOV.UK.</p>
 
-<p>Puppet will <a href="https://github.com/alphagov/govuk-puppet/blob/06dd008d09/modules/govuk_gor/manifests/init.pp#L50">remove these alerts while the data sync runs</a>
+<h2 id="goreplay-during-the-data-sync">GoReplay during the data sync</h2>
+
+<p>When the <a href="/manual/govuk-env-sync.html">data sync</a> is in progress,
+<a href="https://github.com/alphagov/govuk-puppet/blob/c7775111c98c9424644eb2d84cee8249d35d1d7b/modules/govuk_gor/manifests/init.pp#L48-L51">GoReplay is temporarily disabled</a> to prevent lots of errors
+while we are dropping databases.</p>
+
+<p>Puppet will <a href="https://github.com/alphagov/govuk-puppet/blob/06dd008d09/modules/govuk_gor/manifests/init.pp#L50-L58">remove GoReplay alerts while the data sync runs</a>,
 but you may see the alerts at the beginning of a data sync, before Puppet has
 had time to remove them.</p>
 
-<h3 id="data-sync-process-failed">Data sync process failed</h3>
+<p>If you see errors in production with the status of
+<code>PROCS CRITICAL: 0 processes with command name 'gor'</code>, this is expected until the
+data sync is complete.</p>
+
+<h2 id="data-sync-process-failed">Data sync process failed</h2>
 
 <p>In case the data sync process aborts, GoReplay might not be restarted in a proper
 way.</p>
@@ -196,18 +205,13 @@ way.</p>
 
 <p>If not, restart the GoReplay processes with the following Fabric command:</p>
 
-<div class="highlight"><pre class="highlight plaintext"><code>fab $environment puppet_class:gor sdo:'rm /etc/govuk/env.d/FACTER_data_sync_in_progress' app.start:goreplay
+<div class="highlight"><pre class="highlight shell"><code>fab <span class="nv">$environment</span> puppet_class:gor sdo:<span class="s1">'rm /etc/govuk/env.d/FACTER_data_sync_in_progress'</span> app.start:goreplay
 </code></pre></div>
 <p>This will remove the file and restart GoReplay from all hosts running it.</p>
 
 <p>When Puppet runs again in those hosts, it re-creates the alerts and sees
 them back in icinga.</p>
 
-<h2 id="gor-running-critical-errors-in-production"><code>gor running</code> critical errors in production</h2>
-
-<p>When a data sync job is in progress, you may see errors in production with the status of
-<code>PROCS CRITICAL: 0 processes with command name 'gor'</code>. This is expected. You can check
-the <a href="https://deploy.publishing.service.gov.uk/job/Copy_Data_to_Staging">progress of the job in Jenkins</a>.</p>
 
 
   <div class='related-content'>
