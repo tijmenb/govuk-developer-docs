@@ -155,7 +155,7 @@
             
   <p><a href='/manual.html#2nd-line'>2nd line</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/856b05c480798c10bac14bb80df41477d612a1f6">19 Nov 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/9fe9a02e5e212a127f8ec939d52ef7e74f2e3456">17 Jul 2020</a>
 </div>
 
  <h1 id='header'>PagerDuty</h1> <p>Some alerts are urgent enough to warrant immediate attention, such as parts of the site becoming
@@ -202,23 +202,23 @@ you're logged in to the AWS monitoring instance.</p>
 <p>To trigger the drill manually, follow these steps:</p>
 
 <ol>
-  <li>
-    <p>SSH onto the monitoring box:</p>
-
-<div class="highlight"><pre class="highlight shell"><code> <span class="nv">$ </span>gds govuk connect <span class="nt">-e</span> production ssh aws/monitoring
-</code></pre></div>  </li>
-  <li>
-    <p>Generate the file that the Icinga monitor looks for which triggers the alert:</p>
-
-<div class="highlight"><pre class="highlight shell"><code> <span class="nv">$ </span><span class="nb">sudo touch</span> /var/run/pagerduty_drill
-</code></pre></div>  </li>
-  <li>
-    <p>Delete the file once the test drill is triggered:</p>
-
-<div class="highlight"><pre class="highlight shell"><code> <span class="nb">sudo rm</span> /var/run/pagerduty_drill
-</code></pre></div>  </li>
+  <li>SSH onto the monitoring box:</li>
 </ol>
 
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>gds govuk connect <span class="nt">-e</span> production ssh aws/monitoring
+</code></pre></div>
+<ol>
+  <li>Generate the file that the Icinga monitor looks for which triggers the alert:</li>
+</ol>
+
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">sudo touch</span> /var/run/pagerduty_drill
+</code></pre></div>
+<ol>
+  <li>Delete the file once the test drill is triggered:</li>
+</ol>
+
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">sudo rm </span>pagerduty_drill
+</code></pre></div>
 
   <div class='related-content'>
 
