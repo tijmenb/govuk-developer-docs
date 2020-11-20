@@ -10,23 +10,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-    <title>Assets: how they work - GOV.UK Developer Documentation</title>
+    <title>Manage assets - GOV.UK Developer Documentation</title>
 
     <link href="/stylesheets/manifest.css" rel="stylesheet" />
 
-    <link rel="canonical" href="https://docs.publishing.service.gov.uk/manual/assets.html">
+    <link rel="canonical" href="https://docs.publishing.service.gov.uk/manual/manage-assets.html">
 
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:domain" content="docs.publishing.service.gov.uk" />
       <meta name="twitter:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
-      <meta name="twitter:title" content="Assets: how they work - GOV.UK Developer Documentation" />
-      <meta name="twitter:url" content="https://docs.publishing.service.gov.uk/manual/assets.html" />
+      <meta name="twitter:title" content="Manage assets - GOV.UK Developer Documentation" />
+      <meta name="twitter:url" content="https://docs.publishing.service.gov.uk/manual/manage-assets.html" />
 
       <meta property="og:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
       <meta property="og:site_name" content="GOV.UK Developer Documentation" />
-      <meta property="og:title" content="Assets: how they work" />
+      <meta property="og:title" content="Manage assets" />
       <meta property="og:type" content="object" />
-      <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/assets.html" />
+      <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/manage-assets.html" />
 
     
   </head>
@@ -131,26 +131,13 @@
                   <a href='/manual.html' class="toc__back-link govuk-link">&lsaquo; Manual</a>
   <ul>
   <li>
-    <a href="#header"><span>Assets: how they work</span></a>
+    <a href="#header"><span>Manage assets</span></a>
     <ul>
       <li>
-        <a href="#static-assets"><span>Static assets</span></a>
-        <ul>
-          <li>
-            <a href="#how-users-access-assets"><span>How users access assets</span></a>
-          </li>
-          <li>
-            <a href="#assets-at-origin"><span>Assets at origin</span></a>
-          </li>
-        </ul>
+        <a href="#removing-an-asset"><span>Removing an asset</span></a>
       </li>
       <li>
-        <a href="#uploaded-assets"><span>Uploaded assets</span></a>
-        <ul>
-          <li>
-            <a href="#how-uploaded-assets-are-stored-and-served"><span>How uploaded assets are stored and served</span></a>
-          </li>
-        </ul>
+        <a href="#redirecting-an-asset"><span>Redirecting an asset</span></a>
       </li>
     </ul>
   </li>
@@ -165,86 +152,149 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
             
   <p><a href='/manual.html#assets'>Assets</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
-    <div class="govuk-warning-text">
-      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-      <strong class="govuk-warning-text__text">
-        <span class="govuk-warning-text__assistive">Warning</span>
-        This document has not been updated for a while now. It may be out of date.
-      </strong>
-    </div>
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/c62dba7281977b94b6217dcba94985ea85a067de">30 Jan 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/0bcbf0975e197966c21e5b94414107080f302a97">19 Nov 2020</a>
 </div>
 
- <h1 id='header'>Assets: how they work</h1> <p>There are two types of asset files.</p>
+ <h1 id='header'>Manage assets</h1> <h2 id="removing-an-asset">Removing an asset</h2>
 
-<p><strong>Static assets</strong> are stylesheets (CSS), JavaScript (JS) and image files which
-make GOV.UK look the way it does.</p>
+<p>If you need to remove an asset manually from <code>assets.publishing.service.gov.uk</code>,
+follow these steps:</p>
 
-<p><strong>Uploaded assets</strong> - also called attachments - are files like PDFs, CSVs and
-images which are uploaded via the publishing apps and attached to documents.</p>
+<ol>
+  <li>Mark the asset as deleted. Sometimes it may be necessary to completely scrub an asset from our systems e.g. if it contains secret information. In this case, add <code>,true</code> to the appropriate rake task:
+    <ul>
+      <li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:delete[]"><code>rake assets:delete[&lt;asset.id&gt;]</code></a> (non-Whitehall assets)</li>
+      <li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:whitehall_delete[]"><code>rake assets:whitehall_delete[&lt;legacy URL path&gt;]</code></a> (Whitehall assets)</li>
+    </ul>
+  </li>
+  <li>Add a cache bust and check that the asset responds with a 404 not found</li>
+  <li>Wait 20 minutes for the cache to clear, or <a href="https://docs.publishing.service.gov.uk/manual/purge-cache.html#assets">purge it yourself</a></li>
+  <li>Verify that the asset is not there</li>
+  <li>Request removal of the asset using the <a href="https://www.google.com/webmasters/tools/removals">Google Search Console</a></li>
+  <li>Remove the asset from the mirrors
+    <ul>
+      <li>Remove from AWS: <code>gds aws govuk-production-poweruser aws s3 rm s3://govuk-production-mirror/assets.publishing.service.gov.uk/&lt;slug&gt;</code></li>
+      <li>Log into the <a href="https://console.cloud.google.com/">GCP console</a></li>
+      <li>Go to the GOVUK Production project under the DIGITAL.CABINET-OFFICE.GOV.UK organisation</li>
+      <li>Select Storage -&gt; Browser, manually delete the asset in the govuk-production-mirror bucket</li>
+    </ul>
+  </li>
+</ol>
 
-<h2 id="static-assets">Static assets</h2>
+<h2 id="redirecting-an-asset">Redirecting an asset</h2>
 
-<h3 id="how-users-access-assets">How users access assets</h3>
-
-<p><a href="/manual/cdn.html">The GOV.UK content delivery network</a> is in front of our assets
-hostname (<code>assets.publishing.service.gov.uk</code> and equivalents in other
-environments). The CDN fetches anything not in its cache from <code>assets-origin</code>.</p>
-
-<h3 id="assets-at-origin">Assets at origin</h3>
-
-<p>Assets are served by the cache machines in all environments.</p>
-
-<p>The cache machines proxy requests to the application hostnames based on the
-first segment of the path. For example <code>/government-frontend/</code> is proxied to
-the hostname for <code>government-frontend</code> in that environment.</p>
-
-<p>All other assets that have a path that don't match fall back to the static
-application.</p>
-
-<h2 id="uploaded-assets">Uploaded assets</h2>
-
-<p>Asset Manager is an API that is called internally by Publisher, Specialist
-Publisher, Manuals Publisher, Travel Advice Publisher and Whitehall to manage
-their uploads. It serves the uploaded assets on
-<code>assets.publishing.service.gov.uk</code>.</p>
-
-<h3 id="how-uploaded-assets-are-stored-and-served">How uploaded assets are stored and served</h3>
-
-<p>Asset files are stored in an S3 bucket (e.g. <code>govuk-assets-production</code> in
-production) and Asset Manager instructs nginx to proxy requests to them.</p>
-
-<p>It should be noted that Asset Manager does actually serve the asset requests,
-rather than letting nginx serve directly from the share. This is to enable the
-following features:</p>
+<p>Sometimes it might be necessary to manually redirect an asset, for example if
+an associated document wasn't unpublished correctly. There are some Rake tasks
+available for this:</p>
 
 <ul>
-  <li>Assets are not served until they have been virus scanned; a placeholder image
-or page is shown for assets that are not finished scanning.</li>
-  <li>Assets can be access-limited so that only authorised users can see them.</li>
-  <li>Asset files can be replaced, and a request to the original path redirects to
-the replacement. Currently only Whitehall and Specialist Publisher support
-this.</li>
-</ul>
+  <li><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:redirect[&lt;id&gt;,&lt;redirect_url&gt;]">Run assets:redirect[<id>,<redirect_url>] on Integration&lt;/a&gt;&lt;/li&gt;
+<li><a href="https://deploy.blue.staging.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:redirect[&lt;id&gt;,&lt;redirect_url&gt;]">Run assets:redirect[<id>,<redirect_url>] on Staging&lt;/a&gt;&lt;/li&gt;
+<li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:redirect[&lt;id&gt;,&lt;redirect_url&gt;]">⚠️ Run assets:redirect[<id>,<redirect_url>] on Production ⚠️&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+<ul>
+  <li><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:whitehall_redirect[&lt;legacy_url_path&gt;,&lt;redirect_url&gt;]">Run assets:whitehall_redirect[<legacy_url_path>,<redirect_url>] on Integration&lt;/a&gt;&lt;/li&gt;
+<li><a href="https://deploy.blue.staging.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:whitehall_redirect[&lt;legacy_url_path&gt;,&lt;redirect_url&gt;]">Run assets:whitehall_redirect[<legacy_url_path>,<redirect_url>] on Staging&lt;/a&gt;&lt;/li&gt;
+<li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:whitehall_redirect[&lt;legacy_url_path&gt;,&lt;redirect_url&gt;]">⚠️ Run assets:whitehall_redirect[<legacy_url_path>,<redirect_url>] on Production ⚠️&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+## Uploading an asset
+
+Some publishing apps such as [Mainstream Publisher](/apps/publisher.html) do
+not provide the facility for editors to upload assets such as images and PDFs.
+In these rare cases, we can upload assets to asset-manager manually and give
+the URL to content editors to embed.
+
+Production assets are replicated to staging and integration nightly, so it is
+best to simply perform the upload directly in production. First, upload the
+asset to a backend machine:
+
+```sh
+$ gds govuk connect scp-push -e production aws/backend:1 my_file.jpg /tmp
+```
+
+Then SSH to the same machine and run the upload command:
+
+```sh
+$ gds govuk connect ssh -e production aws/backend:1
+$ cd /var/apps/asset-manager
+$ sudo -u deploy govuk_setenv asset-manager bin/create_asset /tmp/my_file.jpg
+```
+
+Note the `basepath` the script outputs. This should be appended to the asset
+host, for example:
+
+```
+https://assets.publishing.service.gov.uk/media/57358658ed915d58bd000000/my_file.jpg
+```
+
+### Large attachments
+
+Sometimes publishers ask us to help them upload very large attachments to
+documents in Whitehall because they see timeouts when they try to upload the
+document themselves.
+
+The simplest way to do this is to upload a small file and then
+[replace the file in Asset Manager](#replacing-an-asset).
+
+## Replacing an asset
+
+If you need to replace the file of an existing attachment without
+changing the URL, follow these steps:
+
+0. Copy the new file from your computer to a `backend` server:
+
+    ```sh
+    $ gds govuk connect scp-push -e <environment> aws/backend:1 filename.ext /tmp
+    ```
+
+0. Get an app console on that same server:
+
+    ```sh
+    $ gds govuk connect ssh -e <environment> aws/backend:1
+    $ govuk_app_console asset-manager
+    ```
+
+0. Find the asset:
+
+    ```ruby
+    asset = Asset.find("asset-id-from-url") # e.g. `57a9c52b40f0b608a700000a`
+    # or for a Whitehall asset:
+    asset = WhitehallAsset.find_by(legacy_url_path: '/government/uploads/system/uploads/attachment_data/file/id/path.ext')
+    ```
+
+0. Check the asset is what you think it is.
+
+0. Replace the file:
+
+    ```ruby
+    asset.file = Pathname.new("/tmp/filename.ext").open
+    asset.save!
+    ```
+</environment></environment></redirect_url></legacy_url_path></a></li></redirect_url></legacy_url_path></a></li></redirect_url></legacy_url_path></a></li></ul></redirect_url></id></a></li></redirect_url></id></a></li></redirect_url></id></a></li></ul>
 
 
   <div class='related-content'>
-    <h4>Related applications</h4>
-
-    <ul class="govuk-list">
-      <li><a href="/apps/asset-manager.html">asset-manager</a></li>
-    </ul>
 
     <h3>More in the Assets section</h3>
 
     <div class='govuk-grid-row'>
+        <div class='govuk-grid-column-one-half'>
+          <h4>Learn</h4>
+
+          <ul class="govuk-list">
+            <li><a href="/manual/assets.html">Assets: how they work</a></li>
+          </ul>
+        </div>
 
         <div class='govuk-grid-column-one-half'>
           <h4>How to...</h4>
 
           <ul class="govuk-list">
-            <li><a href="/manual/manage-assets.html">Manage assets</a></li>
             <li><a href="/manual/whitehall-file-stuck-uploading.html">Whitehall Attachment Stuck in Uploading State</a></li>
           </ul>
         </div>
@@ -258,8 +308,8 @@ this.</li>
 
           <aside>
               <ul class="contribution-banner">
-                <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/assets.html.md">View source</a></li>
-                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'Assets:%20how%20they%20work'&amp;body=Problem%20with%20'Assets:%20how%20they%20work'%20(https://docs.publishing.service.gov.uk/manual/assets.html)">Report problem</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/manage-assets.html.md.erb">View source</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'Manage%20assets'&amp;body=Problem%20with%20'Manage%20assets'%20(https://docs.publishing.service.gov.uk/manual/manage-assets.html)">Report problem</a></li>
                 <li><a href="https://github.com/alphagov/govuk-developer-docs">GitHub Repo</a></li>
               </ul>
           </aside>
