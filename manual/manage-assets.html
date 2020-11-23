@@ -139,6 +139,17 @@
       <li>
         <a href="#redirecting-an-asset"><span>Redirecting an asset</span></a>
       </li>
+      <li>
+        <a href="#uploading-an-asset"><span>Uploading an asset</span></a>
+        <ul>
+          <li>
+            <a href="#large-attachments"><span>Large attachments</span></a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#replacing-an-asset"><span>Replacing an asset</span></a>
+      </li>
     </ul>
   </li>
 </ul>
@@ -153,7 +164,7 @@
             
   <p><a href='/manual.html#assets'>Assets</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/f2ed623d338e126cdcc6bfc5b085c1d54012c123">23 Nov 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/074b7f48001ce732947fbcdf56cc150747f8575a">23 Nov 2020</a>
 </div>
 
  <h1 id='header'>Manage assets</h1> <h2 id="removing-an-asset">Removing an asset</h2>
@@ -162,17 +173,36 @@
 follow these steps:</p>
 
 <ol>
-  <li>Mark the asset as deleted. Sometimes it may be necessary to completely scrub an asset from our systems e.g. if it contains secret information. In this case, add <code>,true</code> to the appropriate rake task:
-    <ul>
-      <li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:delete[]"><code>rake assets:delete[&lt;asset.id&gt;]</code></a> (non-Whitehall assets)</li>
-      <li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:whitehall_delete[]"><code>rake assets:whitehall_delete[&lt;legacy URL path&gt;]</code></a> (Whitehall assets)</li>
-    </ul>
+  <li>Mark the asset as deleted. Sometimes it may be necessary to completely scrub an asset from our systems e.g. if it contains secret information. In this case, add <code>,true</code> to the appropriate rake task:</li>
+</ol>
+
+<ul>
+  <li><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:delete[ASSET_ID]">Run assets:delete[ASSET_ID] on Integration</a></li>
+<li><a href="https://deploy.blue.staging.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:delete[ASSET_ID]">Run assets:delete[ASSET_ID] on Staging</a></li>
+<li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:delete[ASSET_ID]">⚠️ Run assets:delete[ASSET_ID] on Production ⚠️</a></li>
+</ul>
+
+<ul>
+  <li><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:whitehall_delete[LEGACY_URL_PATH]">Run assets:whitehall_delete[LEGACY_URL_PATH] on Integration</a></li>
+<li><a href="https://deploy.blue.staging.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:whitehall_delete[LEGACY_URL_PATH]">Run assets:whitehall_delete[LEGACY_URL_PATH] on Staging</a></li>
+<li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:whitehall_delete[LEGACY_URL_PATH]">⚠️ Run assets:whitehall_delete[LEGACY_URL_PATH] on Production ⚠️</a></li>
+</ul>
+
+<ol>
+  <li>
+    <p>Add a cache bust and check that the asset responds with a 404 not found</p>
   </li>
-  <li>Add a cache bust and check that the asset responds with a 404 not found</li>
-  <li>Wait 20 minutes for the cache to clear, or <a href="https://docs.publishing.service.gov.uk/manual/purge-cache.html#assets">purge it yourself</a></li>
-  <li>Verify that the asset is not there</li>
-  <li>Request removal of the asset using the <a href="https://www.google.com/webmasters/tools/removals">Google Search Console</a></li>
-  <li>Remove the asset from the mirrors
+  <li>
+    <p>Wait 20 minutes for the cache to clear, or <a href="https://docs.publishing.service.gov.uk/manual/purge-cache.html#assets">purge it yourself</a></p>
+  </li>
+  <li>
+    <p>Verify that the asset is not there</p>
+  </li>
+  <li>
+    <p>Request removal of the asset using the <a href="https://www.google.com/webmasters/tools/removals">Google Search Console</a></p>
+  </li>
+  <li>
+    <p>Remove the asset from the mirrors:</p>
     <ul>
       <li>Remove from AWS: <code>gds aws govuk-production-poweruser aws s3 rm s3://govuk-production-mirror/assets.publishing.service.gov.uk/&lt;slug&gt;</code></li>
       <li>Log into the <a href="https://console.cloud.google.com/">GCP console</a></li>
@@ -189,105 +219,93 @@ an associated document wasn't unpublished correctly. There are some Rake tasks
 available for this:</p>
 
 <ul>
-  <li><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:redirect[&lt;id&gt;,&lt;redirect_url&gt;]">Run assets:redirect[<id>,<redirect_url>] on Integration&lt;/a&gt;&lt;/li&gt;
-<li><a href="https://deploy.blue.staging.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:redirect[&lt;id&gt;,&lt;redirect_url&gt;]">Run assets:redirect[<id>,<redirect_url>] on Staging&lt;/a&gt;&lt;/li&gt;
-<li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:redirect[&lt;id&gt;,&lt;redirect_url&gt;]">⚠️ Run assets:redirect[<id>,<redirect_url>] on Production ⚠️&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
+  <li><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:redirect[ASSET_ID,REDIRECT_URL]">Run assets:redirect[ASSET_ID,REDIRECT_URL] on Integration</a></li>
+<li><a href="https://deploy.blue.staging.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:redirect[ASSET_ID,REDIRECT_URL]">Run assets:redirect[ASSET_ID,REDIRECT_URL] on Staging</a></li>
+<li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:redirect[ASSET_ID,REDIRECT_URL]">⚠️ Run assets:redirect[ASSET_ID,REDIRECT_URL] on Production ⚠️</a></li>
+</ul>
 
 <ul>
-  <li><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:whitehall_redirect[&lt;legacy_url_path&gt;,&lt;redirect_url&gt;]">Run assets:whitehall_redirect[<legacy_url_path>,<redirect_url>] on Integration&lt;/a&gt;&lt;/li&gt;
-<li><a href="https://deploy.blue.staging.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:whitehall_redirect[&lt;legacy_url_path&gt;,&lt;redirect_url&gt;]">Run assets:whitehall_redirect[<legacy_url_path>,<redirect_url>] on Staging&lt;/a&gt;&lt;/li&gt;
-<li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:whitehall_redirect[&lt;legacy_url_path&gt;,&lt;redirect_url&gt;]">⚠️ Run assets:whitehall_redirect[<legacy_url_path>,<redirect_url>] on Production ⚠️&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+  <li><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:whitehall_redirect[LEGACY_URL_PATH,REDIRECT_URL]">Run assets:whitehall_redirect[LEGACY_URL_PATH,REDIRECT_URL] on Integration</a></li>
+<li><a href="https://deploy.blue.staging.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:whitehall_redirect[LEGACY_URL_PATH,REDIRECT_URL]">Run assets:whitehall_redirect[LEGACY_URL_PATH,REDIRECT_URL] on Staging</a></li>
+<li><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=asset-manager&amp;MACHINE_CLASS=backend&amp;RAKE_TASK=assets:whitehall_redirect[LEGACY_URL_PATH,REDIRECT_URL]">⚠️ Run assets:whitehall_redirect[LEGACY_URL_PATH,REDIRECT_URL] on Production ⚠️</a></li>
+</ul>
 
+<h2 id="uploading-an-asset">Uploading an asset</h2>
 
-## Uploading an asset
-
-Some publishing apps such as [Mainstream Publisher](/apps/publisher.html) do
+<p>Some publishing apps such as <a href="/apps/publisher.html">Mainstream Publisher</a> do
 not provide the facility for editors to upload assets such as images and PDFs.
 In these rare cases, we can upload assets to asset-manager manually and give
-the URL to content editors to embed.
+the URL to content editors to embed.</p>
 
-Production assets are replicated to staging and integration nightly, so it is
+<p>Production assets are replicated to staging and integration nightly, so it is
 best to simply perform the upload directly in production. First, upload the
-asset to a backend machine:
+asset to a backend machine:</p>
 
-```sh
-$ gds govuk connect scp-push -e production aws/backend:1 my_file.jpg /tmp
-```
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>gds govuk connect scp-push <span class="nt">-e</span> production aws/backend:1 my_file.jpg /tmp
+</code></pre></div>
+<p>Then SSH to the same machine and run the upload command:</p>
 
-Then SSH to the same machine and run the upload command:
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>gds govuk connect ssh <span class="nt">-e</span> production aws/backend:1
+<span class="nv">$ </span><span class="nb">cd</span> /var/apps/asset-manager
+<span class="nv">$ </span><span class="nb">sudo</span> <span class="nt">-u</span> deploy govuk_setenv asset-manager bin/create_asset /tmp/my_file.jpg
+</code></pre></div>
+<p>Note the <code>basepath</code> the script outputs. This should be appended to the asset
+host, for example:</p>
 
-```sh
-$ gds govuk connect ssh -e production aws/backend:1
-$ cd /var/apps/asset-manager
-$ sudo -u deploy govuk_setenv asset-manager bin/create_asset /tmp/my_file.jpg
-```
+<div class="highlight"><pre class="highlight plaintext"><code>https://assets.publishing.service.gov.uk/media/57358658ed915d58bd000000/my_file.jpg
+</code></pre></div>
+<h3 id="large-attachments">Large attachments</h3>
 
-Note the `basepath` the script outputs. This should be appended to the asset
-host, for example:
-
-```
-https://assets.publishing.service.gov.uk/media/57358658ed915d58bd000000/my_file.jpg
-```
-
-### Large attachments
-
-Sometimes publishers ask us to help them upload very large attachments to
+<p>Sometimes publishers ask us to help them upload very large attachments to
 documents in Whitehall because they see timeouts when they try to upload the
-document themselves.
+document themselves.</p>
 
-The simplest way to do this is to upload a small file and then
-[replace the file in Asset Manager](#replacing-an-asset).
+<p>The simplest way to do this is to upload a small file and then
+<a href="#replacing-an-asset">replace the file in Asset Manager</a>.</p>
 
-## Replacing an asset
+<h2 id="replacing-an-asset">Replacing an asset</h2>
 
-If you need to replace the file of an existing attachment without
-changing the URL, follow these steps:
+<p>If you need to replace the file of an existing attachment without
+changing the URL, follow these steps:</p>
 
-0. Copy the new file from your computer to a `backend` server:
+<ol>
+  <li>
+    <p>Copy the new file from your computer to a <code>backend</code> server:</p>
 
-    ```sh
-    $ gds govuk connect scp-push -e <environment> aws/backend:1 filename.ext /tmp
-    ```
+<div class="highlight"><pre class="highlight shell"><code> <span class="nv">$ </span>gds govuk connect scp-push <span class="nt">-e</span> &lt;environment&gt; aws/backend:1 filename.ext /tmp
+</code></pre></div>  </li>
+  <li>
+    <p>Get an app console on that same server:</p>
 
-0. Get an app console on that same server:
+<div class="highlight"><pre class="highlight shell"><code> <span class="nv">$ </span>gds govuk connect ssh <span class="nt">-e</span> &lt;environment&gt; aws/backend:1
+ <span class="nv">$ </span>govuk_app_console asset-manager
+</code></pre></div>  </li>
+  <li>
+    <p>Find the asset:</p>
 
-    ```sh
-    $ gds govuk connect ssh -e <environment> aws/backend:1
-    $ govuk_app_console asset-manager
-    ```
+<div class="highlight"><pre class="highlight ruby"><code> <span class="n">asset</span> <span class="o">=</span> <span class="no">Asset</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="s2">"asset-id-from-url"</span><span class="p">)</span> <span class="c1"># e.g. `57a9c52b40f0b608a700000a`</span>
+ <span class="c1"># or for a Whitehall asset:</span>
+ <span class="n">asset</span> <span class="o">=</span> <span class="no">WhitehallAsset</span><span class="p">.</span><span class="nf">find_by</span><span class="p">(</span><span class="ss">legacy_url_path: </span><span class="s1">'/government/uploads/system/uploads/attachment_data/file/id/path.ext'</span><span class="p">)</span>
+</code></pre></div>  </li>
+  <li>
+    <p>Check the asset is what you think it is.</p>
+  </li>
+  <li>
+    <p>Replace the file (change 123 to the new attachment size in bytes):</p>
 
-0. Find the asset:
+<div class="highlight"><pre class="highlight ruby"><code> <span class="n">asset</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">size: </span><span class="mi">123</span><span class="p">)</span>
+ <span class="n">asset</span><span class="p">.</span><span class="nf">file</span> <span class="o">=</span> <span class="no">Pathname</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"/tmp/filename.ext"</span><span class="p">).</span><span class="nf">open</span>
+ <span class="n">asset</span><span class="p">.</span><span class="nf">save!</span>
+</code></pre></div>  </li>
+  <li>
+    <p>For a Whitehall attachment, update the file size in Whitehall, where 123 is the new attachment size in bytes:</p>
 
-    ```ruby
-    asset = Asset.find("asset-id-from-url") # e.g. `57a9c52b40f0b608a700000a`
-    # or for a Whitehall asset:
-    asset = WhitehallAsset.find_by(legacy_url_path: '/government/uploads/system/uploads/attachment_data/file/id/path.ext')
-    ```
-
-0. Check the asset is what you think it is.
-
-0. Replace the file (change 123 to the new attachment size in bytes):
-
-    ```ruby
-    asset.update(size: 123)
-    asset.file = Pathname.new("/tmp/filename.ext").open
-    asset.save!
-    ```
-
-0. For a Whitehall attachment, update the file size in Whitehall, where 123 is the new attachment size in bytes:
-
-   ```sh
-   $ gds govuk connect app-console -e <environment> whitehall_backend/whitehall
-   ```
-
-   ```ruby
-   attachment = Attachment.find(asset-id-from-url) # e.g. 123456
-   attachment.attachment_data.update(file_size: 123)
-   ```
-</environment></environment></environment></redirect_url></legacy_url_path></a></li></redirect_url></legacy_url_path></a></li></redirect_url></legacy_url_path></a></li></ul></redirect_url></id></a></li></redirect_url></id></a></li></redirect_url></id></a></li></ul>
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>gds govuk connect app-console <span class="nt">-e</span> &lt;environment&gt; whitehall_backend/whitehall
+</code></pre></div>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">attachment</span> <span class="o">=</span> <span class="no">Attachment</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">asset</span><span class="o">-</span><span class="nb">id</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">url</span><span class="p">)</span> <span class="c1"># e.g. 123456</span>
+<span class="n">attachment</span><span class="p">.</span><span class="nf">attachment_data</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">file_size: </span><span class="mi">123</span><span class="p">)</span>
+</code></pre></div>  </li>
+</ol>
 
 
   <div class='related-content'>
