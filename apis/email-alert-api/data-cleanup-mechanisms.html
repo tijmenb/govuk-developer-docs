@@ -6,23 +6,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-    <title>search-api: Documents API (to be deprecated) - GOV.UK Developer Documentation</title>
+    <title>email-alert-api: Data cleanup mechanisms - GOV.UK Developer Documentation</title>
 
     <link href="/stylesheets/manifest.css" rel="stylesheet" />
 
-    <link rel="canonical" href="https://docs.publishing.service.gov.uk/apis/search-api/documents.html">
+    <link rel="canonical" href="https://docs.publishing.service.gov.uk/apis/email-alert-api/data-cleanup-mechanisms.html">
 
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:domain" content="docs.publishing.service.gov.uk" />
       <meta name="twitter:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
-      <meta name="twitter:title" content="search-api: Documents API (to be deprecated) - GOV.UK Developer Documentation" />
-      <meta name="twitter:url" content="https://docs.publishing.service.gov.uk/apis/search-api/documents.html" />
+      <meta name="twitter:title" content="email-alert-api: Data cleanup mechanisms - GOV.UK Developer Documentation" />
+      <meta name="twitter:url" content="https://docs.publishing.service.gov.uk/apis/email-alert-api/data-cleanup-mechanisms.html" />
 
       <meta property="og:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
       <meta property="og:site_name" content="GOV.UK Developer Documentation" />
-      <meta property="og:title" content="search-api: Documents API (to be deprecated)" />
+      <meta property="og:title" content="email-alert-api: Data cleanup mechanisms" />
       <meta property="og:type" content="object" />
-      <meta property="og:url" content="https://docs.publishing.service.gov.uk/apis/search-api/documents.html" />
+      <meta property="og:url" content="https://docs.publishing.service.gov.uk/apis/email-alert-api/data-cleanup-mechanisms.html" />
 
     
   </head>
@@ -130,7 +130,7 @@
       <ul>
           <li><a href="/apis/email-alert-api/analytics.html"><span>Analytics</span></a></li>
           <li><a href="/apis/email-alert-api/api.html"><span>Available endpoints</span></a></li>
-          <li><a href="/apis/email-alert-api/data-cleanup-mechanisms.html"><span>Data cleanup mechanisms</span></a></li>
+          <li><a href="/apis/email-alert-api/data-cleanup-mechanisms.html" class="toc-link--in-view"><span>Data cleanup mechanisms</span></a></li>
           <li><a href="/apis/email-alert-api/env-vars.html"><span>ENV vars</span></a></li>
           <li><a href="/apis/email-alert-api/matching-content-to-subscriber-lists.html"><span>Matching content to subscriber lists</span></a></li>
           <li><a href="/apis/email-alert-api/support-tasks.html"><span>Support tasks</span></a></li>
@@ -162,7 +162,7 @@
           <li><a href="/apis/search-api/adding-new-fields.html"><span>Adding new fields to a document type</span></a></li>
           <li><a href="/apis/search-api/content-api.html"><span>Content API</span></a></li>
           <li><a href="/apis/search-api/content_overview.html"><span>Content in the search index and where it comes from</span></a></li>
-          <li><a href="/apis/search-api/documents.html" class="toc-link--in-view"><span>Documents API (to be deprecated)</span></a></li>
+          <li><a href="/apis/search-api/documents.html"><span>Documents API (to be deprecated)</span></a></li>
           <li><a href="/apis/search-api/how-search-works.html"><span>How Search Works</span></a></li>
           <li><a href="/apis/search-api/indexing.html"><span>Indexing</span></a></li>
           <li><a href="/apis/search-api/learning-to-rank.html"><span>learning-to-rank</span></a></li>
@@ -200,44 +200,64 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
               <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/search-api/commit/2675a59c7c82a1000f9ac0baf9fa3f97fc68fa26">9 Jun 2020</a>
+  Last updated: <a href="https://github.com/alphagov/email-alert-api/commit/fbd2c1269b9da39fee9e5630115a85922d0cefad">2 Nov 2020</a>
 </div>
 
-  <h1 class="page-title">search-api: Documents API (to be deprecated)</h1>
+  <h1 class="page-title">email-alert-api: Data cleanup mechanisms</h1>
 
   
+<p>There are several mechanisms regarding the cleanup of data in Email Alert Api.<br>
+This doc gives an overview of each.</p>
+<h2 id="nullifying-email-addresses">Nullifying email addresses</h2>
+<p>Updates the <code>address</code> of old unsubscribed <code>Subscriber</code> records to <code>nil</code>. We do<br>
+this to comply with GDPR, specifically so we're not retaining user's data for<br>
+longer than needed.</p>
+<p>We nullify subscribers in two different scenarios.</p>
+<p>Firstly, once they've been unsubscribed from all subscriptions for over 28<br>
+days. We could nullify user's email addresses immediately after unsubscribing<br>
+but this would limit our ability to assist in user support queries. E.g.<br>
+restoring a user's subscriptions after they've unsubscribed by accident which<br>
+would be impossible to do if the system had nullified their address<br>
+immediately after unsubscribing.</p>
+<p>Secondly, subscribers are nullified which are created more than 28 days ago and<br>
+don't have any subscriptions at all (active or ended). It shouldn't be possible<br>
+for subscribers to exist without subscriptions but these are queried and<br>
+removed anyway to prevent storing user's data indefinitely if, for whatever<br>
+reason, a subscriber ends up with no subscriptions. This has happened before,<br>
+unintentionally, see <a href="https://github.com/alphagov/email-alert-api/pull/1462/commits/053859c5962eef104256661f28727b08a43e3d31">here</a> and <a href="https://github.com/alphagov/email-alert-api/pull/1462/commits/a4b3e82801d79abd3989b1dd60ffd499e7ce82ba">here</a>.</p>
+<p>The <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/nullify_subscribers_worker.rb">NullifySubscribersWorker</a> runs <a href="https://github.com/alphagov/email-alert-api/blob/cefdfa76b13915ea96b131490fd3186b6d52cf05/config/sidekiq.yml#L27">every hour</a>.</p>
+<h2 id="archiving-and-deleting-emails">Archiving and deleting emails</h2>
+<p><strong>Note</strong></p>
 <blockquote>
-<p><strong>Note</strong>: Once whitehall and Search Admin are using the <a href="new-indexing-process.md">new indexing process</a>,<br>
-the documents API will be removed and search API will consume only from the publishing API.</p>
+<p>Archiving emails is deprecated and will be removed in the near future, you<br>
+can read more about this in <a href="https://github.com/alphagov/email-alert-api/blob/master/docs/adr/adr-007-retain-data-for-up-to-one-year.md#decision">ADR-7</a>. In the process of removing archiving we<br>
+will update the email deletion policy so emails are deleted 7 days after<br>
+creation. We will also combine the <a href="https://github.com/alphagov/email-alert-api/blob/a62abc85453b723d683c2dc13f3bf0065fb86d5f/app/workers/email_deletion_worker.rb">EmailDeletionWorker</a> into the<br>
+<a href="https://github.com/alphagov/email-alert-api/blob/a62abc85453b723d683c2dc13f3bf0065fb86d5f/app/workers/historical_data_deletion_worker.rb">HistoricalDataDeletionWorker</a> as both workers will soon have similar<br>
+responsibilities.</p>
 </blockquote>
-<h3 id="post-indexdocuments"><code>POST /:index/documents</code></h3>
-<p>Insert or overwrite a document.</p>
-<p>There must be a link attribute in the JSON body.</p>
-<p>Any fields which are not part of the schema for the document type you are posting<br>
-will be silently ignored (see config/schema).</p>
-<h4 id="example-request-and-response">Example request and response</h4>
-<pre lang="json"><code>{
-    "organisations": [
-      "department-for-transport",
-      "driver-and-vehicle-licensing-agency"
-    ],
-    "public_timestamp": "2014-12-09T16:21:03+00:00",
-    "description": "Renew or tax your vehicle for the first time, apply online, by phone or at the Post Office",
-    "format": "transaction",
-    "link": "/vehicle-tax",
-    "mainstream_browse_pages": [
-      "driving/car-tax-discs"
-    ],
-    "title": "Tax your vehicle",
-    "_type": "edition",
-    "_id": "/vehicle-tax",
-    "specialist_sectors": []
-}
-</code></pre>
-<pre lang="json"><code>{
-  "result": "OK"
-}
-</code></pre>
+<p>We archive emails to S3 using the <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/email_archive_worker.rb">EmailArchiveWorker</a>. This is done to support<br>
+long term analytics as we can query the S3 bucket through <a href="https://aws.amazon.com/athena">Athena</a>. Emails are<br>
+eligible for archiving immediately after creation as long as they haven't<br>
+already been archived (based on <code>archived_at</code> value).</p>
+<p>The <a href="https://github.com/alphagov/email-alert-api/blob/a62abc85453b723d683c2dc13f3bf0065fb86d5f/app/workers/email_deletion_worker.rb">EmailDeletionWorker</a> deletes emails after they've been archived for over<br>
+7 days. These recently archived emails get deleted regularly to keep the<br>
+database performant as we produce a large quantity which the system only uses<br>
+for a short period of time. In deleting these emails we also delete their<br>
+associated subscription contents through a <a href="https://github.com/alphagov/email-alert-api/blob/11fb84542e6c7f3995f419e4affaf56aa759ec6c/db/schema.rb#L206">db cascade</a>. As of 05/11/2020 we<br>
+generate around ~3 million emails per day.</p>
+<p>The <a href="https://github.com/alphagov/email-alert-api/blob/ec075c7198b965d3771726946dcd37783b9de9c5/config/sidekiq.yml#L29-L34.">archive and deletion workers</a> run every hour.</p>
+<h2 id="deleting-historic-data">Deleting historic data</h2>
+<p>The <a href="https://github.com/alphagov/email-alert-api/blob/a62abc85453b723d683c2dc13f3bf0065fb86d5f/app/workers/historical_data_deletion_worker.rb">HistoricalDataDeletionWorker</a> deletes data we deem as historic everday at<br>
+<a href="https://github.com/alphagov/email-alert-api/blob/cefdfa76b13915ea96b131490fd3186b6d52cf05/config/sidekiq.yml#L24">midday</a>. Midday was chosen as removing historic data is deemed non urgent work<br>
+and so running once a day, in hours, seems sufficient.</p>
+<p>In general, we remove historic, unused data after a year. One exception to this<br>
+is that we remove subscriber lists which have been created over seven days ago<br>
+and never had any subscriptions.</p>
+<p>We remove this data so we don't pollute our analytics or run into future<br>
+capacity issues.</p>
+<p>You can read in more detail about the decision to implement the historic<br>
+deletion of data in <a href="https://github.com/alphagov/email-alert-api/blob/master/docs/adr/adr-007-retain-data-for-up-to-one-year.md#decision">ADR-7</a>.</p>
 
 
             
@@ -245,8 +265,8 @@ will be silently ignored (see config/schema).</p>
 
           <aside>
               <ul class="contribution-banner">
-                <li><a href="https://github.com/alphagov/search-api/blob/master/docs/documents.md">View source</a></li>
-                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20''&amp;body=Problem%20with%20''%20(https://docs.publishing.service.gov.uk/apis/search-api/documents.html)">Report problem</a></li>
+                <li><a href="https://github.com/alphagov/email-alert-api/blob/master/docs/data-cleanup-mechanisms.md">View source</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20''&amp;body=Problem%20with%20''%20(https://docs.publishing.service.gov.uk/apis/email-alert-api/data-cleanup-mechanisms.html)">Report problem</a></li>
                 <li><a href="https://github.com/alphagov/govuk-developer-docs">GitHub Repo</a></li>
               </ul>
           </aside>
