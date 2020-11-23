@@ -171,7 +171,7 @@
             
   <p><a href='/manual.html#docker'>Docker</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/3e2b0a9fd0bf0b15b2e63e47e84f762460f8e423">3 Aug 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/30acb35afd0e31e82d017f42c7863191e5e8c41d">23 Nov 2020</a>
 </div>
 
  <h1 id='header'>Intro to GOV.UK Docker (Advanced)</h1> <p>In the <a href="/manual/intro-to-docker.html">Intro to Docker tutorial</a> we began with a generic container running the <code>ruby</code> image, and finished with a powerful <code>docker-compose</code> command to run the <a href="https://github.com/alphagov/content-publisher">content-publisher</a> tests against a Postgres DB.</p>
@@ -477,7 +477,7 @@ expose:
 
 <p>The reason <code>content-publisher-demo.intro-to-docker.gov.uk</code> works in your browser is because we added a custom entry in <code>/etc/hosts</code>. This approach doesn't scale to lots of entries, especially if we need to keep them in-sync across a team. We need something more dynamic, but that's not possible with <code>/etc/hosts</code>.</p>
 
-<p>As part of <a href="https://github.com/alphagov/govuk-docker/blob/master/docs/installation.md">setting-up govuk-docker</a> you will have installed <a href="http://www.thekelleys.org.uk/dnsmasq/doc.html">dnsmasq</a>. This gives us a little DNS server running on our Mac, which we can use instead of <code>/etc/hosts</code> to resolve <code>*.intro-to-docker.gov.uk</code> to the localhost.</p>
+<p>As part of <a href="https://github.com/alphagov/govuk-docker/blob/master/README.md">setting-up govuk-docker</a> you will have installed <a href="http://www.thekelleys.org.uk/dnsmasq/doc.html">dnsmasq</a>. This gives us a little DNS server running on our Mac, which we can use instead of <code>/etc/hosts</code> to resolve <code>*.intro-to-docker.gov.uk</code> to the localhost.</p>
 
 <ul>
   <li>
