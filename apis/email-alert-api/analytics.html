@@ -200,7 +200,7 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
               <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/email-alert-api/commit/1a25d44126709bf8a98955d7609ced439095dd9c">9 Sep 2020</a>
+  Last updated: <a href="https://github.com/alphagov/email-alert-api/commit/2c2f4da18635bdc3576fce25e1e2e517bafb9511">20 Nov 2020</a>
 </div>
 
   <h1 class="page-title">email-alert-api: Analytics</h1>
@@ -209,18 +209,14 @@
 <p>Email Alert API does not currently have many automated means to generate<br>
 analytics and data insights. This document serves as a guide to understand<br>
 how to produce this information.</p>
-<h2 id="how-data-is-organised">How data is organised</h2>
-<p>Most of the data in this application is stored in the database for perpetuity,<br>
-thus for most cases querying the database through Rails console or through<br>
-PostgreSQL is appropriate. However as this application creates such a large<br>
-volume of emails these are instead archived with minimal data in<br>
-<a href="https://aws.amazon.com/s3/">Amazon S3</a> and can be queried<br>
-with <a href="https://aws.amazon.com/athena/">Amazon Athena</a>.</p>
-<p>Once an email has been sent or is no longer being sent (such as a<br>
-permanent failure) the record will be archived in a reduced form and sent to<br>
-Amazon S3 in hourly batches. After 14 days the email will be removed from the<br>
-database. Thus for recent information the <code>emails</code> database table can be used<br>
-otherwise the email archive should be queried.</p>
+<h2 id="available-data">Available data</h2>
+<p>We retain most data the system doesn't use for one year. This is outlined in<br>
+the <a href="https://github.com/alphagov/email-alert-api/blob/master/docs/adr/adr-007-retain-data-for-up-to-one-year.md#decision">data retention strategy</a> for Email Alert API. We do have a couple of<br>
+exceptions to this: emails are removed 7 days after they are sent and subscriber<br>
+lists that have never had a subscriber are also removed after 7 days.</p>
+<p>In addition we <a href="https://github.com/alphagov/email-alert-api/blob/master/docs/data-cleanup-mechanisms.md#nullifying-email-addresses">nullify subscriber's email addresses</a> that have been<br>
+unsubscribed from all subscriptions for more than 28 days. This is carried out<br>
+so we don't store user's personal information for longer than needed.</p>
 <h2 id="analytics-through-rake-tasks">Analytics through Rake tasks</h2>
 <p>A large number of analytic insights can be discovered by working with the<br>
 <a href="https://github.com/alphagov/email-alert-api/tree/master/db/schema.rb">database schema</a> and querying the data. The intention is that when<br>
@@ -242,65 +238,6 @@ useful common queries are identified they will be made accessible via rake tasks
 START_DATE=2020-08-07 END_DATE=2020-08-13 rake report:matched_content_changes
 </code></pre>
 <p><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=report:matched_content_changes">⚙ Run rake task on Integration</a></p>
-<h2 id="analytics-through-athena">Analytics through Athena</h2>
-<p><a href="https://aws.amazon.com/athena/">Athena</a> is accessible through the AWS control panel which can be<br>
-accessed by following the <a href="https://docs.publishing.service.gov.uk/manual/seeing-things-in-the-aws-console.html">instructions</a> provided in the<br>
-developer docs. To access the production data you will need to use the<br>
-<code>govuk-infrastructure-production</code> account, once there you can head to<br>
-<a href="https://eu-west-1.console.aws.amazon.com/athena">athena</a> and select the<br>
-<code>email_alert_api_archive</code> database.</p>
-<p>The data stored in Athena is the email id; when the sending process completed;<br>
-whether the email sent; the email subject of the email; the associations to<br>
-content change and digests; and timestamps for when the email was created and<br>
-archived. The data is arranged by partitions of the date when the email<br>
-finished sending - <strong>It is vastly cheaper and faster to query with<br>
-<a href="#always-query-with-partitions">partitions</a></strong>.</p>
-<p>Querying Athena is done through a SQL dialect provided by<br>
-<a href="https://prestodb.io/">presto</a> - query <a href="https://docs.aws.amazon.com/athena/latest/ug/functions-operators-reference-section.html">documentation</a> is<br>
-available.</p>
-<h3 id="always-query-with-partitions">Always query with partitions</h3>
-<p>You should always query with a where condition which defines the partitions<br>
-to be used in your result set e.g. <code>WHERE year=2018 AND month=7 AND date=4</code><br>
-unless you are sure you need a wider data range.</p>
-<p>The data is stored in directories which separate the data by year, month and<br>
-date values. By applying a partition to the query, such as <code>WHERE year=2018 AND month=7 AND date=4</code> you reduce the data needed to be traversed in the query<br>
-to just the files from that single day. Which naturally makes the query<br>
-perform substantially quicker.</p>
-<p>Each query against Athena has a<br>
-<a href="https://aws.amazon.com/athena/pricing/">monetary cost</a> - at time of writing $5<br>
-per TB of data scanned - and by using partitions you massively reduce the data<br>
-that needs to be scanned.</p>
-<h3 id="example-queries">Example queries</h3>
-<h4 id="look-up-emails-sentfailed-on-a-particular-day">Look up emails sent/failed on a particular day</h4>
-<pre lang="sql"><code>SELECT sent, count(*) AS count
-FROM "email_alert_api_archive"."email_archive"
-WHERE year = 2018 AND month = 7 AND date = 4
-GROUP BY sent;
-</code></pre>
-<h4 id="look-up-an-email-by-id">Look up an email by id</h4>
-<pre lang="sql"><code>SELECT *
-FROM "email_alert_api_archive"."email_archive"
-WHERE id = 'fc294e14-3b09-4869-ab07-a5c72ed04a01'
-AND year = 2018 AND month = 7 AND date = 5;
-</code></pre>
-<h4 id="look-up-emails-associated-with-a-content-change">Look up emails associated with a content change</h4>
-<pre lang="sql"><code>SELECT *
-FROM "email_alert_api_archive"."email_archive"
-WHERE CONTAINS(content_change.content_change_ids, 'bfd76384-1a1d-4da8-bc65-a79d9cb270d6')
-AND year = 2018 AND month = 7
-LIMIT 10;
-</code></pre>
-<h4 id="count-emails-a-subscriber-was-sent-per-subscription-for-a-time-period">Count emails a subscriber was sent per subscription for a time period</h4>
-<pre lang="sql"><code>SELECT content_change.subscription_ids, COUNT(*) AS count
-FROM "email_alert_api_archive"."email_archive"
-WHERE subscriber_id = 4840
-AND content_change.digest_run_id IS NULL
-AND sent = true
-AND year = 2018
-GROUP BY content_change.subscription_ids
-ORDER BY count DESC
-LIMIT 10;
-</code></pre>
 
 
             
