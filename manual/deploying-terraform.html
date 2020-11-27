@@ -172,7 +172,7 @@
             
   <p><a href='/manual.html#deployment'>Deployment</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/dae4950be35158fafa84820e848ddada0404052b">25 Aug 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/839b9ad194e389327347312bab9c6c3b7a7f6493">27 Nov 2020</a>
 </div>
 
  <h1 id='header'>Deploy Terraform</h1> <p>We use <a href="https://terraform.io">Terraform</a> for configuring GOV.UK infrastructure in AWS.</p>
@@ -235,7 +235,7 @@ gds govuk terraform <span class="nt">-e</span> &lt;environment&gt; <span class="
   <li><code>&lt;github_token&gt;</code> is the GitHub token that you created as described <a href="#3-get-github-credentials">above</a></li>
   <li><code>&lt;environment&gt;</code> is the govuk environment you want to deploy to. E.g. <code>integration</code>,<code>staging</code></li>
   <li><code>&lt;project&gt;</code> is the terraform project that you want to deploy. E.g. <code>app-gatling</code></li>
-  <li><code>&lt;stack&gt;</code> is the govuk stack you want to deploy to. E.g. <code>blue</code>, <code>govuk</code></li>
+  <li><code>&lt;stack&gt;</code> is the govuk stack you want to deploy to. E.g. <code>blue</code> (which is usually for <code>app-</code> projects), <code>govuk</code> (which is usually for <code>infra-</code> projects)</li>
   <li><code>&lt;action&gt;</code> is the terraform action you want to perform. E.g. <code>plan</code>, <code>apply</code></li>
   <li><code>&lt;aws_role&gt;</code> is the govuk aws role you want to use for terraforming. E.g. <code>govuk-integration-admin</code></li>
 </ol>
