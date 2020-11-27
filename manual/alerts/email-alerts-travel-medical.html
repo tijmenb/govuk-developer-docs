@@ -164,7 +164,7 @@
 
      <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/81ec6f85193939a7b324d4dc8f726c0f93da7fe4">19 Aug 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/d169f6dcb8567331a7e3cf3be4d18da7b6faf4e5">26 Nov 2020</a>
 </div>
 
  <h1 id='header'>Travel Advice or Drug and Medical Device email alerts not sent</h1> <p>We expect that when new GOV.UK content is published, or when existing content
@@ -201,6 +201,15 @@ to the <a href="https://github.com/alphagov/email-alert-monitoring/blob/master/l
 
 <p>If the check is reporting correctly then emails are not being sent. Try the
 <a href="/manual/email-troubleshooting.html">general troubleshooting tips for unsent emails</a>.</p>
+
+<blockquote>
+  <p>Previously we had <a href="https://docs.google.com/document/d/1AwpXPF1c7fbsOL8KX10ko_wLok4YykabmRfkHJjRqfA/edit#">an incident</a> where new types of medical
+safety alert were added, but the list <code>govuk_email_check</code> was subscribed to was
+specific to only the older types. This meant <code>govuk_email_check</code> never got an
+email about content for one of the new  types, because no email was generated.
+It's possible this could happen again, since the underlying functionality means
+the lists are all specific to the types when they were created.</p>
+</blockquote>
 
 <h2 id="resending-travel-advice-emails">Resending travel advice emails</h2>
 
