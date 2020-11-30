@@ -200,7 +200,7 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
               <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/email-alert-api/commit/fbd2c1269b9da39fee9e5630115a85922d0cefad">2 Nov 2020</a>
+  Last updated: <a href="https://github.com/alphagov/email-alert-api/commit/8ffa6741ec6614da3c8d4682c29db7a49f6a15f2">30 Nov 2020</a>
 </div>
 
   <h1 class="page-title">email-alert-api: Data cleanup mechanisms</h1>
@@ -226,27 +226,13 @@ removed anyway to prevent storing user's data indefinitely if, for whatever<br>
 reason, a subscriber ends up with no subscriptions. This has happened before,<br>
 unintentionally, see <a href="https://github.com/alphagov/email-alert-api/pull/1462/commits/053859c5962eef104256661f28727b08a43e3d31">here</a> and <a href="https://github.com/alphagov/email-alert-api/pull/1462/commits/a4b3e82801d79abd3989b1dd60ffd499e7ce82ba">here</a>.</p>
 <p>The <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/nullify_subscribers_worker.rb">NullifySubscribersWorker</a> runs <a href="https://github.com/alphagov/email-alert-api/blob/cefdfa76b13915ea96b131490fd3186b6d52cf05/config/sidekiq.yml#L27">every hour</a>.</p>
-<h2 id="archiving-and-deleting-emails">Archiving and deleting emails</h2>
-<p><strong>Note</strong></p>
-<blockquote>
-<p>Archiving emails is deprecated and will be removed in the near future, you<br>
-can read more about this in <a href="https://github.com/alphagov/email-alert-api/blob/master/docs/adr/adr-007-retain-data-for-up-to-one-year.md#decision">ADR-7</a>. In the process of removing archiving we<br>
-will update the email deletion policy so emails are deleted 7 days after<br>
-creation. We will also combine the <a href="https://github.com/alphagov/email-alert-api/blob/a62abc85453b723d683c2dc13f3bf0065fb86d5f/app/workers/email_deletion_worker.rb">EmailDeletionWorker</a> into the<br>
-<a href="https://github.com/alphagov/email-alert-api/blob/a62abc85453b723d683c2dc13f3bf0065fb86d5f/app/workers/historical_data_deletion_worker.rb">HistoricalDataDeletionWorker</a> as both workers will soon have similar<br>
-responsibilities.</p>
-</blockquote>
-<p>We archive emails to S3 using the <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/email_archive_worker.rb">EmailArchiveWorker</a>. This is done to support<br>
-long term analytics as we can query the S3 bucket through <a href="https://aws.amazon.com/athena">Athena</a>. Emails are<br>
-eligible for archiving immediately after creation as long as they haven't<br>
-already been archived (based on <code>archived_at</code> value).</p>
-<p>The <a href="https://github.com/alphagov/email-alert-api/blob/a62abc85453b723d683c2dc13f3bf0065fb86d5f/app/workers/email_deletion_worker.rb">EmailDeletionWorker</a> deletes emails after they've been archived for over<br>
-7 days. These recently archived emails get deleted regularly to keep the<br>
-database performant as we produce a large quantity which the system only uses<br>
-for a short period of time. In deleting these emails we also delete their<br>
-associated subscription contents through a <a href="https://github.com/alphagov/email-alert-api/blob/11fb84542e6c7f3995f419e4affaf56aa759ec6c/db/schema.rb#L206">db cascade</a>. As of 05/11/2020 we<br>
-generate around ~3 million emails per day.</p>
-<p>The <a href="https://github.com/alphagov/email-alert-api/blob/ec075c7198b965d3771726946dcd37783b9de9c5/config/sidekiq.yml#L29-L34.">archive and deletion workers</a> run every hour.</p>
+<h2 id="deleting-emails">Deleting emails</h2>
+<p>The <a href="https://github.com/alphagov/email-alert-api/blob/a62abc85453b723d683c2dc13f3bf0065fb86d5f/app/workers/email_deletion_worker.rb">EmailDeletionWorker</a> deletes emails after 7 days. These recently archived<br>
+emails get deleted regularly to keep the database performant as we produce a<br>
+large quantity which the system only uses for a short period of time. In deleting<br>
+these emails we also delete their associated subscription contents through a<br>
+<a href="https://github.com/alphagov/email-alert-api/blob/11fb84542e6c7f3995f419e4affaf56aa759ec6c/db/schema.rb#L206">db cascade</a>. As of 05/11/2020 we generate around ~3 million emails per day.</p>
+<p>The <a href="https://github.com/alphagov/email-alert-api/blob/b850dc646202aaa9e2fac88986a6f3d0c738be78/config/sidekiq.yml#L33">deletion worker</a> runs every hour.</p>
 <h2 id="deleting-historic-data">Deleting historic data</h2>
 <p>The <a href="https://github.com/alphagov/email-alert-api/blob/a62abc85453b723d683c2dc13f3bf0065fb86d5f/app/workers/historical_data_deletion_worker.rb">HistoricalDataDeletionWorker</a> deletes data we deem as historic everday at<br>
 <a href="https://github.com/alphagov/email-alert-api/blob/cefdfa76b13915ea96b131490fd3186b6d52cf05/config/sidekiq.yml#L24">midday</a>. Midday was chosen as removing historic data is deemed non urgent work<br>

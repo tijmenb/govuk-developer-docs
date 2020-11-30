@@ -200,42 +200,36 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
               <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/email-alert-api/commit/2c2f4da18635bdc3576fce25e1e2e517bafb9511">20 Nov 2020</a>
+  Last updated: <a href="https://github.com/alphagov/email-alert-api/commit/12d26c356da08d38272a14e828c5c75de2dd20f6">30 Nov 2020</a>
 </div>
 
   <h1 class="page-title">email-alert-api: Analytics</h1>
 
   
-<p>Email Alert API does not currently have many automated means to generate<br>
-analytics and data insights. This document serves as a guide to understand<br>
-how to produce this information.</p>
-<h2 id="available-data">Available data</h2>
-<p>We retain most data the system doesn't use for one year. This is outlined in<br>
-the <a href="https://github.com/alphagov/email-alert-api/blob/master/docs/adr/adr-007-retain-data-for-up-to-one-year.md#decision">data retention strategy</a> for Email Alert API. We do have a couple of<br>
-exceptions to this: emails are removed 7 days after they are sent and subscriber<br>
-lists that have never had a subscriber are also removed after 7 days.</p>
-<p>In addition we <a href="https://github.com/alphagov/email-alert-api/blob/master/docs/data-cleanup-mechanisms.md#nullifying-email-addresses">nullify subscriber's email addresses</a> that have been<br>
-unsubscribed from all subscriptions for more than 28 days. This is carried out<br>
-so we don't store user's personal information for longer than needed.</p>
-<h2 id="analytics-through-rake-tasks">Analytics through Rake tasks</h2>
-<p>A large number of analytic insights can be discovered by working with the<br>
-<a href="https://github.com/alphagov/email-alert-api/tree/master/db/schema.rb">database schema</a> and querying the data. The intention is that when<br>
-useful common queries are identified they will be made accessible via rake tasks.</p>
-<h3 id="count-subscriptions-to-a-subscriber-list">Count subscriptions to a subscriber list</h3>
-<p>This shows subscription counts by Immediate, Daily or Weekly:</p>
-<pre lang="bash"><code>rake report:count_subscribers['subscriber-list-slug']
+<p>Email Alert API does not currently have an automated means to generate analytics and data insights. Instead, we rely on a small number of manual rake tasks, which run on data stored in <a href="https://github.com/alphagov/email-alert-api/tree/master/db/schema.rb">the database</a>.</p>
+<blockquote>
+<p>See "<a href="data-cleanup-mechanisms.md">data cleanup mechanisms</a>" for information about how long we retain data in the system.</p>
+</blockquote>
+<h2 id="subscription-data-for-each-subscriber-list">Subscription data for each subscriber list</h2>
+<p>This generates a CSV report about each subscriber list, for a specific date. In order to help disambiguate between lists with similar titles, each row of the report includes all of the <a href="matching-content-to-subscriber-lists.md">matching criteria</a> for a list.</p>
+<pre lang="bash"><code>report:csv_subscriber_lists["2020-11-05"]
+
+# or for specific lists
+SLUGS=living-in-spain,living-in-italy report:csv_subscriber_lists["2020-11-05"]
+
+# or with tags containing a string
+TAGS_PATTERN=brexit_checklist_criteria report:csv_subscriber_lists["2020-11-05"]
+
+# or with links containing a string
+LINKS_PATTERN=countries report:csv_subscriber_lists["2020-11-05"]
 </code></pre>
-<p><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=report:count_subscribers%5B'subscriber-list-slug'%5D">⚙ Run rake task on Integration</a></p>
-<p>If you need to know the number of subscriptions on a particular day:</p>
-<pre lang="bash"><code>rake report:count_subscribers_on[yyyy-mm-dd,'subscriber-list-slug']
-</code></pre>
-<p><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=report:count_subscribers_on%5Byyyy-mm-dd,'subscriber-list-slug'%5D">⚙ Run rake task on Integration</a></p>
-<h3 id="content-changes-for-each-subscriber-list">Content changes for each subscriber list</h3>
+<p><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=report:csv_subscriber_lists">⚙ Run rake task on Integration</a></p>
+<h2 id="content-changes-for-each-subscriber-list">Content changes for each subscriber list</h2>
 <p>This generates a CSV report of matched content changes over the last week.</p>
-<pre lang="bash"><code>rake report:matched_content_changes
+<pre lang="bash"><code>report:matched_content_changes
 
 # or with a specific range
-START_DATE=2020-08-07 END_DATE=2020-08-13 rake report:matched_content_changes
+START_DATE=2020-08-07 END_DATE=2020-08-13 report:matched_content_changes
 </code></pre>
 <p><a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=report:matched_content_changes">⚙ Run rake task on Integration</a></p>
 
