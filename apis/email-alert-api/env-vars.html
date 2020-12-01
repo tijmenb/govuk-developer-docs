@@ -200,27 +200,26 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
               <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/email-alert-api/commit/e4770b58ed43227d4de36a4a5765b885ceed1667">22 Jul 2020</a>
+  Last updated: <a href="https://github.com/alphagov/email-alert-api/commit/339469922989a1072ecb61e757418efe81de2412">30 Nov 2020</a>
 </div>
 
   <h1 class="page-title">email-alert-api: ENV vars</h1>
 
   
-<h3 id="email_address_override"><code>EMAIL_ADDRESS_OVERRIDE</code></h3>
-<p>By setting this environment variable all emails sent will have their address<br>
-overridden by the specified value. This can be useful in test environments<br>
-when you want to test that the email service sends but not send to any users.</p>
-<p>Based on <a href="https://www.notifications.service.gov.uk/integration-testing">Notify docs</a> we can use<br>
-<code>simulate-delivered@notifications.service.gov.uk</code> as a means to send fake<br>
-emails to Notify. Based on <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mailbox-simulator.html">Amazon SES</a> we can use<br>
-<code>success@simulator.amazonses.com</code> to send emails through to SES (the underlying<br>
-service Notify uses at the time of writing.</p>
-<h3 id="email_address_override_whitelist"><code>EMAIL_ADDRESS_OVERRIDE_WHITELIST</code></h3>
-<p>This environment variable takes a comma separated list of email addresses which<br>
-can be used to send emails to a whitelist of recipients despite the above<br>
-described override existing.</p>
-<p>This can be used to send emails to a select group of testers while the rest of<br>
-the emails are sent to a smoke test address.</p>
+<h3 id="govuk_notify_recipients"><code>GOVUK_NOTIFY_RECIPIENTS</code></h3>
+<p>This environment variable determines whether emails will be attempted to be<br>
+sent to Notify. Emails that aren't send to Notify are written to a log file.<br>
+This makes this setting useful in non-production environments where you may<br>
+want to send no, or only a few emails, to Notify.</p>
+<p>When this is set to <code>*</code> all emails are sent to Notify, this is the expected<br>
+configuration for a production environment.</p>
+<p>In other environments this can be set as a comma separated list of email<br>
+addresses to specify the recipients who should have their emails sent to<br>
+Notify. For example, <code>GOVUK_NOTIFY_RECIPIENTS=test-1@example.com,test-2@example.com</code>.<br>
+Emails that are sent to other recipients will not be sent and will instead<br>
+be written to the log file.</p>
+<p>If this environment variable is not set then no emails will be sent to Notify<br>
+and all will be written to the log file.</p>
 
 
             
