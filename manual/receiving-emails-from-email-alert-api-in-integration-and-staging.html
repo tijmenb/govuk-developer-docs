@@ -150,37 +150,33 @@
             
   <p><a href='/manual.html#emails'>Emails</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/011a295b6054095eb75568d7df1ff0c924323d7d">23 Oct 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/13a9b008f69c837c18a3a16637d674b3c59b9252">1 Dec 2020</a>
 </div>
 
- <h1 id='header'>Receive emails from Email Alert API in integration and staging</h1> <p>In <code>integration</code> and <code>staging</code> Email Alert API defaults to sending emails
-to a single test address: <code>success@simulator.amazonses.com</code>. This is used to
-simulate a successful email sending.</p>
+ <h1 id='header'>Receive emails from Email Alert API in integration and staging</h1> <p>In <code>integration</code> and <code>staging</code> Email Alert API defaults to <a href="https://github.com/alphagov/email-alert-api/blob/006afa2ee6c35631b83b16519f8af2c6c2ea5c59/app/services/send_email_service/send_pseudo_email.rb#L10-L20">writing emails to
+a logfile</a> rather than sending them to Notify. Only <a href="https://github.com/alphagov/govuk-puppet/blob/028381e3022f635e1958a45478b0b274e672b602/hieradata_aws/common.yaml#L546-L549">email
+addresses specified in GOV.UK Puppet</a> will receive actual
+emails.</p>
 
-<p>However, you can override this for specific email addresses for testing
+<p>You can override this for specific email addresses for testing
 purposes. To do this, <a href="/manual/govuk-notify.html#receiving-emails-from-govuk-notify">you will need to be added as a team member to
 the GOV.UK Email Integration or Staging service in Notify</a> and
-make changes to <a href="https://github.com/alphagov/govuk-puppet">govuk-puppet</a>.</p>
+make changes to GOV.UK Puppet.</p>
 
 <ol>
-  <li>
-    <p>Add your email address to the override whitelist in the file <a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata_aws/common.yaml#L540-L568">common.yml</a> (the list needs to be kept in sync with the team members list in Notify). This is set as an environment variable via hieradata under the key of
-<code>govuk::apps::email_alert_api::email_address_override_whitelist</code>. It should look something like this:</p>
-
-<div class="highlight"><pre class="highlight plaintext"><code> govuk::apps::email_alert_api::email_address_override_whitelist:
-   - your.name@digital.cabinet-office.gov.uk
-</code></pre></div>  </li>
-  <li>
-    <p>Create a branch with your changes and push them to GitHub. Deploy the changes by running the <a href="https://deploy.integration.publishing.service.gov.uk/job/Deploy_Puppet">deploy-puppet</a> job for the environment you're testing on, providing your branch name instead of a release tag.</p>
-  </li>
-  <li>
-    <p>Once these changes have been deployed and the environment variable <code>EMAIL_ADDRESS_OVERRIDE_WHITELIST</code> is populated with your address you can test that you can receive emails by running the <a href="https://deploy.integration.publishing.service.gov.uk/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=support:send_test_email[your.name@digital.cabinet-office.gov.uk]">support:send_test_email[name@example.com]</a> rake task.</p>
-  </li>
+  <li>Add your email address to the <code>govuk_notify_recipients</code> list in
+<a href="https://github.com/alphagov/govuk-puppet/blob/master/hieradata_aws/common.yaml">hieradata_aws/common.yml</a>.</li>
+  <li>Create a branch with your changes and push them to GitHub. Deploy the
+changes by running the <a href="https://deploy.integration.publishing.service.gov.uk/job/Deploy_Puppet">deploy-puppet</a> job for the environment you're
+testing on, providing your branch name instead of a release tag.</li>
+  <li>Once these changes have been deployed, and the environment variable
+<code>GOVUK_NOTIFY_RECIPIENTS</code> is populated with your address, you can test that
+you can receive emails by running the <a href="https://github.com/alphagov/email-alert-api/blob/master/docs/support-tasks.md#send-a-test-email">Send a test email</a> support task.</li>
 </ol>
 
 <h2 id="testing-digest-emails">Testing digest emails</h2>
 
-<p>It is possible to re-send an entire digest run (e.g. to test changes that have been made to the email template) in integration.  You will need to have added yourself to the whitelist and have a digest subscription (daily or weekly) to something that had a significant update during the time period the digest covers (e.g. daily would be 07:00 the previous day to 07:00 today).</p>
+<p>It is possible to re-send an entire digest run (e.g. to test changes that have been made to the email template) in integration.  You will need to have added yourself to the recipients list and have a digest subscription (daily or weekly) to something that had a significant update during the time period the digest covers (e.g. daily would be 07:00 the previous day to 07:00 today).</p>
 
 <p>Using a Rails console for email-alert-api, retrieve the digest run that you wish to resend, then delete it, e.g.</p>
 
@@ -203,8 +199,8 @@ WeeklyDigestInitiatorWorker.perform_async
           <h4>Learn</h4>
 
           <ul class="govuk-list">
+            <li><a href="/manual/email-alert-api-troubleshooting.html">Email Alert API troubleshooting</a></li>
             <li><a href="/manual/email-notifications-how-they-work.html">Email notifications: how they work</a></li>
-            <li><a href="/manual/email-troubleshooting.html">Email troubleshooting</a></li>
             <li><a href="/manual/govuk-notify.html">How we use GOV.UK Notify</a></li>
           </ul>
         </div>
@@ -213,7 +209,7 @@ WeeklyDigestInitiatorWorker.perform_async
           <h4>How to...</h4>
 
           <ul class="govuk-list">
-            <li><a href="/manual/load-test-email-alert-api.html">Load Test Email Alert API</a></li>
+            <li><a href="/manual/load-test-email-alert-api.html">Load test Email Alert API</a></li>
             <li><a href="/manual/bulk-email.html">Send a bulk email</a></li>
             <li><a href="/manual/stop-all-email-subscription-sending.html">Stop all email subscription sending</a></li>
           </ul>

@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-    <title>Load Test Email Alert API - GOV.UK Developer Documentation</title>
+    <title>Load test Email Alert API - GOV.UK Developer Documentation</title>
 
     <link href="/stylesheets/manifest.css" rel="stylesheet" />
 
@@ -19,12 +19,12 @@
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:domain" content="docs.publishing.service.gov.uk" />
       <meta name="twitter:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
-      <meta name="twitter:title" content="Load Test Email Alert API - GOV.UK Developer Documentation" />
+      <meta name="twitter:title" content="Load test Email Alert API - GOV.UK Developer Documentation" />
       <meta name="twitter:url" content="https://docs.publishing.service.gov.uk/manual/load-test-email-alert-api.html" />
 
       <meta property="og:image" content="https://docs.publishing.service.gov.uk/images/govuk-large.png" />
       <meta property="og:site_name" content="GOV.UK Developer Documentation" />
-      <meta property="og:title" content="Load Test Email Alert API" />
+      <meta property="og:title" content="Load test Email Alert API" />
       <meta property="og:type" content="object" />
       <meta property="og:url" content="https://docs.publishing.service.gov.uk/manual/load-test-email-alert-api.html" />
 
@@ -131,18 +131,7 @@
                   <a href='/manual.html' class="toc__back-link govuk-link">&lsaquo; Manual</a>
   <ul>
   <li>
-    <a href="#header"><span>Load Test Email Alert API</span></a>
-    <ul>
-      <li>
-        <a href="#testing-without-notify"><span>Testing without Notify</span></a>
-      </li>
-      <li>
-        <a href="#testing-with-notify"><span>Testing with Notify</span></a>
-      </li>
-      <li>
-        <a href="#after-the-test"><span>After the test</span></a>
-      </li>
-    </ul>
+    <a href="#header"><span>Load test Email Alert API</span></a>
   </li>
 </ul>
 
@@ -156,81 +145,26 @@
             
   <p><a href='/manual.html#emails'>Emails</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/d1e83132ea1894953f1f670e717cb8d4e4dfc5dc">3 Aug 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/5eb06827c970a70dfcc2768410ebfc1a00cf0fff">2 Dec 2020</a>
 </div>
 
- <h1 id='header'>Load Test Email Alert API</h1> <p>You may wish to load test email-alert-api to get a realistic idea of how the system performs under high load, or if you're making changes to how emails are processed to ensure your changes have the desired effect.</p>
+ <h1 id='header'>Load test Email Alert API</h1> <p>You may wish to load test Email Alert API to get a realistic idea of how the
+system performs when it has a large quantity of emails to create and send.
+This can be useful to provide data on where the system may have performance
+bottlenecks.</p>
 
-<p>Before you begin, you should post in the #2nd-line channel that you’re about to do some load testing and that as part of that you’ll be disabling puppet runs on Staging for email-alert-api.</p>
-
-<blockquote>
-  <p>Rake tasks for load testing can be found <a href="https://github.com/alphagov/email-alert-api/blob/master/lib/tasks/load_testing.rake">here</a>.</p>
-</blockquote>
-
-<h2 id="testing-without-notify">Testing without Notify</h2>
-
-<p>email-alert-api has <a href="https://github.com/alphagov/email-alert-api/blob/master/app/providers/delay_provider.rb">a DelayProvider</a> to simulate the delay of actual requests to Notify, so we can focus on internal load testing, without Notify being a factor. You will need to:</p>
+<p>To perform a load test you will need:</p>
 
 <ul>
-  <li>
-    <p>Deploy <a href="https://github.com/alphagov/govuk-puppet/pull/10412">this PR or similar</a> to the Staging environment.</p>
-  </li>
-  <li>
-    <p>Run Puppet on each of the machines.</p>
-
-<div class="highlight"><pre class="highlight plaintext"><code>fab -P staging_aws class:email_alert_api puppet
-</code></pre></div>  </li>
-  <li>
-    <p>Disable Puppet to persist the temporary change.</p>
-
-<div class="highlight"><pre class="highlight plaintext"><code>fab -P staging_aws class:email_alert_api 'puppet.disable:"&lt;date&gt; load testing"'
-</code></pre></div>  </li>
-  <li>
-    <p>Manually restart the workers to pick up the change.</p>
-
-<div class="highlight"><pre class="highlight plaintext"><code>fab -P staging_aws class:email_alert_api app.restart:email-alert-api-procfile-worker
-</code></pre></div>  </li>
+  <li>A mechanism to artificially create a quantity of work for Email Alert API to
+do - we previously had a number of <a href="https://github.com/alphagov/email-alert-api/pull/1494">rake tasks</a> to allow this;</li>
+  <li>An approach to simulate the delay of an actual request to Notify - we
+previously used a <code>Kernel.sleep(0.1)</code> to apply this.</li>
 </ul>
 
-<h2 id="testing-with-notify">Testing with Notify</h2>
+<p>When performing the test you should inform the <a href="https://gds.slack.com/archives/CADKZN519">#govuk-2ndline</a>
+channel as they may see alerts during it.</p>
 
-<blockquote>
-  <p>Let the Notify team know if you’re planning on doing a large scale test (anything more than a few thousand emails) and they can scale it up as necessary.</p>
-</blockquote>
-
-<p>Normally emails from the Staging environment are <a href="https://www.notifications.service.gov.uk/using-notify/trial-mode">severely rate limited</a>. You can repoint the NotifyProvider to a Staging version of Notify, which is more realistic. You will need to:</p>
-
-<ul>
-  <li>
-    <p>Update <a href="https://deploy.blue.staging.govuk.digital/job/Deploy_Puppet/configure">the Puppet Deploy job</a> to use <a href="https://github.com/alphagov/govuk-secrets/pull/993">a branch of govuk-secrets with the required API key</a>. The API key is stored in <a href="https://github.com/alphagov/govuk-secrets/blob/master/pass/infra/.gpg-id">the <strong>infra</strong> pass store</a> in govuk-secrets under <code>govuk-notify/test-api-key</code>.</p>
-  </li>
-  <li>
-    <p>Deploy <a href="https://github.com/alphagov/govuk-puppet/pull/10413">this PR or similar</a> to the Staging environment.</p>
-  </li>
-  <li>
-    <p>Run Puppet on each of the machines.</p>
-
-<div class="highlight"><pre class="highlight plaintext"><code>fab -P staging_aws class:email_alert_api puppet
-</code></pre></div>  </li>
-  <li>
-    <p>Disable Puppet to persist the temporary change.</p>
-
-<div class="highlight"><pre class="highlight plaintext"><code>fab -P staging_aws class:email_alert_api 'puppet.disable:"&lt;date&gt; load testing"'
-</code></pre></div>  </li>
-  <li>
-    <p>Manually restart the workers to pick up the change.</p>
-
-<div class="highlight"><pre class="highlight plaintext"><code>fab -P staging_aws class:email_alert_api app.restart:email-alert-api-procfile-worker
-</code></pre></div>  </li>
-</ul>
-
-<h2 id="after-the-test">After the test</h2>
-
-<p>Once you've finished the test and the queues have been cleared, re-enable puppet runs, run puppet in order to overwrite the environment variables you've set and restart the workers again.</p>
-
-<p>You can manually clear a large backlog of content changes by running the <a href="https://github.com/alphagov/email-alert-api/blob/25fdc3be525170ad44bce5e8f6aa1529994af143/lib/tasks/load_testing.rake#L40">clear_emails rake task</a>, and then wiping all active jobs with <code>fab -P class:email_alert_api sdo:"pkill -9 --full sidekiq"</code>.</p>
-
-<p>Let 2nd line and Notify know you've finished, and if you were using Notify, let them know too.</p>
 
 
   <div class='related-content'>
@@ -242,8 +176,8 @@
           <h4>Learn</h4>
 
           <ul class="govuk-list">
+            <li><a href="/manual/email-alert-api-troubleshooting.html">Email Alert API troubleshooting</a></li>
             <li><a href="/manual/email-notifications-how-they-work.html">Email notifications: how they work</a></li>
-            <li><a href="/manual/email-troubleshooting.html">Email troubleshooting</a></li>
             <li><a href="/manual/govuk-notify.html">How we use GOV.UK Notify</a></li>
           </ul>
         </div>
@@ -268,7 +202,7 @@
           <aside>
               <ul class="contribution-banner">
                 <li><a href="https://github.com/alphagov/govuk-developer-docs/blob/master/source/manual/load-test-email-alert-api.html.md">View source</a></li>
-                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'Load%20Test%20Email%20Alert%20API'&amp;body=Problem%20with%20'Load%20Test%20Email%20Alert%20API'%20(https://docs.publishing.service.gov.uk/manual/load-test-email-alert-api.html)">Report problem</a></li>
+                <li><a href="https://github.com/alphagov/govuk-developer-docs/issues/new?labels=bug&amp;title=Re:%20'Load%20test%20Email%20Alert%20API'&amp;body=Problem%20with%20'Load%20test%20Email%20Alert%20API'%20(https://docs.publishing.service.gov.uk/manual/load-test-email-alert-api.html)">Report problem</a></li>
                 <li><a href="https://github.com/alphagov/govuk-developer-docs">GitHub Repo</a></li>
               </ul>
           </aside>
