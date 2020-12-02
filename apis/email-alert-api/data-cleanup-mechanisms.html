@@ -200,7 +200,7 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
               <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/email-alert-api/commit/8ffa6741ec6614da3c8d4682c29db7a49f6a15f2">30 Nov 2020</a>
+  Last updated: <a href="https://github.com/alphagov/email-alert-api/commit/fce084452d25ff6d712e3d57b7273050dfd9e9c3">1 Dec 2020</a>
 </div>
 
   <h1 class="page-title">email-alert-api: Data cleanup mechanisms</h1>
@@ -232,7 +232,10 @@ emails get deleted regularly to keep the database performant as we produce a<br>
 large quantity which the system only uses for a short period of time. In deleting<br>
 these emails we also delete their associated subscription contents through a<br>
 <a href="https://github.com/alphagov/email-alert-api/blob/11fb84542e6c7f3995f419e4affaf56aa759ec6c/db/schema.rb#L206">db cascade</a>. As of 05/11/2020 we generate around ~3 million emails per day.</p>
-<p>The <a href="https://github.com/alphagov/email-alert-api/blob/b850dc646202aaa9e2fac88986a6f3d0c738be78/config/sidekiq.yml#L33">deletion worker</a> runs every hour.</p>
+<p>The <a href="https://github.com/alphagov/email-alert-api/blob/b850dc646202aaa9e2fac88986a6f3d0c738be78/config/sidekiq.yml#L33">deletion worker</a> runs every hour. Every hour was chosen to limit the worst<br>
+case backlog (and potential performance impact) if a run of the job fails for<br>
+transient reasons. Note that it often takes 10-30 minutes just to delete an hour's<br>
+worth of email, so it's not feasible to run this job more frequently.</p>
 <h2 id="deleting-historic-data">Deleting historic data</h2>
 <p>The <a href="https://github.com/alphagov/email-alert-api/blob/a62abc85453b723d683c2dc13f3bf0065fb86d5f/app/workers/historical_data_deletion_worker.rb">HistoricalDataDeletionWorker</a> deletes data we deem as historic everday at<br>
 <a href="https://github.com/alphagov/email-alert-api/blob/cefdfa76b13915ea96b131490fd3186b6d52cf05/config/sidekiq.yml#L24">midday</a>. Midday was chosen as removing historic data is deemed non urgent work<br>
