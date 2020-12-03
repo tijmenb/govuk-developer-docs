@@ -367,26 +367,26 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 
 <div class="embedded-readme">
     
-<p>A web service that takes an input of URIs. It performs a number of checks on<br />
+<p>A web service that takes an input of URIs. It performs a number of checks on
 them to determine whether these are things that should be linked to.</p>
 <h2 id="nomenclature">Nomenclature</h2>
 <ul>
 <li>
-<strong>Link</strong>: The consideration of a URI and all resulting redirects<br />
+<strong>Link</strong>: The consideration of a URI and all resulting redirects
 that may occur from it.</li>
 <li>
-<strong>Check</strong>: The process of taking a URI and checking it as a Link<br />
+<strong>Check</strong>: The process of taking a URI and checking it as a Link
 for any problems that may affecting linking to it within content.</li>
 <li>
 <strong>Batch</strong>: The functionality to check multiple URIs in a grouping</li>
 </ul>
 <h2 id="technical-documentation">Technical documentation</h2>
-<p>This is a Ruby on Rails application that acts as web service for performing<br />
-links. Communication to and from this service is done through a RESTful JSON<br />
-API. The majority of link checking is done through a background worker than<br />
-uses Sidekiq. There is a webhook functionality for applications to receive<br />
+<p>This is a Ruby on Rails application that acts as web service for performing
+links. Communication to and from this service is done through a RESTful JSON
+API. The majority of link checking is done through a background worker than
+uses Sidekiq. There is a webhook functionality for applications to receive
 notifications when link checking is complete.</p>
-<p>The HTTP API is defined in <a href="docs/api.md">docs/api.md</a>.</p>
+<p>The HTTP API is defined in <a href="/apis/link-checker-api/api.html">docs/api.md</a>.</p>
 <h3 id="dependencies">Dependencies</h3>
 <ul>
 <li>
@@ -398,7 +398,7 @@ notifications when link checking is complete.</p>
 <p>Start the web app with:</p>
 <pre lang="bash"><code>$ ./startup.sh
 </code></pre>
-<p>Application will be available on port 3208 - <a href="http://localhost:3208">http://localhost:3208</a> or if you<br />
+<p>Application will be available on port 3208 - <a href="http://localhost:3208">http://localhost:3208</a> or if you
 are using the development VM <a href="http://link-checker-api.dev.gov.uk">http://link-checker-api.dev.gov.uk</a></p>
 <p>Start the sidekiq worker with:</p>
 <pre lang="bash"><code>$ bundle exec sidekiq -C config/sidekiq.yml
@@ -421,7 +421,7 @@ are using the development VM <a href="http://link-checker-api.dev.gov.uk">http:/
 }
 </code></pre>
 <h2 id="licence">Licence</h2>
-<p><a href="LICENSE">MIT License</a></p>
+<p><a href="https://github.com/alphagov/link-checker-api/blob/master/LICENSE">MIT License</a></p>
   </div>
 
 

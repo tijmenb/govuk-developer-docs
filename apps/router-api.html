@@ -363,20 +363,20 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/draft_cache
     
 <p>This provides an API for updating the routes used by the <a href="https://github.com/alphagov/router/">router</a>.</p>
 <h2 id="technical-documentation">Technical documentation</h2>
-<p>A Ruby on Rails application that manages the router database.  Routes are<br />
+<p>A Ruby on Rails application that manages the router database.  Routes are
 stored in a mongo database using <a href="http://mongoid.org/">Mongoid</a> as an ORM.</p>
 <h3 id="dependencies">Dependencies</h3>
 <ul>
 <li><a href="http://www.mongodb.org/">mongoDB</a></li>
 <li>
-<a href="https://github.com/alphagov/router/">alphagov/router</a> - to reload routes<br />
+<a href="https://github.com/alphagov/router/">alphagov/router</a> - to reload routes
 (optional in dev mode)</li>
 </ul>
-<p>When running in development mode, this will ignore connection errors when<br />
+<p>When running in development mode, this will ignore connection errors when
 triggering a reload of the router</p>
 <h3 id="running-the-application">Running the application</h3>
 <p><code>bundle exec rails s</code></p>
-<p>The app will then be available at <a href="http://localhost:3000/">http://localhost:3000/</a> (the port can be<br />
+<p>The app will then be available at <a href="http://localhost:3000/">http://localhost:3000/</a> (the port can be
 changed by passing a <code>-p</code> option to the command)</p>
 <h3 id="running-the-test-suite">Running the test suite</h3>
 <p><code>bundle exec rake</code></p>
@@ -421,7 +421,7 @@ changed by passing a <code>-p</code> option to the command)</p>
 </code></pre>
 <p>This will delete the backend with id 'foo'.  This will only be allowed if the backend has no associated routes.  A 400 status code will be returned if this is the case.</p>
 <h2 id="licence">Licence</h2>
-<p><a href="LICENSE">MIT License</a></p>
+<p><a href="https://github.com/alphagov/router-api/blob/master/LICENSE">MIT License</a></p>
   </div>
 
 

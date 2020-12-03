@@ -207,13 +207,13 @@
 
   
 <blockquote>
-<p><strong>Note</strong>: Once whitehall and Search Admin are using the <a href="new-indexing-process.md">new indexing process</a>,<br>
+<p><strong>Note</strong>: Once whitehall and Search Admin are using the <a href="/apis/search-api/new-indexing-process.html">new indexing process</a>,
 the documents API will be removed and search API will consume only from the publishing API.</p>
 </blockquote>
 <h3 id="post-indexdocuments"><code>POST /:index/documents</code></h3>
 <p>Insert or overwrite a document.</p>
 <p>There must be a link attribute in the JSON body.</p>
-<p>Any fields which are not part of the schema for the document type you are posting<br>
+<p>Any fields which are not part of the schema for the document type you are posting
 will be silently ignored (see config/schema).</p>
 <h4 id="example-request-and-response">Example request and response</h4>
 <pre lang="json"><code>{

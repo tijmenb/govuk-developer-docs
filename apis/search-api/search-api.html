@@ -244,54 +244,54 @@
 <p>Pagination is controlled using the <code>start</code>, <code>count</code>, and <code>order</code> parameters.</p>
 <ul>
 <li>
-<p><code>start</code>: (single integer) Position in search result list to start returning<br>
-results (0-based)  If the <code>start</code> offset is greater than the number of<br>
-matching results, no results will be returned (but also no error will be<br>
+<p><code>start</code>: (single integer) Position in search result list to start returning
+results (0-based)  If the <code>start</code> offset is greater than the number of
+matching results, no results will be returned (but also no error will be
 returned).</p>
 </li>
 <li>
-<p><code>count</code>: (single integer) Maximum number of search results to return.  If<br>
-insufficient documents match, as many as possible are returned (subject to<br>
-the supplied <code>start</code> offset).  This may be set to 0 to return no results<br>
-(which may be useful if only, say, facet values are wanted).  Setting this<br>
+<p><code>count</code>: (single integer) Maximum number of search results to return.  If
+insufficient documents match, as many as possible are returned (subject to
+the supplied <code>start</code> offset).  This may be set to 0 to return no results
+(which may be useful if only, say, facet values are wanted).  Setting this
 to 0 will reduce processing time.</p>
 </li>
 <li>
-<p><code>order</code>: (single string) The sort order.  A field name, with an optional<br>
-preceding "<code>-</code>" to sort in descending order.  If not specified, sort order<br>
-is relevance.  Only some fields can be sorted on - an HTTP 422 error will be<br>
+<p><code>order</code>: (single string) The sort order.  A field name, with an optional
+preceding "<code>-</code>" to sort in descending order.  If not specified, sort order
+is relevance.  Only some fields can be sorted on - an HTTP 422 error will be
 returned if the requested field is not a valid sort field.</p>
 </li>
 </ul>
 <h2 id="error-reporting">Error reporting</h2>
-<p>The search API supports many query string parameters.  It validates<br>
-parameters strictly - any unknown parameters, or parameters with invalid<br>
-options, will cause an HTTP 422 error.  This means that typos do not make the<br>
-API silently return the wrong results, and new features can be added to the API<br>
+<p>The search API supports many query string parameters.  It validates
+parameters strictly - any unknown parameters, or parameters with invalid
+options, will cause an HTTP 422 error.  This means that typos do not make the
+API silently return the wrong results, and new features can be added to the API
 without changing what existing clients see.</p>
 <h2 id="returning-specific-document-fields">Returning specific document fields</h2>
-<p>See the <a href="/config/schema/field_definitions.json">field reference</a> for a list of all fields returned by the search API.</p>
+<p>See the <a href="https://github.com/config/schema/field_definitions.json">field reference</a> for a list of all fields returned by the search API.</p>
 <p>Only a few fields are returned by default. You can override the fields returned using the <code>fields</code> parameter. For example:</p>
 <pre><code>https://www.gov.uk/api/search.json?q=passport&amp;fields=mainstream_browse_pages&amp;fields=title
 </code></pre>
-<p>Note that query parameters which are repeated may be specified in standard HTTP<br>
-style (ie, <code>name=value&amp;name=value</code>, where the same name may be used multiple<br>
+<p>Note that query parameters which are repeated may be specified in standard HTTP
+style (ie, <code>name=value&amp;name=value</code>, where the same name may be used multiple
 times), or in Ruby/PHP array style (ie, <code>name[]=value&amp;name[]=value</code>).</p>
 <h2 id="other-parameters">Other parameters</h2>
 <ul>
 <li>
-<p><code>filter_&lt;foo&gt;</code>/<code>reject_&lt;foo&gt;</code>/<code>aggregate_&lt;foo&gt;</code>: see the <a href="/docs/public-api/faceted-search.md">faceted search guide</a></p>
+<p><code>filter_&lt;foo&gt;</code>/<code>reject_&lt;foo&gt;</code>/<code>aggregate_&lt;foo&gt;</code>: see the <a href="https://github.com/docs/public-api/faceted-search.md">faceted search guide</a></p>
 </li>
 <li>
-<p><code>ab_tests</code>: a/b test with selected variant type. This allows test to be configured<br>
+<p><code>ab_tests</code>: a/b test with selected variant type. This allows test to be configured
 from upstream apps.</p>
-<p>Each a/b test name should be followed by a ':' and then the variant type to<br>
-be used. If multiple a/b test setting are being passed in they should be<br>
+<p>Each a/b test name should be followed by a ':' and then the variant type to
+be used. If multiple a/b test setting are being passed in they should be
 comma separated.</p>
 <p>No validation is done to ensure the a/b test name provided is current implemented.</p>
 </li>
 <li>
-<p><code>c</code>: does nothing. By setting it to unique string, you can<br>
+<p><code>c</code>: does nothing. By setting it to unique string, you can
 use it to bypass caching when testing.</p>
 </li>
 </ul>

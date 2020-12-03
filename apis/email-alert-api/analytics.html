@@ -208,10 +208,10 @@
   
 <p>Email Alert API does not currently have an automated means to generate analytics and data insights. Instead, we rely on a small number of manual rake tasks, which run on data stored in <a href="https://github.com/alphagov/email-alert-api/tree/master/db/schema.rb">the database</a>.</p>
 <blockquote>
-<p>See "<a href="data-cleanup-mechanisms.md">data cleanup mechanisms</a>" for information about how long we retain data in the system.</p>
+<p>See "<a href="/apis/email-alert-api/data-cleanup-mechanisms.html">data cleanup mechanisms</a>" for information about how long we retain data in the system.</p>
 </blockquote>
 <h2 id="subscription-data-for-each-subscriber-list">Subscription data for each subscriber list</h2>
-<p>This generates a CSV report about each subscriber list, for a specific date. In order to help disambiguate between lists with similar titles, each row of the report includes all of the <a href="matching-content-to-subscriber-lists.md">matching criteria</a> for a list.</p>
+<p>This generates a CSV report about each subscriber list, for a specific date. In order to help disambiguate between lists with similar titles, each row of the report includes all of the <a href="/apis/email-alert-api/matching-content-to-subscriber-lists.html">matching criteria</a> for a list.</p>
 <pre lang="bash"><code>report:csv_subscriber_lists["2020-11-05"]
 
 # or for specific lists

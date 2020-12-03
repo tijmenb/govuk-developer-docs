@@ -206,42 +206,42 @@
   <h1 class="page-title">search-api: learning-to-rank</h1>
 
   
-<p>We use a machine learning approach to improve search result relevance,<br>
-using the <a href="https://github.com/tensorflow/ranking">TensorFlow Ranking</a> module.  This doc covers how to use it,<br>
+<p>We use a machine learning approach to improve search result relevance,
+using the <a href="https://github.com/tensorflow/ranking">TensorFlow Ranking</a> module.  This doc covers how to use it,
 and what additional work is required.</p>
 <p>ADR-010 and ADR-011 cover the architectural decisions.</p>
 <h2 id="running-it-locally">Running it locally</h2>
 <h3 id="set-up">Set up</h3>
-<p>TensorFlow is written in Python 3, so you will need some libraries<br>
+<p>TensorFlow is written in Python 3, so you will need some libraries
 installed.  The simplest way to do this is using <code>virtualenv</code>:</p>
 <pre lang="sh"><code>pip3 install virtualenv
 virtualenv venv -p python3
 source venv/bin/activate
 pip install -r ltr/scripts/requirements.txt
 </code></pre>
-<p>This adjusts your shell's environment to use a local Python package<br>
-database in the <code>venv</code> directory.  If you close the shell, you can run<br>
+<p>This adjusts your shell's environment to use a local Python package
+database in the <code>venv</code> directory.  If you close the shell, you can run
 <code>source venv/bin/activate</code> again to bring everything back.</p>
 <h3 id="using-ltr">Using LTR</h3>
 <p><strong>Set the <code>ENABLE_LTR</code> environment variable to "true", or all of this is disabled.</strong></p>
-<p>There are several rake tasks for training and serving a TensorFlow<br>
+<p>There are several rake tasks for training and serving a TensorFlow
 model in the <code>learn_to_rank</code> namespace.</p>
-<p>The <code>learn_to_rank:generate_relevancy_judgements</code> task needs the<br>
-<code>GOOGLE_PRIVATE_KEY</code> and <code>GOOGLE_CLIENT_EMAIL</code> environment variables<br>
-set.  Values for these can be found in <a href="https://github.com/alphagov/govuk-secrets">govuk-secrets</a>.  The task is<br>
+<p>The <code>learn_to_rank:generate_relevancy_judgements</code> task needs the
+<code>GOOGLE_PRIVATE_KEY</code> and <code>GOOGLE_CLIENT_EMAIL</code> environment variables
+set.  Values for these can be found in <a href="https://github.com/alphagov/govuk-secrets">govuk-secrets</a>.  The task is
 run regularly and the generated <code>judgements.csv</code> file available in:</p>
 <ul>
 <li><code>govuk-integration-search-relevancy</code></li>
 <li><code>govuk-staging-search-relevancy</code></li>
 <li><code>govuk-production-search-relevancy</code></li>
 </ul>
-<p>In the future we will store more things in these buckets, like the<br>
+<p>In the future we will store more things in these buckets, like the
 trained models.</p>
-<p>Assuming you have a <code>judgements.csv</code> file, you can generate a dataset<br>
+<p>Assuming you have a <code>judgements.csv</code> file, you can generate a dataset
 for training the model:</p>
 <pre lang="sh"><code>bundle exec rake learn_to_rank:generate_training_dataset[judgements.csv]
 </code></pre>
-<p>This task needs to be run with access to Elasticsearch.  If you're<br>
+<p>This task needs to be run with access to Elasticsearch.  If you're
 using govuk-docker the full command will be:</p>
 <pre lang="sh"><code>govuk-docker run -e ENABLE_LTR=true search-api-lite bundle exec rake 'learn_to_rank:generate_training_dataset[judgements.csv]'
 </code></pre>
@@ -250,91 +250,91 @@ using govuk-docker the full command will be:</p>
 bundle exec rake learn_to_rank:reranker:serve
 </code></pre>
 <p>These tasks do not need access to Elasticsearch.</p>
-<p>You now have a docker container running and responding to requests<br>
-inside the govuk-docker network at <code>reranker:8501</code>.  You can start<br>
+<p>You now have a docker container running and responding to requests
+inside the govuk-docker network at <code>reranker:8501</code>.  You can start
 search-api with the <code>ENABLE_LTR</code> environment variable with:</p>
 <pre lang="sh"><code>govuk-docker run -e ENABLE_LTR=true search-api-app
 </code></pre>
-<p>If you query search-api then results will be re-ranked when you order by<br>
-relevance.  If this doesn't happen, check you're running search-api with<br>
+<p>If you query search-api then results will be re-ranked when you order by
+relevance.  If this doesn't happen, check you're running search-api with
 <code>ENABLE_LTR</code> set.</p>
 <p>You can disable re-ranking with the parameter <code>ab_tests=relevance:disable</code>.</p>
-<p>The <code>learn_to_rank:reranker:evaluate</code> task can be used to compare<br>
-queries without needing to manually search for things.  It uses the<br>
+<p>The <code>learn_to_rank:reranker:evaluate</code> task can be used to compare
+queries without needing to manually search for things.  It uses the
 same <code>judgements.csv</code> file.</p>
 <h2 id="running-it-in-production">Running it in production</h2>
-<p>In production the model training and deployment are automated through<br>
-<a href="https://concourse-ci.org/">Concourse</a>, with the deployed model hosted in <a href="https://aws.amazon.com/sagemaker/">Amazon SageMaker</a>.<br>
-The Concourse pipeline is defined in <code>ltr/concourse/pipeline.yaml</code> and<br>
+<p>In production the model training and deployment are automated through
+<a href="https://concourse-ci.org/">Concourse</a>, with the deployed model hosted in <a href="https://aws.amazon.com/sagemaker/">Amazon SageMaker</a>.
+The Concourse pipeline is defined in <code>ltr/concourse/pipeline.yaml</code> and
 hosted in <a href="https://cd.gds-reliability.engineering/teams/govuk-tools/pipelines/search-learn-to-rank">the RE-managed shared Concourse</a>.</p>
-<p><img src="images/concourse-pipeline.png" alt="The search-learn-to-rank pipeline in shared Concourse"></p>
+<p><img src="https://raw.githubusercontent.com/alphagov/search-api/master/docs/images/concourse-pipeline.png" alt="The search-learn-to-rank pipeline in shared Concourse"></p>
 <p>The pipeline has three sets of jobs, one for each environment, which:</p>
 <ol>
 <li>
-<p>Call the <code>/ltr/train</code> endpoint in search-api to generate training<br>
+<p>Call the <code>/ltr/train</code> endpoint in search-api to generate training
 data and upload it to S3.</p>
 </li>
 <li>
-<p>Call Amazon SageMaker's training API to create a new model from<br>
+<p>Call Amazon SageMaker's training API to create a new model from
 that training data, and store the model artefact in S3.</p>
 </li>
 <li>
-<p>Call Amazon SageMaker's deployment API to deploy the new model,<br>
-removing the old model configuration (but leaving the artefact in<br>
+<p>Call Amazon SageMaker's deployment API to deploy the new model,
+removing the old model configuration (but leaving the artefact in
 S3).</p>
 </li>
 </ol>
-<p>Each "fetch" task is triggered automatically at 10pm.  If it<br>
-successfully completes, the "train" task is triggered.  If it<br>
+<p>Each "fetch" task is triggered automatically at 10pm.  If it
+successfully completes, the "train" task is triggered.  If it
 successfully completes, the "deploy" task is triggered.</p>
-<p>All artefacts are stored in the relevancy S3 bucket: training data is<br>
-under <code>data/&lt;timestamp&gt;/</code> and model data under <code>model/&lt;training timestamp&gt;-&lt;timestamp&gt;</code>.  Files are removed by a lifecycle policy<br>
+<p>All artefacts are stored in the relevancy S3 bucket: training data is
+under <code>data/&lt;timestamp&gt;/</code> and model data under <code>model/&lt;training timestamp&gt;-&lt;timestamp&gt;</code>.  Files are removed by a lifecycle policy
 after 7 days.</p>
 <h3 id="new-environment-set-up">New environment set up</h3>
-<p>There are some set-up tasks to be done before a new environment will<br>
+<p>There are some set-up tasks to be done before a new environment will
 work with this Concourse and SageMaker configuration.</p>
 <ol>
 <li>
-<p>Deploy terraform, that's out-of-scope of this document, but the<br>
+<p>Deploy terraform, that's out-of-scope of this document, but the
 three essential bits are:</p>
 <ul>
 <li>The <code>app-search</code> project</li>
-<li>A domain name <code>search-api.&lt;environment&gt;.govuk.digital</code> (see<br>
+<li>A domain name <code>search-api.&lt;environment&gt;.govuk.digital</code> (see
 <code>infra-public-services</code>)</li>
-<li>A security rule allowing access from the Concourse IP addresses<br>
+<li>A security rule allowing access from the Concourse IP addresses
 (see <code>infra-security-groups</code>)</li>
 </ul>
 </li>
 <li>
-<p>Define jobs for the new environment in the <code>pipeline.yaml</code> file<br>
+<p>Define jobs for the new environment in the <code>pipeline.yaml</code> file
 (copy one of the current environments and just change the name).</p>
 </li>
 <li>
 <p>Deploy the Concourse configuration (with <code>fly set-pipeline</code>).</p>
 </li>
 <li>
-<p>Set the Concourse secrets (the <code>((...))</code> bits of the pipeline) for<br>
+<p>Set the Concourse secrets (the <code>((...))</code> bits of the pipeline) for
 the environment with <code>gds-cli</code>.</p>
 </li>
 <li>
-<p>Run the <code>ltr/scripts/build-ecr.sh &lt;ecr repo&gt;</code> script.  The ECR<br>
-repository is given in the output of deploying the <code>app-search</code><br>
+<p>Run the <code>ltr/scripts/build-ecr.sh &lt;ecr repo&gt;</code> script.  The ECR
+repository is given in the output of deploying the <code>app-search</code>
 terraform.</p>
 </li>
 </ol>
 <h3 id="training-and-deploying-a-second-model-for-ab-testing">Training and deploying a second model for A/B testing</h3>
-<p><strong>You will need to be an AWS Power User and also have access to<br>
+<p><strong>You will need to be an AWS Power User and also have access to
 Concourse to follow these steps.</strong></p>
-<p>You can add new train and deploy jobs to the pipeline to facilitate<br>
-A/B testing.  This is useful if you want to try out new features or<br>
+<p>You can add new train and deploy jobs to the pipeline to facilitate
+A/B testing.  This is useful if you want to try out new features or
 configurations without switching over 100%.</p>
-<p>At the end of this process you will have a second SageMaker endpoint<br>
-running serving your new model, and a Concourse job you can trigger to<br>
-train and deploy a new model.  You will be able to supply training<br>
-data to SageMaker by putting the SVM files in a designated S3<br>
+<p>At the end of this process you will have a second SageMaker endpoint
+running serving your new model, and a Concourse job you can trigger to
+train and deploy a new model.  You will be able to supply training
+data to SageMaker by putting the SVM files in a designated S3
 location.</p>
-<p><strong>If you need a custom training image,</strong> which will be the case if<br>
-you've edited any of the files in <code>ltr/scripts</code>, then you can build it<br>
+<p><strong>If you need a custom training image,</strong> which will be the case if
+you've edited any of the files in <code>ltr/scripts</code>, then you can build it
 with the <code>ltr/scripts/build-ecr.sh</code> script.</p>
 <p>Run these commands locally:</p>
 <pre><code># first assume-role into AWS (using gds-cli or however you do it)
@@ -342,20 +342,20 @@ cd ltr/scripts
 ./build-ecr.sh &lt;ecr repo&gt; &lt;tag name&gt;
 </code></pre>
 <p>You can get the <code>&lt;ecr repo&gt;</code> from the AWS console.</p>
-<p>The <code>&lt;tag name&gt;</code> is how you will identify the image in SageMaker.<br>
+<p>The <code>&lt;tag name&gt;</code> is how you will identify the image in SageMaker.
 The daily model is trained using the <code>latest</code> tag, so don't use that.</p>
-<p><strong>If you need custom training data,</strong> for example you've added or<br>
-removed a feature, generate the data and put it in S3 at<br>
-<code>s3://govuk-&lt;environment&gt;-search-relevancy/data/&lt;key name&gt;/{train,test,validate}.txt</code>.<br>
-The <code>&lt;key name&gt;</code> can be anything, and will be incorporated into the model<br>
+<p><strong>If you need custom training data,</strong> for example you've added or
+removed a feature, generate the data and put it in S3 at
+<code>s3://govuk-&lt;environment&gt;-search-relevancy/data/&lt;key name&gt;/{train,test,validate}.txt</code>.
+The <code>&lt;key name&gt;</code> can be anything, and will be incorporated into the model
 name.</p>
 <p>How you generate the data will depend on what changes you have made.</p>
-<p><strong>Add a training and deployment step for your model to the pipeline,</strong><br>
-your user role does not have the necessary permissions to invoke<br>
-SageMaker directly, so you have to use Concourse to do that.<br>
-Additionally, this lets you train and deploy new versions of the model<br>
+<p><strong>Add a training and deployment step for your model to the pipeline,</strong>
+your user role does not have the necessary permissions to invoke
+SageMaker directly, so you have to use Concourse to do that.
+Additionally, this lets you train and deploy new versions of the model
 at the click of a button.</p>
-<p>The below YAML snippets are examples of what you would add to<br>
+<p>The below YAML snippets are examples of what you would add to
 <code>ltr/concourse/pipeline.yaml</code>.</p>
 <ol>
 <li>
@@ -375,7 +375,7 @@ at the click of a button.</p>
 </li>
 <li>
 <p>Add a new training job to the <code>jobs:</code> list:</p>
-<p><em>If you're not using custom training data, instead use the output<br>
+<p><em>If you're not using custom training data, instead use the output
 of the normal fetch job here.</em></p>
 <pre lang="yaml"><code>- name: integration-AB-SOMETHINGtrain
   plan:
@@ -437,27 +437,27 @@ of the normal fetch job here.</em></p>
 </code></pre>
 </li>
 </ol>
-<p><strong>Deploy your pipeline with <code>fly</code>,</strong> if you've not logged into<br>
-Concourse before, download <code>fly</code> from<br>
-<a href="https://cd.gds-reliability.engineering/">https://cd.gds-reliability.engineering/</a> (see the list of operating<br>
+<p><strong>Deploy your pipeline with <code>fly</code>,</strong> if you've not logged into
+Concourse before, download <code>fly</code> from
+<a href="https://cd.gds-reliability.engineering/">https://cd.gds-reliability.engineering/</a> (see the list of operating
 systems in the bottom right) and log in:</p>
 <pre lang="bash"><code>fly login -t cd-govuk-tools -n govuk-tools -c https://cd.gds-reliability.engineering
 </code></pre>
 <p>Then deploy the pipeline:</p>
 <pre lang="bash"><code>fly set-pipeline -t cd-govuk-tools -p search-learn-to-rank -c ltr/concourse/pipeline.yaml
 </code></pre>
-<p><strong>Trigger a build of the "train" job,</strong> which will train a new model<br>
-and upload it to S3.  When the train job completes it will trigger the<br>
-deploy job, which will create your new SageMaker endpoint and start<br>
+<p><strong>Trigger a build of the "train" job,</strong> which will train a new model
+and upload it to S3.  When the train job completes it will trigger the
+deploy job, which will create your new SageMaker endpoint and start
 serving the model.</p>
 <h2 id="reranking">Reranking</h2>
-<p>Reranking happens when <code>ENABLE_LTR=true</code> is set.  The model is found<br>
-by trying these options in order, going for the first one which<br>
+<p>Reranking happens when <code>ENABLE_LTR=true</code> is set.  The model is found
+by trying these options in order, going for the first one which
 succeeds:</p>
 <ol>
 <li>
-<p>If <code>TENSORFLOW_SAGEMAKER_ENDPOINT</code> is set, <a href="https://aws.amazon.com/sagemaker/">Amazon SageMaker</a> is<br>
-used.  It's assumed that search-api is running under a role which<br>
+<p>If <code>TENSORFLOW_SAGEMAKER_ENDPOINT</code> is set, <a href="https://aws.amazon.com/sagemaker/">Amazon SageMaker</a> is
+used.  It's assumed that search-api is running under a role which
 has permissions to invoke the endpoint.</p>
 </li>
 <li>
@@ -470,7 +470,7 @@ has permissions to invoke the endpoint.</p>
 <p><code>http://0.0.0.0:8501</code> is used.</p>
 </li>
 </ol>
-<p>When reranking is working, search-api results get three additional<br>
+<p>When reranking is working, search-api results get three additional
 fields:</p>
 <ul>
 <li>
@@ -480,7 +480,7 @@ fields:</p>
 <li>
 <code>original_rank</code>: how Elasticsearch ranked the result</li>
 </ul>
-<p>We may remove <code>combined_score</code> in the future, as it's just the same as<br>
+<p>We may remove <code>combined_score</code> in the future, as it's just the same as
 <code>model_score</code>.</p>
 <h2 id="further-work">Further work</h2>
 <ul>

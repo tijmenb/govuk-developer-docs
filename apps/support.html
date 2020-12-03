@@ -365,27 +365,27 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 <h2 id="nomenclature">Nomenclature</h2>
 <ul>
 <li>
-<strong>Feedback</strong>: All the data received from contact forms is considered to be "feedback"<br />
+<strong>Feedback</strong>: All the data received from contact forms is considered to be "feedback"
 of some form or other and relates to pages published on GOV.UK.</li>
 <li>
-<strong>Anonymous Contact</strong>: Part of the feedback collected by this app is anonymous, when it's<br />
+<strong>Anonymous Contact</strong>: Part of the feedback collected by this app is anonymous, when it's
 submitted via an anonymous contact form in the <a href="https://github.com/alphagov/feedback">feedback app</a>.</li>
 <li>
-<strong>Named Contact</strong>: In contrast with the <code>Anonymous Contact</code> feedback, this is submitted<br />
-via a form that will require you to identify yourself. This data is sent directly<br />
+<strong>Named Contact</strong>: In contrast with the <code>Anonymous Contact</code> feedback, this is submitted
+via a form that will require you to identify yourself. This data is sent directly
 to the <code>support</code> app.</li>
 </ul>
 <h2 id="technical-documentation">Technical documentation</h2>
-<p>This is a Ruby on Rails application which collects feedback and creates tickets based on it.<br />
+<p>This is a Ruby on Rails application which collects feedback and creates tickets based on it.
 It collects data from two sources:</p>
 <ul>
 <li>its own forms which can be accessed by <a href="https://github.com/alphagov/signon">signon</a> users</li>
 <li>contact forms from the <a href="https://github.com/alphagov/feedback">feedback app</a>
 </li>
 </ul>
-<p>The data collected from either the <code>feedback</code> app or its own forms is then used to create<br />
+<p>The data collected from either the <code>feedback</code> app or its own forms is then used to create
 and submit Zendesk tickets.</p>
-<p>Even though it is not public facing, the <code>support</code> app does receive data from the <a href="https://github.com/alphagov/feedback">feedback app</a>,<br />
+<p>Even though it is not public facing, the <code>support</code> app does receive data from the <a href="https://github.com/alphagov/feedback">feedback app</a>,
 which collects data via contact forms rendered on GOV.UK.</p>
 <h4 id="types-of-requests-from-the-support-app-forms">Types of requests from the Support app forms</h4>
 <p>The support app lets people who use the GOV.UK publishing tools ask for specific help from the GOV.UK team.</p>
@@ -408,18 +408,18 @@ which collects data via contact forms rendered on GOV.UK.</p>
 <li>"Emergency contact details": Contact GOV.UK in an emergency</li>
 </ul>
 <h4 id="feedback-explorer">Feedback explorer</h4>
-<p>At the bottom of every page on GOV.UK we ask: “Is there anything wrong with this page?”.<br />
-Users can leave comments on what they were doing and what went wrong. Feedback is anonymous<br />
+<p>At the bottom of every page on GOV.UK we ask: “Is there anything wrong with this page?”.
+Users can leave comments on what they were doing and what went wrong. Feedback is anonymous
 and is collected via the <code>feedback</code> app.</p>
-<p>The Feedback explorer in the <code>support</code> app allows users to browse the feedback submitted from GOV.UK pages,<br />
+<p>The Feedback explorer in the <code>support</code> app allows users to browse the feedback submitted from GOV.UK pages,
 and to export CSVs of the same for further analysis.</p>
 <h4 id="zendesk">Zendesk</h4>
-<p>Currently we use Zendesk to register our support tickets, via the <code>gds_zendesk</code> gem which is<br />
+<p>Currently we use Zendesk to register our support tickets, via the <code>gds_zendesk</code> gem which is
 a wrapper around the Zendesk API.</p>
 <h3 id="dependencies">Dependencies</h3>
 <ul>
 <li>
-<a href="https://github.com/alphagov/support-api">alphagov/support-api</a> - provides an API for storing<br />
+<a href="https://github.com/alphagov/support-api">alphagov/support-api</a> - provides an API for storing
 and fetching anonymous feedback about pages on GOV.UK.</li>
 </ul>
 <h3 id="running-the-test-suite">Running the test suite</h3>

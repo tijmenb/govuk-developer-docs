@@ -395,8 +395,8 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/draft_frontend
 
 <div class="embedded-readme">
     
-<p>Government Frontend is a public-facing app to display the majority of documents<br />
-on the /government part of GOV.UK. It is a replacement for the public-facing<br />
+<p>Government Frontend is a public-facing app to display the majority of documents
+on the /government part of GOV.UK. It is a replacement for the public-facing
 parts of the <a href="https://github.com/alphagov/whitehall">Whitehall</a> application.</p>
 <h2 id="screenshots">Screenshots</h2>
 <p><img src="https://raw.githubusercontent.com/alphagov/government-frontend/master/docs/assets/case-study-screenshot.png" alt="A Case Study" /></p>
@@ -533,9 +533,9 @@ parts of the <a href="https://github.com/alphagov/whitehall">Whitehall</a> appli
 <p>Shared components are provided by govuk_publishing_components and are documented in the <a href="https://components.publishing.service.gov.uk/component-guide">component guide</a>.</p>
 <p>Components specific to government-frontend are <a href="https://github.com/alphagov/government-frontend/tree/master/app/views/components">within the application</a> and follow rules set out by the <a href="https://github.com/alphagov/govuk_publishing_components">govuk_publishing_components</a> gem. They are documented in the <a href="https://government-frontend.herokuapp.com/component-guide">government-frontend component guide</a>.</p>
 <p>When <a href="#running-the-application">running government-frontend</a> locally the component guide is available at: <a href="http://government-frontend.dev.gov.uk/component-guide">http://government-frontend.dev.gov.uk/component-guide</a></p>
-<p>Configuration for the navigation links shown on the B variant of the ContentPagesNav A/B test is covered <a href="docs/navigation-links.md">separately</a></p>
+<p>Configuration for the navigation links shown on the B variant of the ContentPagesNav A/B test is covered <a href="https://github.com/alphagov/government-frontend/blob/master/docs/navigation-links.md">separately</a></p>
 <h2 id="technical-documentation">Technical documentation</h2>
-<p>This is a Ruby on Rails application that fetches documents from<br />
+<p>This is a Ruby on Rails application that fetches documents from
 <a href="https://github.com/alphagov/content-store">content-store</a> and displays them.</p>
 <h3 id="dependencies">Dependencies</h3>
 <ul>
@@ -551,7 +551,7 @@ parts of the <a href="https://github.com/alphagov/whitehall">Whitehall</a> appli
 <h3 id="running-the-application">Running the application</h3>
 <pre><code>./startup.sh
 </code></pre>
-<p>The app should start on <a href="http://localhost:3090">http://localhost:3090</a> or<br />
+<p>The app should start on <a href="http://localhost:3090">http://localhost:3090</a> or
 <a href="http://government-frontend.dev.gov.uk">http://government-frontend.dev.gov.uk</a> on GOV.UK development machines.</p>
 <pre><code>./startup.sh --live
 </code></pre>
@@ -560,20 +560,20 @@ parts of the <a href="https://github.com/alphagov/whitehall">Whitehall</a> appli
 </code></pre>
 <p>This will run the app and point it at the <a href="https://govuk-content-store-examples.herokuapp.com/">dummy content store</a>, which serves the content schema examples and random content.</p>
 <h3 id="running-the-test-suite">Running the test suite</h3>
-<p>The test suite relies on the presence of the<br />
-<a href="http://github.com/alphagov/govuk-content-schemas">govuk-content-schemas</a><br />
-repository. If it is present at the same directory level as<br />
+<p>The test suite relies on the presence of the
+<a href="http://github.com/alphagov/govuk-content-schemas">govuk-content-schemas</a>
+repository. If it is present at the same directory level as
 the government-frontend repository then run the tests with:</p>
 <p><code>bundle exec rake</code></p>
 <p>Or to specify the location explicitly:</p>
 <p><code>GOVUK_CONTENT_SCHEMAS_PATH=/some/dir/govuk-content-schemas bundle exec rake</code></p>
 <h4 id="debugging-integration-tests">Debugging Integration tests</h4>
-<p>If you want to see the page that is being tested in our integration tests, you can use<br />
-<code>save_and_open_page</code> to see what's rendered. This is helpful when a page is mostly comprised of<br />
+<p>If you want to see the page that is being tested in our integration tests, you can use
+<code>save_and_open_page</code> to see what's rendered. This is helpful when a page is mostly comprised of
 GOV.UK Publishing Components</p>
 <h3 id="visual-regression-tests">Visual regression tests</h3>
-<p>Use <a href="http://bbc-news.github.io/wraith/">Wraith</a> ("A responsive screenshot<br />
-comparison tool") to generate a visual diff to compare rendering changes in this<br />
+<p>Use <a href="http://bbc-news.github.io/wraith/">Wraith</a> ("A responsive screenshot
+comparison tool") to generate a visual diff to compare rendering changes in this
 application.</p>
 <h4 id="compare-with-production">Compare with production</h4>
 <p>Compare development with production:</p>
@@ -582,7 +582,7 @@ application.</p>
 <p>Compare staging with production:</p>
 <pre><code>bundle exec wraith capture test/wraith/config-staging-vs-production.yaml
 </code></pre>
-<p>This will generate image diffs comparing the two runs, including a browsable<br />
+<p>This will generate image diffs comparing the two runs, including a browsable
 gallery of the output, located at <code>shots/gallery.html</code>.</p>
 <h4 id="compare-examples-on-master-with-examples-on-branch">Compare examples on master with examples on branch</h4>
 <p>Examples are referencing <a href="https://github.com/alphagov/govuk-content-schemas">https://github.com/alphagov/govuk-content-schemas</a></p>
@@ -601,9 +601,9 @@ bundle exec wraith history test/wraith/config-examples.yaml
 <h4 id="compare-all-document_types">Compare all document_types</h4>
 <pre><code>bundle exec rake wraith:all_document_types[:sample_size]
 </code></pre>
-<p>This will run against the 10 (can be overidden with <code>:sample_size</code>) most popular pages as defined by the search api,<br />
+<p>This will run against the 10 (can be overidden with <code>:sample_size</code>) most popular pages as defined by the search api,
 for each known <code>document_type</code> in the app (see: <a href="#generate-a-config-for-known-document_types-and-example-pages">Generate a config for known document_types and example pages</a>).</p>
-<p><em>Note:</em> If you wish to have your own local wip configs, wip* is in the .gitignore, so as an example<br />
+<p><em>Note:</em> If you wish to have your own local wip configs, wip* is in the .gitignore, so as an example
 <code>wip-kittens.yaml</code> will be ignored</p>
 <h4 id="generate-a-config-for-known-document_types-and-example-pages">Generate a config for known document_types and example pages</h4>
 <p>Running the rake task below will retrieve the <code>document_types</code> where <code>rendering_app = government-frontend</code> from the search api. It will then generate <code>test/wraith/wip-config-all-document-types.yaml</code>, this is a wraith config file containing the top 10 (can be overidden with <code>:sample_size</code>) example pages for each type.</p>
@@ -631,7 +631,7 @@ for each known <code>document_type</code> in the app (see: <a href="#generate-a-
 <p>To avoid CORS and CSP issues a new provider would need to be added to the Content Security Policy</p>
 <h3 id="required-configuration">Required configuration</h3>
 <h4 id="base-path">Base path</h4>
-<p>This is the base path of a contact page, for example, <code>/government/organisations/hm-revenue-customs/contact/child-benefit</code>.<br />
+<p>This is the base path of a contact page, for example, <code>/government/organisations/hm-revenue-customs/contact/child-benefit</code>.
 This path should always be a contact page, any other content page type will result in the webchat component not being loaded.</p>
 <h4 id="availability-url">Availability URL</h4>
 <p>This URL is used to check the availability of agents at regular intervals.</p>
@@ -662,7 +662,7 @@ This path should always be a contact page, any other content page type will resu
 </tbody>
 </table>
 <h4 id="open-url">Open URL</h4>
-<p>This url is used to start a webchat session.<br />
+<p>This url is used to start a webchat session.
 This url should not include session ids or require anything specific parameters to be generated.</p>
 <h3 id="optional-configuration-options">Optional Configuration options</h3>
 <h4 id="browser-window-behaviour">Browser window behaviour</h4>
@@ -674,7 +674,7 @@ This url should not include session ids or require anything specific parameters 
 <pre lang="yaml"><code>  availability_payload_format: json
 </code></pre>
 <h2 id="licence">Licence</h2>
-<p><a href="LICENCE">MIT License</a></p>
+<p><a href="https://github.com/alphagov/government-frontend/blob/master/LICENCE">MIT License</a></p>
   </div>
 
 

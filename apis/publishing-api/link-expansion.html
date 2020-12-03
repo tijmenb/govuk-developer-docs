@@ -250,22 +250,22 @@
 <li><a href="#debugging">Debugging</a></li>
 </ul>
 <h2 id="introduction">Introduction</h2>
-<p>Link expansion is a concept in the Publishing API which describes the process<br>
-of converting the stored links of an edition into a JSON representation<br>
-containing the details of these links. It is used in the Publishing API<br>
-during the process of sending an edition downstream to the<br>
+<p>Link expansion is a concept in the Publishing API which describes the process
+of converting the stored links of an edition into a JSON representation
+containing the details of these links. It is used in the Publishing API
+during the process of sending an edition downstream to the
 <a href="https://github.com/alphagov/content-store">Content Store</a>.</p>
-<p>The process involves determining which editions should and can be linked<br>
-to, the versions of them that are linked, and the fields that will be included<br>
-in the representation. It replaces a process in the Content Store which was<br>
+<p>The process involves determining which editions should and can be linked
+to, the versions of them that are linked, and the fields that will be included
+in the representation. It replaces a process in the Content Store which was
 used to determine and expand links at the point of request.</p>
-<p>A closely related process to this is<br>
-<a href="dependency-resolution.md">dependency-resolution</a>. This is something of a<br>
-reversal in link expansion and has the role of determining which editions<br>
-will need re-presenting to the content store as a result of an update to a<br>
+<p>A closely related process to this is
+<a href="/apis/publishing-api/dependency-resolution.html">dependency-resolution</a>. This is something of a
+reversal in link expansion and has the role of determining which editions
+will need re-presenting to the content store as a result of an update to a
 document.</p>
 <h2 id="example-output">Example Output</h2>
-<p>Below is an abridged example of an edition represented as JSON after link<br>
+<p>Below is an abridged example of an edition represented as JSON after link
 expansion has occurred.</p>
 <pre lang="json"><code>{
   "base_path": "/government/organisations/department-for-transport/about/welsh-language-scheme",
@@ -320,100 +320,100 @@ expansion has occurred.</p>
   },
 }
 </code></pre>
-<p>Within a <code>links</code> JSON object there are keys which indicate the type of link<br>
-(<code>link_type</code>), and at the value of those keys is an array of all links of that<br>
-type. In the above example there are two types of link: <code>organisations</code> and<br>
+<p>Within a <code>links</code> JSON object there are keys which indicate the type of link
+(<code>link_type</code>), and at the value of those keys is an array of all links of that
+type. In the above example there are two types of link: <code>organisations</code> and
 <code>available_translations</code> which contain 1 and 2 links respectively.</p>
 <h2 id="when-it-occurs">When it occurs</h2>
-<p>Link expansion occurs at the point an edition is represented to the<br>
-Content Store - which is normally the result of a <a href="http://sidekiq.org/">Sidekiq</a><br>
-worker process such as <a href="../app/workers/downstream_draft_worker.rb">DownstreamDraftWorker</a> or<br>
-<a href="../app/workers/downstream_live_worker.rb">DownstreamLiveWorker</a>.</p>
+<p>Link expansion occurs at the point an edition is represented to the
+Content Store - which is normally the result of a <a href="http://sidekiq.org/">Sidekiq</a>
+worker process such as <a href="https://github.com/alphagov/publishing-api/blob/master/app/workers/downstream_draft_worker.rb">DownstreamDraftWorker</a> or
+<a href="https://github.com/alphagov/publishing-api/blob/master/app/workers/downstream_live_worker.rb">DownstreamLiveWorker</a>.</p>
 <h2 id="how-links-are-added">How links are added</h2>
-<p>There are two ways that links can be added for a document: link set links and<br>
+<p>There are two ways that links can be added for a document: link set links and
 edition links. These are added by different endpoints.</p>
 <h3 id="patch-link-set-link-set-links">
 <code>patch-link-set</code> - Link set links</h3>
-<p>These links are added via the<br>
-<a href="api.md#patch-v2linkscontent_id"><code>patch-link-set</code></a> endpoint. They are<br>
-associated with a <code>content_id</code>, which therefore associates them with all<br>
+<p>These links are added via the
+<a href="/apis/publishing-api/api.html"><code>patch-link-set</code></a> endpoint. They are
+associated with a <code>content_id</code>, which therefore associates them with all
 the locales of a document.</p>
-<p>They are typically used for taxonomy based links and aren't related to the<br>
+<p>They are typically used for taxonomy based links and aren't related to the
 specific content of an edition.</p>
-<p>They do not follow a draft/published workflow, once added they will apply to<br>
+<p>They do not follow a draft/published workflow, once added they will apply to
 editions of a document on both draft and live content stores.</p>
 <h3 id="put-content-edition-links">
 <code>put-content</code> - Edition links</h3>
-<p>These links are added via the <a href="api.md#put-v2contentcontent_id"><code>put-content</code></a><br>
-endpoint. They are associated with a particular edition of a document and no<br>
+<p>These links are added via the <a href="/apis/publishing-api/api.html"><code>put-content</code></a>
+endpoint. They are associated with a particular edition of a document and no
 other editions.</p>
 <p>These are used for links that are associated with the content of an edition.</p>
-<p>In cases when there are edition links and link set links which have the same<br>
+<p>In cases when there are edition links and link set links which have the same
 <code>link_type</code>, the edition links will take precedence during link expansion.</p>
 <h2 id="types-of-links">Types of links</h2>
 <h3 id="available-translations">Available translations</h3>
-<p>A document can be available in multiple translations. This will be<br>
-determined by documents sharing the same <a href="model.md#user-content-content_id"><code>content_id</code></a> and<br>
-having different <a href="model.md#user-content-locale"><code>locale</code></a> values.</p>
-<p>The links for an edition will automatically include the available translations<br>
-of editions of documents matching the same <code>content_id</code>, including the current<br>
+<p>A document can be available in multiple translations. This will be
+determined by documents sharing the same <a href="/apis/publishing-api/model.html"><code>content_id</code></a> and
+having different <a href="/apis/publishing-api/model.html"><code>locale</code></a> values.</p>
+<p>The links for an edition will automatically include the available translations
+of editions of documents matching the same <code>content_id</code>, including the current
 locale.</p>
 <p><strong>Example</strong></p>
-<p>For item <code>E</code> which exists in English ("en") and Welsh ("cy") the available<br>
-translations links include a link to the "en" and "cy" variations of the<br>
+<p>For item <code>E</code> which exists in English ("en") and Welsh ("cy") the available
+translations links include a link to the "en" and "cy" variations of the
 document.</p>
 <h3 id="direct-links">Direct links</h3>
-<p>These are the links which have been added via<br>
-<a href="#patch-link-set---link-set-links"><code>patch-link-set</code></a> and<br>
-<a href="#put-content---edition-links"><code>put-content</code></a> for a respective <code>content_id</code><br>
-or edition. They are presented with the <code>link_type</code> provided when creating the<br>
+<p>These are the links which have been added via
+<a href="#patch-link-set---link-set-links"><code>patch-link-set</code></a> and
+<a href="#put-content---edition-links"><code>put-content</code></a> for a respective <code>content_id</code>
+or edition. They are presented with the <code>link_type</code> provided when creating the
 link.</p>
-<p>These links may be <a href="#recursive-links">recursive</a> depending on their<br>
+<p>These links may be <a href="#recursive-links">recursive</a> depending on their
 <code>link_type</code>.</p>
 <h3 id="reverse-links">Reverse links</h3>
-<p>Certain <code>link_types</code> are considered reverse. When they are added for a<br>
+<p>Certain <code>link_types</code> are considered reverse. When they are added for a
 <code>content_id</code> or edition they are also presented as part of their target.</p>
-<p>A reverse link corresponds with a direct link and has a reverse name. For<br>
+<p>A reverse link corresponds with a direct link and has a reverse name. For
 instance <code>parent</code> has a reverse name of <code>children</code>.</p>
 <p><strong>Example</strong></p>
-<p>For item <code>A</code> which has a link to <code>B</code> which is a reverse <code>link_type</code> of parent.<br>
-<code>A</code> will be presented with a link to <code>B</code> of type <code>parent</code>, whereas <code>B</code> will be<br>
+<p>For item <code>A</code> which has a link to <code>B</code> which is a reverse <code>link_type</code> of parent.
+<code>A</code> will be presented with a link to <code>B</code> of type <code>parent</code>, whereas <code>B</code> will be
 presented with a link to <code>A</code> of type <code>children</code>.</p>
-<p>A quirk of reverse links is that they are presented with their corresponding<br>
-link. For example when presenting a collection of links with a type of<br>
-<code>children</code>, each one of those links will have a link of type <code>parent</code> which<br>
+<p>A quirk of reverse links is that they are presented with their corresponding
+link. For example when presenting a collection of links with a type of
+<code>children</code>, each one of those links will have a link of type <code>parent</code> which
 links to the original content.</p>
-<p>These links may be <a href="#recursive-links">recursive</a> dependant on their <code>link_type</code>,<br>
-they are defined in <a href="../lib/expansion_rules/link_expansion.rb"><code>LinkExpansion::Rules</code></a>.</p>
+<p>These links may be <a href="#recursive-links">recursive</a> dependant on their <code>link_type</code>,
+they are defined in <a href="https://github.com/alphagov/publishing-api/blob/master/lib/expansion_rules/link_expansion.rb"><code>LinkExpansion::Rules</code></a>.</p>
 <h3 id="recursive-links">Recursive links</h3>
-<p>Some link types are considered recursive which is used to present a tree<br>
-structure of links of specific types. As with many things recursive, these<br>
+<p>Some link types are considered recursive which is used to present a tree
+structure of links of specific types. As with many things recursive, these
 link types are frequently a source of confusion.</p>
-<p>These are used in cases where multiple levels of links are needed to render<br>
-content. A common use case for this is breadcrumbs, where we may want to know the<br>
-hierarchy from the root <code>/</code> page to the page we are in. These are represented<br>
+<p>These are used in cases where multiple levels of links are needed to render
+content. A common use case for this is breadcrumbs, where we may want to know the
+hierarchy from the root <code>/</code> page to the page we are in. These are represented
 by using a recursive <code>parent</code> link type.</p>
 <p><strong>Example</strong></p>
-<p>Consider the page <a href="https://www.gov.uk/government/collections/apprenticeship-standards">Apprenticeship Standards</a> which<br>
+<p>Consider the page <a href="https://www.gov.uk/government/collections/apprenticeship-standards">Apprenticeship Standards</a> which
 has breadcrumbs of "Home &gt; Further education and skills &gt; Apprenticeships"</p>
 <ul>
-<li>"Apprenticeship Standards" would have a link to "Apprenticeships" of type<br>
+<li>"Apprenticeship Standards" would have a link to "Apprenticeships" of type
 <code>parent</code>.</li>
-<li>"Apprenticeships" would have a link to "Further education and skills" of type<br>
+<li>"Apprenticeships" would have a link to "Further education and skills" of type
 <code>parent</code>.</li>
 <li>"Further education and skills" could have a link to "Home" of type <code>parent</code>.</li>
 </ul>
-<p>As <code>parent</code> is a recursive link type each link would include a link to it's<br>
+<p>As <code>parent</code> is a recursive link type each link would include a link to it's
 subsequent parent forming a graph of:</p>
 <pre><code>"Apprenticeship Standards" -parent-&gt; "Apprenticeships" -parent-&gt; "Further education and skills" -parent-&gt; "Home"
 </code></pre>
 <p>From which breadcrumbs can be generated.</p>
 <h4 id="recursive-link-paths">Recursive link paths</h4>
-<p>Recursive links can be defined as a path of link types, which means that only<br>
-a structure of links that matches the defined path will be included in link<br>
+<p>Recursive links can be defined as a path of link types, which means that only
+a structure of links that matches the defined path will be included in link
 expansion.</p>
-<p>An example of this is the path of <code>ordered_related_items</code>,<br>
-<code>mainstream_browse_pages</code> and <code>parent</code>. Only a tree of links that match this<br>
+<p>An example of this is the path of <code>ordered_related_items</code>,
+<code>mainstream_browse_pages</code> and <code>parent</code>. Only a tree of links that match this
 path would be included in link expansion.</p>
 <p>This path would be included in the links representation for an item <code>A</code>:</p>
 <pre><code>"Item A" -ordered_related_items-&gt; "Item B" -mainstream_browse_pages-&gt; "Item C" -parent-&gt; "Item D"
@@ -421,10 +421,10 @@ path would be included in link expansion.</p>
 <p>However this path would not be:</p>
 <pre><code>"Item A" -mainstream_browse_pages-&gt; "Item B" -ordered_related_items-&gt; "Item C" -parent-&gt; "Item D"
 </code></pre>
-<p>An item in a path of link types can be marked as <em>recurring</em>. This means that<br>
+<p>An item in a path of link types can be marked as <em>recurring</em>. This means that
 there can be many items of this type in the path.</p>
-<p>For the path <code>ordered_related_items</code>, <code>mainstream_browse_pages</code> and<br>
-<code>parent.recurring</code> there be any number of <code>parent</code> items, and only 1 instance<br>
+<p>For the path <code>ordered_related_items</code>, <code>mainstream_browse_pages</code> and
+<code>parent.recurring</code> there be any number of <code>parent</code> items, and only 1 instance
 of <code>ordered_related_items</code> and <code>mainstream_browse_pages</code>.</p>
 <p>This is a valid path for <code>ordered_related_items</code>, <code>mainstream_browse_pages</code> and <code>parent</code>:</p>
 <pre><code>"Item A" -ordered_related_items-&gt; "Item B" -mainstream_browse_pages-&gt; "Item C" -parent-&gt; "Item D" -parent-&gt; "Item E" -parent-&gt; "Item F"
@@ -432,29 +432,29 @@ of <code>ordered_related_items</code> and <code>mainstream_browse_pages</code>.<
 <p>Yet this is invalid:</p>
 <pre><code>"Item A" -ordered_related_items-&gt; "Item B" -mainstream_browse_pages-&gt; "Item C" -mainstream_browse_pages-&gt; "Item D" -parent-&gt; "Item E" -parent-&gt; "Item F"
 </code></pre>
-<p>The rules for recursive link types are defined in<br>
-<a href="../lib/expansion_rules/link_expansion.rb"><code>LinkExpansion::Rules</code></a>.</p>
+<p>The rules for recursive link types are defined in
+<a href="https://github.com/alphagov/publishing-api/blob/master/lib/expansion_rules/link_expansion.rb"><code>LinkExpansion::Rules</code></a>.</p>
 <h2 id="which-states-are-linked">Which states are linked</h2>
-<p>Whether an item is linked to depends on whether an edition of a document<br>
-being linked to exists in a particular <a href="model.md#state">state</a>. The states that<br>
-are applicable are determined by the state of the content item that link<br>
+<p>Whether an item is linked to depends on whether an edition of a document
+being linked to exists in a particular <a href="/apis/publishing-api/model.html">state</a>. The states that
+are applicable are determined by the state of the content item that link
 expansion is performed for.</p>
 <h3 id="edition-has-a-state-of-published-or-unpublished">Edition has a state of <code>published</code> or <code>unpublished</code>
 </h3>
-<p>Links are included when an editions exists in a <code>published</code> state. Editions<br>
-that are in an <code>unpublished</code> state with type <code>withdrawn</code> are linked to<br>
-depending on their <code>link_type</code>. Editions that are <code>unpublished</code> and are not of<br>
+<p>Links are included when an editions exists in a <code>published</code> state. Editions
+that are in an <code>unpublished</code> state with type <code>withdrawn</code> are linked to
+depending on their <code>link_type</code>. Editions that are <code>unpublished</code> and are not of
 type <code>withdrawn</code> are not linked.</p>
-<p>The <code>link_types</code> that define whether a withdrawn edition is linked is defined<br>
-in <a href="../lib/link_expansion.rb">LinkExpansion</a>.</p>
+<p>The <code>link_types</code> that define whether a withdrawn edition is linked is defined
+in <a href="https://github.com/alphagov/publishing-api/blob/master/lib/link_expansion.rb">LinkExpansion</a>.</p>
 <h3 id="edition-has-a-state-of-draft">Edition has a state of <code>draft</code>
 </h3>
-<p>Editions follow the same rules as those for <code>published</code> or <code>unpublished</code><br>
+<p>Editions follow the same rules as those for <code>published</code> or <code>unpublished</code>
 however draft items are also included for all link types.</p>
 <h2 id="link-presentation">Link presentation</h2>
-<p>Links are presented as a JSON object where the keys of the object are the link<br>
+<p>Links are presented as a JSON object where the keys of the object are the link
 types and for each link type there is an array of links.</p>
-<p>The ordering of links is determined by the order in which the links were added<br>
+<p>The ordering of links is determined by the order in which the links were added
 via <code>patch-link-set</code>. Automatic links do not have a specific ordering.</p>
 <h3 id="fields">Fields</h3>
 <p>By default links contain the following fields:</p>
@@ -470,63 +470,63 @@ via <code>patch-link-set</code>. Automatic links do not have a specific ordering
 <li>
 <code>description</code> - A short description of the content</li>
 <li>
-<code>document_type</code> - This describes a type of document used on GOV.UK and<br>
+<code>document_type</code> - This describes a type of document used on GOV.UK and
 allowed by the schema</li>
 <li>
 <code>locale</code> - The language this document is written in</li>
 <li>
 <code>public_updated_at</code> - The date/time that this document  was last changed</li>
 <li>
-<code>schema_name</code> - The <a href="https://github.com/alphagov/govuk-content-schemas">GOV.UK content schema</a> that this<br>
+<code>schema_name</code> - The <a href="https://github.com/alphagov/govuk-content-schemas">GOV.UK content schema</a> that this
 edition conforms to</li>
 <li>
 <code>title</code> - The title of the edition</li>
 <li>
-<code>links</code> - Any <a href="#recursive-links">recursive links</a> that are presented with a<br>
+<code>links</code> - Any <a href="#recursive-links">recursive links</a> that are presented with a
 link representation of an edition</li>
 </ul>
-<p>The fields can and are customised in some cases. This can be done on a<br>
-<code>link_type</code> basis. These customisations can be performed in<br>
-<a href="../lib/expansion_rules/link_expansion.rb"><code>LinkExpansion::Rules</code></a>.</p>
+<p>The fields can and are customised in some cases. This can be done on a
+<code>link_type</code> basis. These customisations can be performed in
+<a href="https://github.com/alphagov/publishing-api/blob/master/lib/expansion_rules/link_expansion.rb"><code>LinkExpansion::Rules</code></a>.</p>
 <h2 id="developer-gotchas">Developer gotchas</h2>
-<p>Link expansion is complicated and thus can be challenging for developers to<br>
-understand. This section attempts to cover some of the common questions,<br>
+<p>Link expansion is complicated and thus can be challenging for developers to
+understand. This section attempts to cover some of the common questions,
 we're always welcome for suggestions to simplify link expansion.</p>
 <h3 id="why-is-this-link-appearing">Why is this link appearing?</h3>
 <p>To understand why a link is presented the following things should be considered:</p>
 <ul>
-<li>If the link is in the <code>available_translations</code> it will be a<br>
+<li>If the link is in the <code>available_translations</code> it will be a
 <a href="#available-translations">translation</a> of the document;</li>
-<li>The link could be a <a href="#direct-links">direct link</a> from the<br>
-<a href="model.md#edition"><code>Edition</code></a> or <a href="model.md#linkset"><code>LinkSet</code></a>;</li>
-<li>The link could be a link defined on a different Edition or LinkSet and be<br>
+<li>The link could be a <a href="#direct-links">direct link</a> from the
+<a href="/apis/publishing-api/model.html"><code>Edition</code></a> or <a href="/apis/publishing-api/model.html"><code>LinkSet</code></a>;</li>
+<li>The link could be a link defined on a different Edition or LinkSet and be
 a <a href="#reverse-links">reverse link</a> and represented reciprocally;</li>
-<li>If the link is defined inside a different link it will be either be a<br>
-<a href="#recursive-links">recursive link</a> or be the automatic link added<br>
+<li>If the link is defined inside a different link it will be either be a
+<a href="#recursive-links">recursive link</a> or be the automatic link added
 back as part of a <a href="#reverse-links">reverse link</a>.</li>
 </ul>
 <h3 id="why-is-this-link-not-appearing">Why is this link <em>not</em> appearing?</h3>
-<p>A link that you expect to appear might not be appearing due to the following<br>
+<p>A link that you expect to appear might not be appearing due to the following
 reasons:</p>
 <ul>
-<li>The item to be linked to might not be available in a<br>
+<li>The item to be linked to might not be available in a
 <a href="#which-states-are-linked">linkable state</a>;</li>
-<li>There could be <a href="model.md#edition"><code>Edition</code></a> or <a href="model.md#linkset"><code>LinkSet</code></a><br>
-links that are defined with the same <code>link_type</code> which means the edition<br>
+<li>There could be <a href="/apis/publishing-api/model.html"><code>Edition</code></a> or <a href="/apis/publishing-api/model.html"><code>LinkSet</code></a>
+links that are defined with the same <code>link_type</code> which means the edition
 links will take precedence.</li>
-<li>If a recursive link is expected it may not be following a valid<br>
+<li>If a recursive link is expected it may not be following a valid
 <a href="#recursive-link-paths">recursive link path</a>.</li>
 </ul>
 <h3 id="whyhow-does-a-link-have-different-fields-to-other-links">Why/how does a link have different fields to other links?</h3>
-<p>Links for a specific <code>link_type</code> can be defined to return<br>
-<a href="#fields">different fields</a> as part of link expansion. These are defined in<br>
-<a href="../lib/expansion_rules/link_expansion.rb"><code>LinkExpansion::Rules</code></a>.</p>
+<p>Links for a specific <code>link_type</code> can be defined to return
+<a href="#fields">different fields</a> as part of link expansion. These are defined in
+<a href="https://github.com/alphagov/publishing-api/blob/master/lib/expansion_rules/link_expansion.rb"><code>LinkExpansion::Rules</code></a>.</p>
 <h2 id="debugging">Debugging</h2>
-<p>You can explore link expansion in the rails console by creating a<br>
-<a href="../lib/link_expansion.rb"><code>LinkExpansion</code></a> instance.</p>
+<p>You can explore link expansion in the rails console by creating a
+<a href="https://github.com/alphagov/publishing-api/blob/master/lib/link_expansion.rb"><code>LinkExpansion</code></a> instance.</p>
 <pre><code>&gt; link_expansion = LinkExpansion.by_content_id(content_id, locale: :en, with_drafts: true)
 </code></pre>
-<p>You can then print the <a href="../app/models/link_graph.rb"><code>link_graph</code></a> of the link expansion to view<br>
+<p>You can then print the <a href="https://github.com/alphagov/publishing-api/blob/master/app/models/link_graph.rb"><code>link_graph</code></a> of the link expansion to view
 the links.</p>
 <pre><code>&gt; link_expansion.link_graph.to_h
 =&gt; {:organisations=&gt;
@@ -536,7 +536,7 @@ the links.</p>
    {:content_id=&gt;"e8fae147-6232-4163-a3f1-1c15b755a8a4", :links=&gt;{}}],
  :related=&gt;[{:content_id=&gt;"78cedbfe-d3aa-41c3-b8c0-aeb5d9035d6a", :links=&gt;{}}]}
 </code></pre>
-<p>You can navigate through the <code>link_graph</code> object for further debugging<br>
+<p>You can navigate through the <code>link_graph</code> object for further debugging
 information.</p>
 
 

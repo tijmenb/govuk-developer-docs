@@ -361,12 +361,12 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 
 <div class="embedded-readme">
     
-<p>This is a message queue consumer application which clears Fastly and Varnish<br />
+<p>This is a message queue consumer application which clears Fastly and Varnish
 caches when new content is published.</p>
 <h2 id="technical-documentation">Technical documentation</h2>
-<p>Messages are read from the <code>published_documents</code> exchange which carries<br />
+<p>Messages are read from the <code>published_documents</code> exchange which carries
 documents published from all publishing applications.</p>
-<p>When the service detects a published document it clears the cache in Fastly and<br />
+<p>When the service detects a published document it clears the cache in Fastly and
 Varnish for that path.</p>
 <h3 id="running-the-application">Running the application</h3>
 <pre lang="sh"><code>$ bin/cache_clearing_service
@@ -375,7 +375,7 @@ Varnish for that path.</p>
 <pre lang="sh"><code>$ bundle exec rspec
 </code></pre>
 <h2 id="licence">Licence</h2>
-<p><a href="LICENCE.md">MIT Licence</a></p>
+<p><a href="https://github.com/alphagov/cache-clearing-service/blob/master/LICENCE.md">MIT Licence</a></p>
   </div>
 
 

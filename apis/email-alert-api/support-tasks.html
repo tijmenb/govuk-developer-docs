@@ -206,17 +206,17 @@
   <h1 class="page-title">email-alert-api: Support tasks</h1>
 
   
-<p>Users can manage email subscribers via the <a href="https://www.gov.uk/email/manage">administration interface on GOV.UK</a>.<br>
-Support tickets coming through to 2ndline where the user is unaware of this,<br>
+<p>Users can manage email subscribers via the <a href="https://www.gov.uk/email/manage">administration interface on GOV.UK</a>.
+Support tickets coming through to 2ndline where the user is unaware of this,
 or needs guidance, can be assigned to "2nd Line--User Support Escalation".</p>
 <blockquote>
 <p><strong>Note</strong></p>
-<p>This applies only to emails sent by GOV.UK.<br>
-<a href="https://www.gov.uk/drug-safety-update">Drug safety updates</a> are sent manually by MHRA, who manage<br>
+<p>This applies only to emails sent by GOV.UK.
+<a href="https://www.gov.uk/drug-safety-update">Drug safety updates</a> are sent manually by MHRA, who manage
 their own service using Govdelivery. We do not have access to this.</p>
 </blockquote>
-<p>If it is not possible for changes to be managed by the user, it is<br>
-possible for changes to be made manually. The following rake tasks<br>
+<p>If it is not possible for changes to be managed by the user, it is
+possible for changes to be made manually. The following rake tasks
 should be run using the Jenkins <code>Run rake task</code> job for ease-of-use:</p>
 <h2 id="change-a-subscribers-email-address">Change a subscriber's email address</h2>
 <p>This task changes a subscriber's email address.</p>
@@ -224,9 +224,9 @@ should be run using the Jenkins <code>Run rake task</code> job for ease-of-use:<
 </code></pre>
 <p><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=support:change_email_address%5Bfrom@example.org,to@example.org%5D">⚙ Run rake task on production</a></p>
 <h2 id="view-subscribers-recent-emails">View subscriber's recent emails</h2>
-<p>This task shows the most recent emails for the given user.<br>
-It takes two parameters: <code>email_address</code> (required), and <code>limit</code> (optional).<br>
-<code>limit</code> defaults to 10, but you can override this if you need to see more of<br>
+<p>This task shows the most recent emails for the given user.
+It takes two parameters: <code>email_address</code> (required), and <code>limit</code> (optional).
+<code>limit</code> defaults to 10, but you can override this if you need to see more of
 the user's history.</p>
 <pre lang="bash"><code>$ bundle exec rake support:view_emails[&lt;email_address&gt;,&lt;limit&gt;]
 </code></pre>
@@ -237,7 +237,7 @@ the user's history.</p>
 </code></pre>
 <p><a href="https://deploy.blue.production.govuk.digital/job/run-rake-task/parambuild/?TARGET_APPLICATION=email-alert-api&amp;MACHINE_CLASS=email_alert_api&amp;RAKE_TASK=support:view_subscriptions%5Bemail@example.org%5D">⚙ Run rake task on production</a></p>
 <h2 id="unsubscribe-a-subscriber-from-a-specific-subscription">Unsubscribe a subscriber from a specific subscription</h2>
-<p>This task unsubscribes one subscriber from a subscription, given an email address and a subscriber list slug.<br>
+<p>This task unsubscribes one subscriber from a subscription, given an email address and a subscriber list slug.
 You can find out the slug of the subscriber list by running the <code>view_subscriptions</code> rake task. above</p>
 <pre lang="bash"><code>$ bundle exec rake support:unsubscribe_single_subscription[&lt;email_address&gt;,&lt;subscriber_list_slug&gt;]
 </code></pre>
@@ -252,13 +252,13 @@ You can find out the slug of the subscriber list by running the <code>view_subsc
 <pre lang="bash"><code>$ bundle exec rake support:send_test_email[&lt;email_address&gt;]
 </code></pre>
 <h2 id="resend-failed-emails">Resend failed emails</h2>
-<p>There are two Rake tasks available to resend emails which didn't send for<br>
-whatever reason and ended up in the failed state. This is most useful after<br>
+<p>There are two Rake tasks available to resend emails which didn't send for
+whatever reason and ended up in the failed state. This is most useful after
 an incident to resend all emails that failed with a technical failure.</p>
 <h3 id="using-a-date-range">Using a date range</h3>
 <pre lang="bash"><code>bundle exec rake 'support:resend_failed_emails:by_date[&lt;from_date&gt;,&lt;to_date&gt;]'
 </code></pre>
-<p>The date format should be in ISO8601 format, for example <code>2020-01-01T10:00:00Z</code>.<br>
+<p>The date format should be in ISO8601 format, for example <code>2020-01-01T10:00:00Z</code>.
 Depending on the number of emails to send, the Rake task can take a few minutes to run.</p>
 <h3 id="using-email-ids">Using email IDs</h3>
 <pre lang="bash"><code>bundle exec rake 'support:resend_failed_emails:by_id[&lt;email_one_id&gt;,&lt;email_two_id&gt;]'

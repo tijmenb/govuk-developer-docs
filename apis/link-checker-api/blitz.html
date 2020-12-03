@@ -213,8 +213,8 @@
   <h1 class="page-title">link-checker-api: End of blitz summary - April 2017</h1>
 
   
-<p>This project was created during the 2 week GOV.UK blitz of April 2017, this<br>
-document serves as a round up of what we consider the next steps of this<br>
+<p>This project was created during the 2 week GOV.UK blitz of April 2017, this
+document serves as a round up of what we consider the next steps of this
 project could be and areas we feel could be improved.</p>
 <h2 id="contents">Contents</h2>
 <ul>
@@ -231,39 +231,39 @@ project could be and areas we feel could be improved.</p>
 <li><a href="#local-links-manager-warnings">Local links manager warnings</a></li>
 </ul>
 <h2 id="define-a-good-enough-format-for-errors-or-warnings">Define a "good enough" format for errors or warnings</h2>
-<p>Throughout the blitz we adopted different formats for reporting issues back to<br>
+<p>Throughout the blitz we adopted different formats for reporting issues back to
 users.</p>
 <p>It started with:</p>
 <p><code>"problem_code": "Human readable message"</code></p>
-<p>Then we realised in the case of redirects you could have the same warning<br>
+<p>Then we realised in the case of redirects you could have the same warning
 multiple times so it evolved to:</p>
 <p><code>"problem_code": ["Human readable message", "another human readable message potentially"]</code></p>
-<p>After this we experimented with implementations and learnt that our messages<br>
-were quite long to display in full and that there was a need to have a short<br>
-human readable message to summarise them. So the message increased in<br>
+<p>After this we experimented with implementations and learnt that our messages
+were quite long to display in full and that there was a need to have a short
+human readable message to summarise them. So the message increased in
 complexity to:</p>
 <pre><code>"problem_code": {
   "short_description": "Short message",
   "long_description": ["Human readable message", "another human readable message potentially"]`
 }
 </code></pre>
-<p>We then wanted to simplify this and felt that we could use the <code>problem_code</code><br>
+<p>We then wanted to simplify this and felt that we could use the <code>problem_code</code>
 attribute as the short description so we settled on this:</p>
 <p><code>"Short message": ["Human readable message", "another human readable message potentially"]</code></p>
-<p>This does the job but doesn't really sit right with us, it feels a bit too<br>
-opaque for the purpose of the various strings and the array of messages can<br>
+<p>This does the job but doesn't really sit right with us, it feels a bit too
+opaque for the purpose of the various strings and the array of messages can
 produce confusing results when messages are repeated.</p>
-<p>Finally the actual content of the message has been a challenge, luckily we had<br>
-Ben who did research and helped define the technical level of the users of the<br>
-messages. Although we have still ended up a little stuck where we<br>
-have lots of problematic scenarios to explain but we are writing to<br>
+<p>Finally the actual content of the message has been a challenge, luckily we had
+Ben who did research and helped define the technical level of the users of the
+messages. Although we have still ended up a little stuck where we
+have lots of problematic scenarios to explain but we are writing to
 an audience technical level that may not care about the differentiations.</p>
 <h3 id="how-we-could-improve-this">How we could improve this</h3>
-<p>Considering that this service produces messages that should be output directly<br>
-to end users we need to identify something that is good enough for that purpose,<br>
-but not too tied into a particular applications implementation. It feels<br>
-reasonable that a short form of an error is included, but we should also see if<br>
-we can find a way to avoid an array of messages - as these can be confusing<br>
+<p>Considering that this service produces messages that should be output directly
+to end users we need to identify something that is good enough for that purpose,
+but not too tied into a particular applications implementation. It feels
+reasonable that a short form of an error is included, but we should also see if
+we can find a way to avoid an array of messages - as these can be confusing
 repeated.</p>
 <p>A rough suggestion on how we could format them is as follows:</p>
 <pre><code>[{
@@ -272,46 +272,46 @@ repeated.</p>
   "details": "Human readable message that can cover multiple warnings"
 }]
 </code></pre>
-<p>Other options could be to include a technical message and a non-technical<br>
-message so the application implementing it chooses what to display depending<br>
-on their audience. There could even be a <code>"suggested_fix"</code> field and the need<br>
+<p>Other options could be to include a technical message and a non-technical
+message so the application implementing it chooses what to display depending
+on their audience. There could even be a <code>"suggested_fix"</code> field and the need
 for the <code>"code"</code> attribute is still debatable.</p>
-<p>We're also wondering whether rather than storing full messages we'd be more<br>
-efficient to store the <code>problem_code</code> and the parameters used to generate the<br>
+<p>We're also wondering whether rather than storing full messages we'd be more
+efficient to store the <code>problem_code</code> and the parameters used to generate the
 message.</p>
 <p><strong>A solution to this was found during the firebreak in July 2017.</strong></p>
 <h2 id="a-more-modular-approach-to-defining-the-link-checking">A more modular approach to defining the link checking</h2>
-<p>The approach we have taken to defining the checks on the links have quite a lot<br>
+<p>The approach we have taken to defining the checks on the links have quite a lot
 of responsibilities and are coupled with the content of the warnings/errors.</p>
-<p>If we are to aim to make the checks more extensible we should consider<br>
-refactoring how the checks work so that individual checks can be more self<br>
+<p>If we are to aim to make the checks more extensible we should consider
+refactoring how the checks work so that individual checks can be more self
 contained and isolated.</p>
 <h2 id="do-we-have-too-many-warnings-or-not-enough">Do we have too many warnings? Or not enough?</h2>
-<p>We have a concept of warnings which is used to indicate problems we've found<br>
-with links that might (or even probably) mean the link shouldn't be linked to<br>
-but depending on the context might still want to/have to - eg a link that is<br>
+<p>We have a concept of warnings which is used to indicate problems we've found
+with links that might (or even probably) mean the link shouldn't be linked to
+but depending on the context might still want to/have to - eg a link that is
 slow, or a valid reason to link to "mature" content.</p>
-<p>These warnings are somewhat problematic as if a user wants to proceed with the<br>
-link they are just noise. Life is significantly simpler when links are binary:<br>
+<p>These warnings are somewhat problematic as if a user wants to proceed with the
+link they are just noise. Life is significantly simpler when links are binary:
 good or broken.</p>
-<p>It would be good to determine do we generate too many of these, or we might<br>
+<p>It would be good to determine do we generate too many of these, or we might
 possibly find some of the things we identify as broken are actually warnings.</p>
 <h2 id="decide-what-to-do-with-headget-requests">Decide what to do with HEAD/GET requests</h2>
-<p>We encountered a problem late in the blitz process that a number of the links<br>
-we were testing were not correctly following the HTTP protocol and were<br>
-responding with 404 for HEAD requests and 200 to GET requests - these all seem<br>
-to originate from Microsoft IIS/8.5 but we didn't know if it was the framework<br>
+<p>We encountered a problem late in the blitz process that a number of the links
+we were testing were not correctly following the HTTP protocol and were
+responding with 404 for HEAD requests and 200 to GET requests - these all seem
+to originate from Microsoft IIS/8.5 but we didn't know if it was the framework
 or implementation that was the problem.</p>
-<p>This has the unfortunate consequence that to reliably test we have to perform<br>
-GET requests. For the most part this is fine except in the instances where<br>
-links could be to large files (such as pdf documents or applications) and we may<br>
+<p>This has the unfortunate consequence that to reliably test we have to perform
+GET requests. For the most part this is fine except in the instances where
+links could be to large files (such as pdf documents or applications) and we may
 inadvertently be flagging these as slow or as timeouts.</p>
-<p>We should have a good think about this issue and weigh up the pros and cons and<br>
-how we should proceed. Could be that we perform a HEAD then a GET even if 404,<br>
-or find a way to do a GET without getting content, or just dealing with the<br>
+<p>We should have a good think about this issue and weigh up the pros and cons and
+how we should proceed. Could be that we perform a HEAD then a GET even if 404,
+or find a way to do a GET without getting content, or just dealing with the
 content of a GET.</p>
 <h2 id="further-uri-checks">Further URI checks</h2>
-<p>There are various other checks that could be performed on URIs. Here's a list<br>
+<p>There are various other checks that could be performed on URIs. Here's a list
 of some of the ones identified:</p>
 <ul>
 <li>Check for UTF-8 Characters - where a IRI is linked to without encoding</li>
@@ -322,72 +322,72 @@ of some of the ones identified:</p>
 <li>Popular app store schemes</li>
 </ul>
 <h2 id="checks-based-on-history-of-a-link">Checks based on history of a link</h2>
-<p>A number of the originally suggested ideas involved the history of a link to<br>
-alleviate the risks of squatting on pages that were linked to from government<br>
+<p>A number of the originally suggested ideas involved the history of a link to
+alleviate the risks of squatting on pages that were linked to from government
 websites.</p>
-<p>We considered this work to be outside of the scope of the blitz but did<br>
+<p>We considered this work to be outside of the scope of the blitz but did
 consider this check:</p>
 <ul>
-<li>Storing the time a DNS record was changed and alerting if it has changed in<br>
+<li>Storing the time a DNS record was changed and alerting if it has changed in
 last 2 weeks</li>
 </ul>
-<p>After more thought though it is probably best to only consider doing historical<br>
-checks based on our own storage to avoid the false positives of anything newly<br>
+<p>After more thought though it is probably best to only consider doing historical
+checks based on our own storage to avoid the false positives of anything newly
 created.</p>
-<p>The somewhat challenging aspect of this is that for this to be helpful you'd<br>
-want it to be proactively checking documents from the past. As for the most<br>
-part, if you are authoring new content you've probably found the links, and if<br>
-you are editing old content it could be very difficult to determine what a<br>
+<p>The somewhat challenging aspect of this is that for this to be helpful you'd
+want it to be proactively checking documents from the past. As for the most
+part, if you are authoring new content you've probably found the links, and if
+you are editing old content it could be very difficult to determine what a
 recent change is.</p>
 <h3 id="some-ideas-on-what-we-could-implement">Some ideas on what we could implement</h3>
-<p>We could store, in separate tables to the link checking, some historical<br>
-information about hosts and normalised URIs. This could allow us to build up<br>
-simple databases to know when a redirect destination changes, domain<br>
+<p>We could store, in separate tables to the link checking, some historical
+information about hosts and normalised URIs. This could allow us to build up
+simple databases to know when a redirect destination changes, domain
 ownership, or some rudimentary word analysis.</p>
-<p>We could then use the length of time we have known about the page to judge<br>
+<p>We could then use the length of time we have known about the page to judge
 when it is of concern.</p>
-<p>There is possibility that when creating batches we get sent some sort of<br>
-document identifier so we can use that for some context, eg whether things have<br>
-changed since last check. This adds complexity though and will reduce<br>
+<p>There is possibility that when creating batches we get sent some sort of
+document identifier so we can use that for some context, eg whether things have
+changed since last check. This adds complexity though and will reduce
 consistency of link checking results.</p>
 <h3 id="related-ideas">Related ideas</h3>
-<p>We could allow additional API methods to blacklist hosts if for some reason<br>
+<p>We could allow additional API methods to blacklist hosts if for some reason
 they are now no longer safe to be linked to.</p>
-<p>We could develop a system that performs regular checks to detect dubious<br>
+<p>We could develop a system that performs regular checks to detect dubious
 changes and develop a way for humans to confirm if they are problematic.</p>
 <h2 id="authentication-with-gds-sso">Authentication with GDS SSO</h2>
-<p>We spent most of the blitz with GDS SSO integrated and decided to pull it at<br>
-the end as we would have to set up a bunch of tokens for usage and weren't<br>
+<p>We spent most of the blitz with GDS SSO integrated and decided to pull it at
+the end as we would have to set up a bunch of tokens for usage and weren't
 using the authentication.</p>
-<p>If this is ever publicly accessible then we should definitely have<br>
+<p>If this is ever publicly accessible then we should definitely have
 authentication.</p>
-<p>While this application is only internally accessible we're not sure if<br>
-authentication adds anything, though if we were to add it it would probably be<br>
-just for the batch endpoint and restrict users to just viewing batches they<br>
+<p>While this application is only internally accessible we're not sure if
+authentication adds anything, though if we were to add it it would probably be
+just for the batch endpoint and restrict users to just viewing batches they
 have created.</p>
 <p>This also ties into client-side integration.</p>
 <h2 id="client-side-integration">Client side-integration</h2>
-<p>Usage of this API involves setting up a methods that call this API, an endpoint<br>
-for the webhook and a means to report that back to the user. This feels like<br>
-quite a lot of lifting particularly for some of the more lo-fi publishing<br>
+<p>Usage of this API involves setting up a methods that call this API, an endpoint
+for the webhook and a means to report that back to the user. This feels like
+quite a lot of lifting particularly for some of the more lo-fi publishing
 applications.</p>
-<p>What we felt would be nice is if we were able to embed this into an application<br>
-via JavaScript which could extract links from a block of text call the API<br>
-and return the details. This would be a far simpler integration but lack<br>
-the ability to store problems between requests. An anticipated problem is<br>
+<p>What we felt would be nice is if we were able to embed this into an application
+via JavaScript which could extract links from a block of text call the API
+and return the details. This would be a far simpler integration but lack
+the ability to store problems between requests. An anticipated problem is
 authentication.</p>
 <h2 id="a-rails-pattern-to-simplify-controllers">A Rails pattern to simplify controllers</h2>
-<p>As ever we've got caught in the Rails trap of controllers being a bit too<br>
+<p>As ever we've got caught in the Rails trap of controllers being a bit too
 complicated and having not identified a nice pattern to simplify them.</p>
-<p>There is the option of the <a href="https://github.com/alphagov/publishing-api/blob/master/app/commands/v2/put_content.rb">Command</a> pattern used in<br>
-publishing API, although this has the disadvantage that in conflicts with the<br>
-<a href="https://en.wikipedia.org/wiki/Command_pattern">Command</a> design pattern. A<br>
+<p>There is the option of the <a href="https://github.com/alphagov/publishing-api/blob/master/app/commands/v2/put_content.rb">Command</a> pattern used in
+publishing API, although this has the disadvantage that in conflicts with the
+<a href="https://en.wikipedia.org/wiki/Command_pattern">Command</a> design pattern. A
 better option might be to define these as services.</p>
 <h2 id="whitehall-monthly-link-check-polling-implementation">Whitehall monthly link check / polling implementation</h2>
-<p>The Whitehall monthly link checker is an interesting implementation to complete.<br>
-As it runs as an isolated rake task it doesn't make sense to utilise the<br>
+<p>The Whitehall monthly link checker is an interesting implementation to complete.
+As it runs as an isolated rake task it doesn't make sense to utilise the
 webhook - thus the approach used is to poll for complete batches.</p>
-<p>The challenge here is to find a simple way for it to not slip into the<br>
+<p>The challenge here is to find a simple way for it to not slip into the
 following scenarios:</p>
 <ul>
 <li>Failing on a single HTTP problem, eg a single timeout</li>
@@ -395,16 +395,16 @@ following scenarios:</p>
 <li>Crash the Link Checker API</li>
 <li>Fire lots of unnecessary requests</li>
 </ul>
-<p>It's probably worth working out if this can be done with a relatively simple<br>
-implementation that can be copied or if it needs something more complex that<br>
+<p>It's probably worth working out if this can be done with a relatively simple
+implementation that can be copied or if it needs something more complex that
 should be moved somewhere that can be shared.</p>
 <h2 id="local-links-manager-warnings">Local links manager warnings</h2>
-<p>Local links manager implementation is very close to being complete, the<br>
-remaining aspect is to assess the warnings that have been flagged against links<br>
+<p>Local links manager implementation is very close to being complete, the
+remaining aspect is to assess the warnings that have been flagged against links
 and check that they seem helpful.</p>
 <p>Problems we currently have are:</p>
 <ul>
-<li>confusing duplicate messages, where different points of a redirect have the<br>
+<li>confusing duplicate messages, where different points of a redirect have the
 same issue;</li>
 <li>for links with multiple warnings we show the title of just the first one.</li>
 </ul>

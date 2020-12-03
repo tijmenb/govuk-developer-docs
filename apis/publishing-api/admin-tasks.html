@@ -267,12 +267,12 @@
 </ul>
 <pre><code>bundle exec rake represent_downstream:high_priority:document_type['a-document-type a-document-type']
 </code></pre>
-<p>N.B. The document types are separated by a space. This has also been set up as a<br>
+<p>N.B. The document types are separated by a space. This has also been set up as a
 <a href="https://github.com/alphagov/govuk-puppet/blob/master/modules/govuk_jenkins/manifests/jobs/publishing_api_republish_organisations.pp">Jenkins job</a> which will need to be enabled.</p>
 <h2 id="populating-expanded-links-into-database">Populating expanded links into database</h2>
-<p>The <a href="api.md#get-v2expanded-linkscontent_id">expanded-links endpoint</a> defaults<br>
-to accessing denormalised data stored in the database. If there are reasons<br>
-that this is now out of sync or data is missing you can populate it with<br>
+<p>The <a href="/apis/publishing-api/api.html">expanded-links endpoint</a> defaults
+to accessing denormalised data stored in the database. If there are reasons
+that this is now out of sync or data is missing you can populate it with
 a couple of rake commands.</p>
 <p>It will also be rebuilt any time a piece of content is represented downstream.</p>
 <ul>

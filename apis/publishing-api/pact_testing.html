@@ -206,61 +206,61 @@
   <h1 class="page-title">publishing-api: Contract testing with Pact</h1>
 
   
-<p>Publishing API uses contract testing via the <a href="https://github.com/realestate-com-au/pact">Pact library</a> to verify its<br>
+<p>Publishing API uses contract testing via the <a href="https://github.com/realestate-com-au/pact">Pact library</a> to verify its
 API.</p>
-<p>Pact allows the consumer of an API to make assertions about the requests it will<br>
-make to that API and the response it expects back. In the case of Publishing<br>
-API, all requests from other apps are made via the gds-api-adapters gem, so<br>
-the pact is defined as being between gds-api-adapters and publishing-api.<br>
+<p>Pact allows the consumer of an API to make assertions about the requests it will
+make to that API and the response it expects back. In the case of Publishing
+API, all requests from other apps are made via the gds-api-adapters gem, so
+the pact is defined as being between gds-api-adapters and publishing-api.
 What this means is:</p>
 <ul>
-<li>the expected interactions are defined in the <a href="https://github.com/alphagov/gds-api-adapters/blob/master/test/publishing_api_test.rb">publishing_api_test.rb in<br>
+<li>the expected interactions are defined in the <a href="https://github.com/alphagov/gds-api-adapters/blob/master/test/publishing_api_test.rb">publishing_api_test.rb in
 gds-api-adapters</a>
 </li>
-<li>when these tests are run they output a JSON pactfile which is published to<br>
+<li>when these tests are run they output a JSON pactfile which is published to
 <a href="https://pact-broker.cloudapps.digital/">the pact broker</a>
 </li>
-<li>the build of publishing api will use this pactfile to test the publishing-api<br>
+<li>the build of publishing api will use this pactfile to test the publishing-api
 service</li>
 </ul>
 <h2 id="how-it-works">How it works</h2>
-<p>The gds-api-adapters gem, as the consumer of the pact, includes in its test<br>
-suite a fake publishing-api endpoint provided by the pact gem. The tests then<br>
-specify the requests the consumer will make against that endpoint, along with<br>
-the data it will send for each request and the response it expects to that<br>
+<p>The gds-api-adapters gem, as the consumer of the pact, includes in its test
+suite a fake publishing-api endpoint provided by the pact gem. The tests then
+specify the requests the consumer will make against that endpoint, along with
+the data it will send for each request and the response it expects to that
 request.</p>
-<p>When the tests suite is successfully run, a JSON file is output that contains<br>
-the details of these requests and their expected results. This can then be<br>
-replayed against the real Publishing API application to test that it behaves as<br>
+<p>When the tests suite is successfully run, a JSON file is output that contains
+the details of these requests and their expected results. This can then be
+replayed against the real Publishing API application to test that it behaves as
 expected.</p>
 <h2 id="how-the-tests-run-in-ci">How the tests run in CI</h2>
-<p>The CI environment includes an app called <a href="https://pact-broker.cloudapps.digital/">Pact Broker</a>. This app<br>
-records versions of pacts and supplies them on request, to allow verifying<br>
+<p>The CI environment includes an app called <a href="https://pact-broker.cloudapps.digital/">Pact Broker</a>. This app
+records versions of pacts and supplies them on request, to allow verifying
 against different versions.</p>
-<p>The gds-api-adapters Jenkins job runs the tests, then pushes the generated JSON<br>
-file to the broker as <code>branch-&lt;branch-name&gt;</code> using the <code>pact:publish:branch</code><br>
-rake task. It then checks out the master branch of publishing-api and verifies<br>
+<p>The gds-api-adapters Jenkins job runs the tests, then pushes the generated JSON
+file to the broker as <code>branch-&lt;branch-name&gt;</code> using the <code>pact:publish:branch</code>
+rake task. It then checks out the master branch of publishing-api and verifies
 the pact against that branch using the <code>pact:verify:branch</code> rake task.</p>
-<p>In publishing-api itself, the Jenkins job runs the <code>pact:verify</code> rake task to<br>
+<p>In publishing-api itself, the Jenkins job runs the <code>pact:verify</code> rake task to
 verify the current branch against the master branch.</p>
 <h2 id="running-the-pacts-in-development">Running the pacts in development</h2>
-<p>You can use <code>pact:verify</code> locally to run the current branch against the master<br>
-branch of pacts stored in Pact Broker. If you need to run them against a local<br>
-version of gds-api-adapters, run the tests in that directory<br>
+<p>You can use <code>pact:verify</code> locally to run the current branch against the master
+branch of pacts stored in Pact Broker. If you need to run them against a local
+version of gds-api-adapters, run the tests in that directory
 and then set the <code>USE_LOCAL_PACT</code> env variable:</p>
 <pre><code>USE_LOCAL_PACT=1 bundle exec rake pact:verify
 </code></pre>
-<p>This will cause pact to look for the pactfile in<br>
-<code>../gds-api-adapters/spec/pacts/gds_api_adapters-publishing_api.json</code>. You can<br>
+<p>This will cause pact to look for the pactfile in
+<code>../gds-api-adapters/spec/pacts/gds_api_adapters-publishing_api.json</code>. You can
 additionally override this location by setting the <code>GDS_API_PACT_PATH</code> variable.</p>
 <h2 id="making-breaking-changes">Making breaking changes</h2>
-<p>It is possible to get into a situation where there are mutually dependent<br>
-branches of gds-api-adapters and publishing-api, neither of which will pass<br>
-their tests on CI until the other is merged. In this case, it is<br>
-possible to run the gds-api-adapters branch on Jenkins against a manually<br>
-specified branch of publishing-api, by manually running the branch build and<br>
-entering the relevant branch name as the <code>PUBLISHING_API_BRANCH</code> parameter.<br>
-This will allow Jenkins to report a successful test run and let the branch be<br>
+<p>It is possible to get into a situation where there are mutually dependent
+branches of gds-api-adapters and publishing-api, neither of which will pass
+their tests on CI until the other is merged. In this case, it is
+possible to run the gds-api-adapters branch on Jenkins against a manually
+specified branch of publishing-api, by manually running the branch build and
+entering the relevant branch name as the <code>PUBLISHING_API_BRANCH</code> parameter.
+This will allow Jenkins to report a successful test run and let the branch be
 merged.</p>
 
 

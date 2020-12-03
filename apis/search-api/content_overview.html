@@ -211,15 +211,15 @@
 <p>This is what most publishers use to publish. Content appears on the <a href="https://www.gov.uk/government/publications">"inside government" part of GOV.UK</a>. There are 200,000 documents.</p>
 <p>Implemented in <a href="https://github.com/alphagov/whitehall/blob/master/app/models/searchable.rb">searchable.rb</a>.</p>
 <h2 id="other-publishing-apps">Other publishing apps</h2>
-<p>Most publishing apps, such as publisher and specialist-publisher, do not send<br>
-content to Search API directly. Instead, they publish content to the<br>
-<a href="https://github.com/alphagov/publishing-api">publishing-api</a> which adds the content to a notifications queue<br>
+<p>Most publishing apps, such as publisher and specialist-publisher, do not send
+content to Search API directly. Instead, they publish content to the
+<a href="https://github.com/alphagov/publishing-api">publishing-api</a> which adds the content to a notifications queue
 to be ingested by search-api.</p>
 <p>See <a href="https://github.com/alphagov/search-api/blob/master/docs/arch/adr-001-use-of-both-rabbitmq-and-sidekiq-queues.md">ADR 001</a> for more details on this approach.</p>
 <h2 id="search-admin">Search admin</h2>
-<p>Admin for GOV.UK search. Publishes "recommended links" to Search API,<br>
-so we can show external links in search results; and "best bets", so<br>
-selected search results can be artificially boosted to the top of the<br>
+<p>Admin for GOV.UK search. Publishes "recommended links" to Search API,
+so we can show external links in search results; and "best bets", so
+selected search results can be artificially boosted to the top of the
 list.</p>
 <p>Implemented in <a href="https://github.com/alphagov/search-admin/blob/master/app/models/elastic_search_recommended_link.rb">elastic_search_recommended_link.rb</a> and <a href="https://github.com/alphagov/search-admin/blob/master/app/services/search_api_saver.rb">search_api_saver.rb</a>.</p>
 

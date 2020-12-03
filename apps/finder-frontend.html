@@ -382,7 +382,7 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/calculators_fron
 <h2 id="live-examples">Live examples</h2>
 <h3 id="site-search">Site search</h3>
 <p>Site search is available from the header of every page.</p>
-<p><a href="https://www.gov.uk/search"><img src="docs/assets/sitesearch-screenshot.png" alt="Site search screenshot" /></a></p>
+<p><a href="https://www.gov.uk/search"><img src="https://raw.githubusercontent.com/alphagov/finder-frontend/master/docs/assets/sitesearch-screenshot.png" alt="Site search screenshot" /></a></p>
 <h3 id="finder-pages">Finder pages</h3>
 <p>Finder pages provide facetted searching over a collection of documents.</p>
 <ul>
@@ -398,8 +398,8 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/calculators_fron
 <li><a href="https://www.gov.uk/maib-reports">gov.uk/maib-reports</a></li>
 <li><a href="https://www.gov.uk/raib-reports">gov.uk/raib-reports</a></li>
 </ul>
-<p>Read more about <a href="docs/finder-facets-links.md">how links-based facets are handled</a>.</p>
-<p><img src="docs/assets/page-screenshot.png" alt="Finder frontend screenshot" /></p>
+<p>Read more about <a href="https://github.com/alphagov/finder-frontend/blob/master/docs/finder-facets-links.md">how links-based facets are handled</a>.</p>
+<p><img src="https://raw.githubusercontent.com/alphagov/finder-frontend/master/docs/assets/page-screenshot.png" alt="Finder frontend screenshot" /></p>
 <h2 id="nomenclature">Nomenclature</h2>
 <ul>
 <li>Finder: Page containing a list of filterable documents and filters.</li>
@@ -446,8 +446,8 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/calculators_fron
 </code></pre>
 <h3 id="how-to-add-a-fixed-filter">How to add a fixed filter</h3>
 <p>You can use <a href="https://www.gov.uk/api/search.json?filter_link=">gov.uk/api/search.json?filter_link=</a> with the path of the page you looking for to migrate.</p>
-<p>For example, you want to filter by the field <code>link</code> on <code>/government/world/organisations</code><br />
-You can access the following: <a href="https://www.gov.uk/api/search.json?filter_link=/government/world/organisations/british-antarctic-territory">https://www.gov.uk/api/search.json?filter_link=/government/world/organisations/british-antarctic-territory</a><br />
+<p>For example, you want to filter by the field <code>link</code> on <code>/government/world/organisations</code>
+You can access the following: <a href="https://www.gov.uk/api/search.json?filter_link=/government/world/organisations/british-antarctic-territory">https://www.gov.uk/api/search.json?filter_link=/government/world/organisations/british-antarctic-territory</a>
 You will be able to see inside results the field <code>format</code></p>
 <p>You can double check the filter by performing the following search using search-api:</p>
 <p><a href="http://search-api.dev.gov.uk/search.json?filter_NAME=VALUE">http://search-api.dev.gov.uk/search.json?filter_NAME=VALUE</a></p>
@@ -459,7 +459,7 @@ You will be able to see inside results the field <code>format</code></p>
 <code>app/models</code> contains two kinds of object.
 <ol>
 <li>Value objects used to wrap up responses from API calls.</li>
-<li>Facet objects which wrap up the behaviour of different types of facet --<br />
+<li>Facet objects which wrap up the behaviour of different types of facet --
 eg radios, selects, etc.</li>
 </ol>
 </li>

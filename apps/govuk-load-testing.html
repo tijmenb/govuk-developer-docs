@@ -382,8 +382,8 @@
 <!-- raw HTML omitted -->2.1 GOV.UK Gatling<!-- raw HTML omitted -->
 </h2>
 <h3 id="provision-gov-uk-gatling">Provision GOV.UK Gatling</h3>
-<p>To provision a Gatling instance, <a href="https://docs.publishing.service.gov.uk/manual/deploying-terraform.html#deploying-with-deploy-rb">deploy<br />
-Terraform</a><br />
+<p>To provision a Gatling instance, <a href="https://docs.publishing.service.gov.uk/manual/deploying-terraform.html#deploying-with-deploy-rb">deploy
+Terraform</a>
 for <code>app-gatling</code> in the <code>govuk</code> stack in the required environment.</p>
 <h3 id="running-a-plan">Running a Plan</h3>
 <ol>
@@ -411,9 +411,9 @@ cd ~/govuk-load-testing
 </code></pre>
 </li>
 <li>
-<p>Now, the Gatling web UI is available at<br />
-<code>https://gatling.&lt;environment&gt;.govuk.digital</code>. There's an index of<br />
-all Gatling runs made since provisioning, and you can see the<br />
+<p>Now, the Gatling web UI is available at
+<code>https://gatling.&lt;environment&gt;.govuk.digital</code>. There's an index of
+all Gatling runs made since provisioning, and you can see the
 results of a particular run.</p>
 </li>
 </ol>
@@ -441,7 +441,7 @@ results of a particular run.</p>
 </li>
 <li>
 <p><code>$ export 'GATLING_PASSWORD=&lt;test-user-password&gt;'</code></p>
-<p><strong>Note:</strong> <code>GATLING_USERNAME</code> and <code>GATLING_PASSWORD</code> are only needed for test plans using Signon.<br />
+<p><strong>Note:</strong> <code>GATLING_USERNAME</code> and <code>GATLING_PASSWORD</code> are only needed for test plans using Signon.
 These are the credentials for the test user that has been set up in Signon in the environment it's going to test in, e.g. <code>staging</code>.</p>
 </li>
 </ul>
@@ -466,7 +466,7 @@ These are the credentials for the test user that has been set up in Signon in th
     [5] govuk.WhitehallPublishing
     [6] govuk.WhitehallPublishingCollections
 </code></pre>
-<p>A description of relevant simulation plans available for the gov.uk website<br />
+<p>A description of relevant simulation plans available for the gov.uk website
 is available <a href="#plans">here</a></p>
 <h2 id="2-3-rental-of-an-enterprise-gatling-instance-via-aws-marketplace">
 <!-- raw HTML omitted -->2.3 Rental of an enterprise Gatling Instance via AWS Marketplace<!-- raw HTML omitted -->
@@ -491,7 +491,7 @@ is available <a href="#plans">here</a></p>
 <p>Once you have a Gatling FrontLine EC2 instance, you can use it to load a plan.</p>
 <ol>
 <li>Click on "Create" at the top left to create your plan.</li>
-<li>Give it a name, and choose the classname that corresponds to the test plan class you want. For example, <code>govuk.Frontend</code> for <a href="src/test/resources/scala/Frontend.scala">Frontend.scala</a>. See this <a href="#plans">section</a> for a list of plans.</li>
+<li>Give it a name, and choose the classname that corresponds to the test plan class you want. For example, <code>govuk.Frontend</code> for <a href="https://github.com/alphagov/govuk-load-testing/blob/master/src/test/resources/scala/Frontend.scala">Frontend.scala</a>. See this <a href="#plans">section</a> for a list of plans.</li>
 <li>Click next and choose "Build from sources" (should be the default option). Enter <code>git clone https://github.com/alphagov/govuk-load-testing.git</code> into the repository command box, choose <code>SBT Project</code> in the build command drop down and click next.</li>
 <li>If you're only using this one instance, choose the "Local" pool with a weight of 100%.</li>
 <li>Click on "More options" and here you can enter the <code>JAVA_OPTS</code> value in the second box. For example, to use 100 workers, you would enter <code>-Dworkers=100</code>. Please see <a href="#configuration">section</a> for further configuration options.</li>
@@ -535,34 +535,34 @@ is available <a href="#plans">here</a></p>
 <h2 id="4-simulation-plans-">
 <!-- raw HTML omitted -->4. Simulation Plans <!-- raw HTML omitted -->
 </h2>
-<p>The simulation plans for gov.uk are located in the <code>src/test/scala</code> directory of this repository<br />
+<p>The simulation plans for gov.uk are located in the <code>src/test/scala</code> directory of this repository
 while their data files live in the <code>src/test/resources</code> directory.</p>
 <ol>
 <li>
 <p><strong>govuk.BusinessReadinessFinder</strong></p>
 <p><strong>Data files:</strong> business-readiness-paths.csv</p>
-<p><strong>Optional:</strong> <code>factor</code> (default: 1), the multiplier to apply to the amount of desired traffic<br />
+<p><strong>Optional:</strong> <code>factor</code> (default: 1), the multiplier to apply to the amount of desired traffic
 For an entry <code>base_path,hits</code>, each worker requests <code>base_path</code> <code>ceil(hits * factor / workers)</code> times, with no delay between requests.  Each worker proceeds through the csv in order.</p>
 <p><strong>Optional:</strong> <code>duration</code> (default: 0), if set the test will last for the given number of seconds. Any workers that have not started or completed will be halted at this point. Conversely, any workers that finish ahead of this point will be restarted to ensure the test lasts for the given time.</p>
 </li>
 <li>
 <p><strong>govuk.DynamicLists</strong></p>
 <p><strong>Data files:</strong> get-ready-brexit-check_paths.csv</p>
-<p><strong>Optional:</strong> <code>factor</code> (default: 1), the multiplier to apply to the amount of desired traffic<br />
+<p><strong>Optional:</strong> <code>factor</code> (default: 1), the multiplier to apply to the amount of desired traffic
 For an entry <code>base_path,hits</code>, each worker requests <code>base_path</code> <code>ceil(hits * factor / workers)</code> times, with no delay between requests.  Each worker proceeds through the csv in order.</p>
 <p><strong>Optional:</strong> <code>duration</code> (default: 0), if set the test will last for the given number of seconds. Any workers that have not started or completed will be halted at this point. Conversely, any workers that finish ahead of this point will be restarted to ensure the test lasts for the given time.</p>
 </li>
 <li>
 <p><strong>govuk.DynamicListsEmailSignup</strong></p>
 <p><strong>Data files:</strong> get-ready-brexit-check-email-signup_paths.csv</p>
-<p><strong>Optional:</strong> <code>factor</code> (default: 1), the multiplier to apply to the amount of desired traffic<br />
+<p><strong>Optional:</strong> <code>factor</code> (default: 1), the multiplier to apply to the amount of desired traffic
 For an entry <code>base_path,hits</code>, each worker requests <code>base_path</code> <code>ceil(hits * factor / workers)</code> times, with no delay between requests.  Each worker proceeds through the csv in order.</p>
 <p><strong>Optional:</strong> <code>duration</code> (default: 0), if set the test will last for the given number of seconds. Any workers that have not started or completed will be halted at this point. Conversely, any workers that finish ahead of this point will be restarted to ensure the test lasts for the given time.</p>
 </li>
 <li>
 <p><strong>govuk.Frontend</strong></p>
 <p><strong>Data files:</strong> paths.csv</p>
-<p><strong>Optional:</strong> <code>factor</code> (default: 1), the multiplier to apply to the amount of desired traffic<br />
+<p><strong>Optional:</strong> <code>factor</code> (default: 1), the multiplier to apply to the amount of desired traffic
 For an entry <code>base_path,hits</code>, each worker requests <code>base_path</code> <code>ceil(hits * factor / workers)</code> times, with no delay between requests.  Each worker proceeds through the csv in order.</p>
 <p><strong>Optional:</strong> <code>duration</code> (default: 0), if set the test will last for the given number of seconds. Any workers that have not started or completed will be halted at this point. Conversely, any workers that finish ahead of this point will be restarted to ensure the test lasts for the given time.</p>
 <p>If you are having difficulty running the entire test plan on a single machine within your desired duration, try splitting up the data file and running multiple instances of Gatling simultaneously on different machines.</p>
@@ -570,19 +570,19 @@ For an entry <code>base_path,hits</code>, each worker requests <code>base_path</
 <li>
 <p><strong>govuk.PublishToPublishingApi</strong></p>
 <p><strong>Requires:</strong> <code>BEARER_TOKEN</code> environment variables.</p>
-<p><strong>Note:</strong> The Publishing API is not accessible from the outside, you'll<br />
-need to set up a proxy into our infrastructure to connect to it from<br />
+<p><strong>Note:</strong> The Publishing API is not accessible from the outside, you'll
+need to set up a proxy into our infrastructure to connect to it from
 Gatling.</p>
 <p>For example, for staging:</p>
 <pre lang="sh"><code>$ ssh publishing-api-1.staging -CNL 8443:publishing-api.staging.publishing.service.gov.uk:443
 </code></pre>
-<p>You'll then need to add the line<br />
-<code>127.0.0.1 publishing-api.staging.publishing.service.gov.uk</code> to<br />
+<p>You'll then need to add the line
+<code>127.0.0.1 publishing-api.staging.publishing.service.gov.uk</code> to
 <code>/etc/hosts</code> to make sure the HTTPS server name matches.</p>
-<p>Then you can set your <code>baseUrl</code> to<br />
+<p>Then you can set your <code>baseUrl</code> to
 <code>https://publishing-api.staging.publishing.service.gov.uk:8443</code>.</p>
-<p>Since the load testing is now limited by your SSH proxy, you may want to<br />
-increase the <code>ulimit</code> to a high number such as <code>ulimit -n 4096</code>. This means<br />
+<p>Since the load testing is now limited by your SSH proxy, you may want to
+increase the <code>ulimit</code> to a high number such as <code>ulimit -n 4096</code>. This means
 SSH is able to cope with more open sockets.</p>
 <p>Steps:</p>
 <ul>
@@ -595,10 +595,10 @@ SSH is able to cope with more open sockets.</p>
 <p><strong>govuk.WhitehallPublishing</strong></p>
 <p><strong>Requires:</strong> <code>signonUrl</code> property. <code>GATLING_USERNAME</code> and <code>GATLING_PASSWORD</code> environment variables.</p>
 <p><strong>Optional:</strong> <code>schedule</code> property will schedule publication.<br />
-This value must be a timestamp in the format <code>yyyy-MM-ddTHH:mm</code> (eg. <code>2019-01-10T17:30</code>).<br />
+This value must be a timestamp in the format <code>yyyy-MM-ddTHH:mm</code> (eg. <code>2019-01-10T17:30</code>).
 The value must be at least 15 minutes before the test run as Whitehall enforces this rule for scheduled publishing.</p>
-<p><strong>Optional:</strong> <code>maxTryAttempt</code> property will set how many times each step will be attempting before logging as a failure.<br />
-This is to stimulate a user refreshing or reattempting after receiving an error response.<br />
+<p><strong>Optional:</strong> <code>maxTryAttempt</code> property will set how many times each step will be attempting before logging as a failure.
+This is to stimulate a user refreshing or reattempting after receiving an error response.
 If nothing is passed, it will default to 1.</p>
 <p>Example:</p>
 <pre><code>$ export JAVA_OPTS="-DbaseUrl=https://whitehall-admin.staging.publishing.service.gov.uk/ -Dworkers=1 -DsignonUrl=https://signon.staging.publishing.service.gov.uk/"
@@ -629,7 +629,7 @@ If nothing is passed, it will default to 1.</p>
 <li>
 <p><strong>govuk.Search</strong></p>
 <p><strong>Data files:</strong> search.csv</p>
-<p><strong>Optional:</strong> <code>factor</code> (default: 1), the multiplier to apply to the amount of desired traffic<br />
+<p><strong>Optional:</strong> <code>factor</code> (default: 1), the multiplier to apply to the amount of desired traffic
 For an entry <code>base_path,hits</code>, each worker requests <code>base_path</code> <code>ceil(hits * factor / workers)</code> times, with no delay between requests.  Each worker proceeds through the csv in order.</p>
 <p><strong>Optional:</strong> <code>duration</code> (default: 0), if set the test will last for the given number of seconds. Any workers that have not started or completed will be halted at this point. Conversely, any workers that finish ahead of this point will be restarted to ensure the test lasts for the given time.</p>
 <p>If you are having difficulty running the entire test plan on a single machine within your desired duration, try splitting up the data file and running multiple instances of Gatling simultaneously on different machines.</p>
@@ -638,7 +638,7 @@ For an entry <code>base_path,hits</code>, each worker requests <code>base_path</
 <h2 id="5-uploading">
 <!-- raw HTML omitted -->5. Uploading<!-- raw HTML omitted -->
 </h2>
-<p>See <a href="https://github.com/alphagov/govuk-load-testing/blob/master/docs/uploading.md">how to upload results</a> for more information on how to<br />
+<p>See <a href="https://github.com/alphagov/govuk-load-testing/blob/master/docs/uploading.md">how to upload results</a> for more information on how to
 upload results so they are easy to access in the future.</p>
 <h2 id="6-combining-concurrent-test-results">
 <!-- raw HTML omitted -->6. Combining concurrent test results<!-- raw HTML omitted -->

@@ -206,29 +206,29 @@
   <h1 class="page-title">publishing-api: Publishing application examples</h1>
 
   
-<p>This documentation aims to explain integration steps for a publishing<br>
-application to manage content and links within the Publishing API.<br>
-Included are request flow concepts and trivial code examples to aid the<br>
+<p>This documentation aims to explain integration steps for a publishing
+application to manage content and links within the Publishing API.
+Included are request flow concepts and trivial code examples to aid the
 developer with integration steps.</p>
-<p>The Publishing API provides a set of endpoints aimed at providing client<br>
-publishing applications a way to draft and modify content and links, and<br>
+<p>The Publishing API provides a set of endpoints aimed at providing client
+publishing applications a way to draft and modify content and links, and
 then to publish or unpublish them.</p>
-<p>Content and links for a shared content item can be modified separately on<br>
-different endpoints, these distinct changes will ultimately modify the<br>
+<p>Content and links for a shared content item can be modified separately on
+different endpoints, these distinct changes will ultimately modify the
 downstream representation in the content store.</p>
 <h2 id="authentication-and-audit-trail">Authentication and audit trail</h2>
-<p>Publishing applications may need to track the changes made to a content item<br>
-against an authenticated user. In order to do this<br>
-<a href="https://github.com/alphagov/gds-sso#integration-with-a-rails-3-app">integration with GDS-SSO is required</a>, this usually<br>
-means implementing a persisted user model in the publishing application and<br>
-applying a filter in the application controller to authenticate the user.<br>
-The <code>User#uid</code> value can then be sent as a request parameter when drafting<br>
+<p>Publishing applications may need to track the changes made to a content item
+against an authenticated user. In order to do this
+<a href="https://github.com/alphagov/gds-sso#integration-with-a-rails-3-app">integration with GDS-SSO is required</a>, this usually
+means implementing a persisted user model in the publishing application and
+applying a filter in the application controller to authenticate the user.
+The <code>User#uid</code> value can then be sent as a request parameter when drafting
 content to restrict access. eg.</p>
 <pre><code>  access_limited : ["8f3173bb-ee2a-48a2-aa86-f2f030830888"]
 </code></pre>
 <h2 id="draft-and-publish-endpoint-flow">Draft and Publish endpoint flow</h2>
-<p>The Publishing API prescribes a draft-to-live workflow where the publishing<br>
-application submits new draft content, this content may then be updated via the<br>
+<p>The Publishing API prescribes a draft-to-live workflow where the publishing
+application submits new draft content, this content may then be updated via the
 same endpoint and finally can be published in a discrete endpoint request.</p>
 <pre><code>  Publishing Application                                 Publishing API
 
@@ -244,9 +244,9 @@ same endpoint and finally can be published in a discrete endpoint request.</p>
            --------------------------------------------&gt; [ POST /v2/content/:content_id/publish ]
 </code></pre>
 <h2 id="configuring-the-publishing-api-for-use-in-a-publishing-application">Configuring the Publishing API for use in a publishing application</h2>
-<p>HTTP requests to Publishing API endpoints should be made using the<br>
-<a href="https://github.com/alphagov/gds-api-adapters/blob/master/lib/gds_api/publishing_api_v2.rb">publishing-api v2 gds-api-adapters client library</a>.<br>
-A trivial example of how to configure a publishing application to use the<br>
+<p>HTTP requests to Publishing API endpoints should be made using the
+<a href="https://github.com/alphagov/gds-api-adapters/blob/master/lib/gds_api/publishing_api_v2.rb">publishing-api v2 gds-api-adapters client library</a>.
+A trivial example of how to configure a publishing application to use the
 Publishing API v2 client adapter would be:</p>
 <pre lang="ruby"><code>  require "gds_api/publishing_api_v2"
 
@@ -254,18 +254,18 @@ Publishing API v2 client adapter would be:</p>
 
 </code></pre>
 <h3 id="configuring-authentication">Configuring authentication</h3>
-<p>Individual applications require bearer tokens to access the publishing API. To<br>
+<p>Individual applications require bearer tokens to access the publishing API. To
 create and configure tokens:</p>
 <ol start="0">
-<li>Go to the API users config in Signon for each environment (e.g.<br>
-<a href="https://signon.integration.publishing.service.gov.uk/api_users">https://signon.integration.publishing.service.gov.uk/api_users</a>). You must be<br>
+<li>Go to the API users config in Signon for each environment (e.g.
+<a href="https://signon.integration.publishing.service.gov.uk/api_users">https://signon.integration.publishing.service.gov.uk/api_users</a>). You must be
 a superadmin to see this page.</li>
-<li>Find your application in the list or create a new API user for it. The app's<br>
+<li>Find your application in the list or create a new API user for it. The app's
 email address should be <code>name-of-app@alphagov.co.uk</code>.</li>
 <li>Add a publishing API application token for that user.</li>
-<li>Add the tokens for each environment to <a href="https://github.com/alphagov/govuk-secrets">govuk-secrets</a><br>
+<li>Add the tokens for each environment to <a href="https://github.com/alphagov/govuk-secrets">govuk-secrets</a>
 (<a href="https://github.com/alphagov/govuk-secrets/pull/130">example</a>).</li>
-<li>Configure <a href="https://github.com/alphagov/govuk-puppet">govuk-puppet</a> to create an environment variable for<br>
+<li>Configure <a href="https://github.com/alphagov/govuk-puppet">govuk-puppet</a> to create an environment variable for
 the token (<a href="https://github.com/alphagov/govuk-puppet/pull/6978">example</a>).</li>
 <li>Use the environment variable in the app:</li>
 </ol>
@@ -275,20 +275,20 @@ the token (<a href="https://github.com/alphagov/govuk-puppet/pull/6978">example<
 )
 </code></pre>
 <h2 id="drafting-content-from-a-publishing-app">Drafting content from a publishing app</h2>
-<p>Publishing applications should use the <code>PUT /v2/content/:content_id</code> endpoint<br>
-to add content.<br>
-Please refer to the <a href="api.md">api documentation</a> and<br>
-<a href="model.md">model documentation</a> for further details.</p>
-<p>The publishing application is responsible for the generation of a content_id,<br>
-the primary identifier for content in the Publishing API and content store.<br>
+<p>Publishing applications should use the <code>PUT /v2/content/:content_id</code> endpoint
+to add content.
+Please refer to the <a href="/apis/publishing-api/api.html">api documentation</a> and
+<a href="/apis/publishing-api/model.html">model documentation</a> for further details.</p>
+<p>The publishing application is responsible for the generation of a content_id,
+the primary identifier for content in the Publishing API and content store.
 The convention is to use <code>SecureRandom.uuid</code> to generate a valid content_id.</p>
-<p>Details of how the payload should be constructed including required fields can<br>
-be found in <a href="https://github.com/alphagov/govuk-content-schemas">govuk-content-schemas</a> where each format is<br>
-defined for both publishing and frontend applications. For example the payload<br>
-for a <a href="https://github.com/alphagov/govuk-content-schemas/blob/master/dist/formats/case_study/publisher_v2/schema.json">case study</a> would need to provide <code>body</code> and<br>
-<code>first_public_at</code> attributes along with other mandatory attributes such as<br>
+<p>Details of how the payload should be constructed including required fields can
+be found in <a href="https://github.com/alphagov/govuk-content-schemas">govuk-content-schemas</a> where each format is
+defined for both publishing and frontend applications. For example the payload
+for a <a href="https://github.com/alphagov/govuk-content-schemas/blob/master/dist/formats/case_study/publisher_v2/schema.json">case study</a> would need to provide <code>body</code> and
+<code>first_public_at</code> attributes along with other mandatory attributes such as
 <code>title</code> and <code>base_path</code>.</p>
-<p>Using the Publishing API v2 client adapter with a valid content_id and payload,<br>
+<p>Using the Publishing API v2 client adapter with a valid content_id and payload,
 the following example would make the request.</p>
 <pre lang="ruby"><code>  publishing_api = GdsApi::PublishingApiV2.new(Plek.find("publishing-api"))
   content_id = SecureRandom.uuid
@@ -311,7 +311,7 @@ the following example would make the request.</p>
   payload = guide.as_json
   publishing_api.put_content(content_id, payload)
 </code></pre>
-<p>The response body would contain a presentation of the saved edition<br>
+<p>The response body would contain a presentation of the saved edition
 including the item lock version eg.</p>
 <pre lang="js"><code>  {"content_id":"940b88db-8f15-4859-b5b2-4761ba62a067",
   "locale":"en",
@@ -329,15 +329,15 @@ including the item lock version eg.</p>
   "rendering_app":"frontend",
   "lock version":"1"}
 </code></pre>
-<p>Which could then be used to update the local model instance in the publishing<br>
+<p>Which could then be used to update the local model instance in the publishing
 application:</p>
 <pre lang="ruby"><code>  parsed_response = JSON.parse(response.body)
   guide.update_attributes(parsed_response)
 </code></pre>
 <h2 id="error-handling">Error handling</h2>
-<p>The response will indicate any errors that may have occurred in making the<br>
-request. These may be validation errors for required content fields or more<br>
-general errors pertaining to lock version locking. A 4xx error code will be<br>
+<p>The response will indicate any errors that may have occurred in making the
+request. These may be validation errors for required content fields or more
+general errors pertaining to lock version locking. A 4xx error code will be
 returned along with error messages in the <code>response.body.error</code> object. eg.</p>
 <pre lang="js"><code>  {
     "status": 409,
@@ -358,10 +358,10 @@ returned along with error messages in the <code>response.body.error</code> objec
   }
 </code></pre>
 <h2 id="lockversioning">LockVersioning</h2>
-<p>The response body contains the current lock version of the document for GET<br>
-and PUT <code>/v2/content/:content_id</code> endpoints. This allows the publishing<br>
-application to track the updated draft lock version, this is can in turn be<br>
-used in an optional previous_version request parameter to prevent conflicting<br>
+<p>The response body contains the current lock version of the document for GET
+and PUT <code>/v2/content/:content_id</code> endpoints. This allows the publishing
+application to track the updated draft lock version, this is can in turn be
+used in an optional previous_version request parameter to prevent conflicting
 updates from overwriting content. ie.</p>
 <pre><code>  Publishing Application                                 Publishing API
 
@@ -383,22 +383,22 @@ updates from overwriting content. ie.</p>
 
   [ Update lock version 2 ] ------ previous_version: 2 -----&gt; [ PUT /v2/content/:content_id ]
 </code></pre>
-<p><a href="api.md">GET endpoints also exist for content and links</a> should the publishing<br>
-application wish to make a request for the current state of these items in the<br>
+<p><a href="/apis/publishing-api/api.html">GET endpoints also exist for content and links</a> should the publishing
+application wish to make a request for the current state of these items in the
 Publishing API.</p>
 <h2 id="publishing">Publishing</h2>
-<p>Publishing content is handled by a discrete endpoint accepting the<br>
-<code>content_id</code> of the item to publish and optionally the <code>locale</code> of the item to<br>
+<p>Publishing content is handled by a discrete endpoint accepting the
+<code>content_id</code> of the item to publish and optionally the <code>locale</code> of the item to
 publish. eg.</p>
 <pre><code>POST /v2/940b88db-8f15-4859-b5b2-4761ba62a067/publish?locale=fr
 </code></pre>
-<p>When making a request to publish, the current draft item of the same content_id<br>
-and locale is used as the basis of the payload sent downstream to the live<br>
+<p>When making a request to publish, the current draft item of the same content_id
+and locale is used as the basis of the payload sent downstream to the live
 content store.</p>
 <h2 id="automatic-redirects">Automatic Redirects</h2>
-<p>Publishing API automatically creates redirects for documents when<br>
-their base paths change between editions.<br>
-When the edition is created as a draft, a redirect edition is also created in<br>
+<p>Publishing API automatically creates redirects for documents when
+their base paths change between editions.
+When the edition is created as a draft, a redirect edition is also created in
 draft. When the edition is published, the redirect is also published.</p>
 <hr>
 <p>Is there anything wrong with the documentation? If so:</p>

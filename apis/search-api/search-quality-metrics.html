@@ -206,30 +206,30 @@
   <h1 class="page-title">search-api: Search Quality Metrics</h1>
 
   
-<p>We assess the quality of Search API search results with two metrics:<br>
-Click Through Rate (an online metric) and Normalised Discounted Cumulative Gain<br>
+<p>We assess the quality of Search API search results with two metrics:
+Click Through Rate (an online metric) and Normalised Discounted Cumulative Gain
 (<a href="https://en.wikipedia.org/wiki/Discounted_cumulative_gain">nDCG</a>).</p>
 <h2 id="online-metrics">Online metrics</h2>
-<p>We monitor changes to search relevance over time in a <a href="https://grafana.blue.production.govuk.digital/dashboard/file/search_relevancy.json?orgId=1">Search Relevancy Dashboard</a>.<br>
+<p>We monitor changes to search relevance over time in a <a href="https://grafana.blue.production.govuk.digital/dashboard/file/search_relevancy.json?orgId=1">Search Relevancy Dashboard</a>.
 We call the metrics displayed there <em>online metrics</em>.</p>
-<p>Our main online metric is Click Through Rate on the top results<br>
-(top 1, 3, and 5). This isn't a great metric, since users might<br>
-click on something that isn't what they were looking for. But this<br>
-serves our needs in the absence of a more sophisticated way of<br>
+<p>Our main online metric is Click Through Rate on the top results
+(top 1, 3, and 5). This isn't a great metric, since users might
+click on something that isn't what they were looking for. But this
+serves our needs in the absence of a more sophisticated way of
 measuring user success following a search.</p>
-<p>We also measure nDCG before and after re-ranking over time, to<br>
+<p>We also measure nDCG before and after re-ranking over time, to
 tell us how search is performing against relevance judgements.</p>
 <h2 id="offline-metrics">Offline metrics</h2>
-<p>Our main offline metric is nDCG. We measure this before and after<br>
-re-ranking by our <a href="learning-to-rank.md">learning to rank model</a>.</p>
-<p>We use Elasticsearch's <a href="ranking_evaluation_api">Ranking Evaluation API</a><br>
-to assess the quality of results retrieved from Elasticsearch prior<br>
-to re-ranking.<br>
+<p>Our main offline metric is nDCG. We measure this before and after
+re-ranking by our <a href="/apis/search-api/learning-to-rank.html">learning to rank model</a>.</p>
+<p>We use Elasticsearch's <a href="https://github.com/alphagov/search-api/blob/master/docs/ranking_evaluation_api">Ranking Evaluation API</a>
+to assess the quality of results retrieved from Elasticsearch prior
+to re-ranking.
 The API enables us to score how well search-api ranks results for a given query.</p>
 <h3 id="what-is-rank-evaluation">What is rank evaluation?</h3>
-<p>Rank evaluation is a process by which we rate how well search-api ranks results for<br>
+<p>Rank evaluation is a process by which we rate how well search-api ranks results for
 a given query.</p>
-<p>For example, given the query <code>Harry Potter</code> in an ideal situation, the results<br>
+<p>For example, given the query <code>Harry Potter</code> in an ideal situation, the results
 would be returned in this order:</p>
 <ol>
 <li>Harry Potter</li>
@@ -242,12 +242,12 @@ would be returned in this order:</p>
 <li>Sign in to your HMRC account</li>
 <li>Harry Potter</li>
 </ol>
-<p>The first situation is good and the second is bad. But what we really<br>
+<p>The first situation is good and the second is bad. But what we really
 want is a metric to say <em>how bad</em> the results are.</p>
-<p>Rank evaluation provides us with a metric which tells us how good or bad<br>
+<p>Rank evaluation provides us with a metric which tells us how good or bad
 the results are for a set of queries that we have already manually ranked.</p>
 <p>So we have a rake task <code>debug:rank_evaluation</code> that does this.</p>
-<p>This is useful, because we can tell how good a change is before running an<br>
+<p>This is useful, because we can tell how good a change is before running an
 AB test on real users.</p>
 <p>For example:</p>
 <pre><code>$ rake debug:rank_evaluation
@@ -258,15 +258,15 @@ contact:                           0.9957591943893841
 ...
 Overall score:                     0.8209391842392532 (average of all scores)
 </code></pre>
-<p>The above means that the queries for <code>passport</code> and <code>contact</code> are both<br>
+<p>The above means that the queries for <code>passport</code> and <code>contact</code> are both
 returning better results than the query for <code>harry potter</code>.</p>
-<p>Moreover, if the score for <code>harry potter</code> was <code>0.2392687105963024</code> before<br>
+<p>Moreover, if the score for <code>harry potter</code> was <code>0.2392687105963024</code> before
 we made a change, then that means we've made a good change for that query.</p>
-<p>This can be measured over time, and it is! See the section on 'What do we do<br>
+<p>This can be measured over time, and it is! See the section on 'What do we do
 with the query scores?' below.</p>
 <h2 id="how-do-we-compute-a-score-for-a-query">How do we compute a score for a query?</h2>
-<p>Given a set of queries and a list of manually rated documents, the API tells<br>
-us how well we are ranking the results of queries given the manual ratings<br>
+<p>Given a set of queries and a list of manually rated documents, the API tells
+us how well we are ranking the results of queries given the manual ratings
 we have supplied.</p>
 <p>A score of 1 is perfect and a score of 0 is catastrophic.</p>
 <p>But how do we get to the number <code>0.6297902553883483</code> for the query <code>harry potter</code>?</p>
@@ -286,7 +286,7 @@ we have supplied.</p>
 2 = near
 3 = relevant
 </code></pre>
-<p>For example, for the query <code>harry potter</code> we manually rate the documents in the<br>
+<p>For example, for the query <code>harry potter</code> we manually rate the documents in the
 results:</p>
 <pre><code>QUERY             RATING  DOCUMENT
 harry potter      2       Who is Harry Potter?
@@ -295,18 +295,18 @@ harry potter      3       Harry Potter
 harry potter      2       Harry Potter World
 ...
 </code></pre>
-<p>We then provide this to the Elasticsearch Rank Evaluation API, which behind the<br>
-scenes does a query for harry potter, and compares the ratings we provided with<br>
-what the actual results are, computes normalised DCG (number between 0 and 1)<br>
-and returns it to us. Thus <code>harry potter = 0.6297902553883483</code> at this moment<br>
+<p>We then provide this to the Elasticsearch Rank Evaluation API, which behind the
+scenes does a query for harry potter, and compares the ratings we provided with
+what the actual results are, computes normalised DCG (number between 0 and 1)
+and returns it to us. Thus <code>harry potter = 0.6297902553883483</code> at this moment
 in time.</p>
 <h2 id="what-do-we-do-with-the-query-scores">What do we do with the query scores?</h2>
-<p>We use them for checking changes locally, as a quick check before we run an AB<br>
+<p>We use them for checking changes locally, as a quick check before we run an AB
 test.</p>
 <pre><code>bundle exec rake relevance:ndcg
 </code></pre>
-<p>We also report the rank evaluation scores to graphite.<br>
-This enables us to plot how relevancy changes over time (overall<br>
+<p>We also report the rank evaluation scores to graphite.
+This enables us to plot how relevancy changes over time (overall
 and for a given query).</p>
 <p>This runs every 3 hours in all environments:</p>
 <pre><code>SEND_TO_GRAPHITE=true bundle exec rake relevance:ndcg
@@ -315,9 +315,9 @@ and for a given query).</p>
 <h2 id="how-do-we-collect-relevancy-judgements">How do we collect relevancy judgements?</h2>
 <p>We use a combination of implicit and explicit relevance judgements.</p>
 <p>The implicit relevance judgements are derived from user click data.</p>
-<p>The explicit judgements are provided by experts across government via<br>
+<p>The explicit judgements are provided by experts across government via
 the search relevance tool: <a href="https://github.com/alphagov/govuk-search-relevance-tool">https://github.com/alphagov/govuk-search-relevance-tool</a>.</p>
-<p>Relevance judgements are uploaded in CSV format to an S3 bucket,<br>
+<p>Relevance judgements are uploaded in CSV format to an S3 bucket,
 which then gets pulled by search-api when the scheduled job runs.</p>
 
 

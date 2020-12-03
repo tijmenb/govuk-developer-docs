@@ -206,7 +206,7 @@
   <h1 class="page-title">search-api: Indexing</h1>
 
   
-<p>Elasticsearch, the search engine operated by Search API, stores documents<br>
+<p>Elasticsearch, the search engine operated by Search API, stores documents
 in <em>indexes</em>.</p>
 <p>This document describes how documents are indexed (added to Elasticsearch indexes).</p>
 <!-- raw HTML omitted -->
@@ -217,32 +217,32 @@ in <em>indexes</em>.</p>
 <li>
 <strong>Document</strong>: An elasticsearch document, something we can search for.</li>
 <li>
-<strong>Document Type</strong>: An <a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/mapping.html">elasticsearch document<br>
-type</a><br>
-specifies the fields for a particular type of document. All our document<br>
-types are defined in<br>
-<a href="config/schema/elasticsearch_types">config/schema/elasticsearch_types</a>
+<strong>Document Type</strong>: An <a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/mapping.html">elasticsearch document
+type</a>
+specifies the fields for a particular type of document. All our document
+types are defined in
+<a href="https://github.com/alphagov/search-api/blob/master/docs/config/schema/elasticsearch_types">config/schema/elasticsearch_types</a>
 </li>
 <li>
-<strong>Index</strong>: An <a href="https://www.elastic.co/blog/what-is-an-elasticsearch-index">elasticsearch search<br>
-index</a>. Search API<br>
-maintains several separate indices (<code>detailed</code>, <code>government</code> and <code>govuk</code>),<br>
+<strong>Index</strong>: An <a href="https://www.elastic.co/blog/what-is-an-elasticsearch-index">elasticsearch search
+index</a>. Search API
+maintains several separate indices (<code>detailed</code>, <code>government</code> and <code>govuk</code>),
 but searches return documents from all of them.</li>
 <li>
-<strong>Index Group</strong>: An alias in elasticsearch that points to one index at a<br>
+<strong>Index Group</strong>: An alias in elasticsearch that points to one index at a
 time. This allows us to rebuild indexes without downtime.</li>
 </ul>
 <h2 id="how-documents-get-added-to-the-search-indexes">How documents get added to the search indexes</h2>
 <p>There are two ways documents get added to a search index:</p>
 <ol>
-<li>HTTP requests to Search API's <a href="documents.md">Documents API</a> (deprecated)</li>
-<li>Search API subscribes to RabbitMQ messages from the<br>
+<li>HTTP requests to Search API's <a href="/apis/search-api/documents.html">Documents API</a> (deprecated)</li>
+<li>Search API subscribes to RabbitMQ messages from the
 <a href="https://github.com/alphagov/publishing-api">Publishing API</a>.</li>
 </ol>
-<p>Search API search results are weighted by <a href="popularity.md">popularity</a>. We<br>
+<p>Search API search results are weighted by <a href="/apis/search-api/popularity.html">popularity</a>. We
 rebuild the index nightly to incorporate the latest analytics.</p>
 <h4 id="publishing-api-integration">Publishing API integration</h4>
-<p>Search API subscribes to a RabbitMQ queue of updates from publishing-api. This<br>
+<p>Search API subscribes to a RabbitMQ queue of updates from publishing-api. This
 still requires Sidekiq to be running.</p>
 <pre><code>bundle exec rake message_queue:insert_data_into_govuk
 </code></pre>
@@ -253,13 +253,13 @@ still requires Sidekiq to be running.</p>
 <p>There are some other APIs that are only exposed internally:</p>
 <ul>
 <li>
-<a href="content-api.md">content-api.md</a> for the <code>/content/*</code> endpoint.</li>
+<a href="/apis/search-api/content-api.html">content-api.md</a> for the <code>/content/*</code> endpoint.</li>
 <li>
-<a href="documents.md">documents.md</a> for the <code>*/documents/</code> endpoint.</li>
+<a href="/apis/search-api/documents.html">documents.md</a> for the <code>*/documents/</code> endpoint.</li>
 </ul>
 <p>These are used by <a href="https://github.com/alphagov/search-admin/">search admin</a>.</p>
 <h2 id="schemas">Schemas</h2>
-<p>See <a href="schemas.md">schemas</a> for more detail.</p>
+<p>See <a href="/apis/search-api/schemas.html">schemas</a> for more detail.</p>
 <h3 id="changing-the-schemareindexing">Changing the schema/Reindexing</h3>
 <p>After changing the schema, you'll need to recreate the index. This reindexes documents from the existing index.</p>
 <p>SEARCH_INDEX=all bundle exec rake search:migrate_schema</p>

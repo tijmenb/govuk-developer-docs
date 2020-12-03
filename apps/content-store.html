@@ -369,26 +369,26 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/content_store
     
 <p>The Content Store is a MongoDB database of almost all published content on GOV.UK.</p>
 <h2 id="reading-and-writing-to-the-store">Reading and writing to the store</h2>
-<p>Content is retrieved from the content store via the <a href="https://content-api.publishing.service.gov.uk/">content API</a>,<br />
-which takes a path and responds with a JSON representation of the content that should<br />
-be displayed on that path. This API is used by front-end apps but is also exposed externally<br />
+<p>Content is retrieved from the content store via the <a href="https://content-api.publishing.service.gov.uk/">content API</a>,
+which takes a path and responds with a JSON representation of the content that should
+be displayed on that path. This API is used by front-end apps but is also exposed externally
 at <code>/api/content/&lt;path&gt;</code>, such as <a href="https://www.gov.uk/api/content/take-pet-abroad">https://www.gov.uk/api/content/take-pet-abroad</a></p>
-<p>Content is written by the <a href="https://docs.publishing.service.gov.uk/apps/publishing-api.html">publishing API</a>, which is used by<br />
+<p>Content is written by the <a href="https://docs.publishing.service.gov.uk/apps/publishing-api.html">publishing API</a>, which is used by
 back-end publishing apps such as Travel Advice Publisher.</p>
 <h3 id="content-schemas">Content schemas</h3>
-<p>Not all content exists as a standalone page like the <code>/take-pet-abroad</code> example. Some<br />
-content exists as a collection that references other pieces of content, and some content<br />
-exists as meta content designed to describe a wider whole. We use<br />
-<a href="https://github.com/alphagov/govuk-content-schemas">govuk-content-schemas</a> to describe all these different content<br />
+<p>Not all content exists as a standalone page like the <code>/take-pet-abroad</code> example. Some
+content exists as a collection that references other pieces of content, and some content
+exists as meta content designed to describe a wider whole. We use
+<a href="https://github.com/alphagov/govuk-content-schemas">govuk-content-schemas</a> to describe all these different content
 types. The content API itself is not prescriptive about this; it takes any JSON structure.</p>
-<p>Detailed technical information can be found in the<br />
+<p>Detailed technical information can be found in the
 <a href="https://github.com/alphagov/content-store/blob/master/docs/technical-information.md">content store documentation</a>.</p>
 <h2 id="running-the-application">Running the application</h2>
 <p><code>./startup.sh</code></p>
 <h2 id="running-the-test-suite">Running the test suite</h2>
 <p><code>bundle exec rake</code></p>
 <h2 id="example-api-output">Example API output</h2>
-<p>Example API requests and corresponding responses can be found in the<br />
+<p>Example API requests and corresponding responses can be found in the
 <a href="https://pact-broker.cloudapps.digital/pacts/provider/Content%20Store/consumer/Publishing%20API/latest">content store pact-broker documentation</a>.</p>
 <h2 id="licence">Licence</h2>
 <p><a href="https://github.com/alphagov/content-store/blob/master/LICENSE">MIT License</a></p>

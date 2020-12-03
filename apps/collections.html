@@ -381,23 +381,23 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/draft_frontend
 <p>Collections serves the GOV.UK navigation pages and organisation pages.</p>
 <h2 id="screenshots">Screenshots</h2>
 <h3 id="browse-page">Browse page</h3>
-<p><img src="docs/browse-page.jpg" alt="Browse page" /></p>
+<p><img src="https://raw.githubusercontent.com/alphagov/collections/master/docs/browse-page.jpg" alt="Browse page" /></p>
 <h3 id="topic-page">Topic page</h3>
-<p><img src="docs/topic-page.jpg" alt="Topic page" /></p>
+<p><img src="https://raw.githubusercontent.com/alphagov/collections/master/docs/topic-page.jpg" alt="Topic page" /></p>
 <h3 id="subtopic-page">Subtopic page</h3>
-<p><img src="docs/subtopic-page.jpg" alt="Subtopic page" /></p>
+<p><img src="https://raw.githubusercontent.com/alphagov/collections/master/docs/subtopic-page.jpg" alt="Subtopic page" /></p>
 <h3 id="services-and-information-page">Services and information page</h3>
-<p><img src="docs/services-and-information-page.jpg" alt="Services and information page" /></p>
+<p><img src="https://raw.githubusercontent.com/alphagov/collections/master/docs/services-and-information-page.jpg" alt="Services and information page" /></p>
 <h3 id="taxonomy-page">Taxonomy page</h3>
-<p><img src="docs/taxonomy-page.png" alt="Taxonomy page" /></p>
+<p><img src="https://raw.githubusercontent.com/alphagov/collections/master/docs/taxonomy-page.png" alt="Taxonomy page" /></p>
 <h3 id="worldwide-taxonomy-page">Worldwide taxonomy page</h3>
-<p><img src="docs/world-taxonomy-page.png" alt="Worldwide taxonomy page" /></p>
+<p><img src="https://raw.githubusercontent.com/alphagov/collections/master/docs/world-taxonomy-page.png" alt="Worldwide taxonomy page" /></p>
 <h3 id="organisation-index-page">Organisation index page</h3>
-<p><img src="docs/orgs-index-page.png" alt="Organisation index page" /></p>
+<p><img src="https://raw.githubusercontent.com/alphagov/collections/master/docs/orgs-index-page.png" alt="Organisation index page" /></p>
 <h3 id="organisation-page">Organisation page</h3>
-<p><img src="docs/org-page.png" alt="Organisation page" /></p>
+<p><img src="https://raw.githubusercontent.com/alphagov/collections/master/docs/org-page.png" alt="Organisation page" /></p>
 <h3 id="step-by-step-page">Step by step page</h3>
-<p><img src="docs/step-by-step-page.png" alt="Step by step page" /></p>
+<p><img src="https://raw.githubusercontent.com/alphagov/collections/master/docs/step-by-step-page.png" alt="Step by step page" /></p>
 <h2 id="live-examples">Live examples</h2>
 <ul>
 <li>Browse page: <a href="https://www.gov.uk/browse">gov.uk/browse</a>
@@ -420,17 +420,17 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/draft_frontend
 </li>
 </ul>
 <h2 id="apis">APIs</h2>
-<p>The endpoints and known consumers of this application's APIs are documented in <a href="docs/api.md">docs/api</a></p>
+<p>The endpoints and known consumers of this application's APIs are documented in <a href="https://github.com/alphagov/collections/blob/master/docs/api.md">docs/api</a></p>
 <h2 id="nomenclature">Nomenclature</h2>
 <h3 id="topics">Topics</h3>
 <ul>
 <li>
-<strong>Curated list</strong>: a group of content tagged to a subtopic that has been<br />
+<strong>Curated list</strong>: a group of content tagged to a subtopic that has been
 curated into a named list.</li>
 <li>
 <strong>Topic</strong>: a named group of sub-topics. (A deprecated name for this is "specialist sector".)</li>
 <li>
-<strong>Sub-topic</strong>: a group of content within a topic. (A deprecated name for this is<br />
+<strong>Sub-topic</strong>: a group of content within a topic. (A deprecated name for this is
 "specialist sub-sector".)</li>
 </ul>
 <h3 id="browse-pages">Browse pages</h3>
@@ -452,24 +452,24 @@ curated into a named list.</li>
 <p>For example:</p>
 <ul>
 <li>
-<strong>Taxon with children</strong>: a content item of type taxon that has<br />
-<code>child_taxons</code> links. None of those child taxons' links have <code>child_taxons</code>,<br />
-in which case we display an accordion view:<br />
+<strong>Taxon with children</strong>: a content item of type taxon that has
+<code>child_taxons</code> links. None of those child taxons' links have <code>child_taxons</code>,
+in which case we display an accordion view:
 <a href="https://www.gov.uk/world/afghanistan">gov.uk/world/afghanistan</a>
 </li>
 <li>
-<strong>Taxon without children</strong>: a content item of type taxon that doesn't have<br />
-<code>child_taxons</code> links. In this case we display an leaf view:<br />
+<strong>Taxon without children</strong>: a content item of type taxon that doesn't have
+<code>child_taxons</code> links. In this case we display an leaf view:
 <a href="https://www.gov.uk/world/living-in-afghanistan">gov.uk/world/living-in-afghanistan</a>
 </li>
 <li>
-<strong>Taxon with associated taxons</strong>: a content item of type taxon that has<br />
-<code>associated_taxons</code> links. In this case the tagged content of the taxon will<br />
-include content that is directly tagged to it and also content that has been<br />
+<strong>Taxon with associated taxons</strong>: a content item of type taxon that has
+<code>associated_taxons</code> links. In this case the tagged content of the taxon will
+include content that is directly tagged to it and also content that has been
 tagged to any of the associated taxons.</li>
 </ul>
 <h2 id="technical-documentation">Technical documentation</h2>
-<p>This is a public facing Ruby on Rails application that retrieves browse content from APIs and presents it.<br />
+<p>This is a public facing Ruby on Rails application that retrieves browse content from APIs and presents it.
 There is no underlying persistence layer and all content is retrieved from external sources.</p>
 <h3 id="content-for-taxon-pages">Content for taxon pages</h3>
 <p>Content for taxon pages is returned by a search in Rummager based on content_ids for world taxonomy pages and content_ids and <a href="https://docs.publishing.service.gov.uk/document-types/content_purpose_supergroup.html">supergroups</a> for all other taxonomy pages.</p>
@@ -500,7 +500,7 @@ There is no underlying persistence layer and all content is retrieved from exter
 <h3 id="running-the-application">Running the application</h3>
 <pre><code>./startup.sh
 </code></pre>
-<p>The app should start on <a href="http://localhost:3070">http://localhost:3070</a> or<br />
+<p>The app should start on <a href="http://localhost:3070">http://localhost:3070</a> or
 <a href="http://collections.dev.gov.uk">http://collections.dev.gov.uk</a> on GOV.UK development machines.</p>
 <pre><code>./startup.sh --live
 </code></pre>
@@ -513,7 +513,7 @@ There is no underlying persistence layer and all content is retrieved from exter
 <h4 id="javascript-tests">Javascript tests</h4>
 <p>Use <code>bundle exec rake jasmine:ci</code> to run Jasmine tests</p>
 <h2 id="license">License</h2>
-<p><a href="LICENCE.txt">MIT License</a></p>
+<p><a href="https://github.com/alphagov/collections/blob/master/LICENCE.txt">MIT License</a></p>
   </div>
 
 

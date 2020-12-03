@@ -207,18 +207,18 @@
 
   
 <h3 id="govuk_notify_recipients"><code>GOVUK_NOTIFY_RECIPIENTS</code></h3>
-<p>This environment variable determines whether emails will be attempted to be<br>
-sent to Notify. Emails that aren't send to Notify are written to a log file.<br>
-This makes this setting useful in non-production environments where you may<br>
+<p>This environment variable determines whether emails will be attempted to be
+sent to Notify. Emails that aren't send to Notify are written to a log file.
+This makes this setting useful in non-production environments where you may
 want to send no, or only a few emails, to Notify.</p>
-<p>When this is set to <code>*</code> all emails are sent to Notify, this is the expected<br>
+<p>When this is set to <code>*</code> all emails are sent to Notify, this is the expected
 configuration for a production environment.</p>
-<p>In other environments this can be set as a comma separated list of email<br>
-addresses to specify the recipients who should have their emails sent to<br>
-Notify. For example, <code>GOVUK_NOTIFY_RECIPIENTS=test-1@example.com,test-2@example.com</code>.<br>
-Emails that are sent to other recipients will not be sent and will instead<br>
+<p>In other environments this can be set as a comma separated list of email
+addresses to specify the recipients who should have their emails sent to
+Notify. For example, <code>GOVUK_NOTIFY_RECIPIENTS=test-1@example.com,test-2@example.com</code>.
+Emails that are sent to other recipients will not be sent and will instead
 be written to the log file.</p>
-<p>If this environment variable is not set then no emails will be sent to Notify<br>
+<p>If this environment variable is not set then no emails will be sent to Notify
 and all will be written to the log file.</p>
 
 

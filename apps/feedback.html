@@ -362,23 +362,23 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/frontend
 
 <div class="embedded-readme">
     
-<p>This app collects feedback from users via contact forms rendered on GOV.UK.<br />
+<p>This app collects feedback from users via contact forms rendered on GOV.UK.
 This data is then sent to the <code>support</code> app or <code>support-api</code> app to be dealt with.</p>
 <h2 id="contact-page-on-gov-uk">Contact Page on GOV.UK</h2>
-<p><img src="/docs/screenshots/contact_page.png?raw=true" alt="Contact Page on GOV.UK" title="Contact Page on GOV.UK" /></p>
+<p><img src="https://raw.githubusercontent.com/docs/screenshots/contact_page.png?raw=true" alt="Contact Page on GOV.UK" title="Contact Page on GOV.UK" /></p>
 <h2 id="contact-form-on-gov-uk">Contact Form on GOV.UK</h2>
-<p><img src="/docs/screenshots/contact_form.png?raw=true" alt="Contact Form on GOV.UK" title="Contact Form on GOV.UK" /></p>
+<p><img src="https://raw.githubusercontent.com/docs/screenshots/contact_form.png?raw=true" alt="Contact Form on GOV.UK" title="Contact Form on GOV.UK" /></p>
 <h2 id="nomenclature">Nomenclature</h2>
 <ul>
 <li>
-<strong>Feedback</strong>: All the data received from contact forms is considered to be "feedback" of some form<br />
+<strong>Feedback</strong>: All the data received from contact forms is considered to be "feedback" of some form
 or other and relates to pages published on GOV.UK.</li>
 <li>
-<strong>Anonymous Contact</strong>: Part of the feedback collected by this app is anonymous, when it's<br />
+<strong>Anonymous Contact</strong>: Part of the feedback collected by this app is anonymous, when it's
 submitted via an anonymous contact form in the [feedback app][feedback].</li>
 <li>
-<strong>Named Contact</strong>: In contrast with the <code>Anonymous Contact</code> feedback, this is submitted<br />
-via a form that will require you to identify yourself. This data is sent directly<br />
+<strong>Named Contact</strong>: In contrast with the <code>Anonymous Contact</code> feedback, this is submitted
+via a form that will require you to identify yourself. This data is sent directly
 to the <code>support</code> app.</li>
 </ul>
 <h2 id="pages-rendered-by-the-application">Pages rendered by the application</h2>
@@ -394,22 +394,22 @@ to the <code>support</code> app.</li>
 <ol>
 <li>Renders a contact page on GOV.UK: <code>https://www.gov.uk/contact/govuk</code>
 </li>
-<li>Collects feedback from other contact forms. Pages using the <code>static</code> app<br />
-will have a link at the bottom of the page asking: <code>Is there anything wrong with this page?</code>.<br />
-Clicking this link will show you<br />
+<li>Collects feedback from other contact forms. Pages using the <code>static</code> app
+will have a link at the bottom of the page asking: <code>Is there anything wrong with this page?</code>.
+Clicking this link will show you
 a form. The data from the form will be submitted to the <code>feedback</code> app.</li>
-<li>Sends feedback either to the <code>support</code> app or the <code>support-api</code> app. If the<br />
-feedback is sent to the <code>support</code> app, it will in turn create a ticket in Zendesk.<br />
-If it's sent to the <code>support-api</code> app then it will either be stored in a database<br />
+<li>Sends feedback either to the <code>support</code> app or the <code>support-api</code> app. If the
+feedback is sent to the <code>support</code> app, it will in turn create a ticket in Zendesk.
+If it's sent to the <code>support-api</code> app then it will either be stored in a database
 or a Zendesk ticket will be created.</li>
-<li>A certain subset of tickets ('assisted digital') have a special workflow: they're<br />
-sent once to a Google spreadsheet via the Google API, and then a subset of the data<br />
-is sent to <code>support-api</code> which will save them in its database. More documentation about<br />
-that here: <a href="docs/assisted_digital_feedback.md">docs/assisted_digital_feedback.md</a>.</li>
-<li>Handles email survey signups. A banner that shows up on <code>gov.uk</code> will ask you to<br />
-provide an email to signup to a survey. <code>feedback</code> will then email you a link to the<br />
-survey. However, it does not collect the answers. More documentation about that here:<br />
-<a href="docs/email_survey_signups.md">docs/email_survey_signups.md</a>
+<li>A certain subset of tickets ('assisted digital') have a special workflow: they're
+sent once to a Google spreadsheet via the Google API, and then a subset of the data
+is sent to <code>support-api</code> which will save them in its database. More documentation about
+that here: <a href="https://github.com/alphagov/feedback/blob/master/docs/assisted_digital_feedback.md">docs/assisted_digital_feedback.md</a>.</li>
+<li>Handles email survey signups. A banner that shows up on <code>gov.uk</code> will ask you to
+provide an email to signup to a survey. <code>feedback</code> will then email you a link to the
+survey. However, it does not collect the answers. More documentation about that here:
+<a href="https://github.com/alphagov/feedback/blob/master/docs/email_survey_signups.md">docs/email_survey_signups.md</a>
 </li>
 </ol>
 <h3 id="dependencies">Dependencies</h3>
@@ -438,27 +438,27 @@ survey. However, it does not collect the answers. More documentation about that 
 <pre><code>development&gt; bowl feedback
 </code></pre>
 <h4 id="manual-testing-with-real-authorisation">Manual testing with real authorisation</h4>
-<p>For the feedback that is sent to the <code>support</code> app the <code>feedback</code> app needs a<br />
-bearer token for authorization because <code>support</code> is a backend app protected by<br />
-<code>signon</code>.  The same is not true for the feedback that is sent to <code>support-api</code><br />
+<p>For the feedback that is sent to the <code>support</code> app the <code>feedback</code> app needs a
+bearer token for authorization because <code>support</code> is a backend app protected by
+<code>signon</code>.  The same is not true for the feedback that is sent to <code>support-api</code>
 because it's not protected by <code>signon</code>.</p>
-<p>You can read more about how to obtain authorization in the docs:<br />
-<a href="docs/testing_with_real_authorization.md">docs/testing_with_real_authorization</a>.</p>
+<p>You can read more about how to obtain authorization in the docs:
+<a href="https://github.com/alphagov/feedback/blob/master/docs/testing_with_real_authorization.md">docs/testing_with_real_authorization</a>.</p>
 <h3 id="assisted-digital-feedback">Assisted Digital Feedback</h3>
-<p>Assisted Digital feedback is stored twice.  The standard service feedback<br />
-component is sent to support-api like other tickets, but the rest of the<br />
-feedback specifically about assisted digital support is stored in a google<br />
+<p>Assisted Digital feedback is stored twice.  The standard service feedback
+component is sent to support-api like other tickets, but the rest of the
+feedback specifically about assisted digital support is stored in a google
 spreadsheet.</p>
-<p>A more thorough explanation about how assisted digital feedback works can<br />
-be found in the docs: <a href="docs/assisted_digital_feedback.md">docs/assisted_digital_feedback.md</a>.</p>
+<p>A more thorough explanation about how assisted digital feedback works can
+be found in the docs: <a href="https://github.com/alphagov/feedback/blob/master/docs/assisted_digital_feedback.md">docs/assisted_digital_feedback.md</a>.</p>
 <h3 id="email-survey-signups">Email Survey Signups</h3>
-<p>This type of feedback is not actually feedback, it's a response from a banner<br />
-displayed by static asking users to provide an email address where we can send<br />
-them a link to a survey. The survey will then be emailed to them via the<br />
-<code>feedback</code> app. Please be aware that the answers we get back on the survey will<br />
+<p>This type of feedback is not actually feedback, it's a response from a banner
+displayed by static asking users to provide an email address where we can send
+them a link to a survey. The survey will then be emailed to them via the
+<code>feedback</code> app. Please be aware that the answers we get back on the survey will
 NOT be stored in <code>feedback</code>.</p>
-<p>A more thorough explanation of how email surveys work can be found in the docs:<br />
-<a href="docs/email_survey_signups.md">docs/email_survey_signup.md</a>.</p>
+<p>A more thorough explanation of how email surveys work can be found in the docs:
+<a href="https://github.com/alphagov/feedback/blob/master/docs/email_survey_signups.md">docs/email_survey_signup.md</a>.</p>
   </div>
 
 

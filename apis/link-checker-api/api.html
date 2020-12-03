@@ -213,8 +213,8 @@
   <h1 class="page-title">link-checker-api: Link Checker API's API</h1>
 
   
-<p>This documents the means to interface with the Link Checker API. This can be<br>
-done through HTTP Endpoints and webhooks. These methods will respond/send<br>
+<p>This documents the means to interface with the Link Checker API. This can be
+done through HTTP Endpoints and webhooks. These methods will respond/send
 specific entities.</p>
 <h2 id="endpoints">Endpoints</h2>
 <ul>
@@ -256,9 +256,9 @@ specific entities.</p>
 }
 </code></pre>
 <!-- raw HTML omitted -->
-<p>This endpoint is used to check a single link. If the link has been checked<br>
-within a time specified (default 4 hours) it will return the results from<br>
-that check, otherwise it will queue a check and return a pending report. You<br>
+<p>This endpoint is used to check a single link. If the link has been checked
+within a time specified (default 4 hours) it will return the results from
+that check, otherwise it will queue a check and return a pending report. You
 can force it to return a completed check with the <code>synchronous</code> parameter.</p>
 <h3 id="query-string-attributes">Query string attributes</h3>
 <ul>
@@ -271,7 +271,7 @@ can force it to return a completed check with the <code>synchronous</code> param
 <li>
 <code>checked_within</code> <em>(optional, defaults to 14400)</em>
 <ul>
-<li>An integer value of the number of seconds in the past that checks for this<br>
+<li>An integer value of the number of seconds in the past that checks for this
 link are valid.</li>
 <li>Use 0 to ensure the link is checked again</li>
 </ul>
@@ -279,7 +279,7 @@ link are valid.</li>
 <li>
 <code>synchronous</code> <em>(optional, defaults to false)</em>
 <ul>
-<li>A boolean value to specify to check the URI during this request, this may<br>
+<li>A boolean value to specify to check the URI during this request, this may
 cause a slow/timeout response, use with caution.</li>
 </ul>
 </li>
@@ -334,8 +334,8 @@ cause a slow/timeout response, use with caution.</li>
 }
 </code></pre>
 <!-- raw HTML omitted -->
-<p>This endpoint is used to check a collection of links, such as those from a<br>
-webpage. It will create a resource that can be checked to get the status of<br>
+<p>This endpoint is used to check a collection of links, such as those from a
+webpage. It will create a resource that can be checked to get the status of
 the batch, as well as return the resource in the response of this request.</p>
 <h3 id="json-attributes">JSON Attributes</h3>
 <ul>
@@ -348,7 +348,7 @@ the batch, as well as return the resource in the response of this request.</p>
 <li>
 <code>checked_within</code> <em>(optional, defaults to 14400)</em>
 <ul>
-<li>An integer value of the number of seconds in the past that checks for links<br>
+<li>An integer value of the number of seconds in the past that checks for links
 are valid.</li>
 <li>Use 0 to ensure links are all checked again</li>
 </ul>
@@ -357,7 +357,7 @@ are valid.</li>
 <code>priority</code> <em>(optional, defaults to high)</em>
 <ul>
 <li>A value of "high" or "low" to indicate the priority of your job</li>
-<li>If you are running a lots of batches you should set this to "low" so that<br>
+<li>If you are running a lots of batches you should set this to "low" so that
 you don't block usage for in app usage.</li>
 </ul>
 </li>
@@ -370,13 +370,13 @@ you don't block usage for in app usage.</li>
 <li>
 <code>webhook_secret_token</code> <em>(optional)</em>
 <ul>
-<li>A token that will be used to generate a <a href="https://en.wikipedia.org/wiki/Hash-based_message_authentication_code">HMAC-SHA1</a> token that<br>
+<li>A token that will be used to generate a <a href="https://en.wikipedia.org/wiki/Hash-based_message_authentication_code">HMAC-SHA1</a> token that
 is included with the webhook for validating the origin.</li>
 </ul>
 </li>
 </ul>
 <h3 id="returns">Returns</h3>
-<p>A <a href="#batchreport-entity"><code>BatchReport</code></a>, status code will be 202 for an in-progress<br>
+<p>A <a href="#batchreport-entity"><code>BatchReport</code></a>, status code will be 202 for an in-progress
 BatchReport and 201 for a completed one.</p>
 <h2 id="get-batchid"><code>GET /batch/:id</code></h2>
 <!-- raw HTML omitted -->
@@ -426,7 +426,7 @@ BatchReport and 201 for a completed one.</p>
 }
 </code></pre>
 <!-- raw HTML omitted -->
-<p>This endpoint is used to check on the progress of a batch or to access<br>
+<p>This endpoint is used to check on the progress of a batch or to access
 a completed batch</p>
 <h3 id="path-parameters">Path Parameters</h3>
 <ul>
@@ -441,17 +441,17 @@ a completed batch</p>
 <h3 id="returns">Returns</h3>
 <p>A <a href="#batchreport-entity"><code>BatchReport</code></a></p>
 <h2 id="batch-complete-webhook">Batch complete webhook</h2>
-<p>You can specify a <code>webhook_uri</code> to <a href="#post-batch"><code>POST /batch</code></a> to receive a<br>
-callback when a batch is completed. This URL will receive a<br>
+<p>You can specify a <code>webhook_uri</code> to <a href="#post-batch"><code>POST /batch</code></a> to receive a
+callback when a batch is completed. This URL will receive a
 <code>BatchReport</code>(#batchreport-entity) in a JSON POST request.</p>
-<p>To use it you will need an endpoint available in your application that is<br>
+<p>To use it you will need an endpoint available in your application that is
 accessible without authentication and can receive POST requests.</p>
 <h3 id="verifying-the-webhook-request">Verifying the webhook request</h3>
-<p>If you specified a <code>webhook_secret_token</code> when calling<br>
-<a href="#post-batch"><code>POST /batch</code></a> you will receive an additional header with the<br>
-webhook request of <code>X-LinkCheckerApi-Signature</code>. The value of this will be<br>
+<p>If you specified a <code>webhook_secret_token</code> when calling
+<a href="#post-batch"><code>POST /batch</code></a> you will receive an additional header with the
+webhook request of <code>X-LinkCheckerApi-Signature</code>. The value of this will be
 a <a href="https://en.wikipedia.org/wiki/Hash-based_message_authentication_code">HMAC-SHA1</a> signature that can be used to verify the request.</p>
-<p>You can create one in a Rails application, using the raw JSON as the<br>
+<p>You can create one in a Rails application, using the raw JSON as the
 <code>request_body</code>:</p>
 <pre><code>OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new("sha1"), secret_token, request_body)
 </code></pre>
@@ -483,11 +483,11 @@ a <a href="https://en.wikipedia.org/wiki/Hash-based_message_authentication_code"
 <li>Can be the following values:
 <ul>
 <li>"pending" - A check is queued or in progress for this link</li>
-<li>"ok" - The check is completed and there were no issues found with the<br>
+<li>"ok" - The check is completed and there were no issues found with the
 link</li>
-<li>"caution" - There were warnings detected for this link but no errors, an<br>
+<li>"caution" - There were warnings detected for this link but no errors, an
 end user should apply caution when linking to it.</li>
-<li>"broken" - There were errors detected for this link, an end user should<br>
+<li>"broken" - There were errors detected for this link, an end user should
 not link to it.</li>
 </ul>
 </li>
@@ -496,7 +496,7 @@ not link to it.</li>
 <li>
 <code>checked</code>
 <ul>
-<li>An <a href="https://www.ietf.org/rfc/rfc3339.txt">RFC 3339</a> formatted timestamp, will be <code>null</code> for a link with a<br>
+<li>An <a href="https://www.ietf.org/rfc/rfc3339.txt">RFC 3339</a> formatted timestamp, will be <code>null</code> for a link with a
 <code>status</code> of "pending".</li>
 </ul>
 </li>
@@ -525,7 +525,7 @@ not link to it.</li>
 </ul>
 </li>
 </ul>
-<p><code>errors</code>, <code>warnings</code>, <code>problem_summary</code> and <code>suggested_fix</code> are all designed to<br>
+<p><code>errors</code>, <code>warnings</code>, <code>problem_summary</code> and <code>suggested_fix</code> are all designed to
 be shown to the end user.</p>
 <h2 id="batchreport-entity">BatchReport entity</h2>
 <!-- raw HTML omitted -->
@@ -585,7 +585,7 @@ be shown to the end user.</p>
 <li>
 <code>status</code>
 <ul>
-<li>A value of "in_progress" or "completed", indicating whether all links have<br>
+<li>A value of "in_progress" or "completed", indicating whether all links have
 been checked.</li>
 </ul>
 </li>
@@ -599,7 +599,7 @@ been checked.</li>
 <li>
 <code>totals</code>
 <ul>
-<li>An object with numbers summarising the link progress. Contains the<br>
+<li>An object with numbers summarising the link progress. Contains the
 following keys:
 <ul>
 <li>
@@ -619,7 +619,7 @@ following keys:
 <li>
 <code>completed_at</code>
 <ul>
-<li>An <a href="https://www.ietf.org/rfc/rfc3339.txt">RFC 3339</a> formatted timestamp if this batch has a status of<br>
+<li>An <a href="https://www.ietf.org/rfc/rfc3339.txt">RFC 3339</a> formatted timestamp if this batch has a status of
 "completed" otherwise null.</li>
 </ul>
 </li>

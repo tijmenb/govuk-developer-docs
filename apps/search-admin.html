@@ -351,16 +351,16 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 <h2 id="example-pages-published-by-search-admin">Example pages published by search-admin</h2>
 
 <ul>
-    <li><a href="http://www.boroughofpoole.com">Borough of Poole Council</a></li>
-    <li><a href="http://www.crawley.gov.uk">Crawley Borough Council</a></li>
-    <li><a href="http://www.reading.gov.uk/">Reading Borough Council</a></li>
-    <li><a href="https://www.moneyadviceservice.org.uk/en/categories/managing-debt">Debt management - Money Advice Service</a></li>
-    <li><a href="http://www.cyberaware.gov.uk">Cyber Aware</a></li>
-    <li><a href="http://www.southtyneside.info/">South Tyneside Metropolitan Borough Council</a></li>
-    <li><a href="https://nationalcareersservice.direct.gov.uk/advice/courses/">Courses and learning - National Careers Service</a></li>
-    <li><a href="http://www.dorsetforyou.com/weymouthandportland">Weymouth and Portland Borough Council</a></li>
-    <li><a href="https://www.nhs.uk/ehic">EHIC - NHS</a></li>
-    <li><a href="http://www.selby.gov.uk">Selby District Council</a></li>
+    <li><a href="http://www.barking-dagenham.gov.uk">London Borough of Barking and Dagenham Council</a></li>
+    <li><a href="http://www.dorsetforyou.com/east">East Dorset District Council</a></li>
+    <li><a href="http://www.merton.gov.uk/">London Borough of Merton Council</a></li>
+    <li><a href="http://www.bournemouth.gov.uk">Bournemouth Borough Council</a></li>
+    <li><a href="http://www.bromley.gov.uk">London Borough of Bromley Council</a></li>
+    <li><a href="http://www.cookstown.gov.uk/">Cookstown District Council</a></li>
+    <li><a href="http://www.liverpool.gov.uk">Liverpool City Council</a></li>
+    <li><a href="http://www.hullcc.gov.uk">Kingston upon Hull City Council</a></li>
+    <li><a href="https://www.nhs.uk/">NHS</a></li>
+    <li><a href="http://www.bradford.gov.uk">City of Bradford Metropolitan District Council</a></li>
 </ul>
 
 <h2 id="readme">README</h2>
@@ -378,7 +378,7 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
     
 <p>The <code>search-admin</code> application manages search "best bets" and "external links" along with other search and browse data.</p>
 <h2 id="screenshots">Screenshots</h2>
-<p><img src="docs/images/screenshot.png" alt="Search Admin" /></p>
+<p><img src="https://raw.githubusercontent.com/alphagov/search-admin/master/docs/images/screenshot.png" alt="Search Admin" /></p>
 <h2 id="live-example">Live example</h2>
 <ul>
 <li><a href="https://search-admin.publishing.service.gov.uk/">https://search-admin.publishing.service.gov.uk/</a></li>
@@ -396,8 +396,8 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 <p><code>./startup.sh</code></p>
 <p>The app runs on port 3073. If you're using the dev VM it will be available at <a href="http://search-admin.dev.gov.uk/">http://search-admin.dev.gov.uk/</a></p>
 <h4 id="creating-the-mysql-user">Creating the mysql user</h4>
-<p>The database.yml for this project is checked into source control so<br />
-you'll need a local user with credentials that match those in<br />
+<p>The database.yml for this project is checked into source control so
+you'll need a local user with credentials that match those in
 database.yml.</p>
 <pre lang="sql"><code>    mysql&gt; create user 'search_admin'@'localhost' identified by 'search_admin';
     mysql&gt; grant all on `search_admin\_%`.* to search_admin@localhost;
@@ -408,7 +408,7 @@ database.yml.</p>
 <h3 id="external-links">External links</h3>
 <p>Run <code>bundle exec rake publish_external_links:publishing_api</code> to send all external links to the publishing API.</p>
 <h2 id="licence">Licence</h2>
-<p><a href="LICENSE">MIT License</a></p>
+<p><a href="https://github.com/alphagov/search-admin/blob/master/LICENSE">MIT License</a></p>
   </div>
 
 

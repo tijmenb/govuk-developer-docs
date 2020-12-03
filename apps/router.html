@@ -361,16 +361,16 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/cache
 
 <div class="embedded-readme">
     
-<p>This is a HTTP reverse proxy router built on top of <a href="https://github.com/alphagov/router/tree/master/triemux"><code>triemux</code></a>. It<br />
+<p>This is a HTTP reverse proxy router built on top of <a href="https://github.com/alphagov/router/tree/master/triemux"><code>triemux</code></a>. It
 loads a routing table into memory from a MongoDB database and acts as a:</p>
 <ul>
-<li>Reverse proxy, forwarding requests to and serving responses from multiple<br />
+<li>Reverse proxy, forwarding requests to and serving responses from multiple
 backend servers on a single domain.</li>
 <li>Redirector, serving HTTP <code>301</code> and <code>302</code> redirects to new URLs.</li>
-<li>Gone responder, serving HTTP <code>410</code> responses for resources that used to<br />
+<li>Gone responder, serving HTTP <code>410</code> responses for resources that used to
 but no longer exist.</li>
 </ul>
-<p>The sister project <a href="https://github.com/alphagov/router-api"><code>router-api</code></a> provides a read/write<br />
+<p>The sister project <a href="https://github.com/alphagov/router-api"><code>router-api</code></a> provides a read/write
 interface to the underlying database and route reloading.</p>
 <p>Some of the thinking behind the router is documented in <a href="https://gdstechnology.blog.gov.uk/2013/12/05/building-a-new-router-for-gov-uk/">this 2013 blog post</a>.</p>
 <h2 id="environment-assumptions">Environment assumptions</h2>
@@ -390,11 +390,11 @@ interface to the underlying database and route reloading.</p>
 <li>Authentication</li>
 </ul>
 <h2 id="local-setup-build">Local Setup &amp; Build</h2>
-<p>The router needs to be built from within a Go <a href="https://golang.org/doc/code.html#Workspaces">workspace</a> for it to<br />
-correctly identify the vendored dependencies.  Assuming you already have Go and<br />
-a <code>$GOPATH</code> set up, you can simply run <code>go get github.com/alphagov/router</code> to<br />
+<p>The router needs to be built from within a Go <a href="https://golang.org/doc/code.html#Workspaces">workspace</a> for it to
+correctly identify the vendored dependencies.  Assuming you already have Go and
+a <code>$GOPATH</code> set up, you can simply run <code>go get github.com/alphagov/router</code> to
 pull the source into your workspace.</p>
-<p>Once you have the code set up correctly, building and running the application<br />
+<p>Once you have the code set up correctly, building and running the application
 is simple:</p>
 <pre><code>make
 ./router -h
@@ -403,20 +403,20 @@ is simple:</p>
 <p>You can run all tests by running:</p>
 <pre><code>make test
 </code></pre>
-<p>The <code>trie</code> and <code>triemux</code> sub-packages have unit tests and benchmarks written<br />
+<p>The <code>trie</code> and <code>triemux</code> sub-packages have unit tests and benchmarks written
 in Go's own testing framework. To run them individually:</p>
 <pre><code>go test -bench=. ./trie ./triemux
 </code></pre>
-<p>The <code>router</code> itself doesn't really benefit from having unit tests around<br />
-individual functions. Instead it has a comprehensive set of integration<br />
+<p>The <code>router</code> itself doesn't really benefit from having unit tests around
+individual functions. Instead it has a comprehensive set of integration
 tests to exercise it's HTTP handling, error reporting, and performance.</p>
 <p>These require a local MongoDB instance and can be run with:</p>
 <pre><code>go test ./integration_tests
 </code></pre>
-<p>Some of the integration tests are optional because they have certain<br />
+<p>Some of the integration tests are optional because they have certain
 environment requirements that make them unfeasible to run within CI.</p>
 <h2 id="dependencies">Dependencies</h2>
-<p>This project uses <a href="https://github.com/golang/go/wiki/Modules">Go Modules</a> to vendor its dependencies.<br />
+<p>This project uses <a href="https://github.com/golang/go/wiki/Modules">Go Modules</a> to vendor its dependencies.
 If you have a working [Go][go] development setup, you should be able to update the dependencies via:</p>
 <pre><code>go mod vendor
 </code></pre>
@@ -432,16 +432,16 @@ If you have a working [Go][go] development setup, you should be able to update t
   "disabled"      : false
 }
 </code></pre>
-<p>Incoming paths with special characters must be in their % encoded form in the<br />
+<p>Incoming paths with special characters must be in their % encoded form in the
 database (eg spaces must be stored as <code>%20</code>).</p>
-<p>The behaviour of an enabled route is determined by <code>handler</code>. See below for<br />
+<p>The behaviour of an enabled route is determined by <code>handler</code>. See below for
 extra fields corresponding to <code>handler</code> types.</p>
-<p>If a route is disabled, the router will return a 503 for all matching requests.<br />
-This is typically used if a service needs to be taken offline for maintenance<br />
+<p>If a route is disabled, the router will return a 503 for all matching requests.
+This is typically used if a service needs to be taken offline for maintenance
 etc.</p>
 <h4 id="backend-handler">
 <code>backend</code> handler</h4>
-<p>The <code>backend</code> handler causes the Router to reverse proxy to a named<br />
+<p>The <code>backend</code> handler causes the Router to reverse proxy to a named
 <code>backend</code>. The following extra fields are supported:</p>
 <pre lang="json"><code>{
   "backend_id" : "backend-id-corresponding-to-backends-collection"
@@ -449,8 +449,8 @@ etc.</p>
 </code></pre>
 <h4 id="redirect-handler">
 <code>redirect</code> handler</h4>
-<p>The <code>redirect</code> handler causes the Router to redirect the given<br />
-<code>incoming_path</code> to the path stored in <code>redirect_to</code>. The following<br />
+<p>The <code>redirect</code> handler causes the Router to redirect the given
+<code>incoming_path</code> to the path stored in <code>redirect_to</code>. The following
 extra fields are supported:</p>
 <pre lang="json"><code>{
   "redirect_to"   : "/target-of-redirect",
@@ -471,13 +471,13 @@ extra fields are supported:</p>
 <h2 id="error-logging">Error logging</h2>
 <p>The logger package stores errors in logfiles and reports them to Sentry.</p>
 <h2 id="metrics">Metrics</h2>
-<p>Router exposes metrics in <a href="https://prometheus.io">Prometheus</a> format using the<br />
-<a href="https://godoc.org/github.com/dnesting/client_golang/prometheus">Go prometheus client<br />
+<p>Router exposes metrics in <a href="https://prometheus.io">Prometheus</a> format using the
+<a href="https://godoc.org/github.com/dnesting/client_golang/prometheus">Go prometheus client
 library</a>.</p>
-<p>See commit b443d3dd9cf776143eed270d01bd98d2233caea6 as an example for how to<br />
+<p>See commit b443d3dd9cf776143eed270d01bd98d2233caea6 as an example for how to
 add a metric.</p>
 <h2 id="license">License</h2>
-<p><code>router</code> is released under the MIT license, a copy of which can be found in<br />
+<p><code>router</code> is released under the MIT license, a copy of which can be found in
 <code>LICENSE</code>.</p>
   </div>
 

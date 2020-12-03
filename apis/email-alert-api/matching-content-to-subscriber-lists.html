@@ -207,14 +207,14 @@
 
   
 <h2 id="format-of-matching-criteria">Format of matching criteria</h2>
-<p>A subscriber list uses several fields to store the criteria which<br>
+<p>A subscriber list uses several fields to store the criteria which
 define how it matches published content:</p>
 <h3 id="json-fields">JSON fields</h3>
 <ul>
 <li><code>links</code></li>
 <li><code>tags</code></li>
 </ul>
-<p>These fields contain a JSON object which maps keys to arrays of values,<br>
+<p>These fields contain a JSON object which maps keys to arrays of values,
 similar to the links hash on a content item. For example:</p>
 <pre><code>{
     "key_1": {
@@ -225,24 +225,24 @@ similar to the links hash on a content item. For example:</p>
     }
 }
 </code></pre>
-<p>Only one of these should be used on a given subscriber list. They<br>
+<p>Only one of these should be used on a given subscriber list. They
 can also both be empty <code>{}</code> if they aren't needed.</p>
 <blockquote>
 <p>You can find a list of permitted tags in <a href="https://github.com/alphagov/email-alert-api/blob/3e0018510ea85f5d561e2865ad149832b94688a1/lib/valid_tags.rb"><code>lib/valid_tags.rb</code></a>.</p>
 </blockquote>
-<p>For a published content item to match the subscriber list on these<br>
-fields, the links/tags in the request to email-alert-api must include<br>
-all of the keys. If the value includes <code>any</code> then at least one of the<br>
-values in the array needs to match for each key. If the value includes<br>
+<p>For a published content item to match the subscriber list on these
+fields, the links/tags in the request to email-alert-api must include
+all of the keys. If the value includes <code>any</code> then at least one of the
+values in the array needs to match for each key. If the value includes
 <code>all</code>, then each value in the array needs to match.</p>
-<p><code>links</code> uses content ids and <code>tags</code> uses slugs - but the queries used<br>
+<p><code>links</code> uses content ids and <code>tags</code> uses slugs - but the queries used
 on these fields don't care about that difference.</p>
-<p>It's crucial that the key names stored in these JSON fields match the<br>
-key names used in the requests to email-alert-api (which are usually<br>
-the same as the ones on the content item itself - <a href="https://github.com/alphagov/email-alert-service/pull/67"><code>taxon_tree</code> is an exception</a>).<br>
-It's easy to break existing subscriptions by renaming a field in the<br>
-links hash on published content without updating the corresponding<br>
-subscriber lists, which would mean that subscribers stop getting emails<br>
+<p>It's crucial that the key names stored in these JSON fields match the
+key names used in the requests to email-alert-api (which are usually
+the same as the ones on the content item itself - <a href="https://github.com/alphagov/email-alert-service/pull/67"><code>taxon_tree</code> is an exception</a>).
+It's easy to break existing subscriptions by renaming a field in the
+links hash on published content without updating the corresponding
+subscriber lists, which would mean that subscribers stop getting emails
 for that kind of content.</p>
 <h3 id="string-fields">String fields</h3>
 <ul>
@@ -250,35 +250,35 @@ for that kind of content.</p>
 <li><code>email_document_supertype</code></li>
 <li><code>government_document_supertype</code></li>
 </ul>
-<p>More than one of these can be used on a given subscriber list. The two<br>
-supertype fields were added to support the migration of Whitehall<br>
+<p>More than one of these can be used on a given subscriber list. The two
+supertype fields were added to support the migration of Whitehall
 subscriptions to email-alert-api.</p>
-<p>These fields are used in addition to or instead of <code>links</code>/<code>tags</code> on a<br>
-given subscriber list. For example, a travel advice subscription for a<br>
-particular country uses <code>document_type</code> and <code>links -&gt; countries</code>,<br>
-whereas the travel advice index subscription (which includes all<br>
-countries) only uses <code>document_type</code>. See <a href="https://gov-uk.atlassian.net/wiki/pages/viewpage.action?pageId=108625932">this wiki page</a><br>
+<p>These fields are used in addition to or instead of <code>links</code>/<code>tags</code> on a
+given subscriber list. For example, a travel advice subscription for a
+particular country uses <code>document_type</code> and <code>links -&gt; countries</code>,
+whereas the travel advice index subscription (which includes all
+countries) only uses <code>document_type</code>. See <a href="https://gov-uk.atlassian.net/wiki/pages/viewpage.action?pageId=108625932">this wiki page</a>
 for details of how each kind of subscription works.</p>
 <h2 id="finding-matches">Finding matches</h2>
-<p>The queries on subscriber lists power the two sides of the email system:<br>
+<p>The queries on subscriber lists power the two sides of the email system:
 subscribing and sending emails.</p>
 <h3 id="subscribing">Subscribing</h3>
-<p>When a user is subscribing to something, the frontend app handling the<br>
-email signup should use the<br>
+<p>When a user is subscribing to something, the frontend app handling the
+email signup should use the
 <a href="https://github.com/alphagov/gds-api-adapters/blob/1ff0e2cd4ae019f0f79b1b640d54942b94dfeddb/lib/gds_api/email_alert_api.rb#L12">API adapters <code>find_or_create_subscriber_list</code> method</a>.</p>
-<p>This first makes a GET request to find an existing subscriber list to<br>
-use, and if one isn't found, it makes a POST request to create the<br>
+<p>This first makes a GET request to find an existing subscriber list to
+use, and if one isn't found, it makes a POST request to create the
 desired subscriber list in email-alert-api.</p>
-<p><code>GET /subscriber-lists?params...</code> searches the database for an existing<br>
-subscriber list which has exactly the same criteria as are given in the<br>
-query params. The order of keys and the items within the arrays in<br>
+<p><code>GET /subscriber-lists?params...</code> searches the database for an existing
+subscriber list which has exactly the same criteria as are given in the
+query params. The order of keys and the items within the arrays in
 <code>links</code> and <code>tags</code> doesn't matter.</p>
 <h3 id="sending-emails">Sending emails</h3>
-<p>When a <code>POST /content-changes</code> request is made to email-alert-api, the<br>
-data in that request is used to find all subscriber lists in the<br>
-database which it matches. The matching criteria on each list act as<br>
-filters on the stream of published content: as long as the request<br>
-includes at least one matching value for every key in the matching<br>
+<p>When a <code>POST /content-changes</code> request is made to email-alert-api, the
+data in that request is used to find all subscriber lists in the
+database which it matches. The matching criteria on each list act as
+filters on the stream of published content: as long as the request
+includes at least one matching value for every key in the matching
 criteria on the subscriber list, an email will be sent to that list.</p>
 
 

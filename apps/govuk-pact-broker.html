@@ -339,11 +339,11 @@
 
 <div class="embedded-readme">
     
-<p>This repo is a thin wrapper around the <a href="https://github.com/bethesque/pact_broker">Pact Broker Gem</a> that<br />
-allows Pact Broker to be run on unicorn server on the<br />
+<p>This repo is a thin wrapper around the <a href="https://github.com/bethesque/pact_broker">Pact Broker Gem</a> that
+allows Pact Broker to be run on unicorn server on the
 <a href="https://docs.cloud.service.gov.uk/">Government PAAS</a>.</p>
-<p>It is used by projects such as <a href="https://github.com/alphagov/publishing-api">Publishing API</a>,<br />
-<a href="https://github.com/alphagov/gds-api-adapters">GDS API Adapters</a> and <a href="https://github.com/alphagov/content-store">Content Store</a> for<br />
+<p>It is used by projects such as <a href="https://github.com/alphagov/publishing-api">Publishing API</a>,
+<a href="https://github.com/alphagov/gds-api-adapters">GDS API Adapters</a> and <a href="https://github.com/alphagov/content-store">Content Store</a> for
 contract testing.</p>
 <h2 id="run-this-locally">Run this locally</h2>
 <h3 id="install-dependencies">Install dependencies</h3>
@@ -364,7 +364,7 @@ $ export DATABASE_URL=postgresql://pact_broker@localhost/pact_broker
 <pre><code>$ bundle exec unicorn
 </code></pre>
 <h2 id="deploy-a-change-to-the-paas">Deploy a change to the PAAS</h2>
-<p>You'll need a cloud foundry account for <a href="https://docs.cloud.service.gov.uk/">Government PAAS</a> and<br />
+<p>You'll need a cloud foundry account for <a href="https://docs.cloud.service.gov.uk/">Government PAAS</a> and
 be in the <code>govuk_development</code> organisation with access to the <code>sandbox</code> space.</p>
 <p>From there you should be able to see this app (<code>pact-broker</code>) by running:</p>
 <pre><code>$ cf apps
@@ -375,19 +375,19 @@ be in the <code>govuk_development</code> organisation with access to the <code>s
 <h2 id="run-this-on-the-government-paas">Run this on the <a href="https://docs.cloud.service.gov.uk/">Government PAAS</a>
 </h2>
 <h3 id="space-for-the-app">Space for the app</h3>
-<p>You may be given a space by your organisation manager, or need to create one<br />
+<p>You may be given a space by your organisation manager, or need to create one
 for the application.</p>
-<p>At the time of writing this app runs on the <code>govuk_development</code> organisation<br />
+<p>At the time of writing this app runs on the <code>govuk_development</code> organisation
 in the <code>sandbox</code> space</p>
 <h3 id="push-the-app-to-the-paas">Push the app to the PAAS</h3>
 <p>As we've not set everything up we don't want to start the app now.</p>
 <pre><code>$ cf push pact-broker --no-start
 </code></pre>
-<p>we can pass a <code>-n HOSTNAME</code> argument here to specify the hostname, otherwise<br />
-it will use the default one of <code>pact-broker</code> (as specified in<br />
-<a href="manifest.yml">manifest.yml</a>)</p>
+<p>we can pass a <code>-n HOSTNAME</code> argument here to specify the hostname, otherwise
+it will use the default one of <code>pact-broker</code> (as specified in
+<a href="https://github.com/alphagov/govuk-pact-broker/blob/master/manifest.yml">manifest.yml</a>)</p>
 <h3 id="create-a-database">Create a database</h3>
-<p>There's a number of different database plans available, but the "Free" one<br />
+<p>There's a number of different database plans available, but the "Free" one
 should be sufficient:</p>
 <pre><code>$ cf create-service postgres Free pact-broker-db
 </code></pre>
@@ -395,7 +395,7 @@ should be sufficient:</p>
 <pre><code>$ cf bind-service pact-broker pact-broker-db
 </code></pre>
 <h3 id="set-up-environment-variables-for-credentials">Set up environment variables for credentials</h3>
-<p>This application requires basic auth credentials of <code>AUTH_USERNAME</code> and<br />
+<p>This application requires basic auth credentials of <code>AUTH_USERNAME</code> and
 <code>AUTH_PASSWORD</code>.</p>
 <pre><code>$ cf set-env pact-broker AUTH_USERNAME username
 $ cf set-env pact-broker AUTH_PASSWORD password

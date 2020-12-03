@@ -242,23 +242,23 @@
 <p>The following fields are accepted:</p>
 <ul>
 <li>title: The title of this particular list, which will be shown to the user;</li>
-<li>description: Markdown text that will be used as copy in the confirmation<br>
+<li>description: Markdown text that will be used as copy in the confirmation
 email sent to a user;</li>
-<li>url: A url to a page that reflects what the user signed up to and can be<br>
+<li>url: A url to a page that reflects what the user signed up to and can be
 linked to with their list;</li>
-<li>group_id: A UUID that can be provided by an application to group together<br>
+<li>group_id: A UUID that can be provided by an application to group together
 lists for the same resource with different criteria;</li>
-<li>links: An object where keys are a link type and the value is an object<br>
-containing a key of "any" or "all" associated with an array of link values,<br>
+<li>links: An object where keys are a link type and the value is an object
+containing a key of "any" or "all" associated with an array of link values,
 this is used to match content changes and messages to the list;</li>
-<li>tags: An object where keys are <a href="https://github.com/alphagov/email-alert-api/blob/b6428880aa730e316803d7129db3ec47304e933b/lib/valid_tags.rb">valid tags</a> and the value is an object<br>
-containing a key of "any" or "all" associated with an array of link values<br>
+<li>tags: An object where keys are <a href="https://github.com/alphagov/email-alert-api/blob/b6428880aa730e316803d7129db3ec47304e933b/lib/valid_tags.rb">valid tags</a> and the value is an object
+containing a key of "any" or "all" associated with an array of link values
 this is used to match content changes and messages to the list;</li>
-<li>document_type: A field that can be used to match with content changes that<br>
+<li>document_type: A field that can be used to match with content changes that
 share the corresponding field;</li>
-<li>email_document_supertype: A field that can be used to match with content<br>
+<li>email_document_supertype: A field that can be used to match with content
 changes that share the corresponding field;</li>
-<li>government_document_supertype: A field that can be used to match with<br>
+<li>government_document_supertype: A field that can be used to match with
 content changes that share the corresponding field.</li>
 </ul>
 <h3 id="post-content-changes"><code>POST /content-changes</code></h3>
@@ -272,10 +272,10 @@ content changes that share the corresponding field.</li>
   }
 }
 </code></pre>
-<p>It will respond with <code>202 Accepted</code> (the call is queued to prevent<br>
+<p>It will respond with <code>202 Accepted</code> (the call is queued to prevent
 slowness in the external notifications API).</p>
-<p>The following fields are accepted on this endpoint: <code>subject</code>, <code>from_address_id</code>, <code>urgent</code>, <code>header</code>, <code>footer</code>,<br>
-<code>document_type</code>, <code>content_id</code>, <code>public_updated_at</code>, <code>publishing_app</code>, <code>email_document_supertype</code>,<br>
+<p>The following fields are accepted on this endpoint: <code>subject</code>, <code>from_address_id</code>, <code>urgent</code>, <code>header</code>, <code>footer</code>,
+<code>document_type</code>, <code>content_id</code>, <code>public_updated_at</code>, <code>publishing_app</code>, <code>email_document_supertype</code>,
 <code>government_document_supertype</code>, <code>title</code>, <code>description</code>, <code>change_note</code>, <code>base_path</code>, <code>priority</code> and <code>footnote</code>.</p>
 <h3 id="post-messages"><code>POST /messages</code></h3>
 <pre lang="json"><code>{
@@ -289,7 +289,7 @@ slowness in the external notifications API).</p>
 }
 </code></pre>
 <p>It will respond with <code>202 Accepted</code> (the call is queued).</p>
-<p>The following fields are accepted on this endpoint: <code>sender_message_id</code>,<br>
+<p>The following fields are accepted on this endpoint: <code>sender_message_id</code>,
 <code>title</code>, <code>url</code>, <code>body</code>, <code>criteria_rules</code>, and <code>priority</code>.</p>
 <h3 id="post-emails"><code>POST /emails</code></h3>
 <pre lang="json"><code>{
@@ -345,7 +345,7 @@ slowness in the external notifications API).</p>
   "new_address": "test2@example.com"
 }
 </code></pre>
-<p>It will respond with the details of the subscriber including the<br>
+<p>It will respond with the details of the subscriber including the
 new email address.</p>
 <ul>
 <li>
@@ -361,12 +361,12 @@ new email address.</p>
   "frequency": "weekly"
 }
 </code></pre>
-<p>It will create a new subscription between the email address and the subscriber<br>
-list. It will respond with a <code>201 Created</code> if it's a new subscription or a <code>200 OK</code> if the subscription already exists. If a subscription already exists but<br>
-the frequency is different, the current subscription is ended and a new one<br>
+<p>It will create a new subscription between the email address and the subscriber
+list. It will respond with a <code>201 Created</code> if it's a new subscription or a <code>200 OK</code> if the subscription already exists. If a subscription already exists but
+the frequency is different, the current subscription is ended and a new one
 with the updated frequency is created.</p>
 <blockquote>
-<p>Note: using any email address that ends with <code>@notifications.service.gov.uk</code><br>
+<p>Note: using any email address that ends with <code>@notifications.service.gov.uk</code>
 will not create a subscriber or a subscription, however will return a <code>201 Created</code> response.</p>
 </blockquote>
 <h3 id="patch-subscriptionsxxxx"><code>PATCH /subscriptions/xxxx</code></h3>
@@ -374,7 +374,7 @@ will not create a subscriber or a subscription, however will return a <code>201 
   "frequency": "weekly"
 }
 </code></pre>
-<p>It will respond with the details of the subscription including the<br>
+<p>It will respond with the details of the subscription including the
 new frequency.</p>
 <h3 id="post-unsubscribexxx"><code>POST /unsubscribe/xxx</code></h3>
 <p>Unsubscribes a subscriber from the provided subscription and returns <code>204 No Content</code>.</p>
@@ -385,9 +385,9 @@ new frequency.</p>
   "redirect": "/page-user-wanted-on-govuk",
 }
 </code></pre>
-<p>This will trigger an email to the address specified with a link to the<br>
-destination with a query string of token and a <a href="https://jwt.io/">JWT</a> token.<br>
-Returns a 201 status code on success or 404 if the subscriber is not known<br>
+<p>This will trigger an email to the address specified with a link to the
+destination with a query string of token and a <a href="https://jwt.io/">JWT</a> token.
+Returns a 201 status code on success or 404 if the subscriber is not known
 to Email Alert API.</p>
 <h2 id="healthcheck">Healthcheck</h2>
 <p>A queue health check endpoint is available at <code>/healthcheck</code>.</p>

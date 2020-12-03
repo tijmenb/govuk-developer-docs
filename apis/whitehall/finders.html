@@ -214,11 +214,11 @@
 
   
 <h2 id="retired-finders">Retired finders</h2>
-<p>There used to be finders for announcements, publications and statistics in this<br>
-application, however these have been replaced by new finders rendered by<br>
+<p>There used to be finders for announcements, publications and statistics in this
+application, however these have been replaced by new finders rendered by
 finder-frontend and published from <a href="https://github.com/alphagov/search-api/tree/master/config/finders">search-api</a>.</p>
-<p>We redirect searches from the old finders to the new in order to maintain a<br>
-reasonable experience for users.  Because we need to translate some of the<br>
+<p>We redirect searches from the old finders to the new in order to maintain a
+reasonable experience for users.  Because we need to translate some of the
 query parameters, we do it in the controllers:</p>
 <ul>
 <li><a href="https://github.com/alphagov/whitehall/blob/master/app/controllers/announcements_controller.rb">announcements</a></li>
@@ -226,9 +226,9 @@ query parameters, we do it in the controllers:</p>
 <li><a href="https://github.com/alphagov/whitehall/blob/master/app/controllers/statistics_controller.rb">statistics</a></li>
 <li><a href="https://github.com/alphagov/whitehall/blob/master/app/controllers/statistics_announcements_controller.rb">statistics announcements</a></li>
 </ul>
-<p>There are still some remaining finder-like-things for translated content<br>
-(<a href="https://www.gov.uk/government/statistics.cy">example of statistics in Welsh</a>).<br>
-These use the Whitehall database and not Elasticsearch so they're different from<br>
+<p>There are still some remaining finder-like-things for translated content
+(<a href="https://www.gov.uk/government/statistics.cy">example of statistics in Welsh</a>).
+These use the Whitehall database and not Elasticsearch so they're different from
 the things that we've retired.</p>
 <h2 id="how-to-publish-a-finder-in-whitehall">How to publish a finder in whitehall</h2>
 <p><strong>Please consider publishing new finders from <a href="https://github.com/alphagov/search-api/tree/master/config/finders">search-api</a>. There are <a href="https://github.com/alphagov/search-api/tree/630a6947395d11267be3cc056c7370c65bb5723e/spec/unit/content_item_publisher">schema tests for both finders and email signup pages</a> there.</strong></p>

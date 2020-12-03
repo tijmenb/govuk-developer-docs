@@ -379,7 +379,7 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/draft_frontend
     
 <p>Service Manual Frontend is a public-facing app to display the service manual formats on GOV.UK.</p>
 <h2 id="technical-documentation">Technical documentation</h2>
-<p>This is a Ruby on Rails application that fetches documents from<br />
+<p>This is a Ruby on Rails application that fetches documents from
 <a href="https://github.com/alphagov/content-store">content-store</a> and displays them.</p>
 <h3 id="dependencies">Dependencies</h3>
 <ul>
@@ -389,29 +389,29 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/draft_frontend
 <a href="https://github.com/alphagov/static">static</a> - provides shared GOV.UK assets and templates.</li>
 </ul>
 <h2 id="development-notes">Development notes</h2>
-<p>The application <em>does not serve content at its root (/)</em> - the<br />
-homepage will be found at service-manual-frontend.dev.gov.uk/service-manual but<br />
+<p>The application <em>does not serve content at its root (/)</em> - the
+homepage will be found at service-manual-frontend.dev.gov.uk/service-manual but
 only if the content item for the homepage exists in the content store.</p>
-<p>You can achieve this by restoring from a production backup, publishing the home<br />
-page using the rake task in service-manual-publisher or by using the dummy<br />
+<p>You can achieve this by restoring from a production backup, publishing the home
+page using the rake task in service-manual-publisher or by using the dummy
 content store.</p>
 <h3 id="running-the-test-suite">Running the test suite</h3>
-<p>The test suite relies on the presence of the<br />
-<a href="http://github.com/alphagov/govuk-content-schemas">govuk-content-schemas</a><br />
-repository. If it is present at the same directory level as<br />
+<p>The test suite relies on the presence of the
+<a href="http://github.com/alphagov/govuk-content-schemas">govuk-content-schemas</a>
+repository. If it is present at the same directory level as
 the service-manual-frontend repository then run the tests with:</p>
 <p><code>bundle exec rake</code></p>
 <p>Or to specify the location explicitly:</p>
 <p><code>GOVUK_CONTENT_SCHEMAS_PATH=/some/dir/govuk-content-schemas bundle exec rake</code></p>
 <h4 id="visual-regression-tests">Visual regression tests</h4>
-<p>Use <a href="http://bbc-news.github.io/wraith/">Wraith</a> ("A responsive screenshot<br />
-comparison tool") to generate a visual diff to compare rendering changes in this<br />
+<p>Use <a href="http://bbc-news.github.io/wraith/">Wraith</a> ("A responsive screenshot
+comparison tool") to generate a visual diff to compare rendering changes in this
 application.</p>
-<p>Wraith <strong>does not work correctly from within the VM</strong> because<br />
-assets-origin.dev.gov.uk is not resolvable within the VM, and so none of the<br />
-assets load. You should instead install wraith on your local machine and run<br />
+<p>Wraith <strong>does not work correctly from within the VM</strong> because
+assets-origin.dev.gov.uk is not resolvable within the VM, and so none of the
+assets load. You should instead install wraith on your local machine and run
 it from there.</p>
-<p>Wraith has some dependencies you'll also<br />
+<p>Wraith has some dependencies you'll also
 <a href="http://bbc-news.github.io/wraith/os-install.html">need to install</a>.</p>
 <p>First, on <code>master</code> branch, run:</p>
 <pre><code>wraith history test/wraith/config.yaml
@@ -419,10 +419,10 @@ it from there.</p>
 <p>Then, on a branch with your changes, run:</p>
 <pre><code>wraith latest test/wraith/config.yaml
 </code></pre>
-<p>This will generate image diffs comparing the two runs, including a browseable<br />
+<p>This will generate image diffs comparing the two runs, including a browseable
 gallery of the output, in <code>tmp/wraith</code>.</p>
 <h3 id="use-of-bem">Use of BEM</h3>
-<p>The Service manual frontend application uses a modified version of <a href="https://en.bem.info">the BEM methodology</a>,<br />
+<p>The Service manual frontend application uses a modified version of <a href="https://en.bem.info">the BEM methodology</a>,
 coined by <a href="https://en.bem.info/methodology/naming-convention/#alternative-naming-schemes">Harry Roberts</a>.</p>
 <p>It uses the following conventions:</p>
 <ul>
@@ -443,7 +443,7 @@ coined by <a href="https://en.bem.info/methodology/naming-convention/#alternativ
 <pre><code>.button--large
 </code></pre>
 <h2 id="licence">Licence</h2>
-<p><a href="LICENCE">MIT License</a></p>
+<p><a href="https://github.com/alphagov/service-manual-frontend/blob/master/LICENCE">MIT License</a></p>
   </div>
 
 

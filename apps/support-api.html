@@ -361,37 +361,37 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 
 <div class="embedded-readme">
     
-<p>This app provides an API for storing and fetching anonymous feedback about pages on GOV.UK.  Data<br />
-comes in from the <a href="https://github.com/alphagov/feedback">feedback app</a> on the public-facing frontend and is read by <a href="https://github.com/alphagov/support">the<br />
+<p>This app provides an API for storing and fetching anonymous feedback about pages on GOV.UK.  Data
+comes in from the <a href="https://github.com/alphagov/feedback">feedback app</a> on the public-facing frontend and is read by <a href="https://github.com/alphagov/support">the
 support app</a> on the admin-facing backend.</p>
 <h2 id="nomenclature">Nomenclature</h2>
 <ul>
 <li>
-<strong>Feedback</strong>: Everything stored in the app is considered to be "feedback" of some form or other and<br />
-relates to pages published on GOV.UK.  Confusingly most of the data also comes from the <a href="https://github.com/alphagov/feedback">feedback<br />
-app</a>, but when we talk about feedback in the context of the support-api we don't usually<br />
+<strong>Feedback</strong>: Everything stored in the app is considered to be "feedback" of some form or other and
+relates to pages published on GOV.UK.  Confusingly most of the data also comes from the <a href="https://github.com/alphagov/feedback">feedback
+app</a>, but when we talk about feedback in the context of the support-api we don't usually
 mean the feedback app, we mean the data stored in the database.</li>
 <li>
-<strong>Anonymous Contact</strong>: All feedback stored in this app is anonymous.  This is in contrast with the<br />
-<code>Named Contact</code> feedback that is sent directly to the <a href="https://github.com/alphagov/support">support app</a>.  All feedback in this<br />
-app is scanned to see if it may contain Personally Identifiable Information (PII) and flagged if we<br />
+<strong>Anonymous Contact</strong>: All feedback stored in this app is anonymous.  This is in contrast with the
+<code>Named Contact</code> feedback that is sent directly to the <a href="https://github.com/alphagov/support">support app</a>.  All feedback in this
+app is scanned to see if it may contain Personally Identifiable Information (PII) and flagged if we
 think it might.</li>
 <li>
-<strong>Service Feedback</strong>: This is feedback that came from the short survey on a "done" page and contains<br />
-a 1-5 rating for what the user thought of the service.  These ratings are aggregated and sent to the<br />
-<a href="https://github.com/alphagov/backdrop">performance platform</a> so that it can appear in the performance details as<br />
+<strong>Service Feedback</strong>: This is feedback that came from the short survey on a "done" page and contains
+a 1-5 rating for what the user thought of the service.  These ratings are aggregated and sent to the
+<a href="https://github.com/alphagov/backdrop">performance platform</a> so that it can appear in the performance details as
 user satisfaction of those services.</li>
 <li>
-<strong>Page Improvement</strong>: Unlike other feedback types, this is not stored in the database, but instead<br />
+<strong>Page Improvement</strong>: Unlike other feedback types, this is not stored in the database, but instead
 is sent directly to <a href="https://govuk.zendesk.com">Zendesk</a> to be handled by the GOV.UK support team.</li>
 </ul>
 <h2 id="technical-documentation">Technical documentation</h2>
-<p>This is a Ruby on Rails application that provides an API for storing and retrieving feedback about GOV.UK.<br />
+<p>This is a Ruby on Rails application that provides an API for storing and retrieving feedback about GOV.UK.
 It has 3 main functions:</p>
 <ol>
 <li>a write API used by the <a href="https://github.com/alphagov/feedback">feedback app</a> to store feedback</li>
 <li>a read API used by the <a href="https://github.com/alphagov/support">support app</a> to read that feedback and request exports to CSV</li>
-<li>a background job used to aggregate service feedback and write it to the <a href="https://github.com/alphagov/backdrop">performance<br />
+<li>a background job used to aggregate service feedback and write it to the <a href="https://github.com/alphagov/backdrop">performance
 platform</a>
 </li>
 </ol>
@@ -400,34 +400,34 @@ platform</a>
 <h3 id="dependencies">Dependencies</h3>
 <ul>
 <li>
-<a href="https://github.com/alphagov/content-store">content-store</a> - Support API can receive feedback about any<br />
-page on GOV.UK, but all it is sent is the path.  We use the content-store to look up extra information<br />
-(content_id, associated organisations, etc) about these pages to allow for better search and filtering<br />
+<a href="https://github.com/alphagov/content-store">content-store</a> - Support API can receive feedback about any
+page on GOV.UK, but all it is sent is the path.  We use the content-store to look up extra information
+(content_id, associated organisations, etc) about these pages to allow for better search and filtering
 of the feedback.</li>
 <li>
-<a href="https://github.com/alphagov/whitehall">whitehall</a> - Support API has a table of Organisations and as<br />
-Whitehall is the canonical source of that information we use its Organisations API to keep our data up<br />
+<a href="https://github.com/alphagov/whitehall">whitehall</a> - Support API has a table of Organisations and as
+Whitehall is the canonical source of that information we use its Organisations API to keep our data up
 to date.</li>
 <li>
-<a href="https://github.com/alphagov/backdrop">performance platform</a> - Support API stores ratings for services.<br />
-It aggregates those ratings every day and writes that data to the performance platform write API.  We<br />
+<a href="https://github.com/alphagov/backdrop">performance platform</a> - Support API stores ratings for services.
+It aggregates those ratings every day and writes that data to the performance platform write API.  We
 can also use the performance platform read API to import those ratings if there's ever a discrepancy.</li>
 <li>
-<a href="https://govuk.zendesk.com">zendesk</a> - Support API sends some types of feedback to Zendesk so it can be<br />
+<a href="https://govuk.zendesk.com">zendesk</a> - Support API sends some types of feedback to Zendesk so it can be
 acted on by the support teams directly rather than storing it in its own database.</li>
 <li>
 <a href="https://www.postgresql.org">postgres</a> - Support API uses postgres as its own database</li>
 <li>
-<a href="https://redis.io/">redis</a> - Support API uses <a href="https://github.com/mperham/sidekiq">sidekiq</a> to process<br />
-background jobs (like sending feedback to zendesk, or aggregating feedback and sending it to the<br />
+<a href="https://redis.io/">redis</a> - Support API uses <a href="https://github.com/mperham/sidekiq">sidekiq</a> to process
+background jobs (like sending feedback to zendesk, or aggregating feedback and sending it to the
 performance platform) and sidekiq relies on redis</li>
 </ul>
 <h3 id="running-the-test-suite">Running the test suite</h3>
 <p><code>bundle exec rake</code></p>
-<p>This will run the <a href="spec">rspec test suite</a> and generate a coverage report for these specs in <code>./coverage</code>.</p>
+<p>This will run the <a href="https://github.com/alphagov/support-api/blob/master/spec">rspec test suite</a> and generate a coverage report for these specs in <code>./coverage</code>.</p>
 <h3 id="organisations">Organisations</h3>
-<p>This app keeps a local copy of Organisations from Whitehall in the <code>organisations</code> table. In order<br />
-to keep this up-to-date it runs a sync job overnight via cron.  To run the same script on your local<br />
+<p>This app keeps a local copy of Organisations from Whitehall in the <code>organisations</code> table. In order
+to keep this up-to-date it runs a sync job overnight via cron.  To run the same script on your local
 development environment do the following:</p>
 <ol>
 <li>Ensure whitehall is running: <code>bowl whitehall</code>
@@ -435,10 +435,10 @@ development environment do the following:</p>
 <li>Run the rake task <code>rake api_sync:import_organisations</code>
 </li>
 </ol>
-<p>You most likely will only need to do this if your whitehall data is more recent than your data for<br />
+<p>You most likely will only need to do this if your whitehall data is more recent than your data for
 this app.</p>
 <h2 id="licence">Licence</h2>
-<p><a href="LICENCE">MIT License</a></p>
+<p><a href="https://github.com/alphagov/support-api/blob/master/LICENCE">MIT License</a></p>
   </div>
 
 

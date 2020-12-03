@@ -206,46 +206,46 @@
   <h1 class="page-title">email-alert-api: Data cleanup mechanisms</h1>
 
   
-<p>There are several mechanisms regarding the cleanup of data in Email Alert Api.<br>
+<p>There are several mechanisms regarding the cleanup of data in Email Alert Api.
 This doc gives an overview of each.</p>
 <h2 id="nullifying-email-addresses">Nullifying email addresses</h2>
-<p>Updates the <code>address</code> of old unsubscribed <code>Subscriber</code> records to <code>nil</code>. We do<br>
-this to comply with GDPR, specifically so we're not retaining user's data for<br>
+<p>Updates the <code>address</code> of old unsubscribed <code>Subscriber</code> records to <code>nil</code>. We do
+this to comply with GDPR, specifically so we're not retaining user's data for
 longer than needed.</p>
 <p>We nullify subscribers in two different scenarios.</p>
-<p>Firstly, once they've been unsubscribed from all subscriptions for over 28<br>
-days. We could nullify user's email addresses immediately after unsubscribing<br>
-but this would limit our ability to assist in user support queries. E.g.<br>
-restoring a user's subscriptions after they've unsubscribed by accident which<br>
-would be impossible to do if the system had nullified their address<br>
+<p>Firstly, once they've been unsubscribed from all subscriptions for over 28
+days. We could nullify user's email addresses immediately after unsubscribing
+but this would limit our ability to assist in user support queries. E.g.
+restoring a user's subscriptions after they've unsubscribed by accident which
+would be impossible to do if the system had nullified their address
 immediately after unsubscribing.</p>
-<p>Secondly, subscribers are nullified which are created more than 28 days ago and<br>
-don't have any subscriptions at all (active or ended). It shouldn't be possible<br>
-for subscribers to exist without subscriptions but these are queried and<br>
-removed anyway to prevent storing user's data indefinitely if, for whatever<br>
-reason, a subscriber ends up with no subscriptions. This has happened before,<br>
+<p>Secondly, subscribers are nullified which are created more than 28 days ago and
+don't have any subscriptions at all (active or ended). It shouldn't be possible
+for subscribers to exist without subscriptions but these are queried and
+removed anyway to prevent storing user's data indefinitely if, for whatever
+reason, a subscriber ends up with no subscriptions. This has happened before,
 unintentionally, see <a href="https://github.com/alphagov/email-alert-api/pull/1462/commits/053859c5962eef104256661f28727b08a43e3d31">here</a> and <a href="https://github.com/alphagov/email-alert-api/pull/1462/commits/a4b3e82801d79abd3989b1dd60ffd499e7ce82ba">here</a>.</p>
 <p>The <a href="https://github.com/alphagov/email-alert-api/blob/master/app/workers/nullify_subscribers_worker.rb">NullifySubscribersWorker</a> runs <a href="https://github.com/alphagov/email-alert-api/blob/cefdfa76b13915ea96b131490fd3186b6d52cf05/config/sidekiq.yml#L27">every hour</a>.</p>
 <h2 id="deleting-emails">Deleting emails</h2>
-<p>The <a href="https://github.com/alphagov/email-alert-api/blob/a62abc85453b723d683c2dc13f3bf0065fb86d5f/app/workers/email_deletion_worker.rb">EmailDeletionWorker</a> deletes emails after 7 days. These recently archived<br>
-emails get deleted regularly to keep the database performant as we produce a<br>
-large quantity which the system only uses for a short period of time. In deleting<br>
-these emails we also delete their associated subscription contents through a<br>
+<p>The <a href="https://github.com/alphagov/email-alert-api/blob/a62abc85453b723d683c2dc13f3bf0065fb86d5f/app/workers/email_deletion_worker.rb">EmailDeletionWorker</a> deletes emails after 7 days. These recently archived
+emails get deleted regularly to keep the database performant as we produce a
+large quantity which the system only uses for a short period of time. In deleting
+these emails we also delete their associated subscription contents through a
 <a href="https://github.com/alphagov/email-alert-api/blob/11fb84542e6c7f3995f419e4affaf56aa759ec6c/db/schema.rb#L206">db cascade</a>. As of 05/11/2020 we generate around ~3 million emails per day.</p>
-<p>The <a href="https://github.com/alphagov/email-alert-api/blob/b850dc646202aaa9e2fac88986a6f3d0c738be78/config/sidekiq.yml#L33">deletion worker</a> runs every hour. Every hour was chosen to limit the worst<br>
-case backlog (and potential performance impact) if a run of the job fails for<br>
-transient reasons. Note that it often takes 10-30 minutes just to delete an hour's<br>
+<p>The <a href="https://github.com/alphagov/email-alert-api/blob/b850dc646202aaa9e2fac88986a6f3d0c738be78/config/sidekiq.yml#L33">deletion worker</a> runs every hour. Every hour was chosen to limit the worst
+case backlog (and potential performance impact) if a run of the job fails for
+transient reasons. Note that it often takes 10-30 minutes just to delete an hour's
 worth of email, so it's not feasible to run this job more frequently.</p>
 <h2 id="deleting-historic-data">Deleting historic data</h2>
-<p>The <a href="https://github.com/alphagov/email-alert-api/blob/a62abc85453b723d683c2dc13f3bf0065fb86d5f/app/workers/historical_data_deletion_worker.rb">HistoricalDataDeletionWorker</a> deletes data we deem as historic everday at<br>
-<a href="https://github.com/alphagov/email-alert-api/blob/cefdfa76b13915ea96b131490fd3186b6d52cf05/config/sidekiq.yml#L24">midday</a>. Midday was chosen as removing historic data is deemed non urgent work<br>
+<p>The <a href="https://github.com/alphagov/email-alert-api/blob/a62abc85453b723d683c2dc13f3bf0065fb86d5f/app/workers/historical_data_deletion_worker.rb">HistoricalDataDeletionWorker</a> deletes data we deem as historic everday at
+<a href="https://github.com/alphagov/email-alert-api/blob/cefdfa76b13915ea96b131490fd3186b6d52cf05/config/sidekiq.yml#L24">midday</a>. Midday was chosen as removing historic data is deemed non urgent work
 and so running once a day, in hours, seems sufficient.</p>
-<p>In general, we remove historic, unused data after a year. One exception to this<br>
-is that we remove subscriber lists which have been created over seven days ago<br>
+<p>In general, we remove historic, unused data after a year. One exception to this
+is that we remove subscriber lists which have been created over seven days ago
 and never had any subscriptions.</p>
-<p>We remove this data so we don't pollute our analytics or run into future<br>
+<p>We remove this data so we don't pollute our analytics or run into future
 capacity issues.</p>
-<p>You can read in more detail about the decision to implement the historic<br>
+<p>You can read in more detail about the decision to implement the historic
 deletion of data in <a href="https://github.com/alphagov/email-alert-api/blob/master/docs/adr/adr-007-retain-data-for-up-to-one-year.md#decision">ADR-7</a>.</p>
 
 

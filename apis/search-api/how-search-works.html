@@ -206,36 +206,36 @@
   <h1 class="page-title">search-api: How Search Works</h1>
 
   
-<p>Search API provides a <code>/search</code> endpoint for users to of the API to search<br>
+<p>Search API provides a <code>/search</code> endpoint for users to of the API to search
 for documents.</p>
 <p>You can also use <code>/batch_search</code> to send multiple queries.</p>
 <h2 id="document-retrieval">Document retrieval</h2>
-<p>On receiving a request to <code>/search</code> (a search query), Search API will parse<br>
-the query, construct an Elasticsearch query, and then retrieve documents<br>
+<p>On receiving a request to <code>/search</code> (a search query), Search API will parse
+the query, construct an Elasticsearch query, and then retrieve documents
 from Elasticsearch.</p>
-<p>Search API provides a simplified API so that other applications in the GOV.UK<br>
+<p>Search API provides a simplified API so that other applications in the GOV.UK
 stack don't need to know how to construct Elasticsearch queries.</p>
 <h2 id="relevancy">Relevancy</h2>
-<p>See the <a href="relevancy.md">relevancy documentation</a> to learn more about how<br>
+<p>See the <a href="/apis/search-api/relevancy.html">relevancy documentation</a> to learn more about how
 Search API determines how relevant a document is to a query.</p>
 <h3 id="reranking">Reranking</h3>
-<p>Once Search API has retrieved a selection of relevant documents from<br>
+<p>Once Search API has retrieved a selection of relevant documents from
 Elasticsearch, the results are re-ranked by a machine learning model.</p>
-<p>This process ensures that we show the most relevant documents at the top<br>
+<p>This process ensures that we show the most relevant documents at the top
 of the search results.</p>
-<p>See the <a href="learning-to-rank.md">learning to rank documentation</a> to learn<br>
+<p>See the <a href="/apis/search-api/learning-to-rank.html">learning to rank documentation</a> to learn
 more about the reranking model.</p>
 <h2 id="evaluating-search-quality">Evaluating search quality</h2>
-<p>To ensure Search API returns good quality results, we use a combination of<br>
+<p>To ensure Search API returns good quality results, we use a combination of
 offline and online metrics.</p>
-<p>See the <a href="search-quality-metrics.md">search quality metrics documentation</a><br>
+<p>See the <a href="/apis/search-api/search-quality-metrics.html">search quality metrics documentation</a>
 to learn more about our metrics.</p>
-<p>The <code>ab_tests</code> parameter can be used to distinguish between two versions of<br>
+<p>The <code>ab_tests</code> parameter can be used to distinguish between two versions of
 the search query.</p>
-<p>Using <a href="https://github.com/alphagov/search-performance-explorer">search-performance-explorer</a>,<br>
+<p>Using <a href="https://github.com/alphagov/search-performance-explorer">search-performance-explorer</a>,
 you can compare the results side by side.</p>
-<p>The <a href="https://github.com/alphagov/search-performance-explorer/blob/master/health-check.md">health check script</a><br>
-can be used to evaluate Search API using a set of judgments about which documents<br>
+<p>The <a href="https://github.com/alphagov/search-performance-explorer/blob/master/health-check.md">health check script</a>
+can be used to evaluate Search API using a set of judgments about which documents
 are 'good' results for some sample queries.</p>
 
 

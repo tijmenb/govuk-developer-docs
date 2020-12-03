@@ -214,9 +214,9 @@
 
   
 <h2 id="running-tests-locally">Running tests locally</h2>
-<p>The test suite relies on the presence of the <a href="http://github.com/alphagov/govuk-content-schemas">govuk-content-schemas</a><br>
-repository. This should either be present at the same directory level as<br>
-the Whitehall repository, or the location must be specified explicitly via the<br>
+<p>The test suite relies on the presence of the <a href="http://github.com/alphagov/govuk-content-schemas">govuk-content-schemas</a>
+repository. This should either be present at the same directory level as
+the Whitehall repository, or the location must be specified explicitly via the
 <code>GOVUK_CONTENT_SCHEMAS_PATH</code> environment variable.</p>
 <p>Two other environment variables can also be (optionally) set up, typically:</p>
 <pre><code>GOVUK_APP_DOMAIN=test.gov.uk
@@ -228,7 +228,7 @@ GOVUK_ASSET_ROOT=https://static.test.gov.uk
 <p>Alternatively run</p>
 <pre><code>$ govuk_setenv whitehall env RAILS_ENV=test bundle exec rake
 </code></pre>
-<p>Note that using <code>bowler</code> or <code>foreman</code> will automatically use the<br>
+<p>Note that using <code>bowler</code> or <code>foreman</code> will automatically use the
 <code>govuk_setenv</code> method for you.</p>
 <h2 id="running-tests-in-parallel">Running tests in parallel</h2>
 <p>The test suite can be run in parallel like so:</p>
@@ -249,9 +249,9 @@ GOVUK_ASSET_ROOT=https://static.test.gov.uk
 rake shared_mustache:clean
 </code></pre>
 <p>Shared mustache templates are generated and stored in app/assets/javascripts/templates.js.</p>
-<p>In absence of this generated template, shared mustache inlines mustache templates in <code>&lt;script&gt;</code> blocks<br>
-on the page, which enables developers to see changes to mustache without compiling. If this generated<br>
-template is checked-in, shared mustache uses this file instead of inlining templates. Hence, we don't<br>
+<p>In absence of this generated template, shared mustache inlines mustache templates in <code>&lt;script&gt;</code> blocks
+on the page, which enables developers to see changes to mustache without compiling. If this generated
+template is checked-in, shared mustache uses this file instead of inlining templates. Hence, we don't
 check-in this file.</p>
 
 

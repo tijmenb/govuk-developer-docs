@@ -206,11 +206,11 @@
   <h1 class="page-title">publishing-api: Publishing API's API</h1>
 
   
-<p>This is the primary interface from publishing apps to the publishing pipeline.<br>
-Applications PUT items as JSON conforming to a schema specified in<br>
+<p>This is the primary interface from publishing apps to the publishing pipeline.
+Applications PUT items as JSON conforming to a schema specified in
 <a href="https://github.com/alphagov/govuk-content-schemas">govuk-content-schemas</a>.</p>
-<p>Content locations are arbitrated internally by the Publishing API, the content<br>
-is then forwarded to the live and draft content stores, and placed on the<br>
+<p>Content locations are arbitrated internally by the Publishing API, the content
+is then forwarded to the live and draft content stores, and placed on the
 message queue for other apps (e.g. <code>email-alert-service</code>) to consume.</p>
 <h2 id="endpoints">Endpoints</h2>
 <ul>
@@ -239,39 +239,39 @@ message queue for other apps (e.g. <code>email-alert-service</code>) to consume.
 <li><a href="#get-debugcontent_id"><code>GET /debug/:content_id</code></a></li>
 </ul>
 <h3 id="optimistic-locking-previous_version">Optimistic locking (<code>previous_version</code>)</h3>
-<p>All PUT and POST endpoints take an optional JSON attribute <code>previous_version</code><br>
-in the request. If given, the corresponding value should be a integer. This<br>
-allows the Publishing API to check that the publishing app sending the request<br>
+<p>All PUT and POST endpoints take an optional JSON attribute <code>previous_version</code>
+in the request. If given, the corresponding value should be a integer. This
+allows the Publishing API to check that the publishing app sending the request
 intends to update the latest lock version of the model in question.</p>
-<p>If <code>previous_version</code> is provided, the Publishing API will confirm that the<br>
-provided value matches that of the edition in the Publishing API. If it<br>
+<p>If <code>previous_version</code> is provided, the Publishing API will confirm that the
+provided value matches that of the edition in the Publishing API. If it
 does not, a 409 Conflict response will be provided.</p>
 <h3 id="warnings">Warnings</h3>
-<p>Some endpoints may return warnings along with the content. For<br>
-those that do, in the top level object for the content, there<br>
-will be a value named "warnings". This will be an object, where the<br>
-names are the warnings that are applicable, and the corresponding<br>
+<p>Some endpoints may return warnings along with the content. For
+those that do, in the top level object for the content, there
+will be a value named "warnings". This will be an object, where the
+names are the warnings that are applicable, and the corresponding
 values are a human readable description of the warning.</p>
 <h4 id="content-item-blocking-publish">Content Item Blocking Publish</h4>
-<p>This warning is only applicable for documents with an edition in a draft state,<br>
-and indicates that the draft cannot be published due to the presence of an<br>
+<p>This warning is only applicable for documents with an edition in a draft state,
+and indicates that the draft cannot be published due to the presence of an
 edition of a different at the base_path this edition is using.</p>
-<p>Some document types are exempt from this restriction, and if either the draft,<br>
-or the blocking edition are of a "substitutable" document type, upon the<br>
+<p>Some document types are exempt from this restriction, and if either the draft,
+or the blocking edition are of a "substitutable" document type, upon the
 publish of the draft, the blocking item will be unpublished.</p>
 <h2 id="put-v2contentcontent_id"><code>PUT /v2/content/:content_id</code></h2>
 <p><a href="https://pact-broker.cloudapps.digital/pacts/provider/Publishing%20API/consumer/GDS%20API%20Adapters/latest#a_request_from_the_Whitehall_application_to_create_a_content_item_at_/test-item_given_/test-item_has_been_reserved_by_the_Publisher_application">Request/Response detail</a></p>
-<p>Used to create or update a draft edition of a document. It will restrict<br>
-creation if there is different document with a draft edition using the same<br>
+<p>Used to create or update a draft edition of a document. It will restrict
+creation if there is different document with a draft edition using the same
 <code>base_path</code>. Uses <a href="#optimistic-locking-previous_version">optimistic-locking</a>.</p>
-<p>The request must conform to the schema defined in govuk-content-schemas if it<br>
+<p>The request must conform to the schema defined in govuk-content-schemas if it
 does not a 422 response will be returned.</p>
-<p>If the request is successful, this endpoint will respond with the<br>
+<p>If the request is successful, this endpoint will respond with the
 presented edition and <a href="#warnings">warnings</a>.</p>
 <h3 id="path-parameters">Path parameters</h3>
 <ul>
 <li>
-<a href="model.md#content_id"><code>content_id</code></a>
+<a href="/apis/publishing-api/model.html"><code>content_id</code></a>
 <ul>
 <li>Specifies the <code>content_id</code> of the content to be created or updated.</li>
 </ul>
@@ -282,9 +282,9 @@ presented edition and <a href="#warnings">warnings</a>.</p>
 <li>
 <code>access_limited</code> <em>(optional)</em>
 <ul>
-<li>A JSON object with a key of "users" the value of which is a array of UUIDs<br>
+<li>A JSON object with a key of "users" the value of which is a array of UUIDs
 identifying users.</li>
-<li>If provided, only the specified users will be able to view the content item<br>
+<li>If provided, only the specified users will be able to view the content item
 on the draft frontend applications. It has no effect on live content.</li>
 </ul>
 </li>
@@ -304,7 +304,7 @@ on the draft frontend applications. It has no effect on live content.</li>
 <li>
 <code>change_note</code> <em>(optional)</em>
 <ul>
-<li>Specifies the <a href="model.md#changenote">change note</a>.</li>
+<li>Specifies the <a href="/apis/publishing-api/model.html">change note</a>.</li>
 <li>Ignored if the <code>update_type</code> is not major.</li>
 </ul>
 </li>
@@ -318,13 +318,13 @@ on the draft frontend applications. It has no effect on live content.</li>
 <code>details</code> <em>(conditionally required, default: {})</em>
 <ul>
 <li>JSON object representing data specific to the <code>document_type</code>.</li>
-<li>If there is no top-level <code>change_note</code> attribute, and this is a "major"<br>
-<code>update_type</code>, then the Publishing API may extract the <code>change_note</code> from<br>
+<li>If there is no top-level <code>change_note</code> attribute, and this is a "major"
+<code>update_type</code>, then the Publishing API may extract the <code>change_note</code> from
 the details hash.
 <ul>
 <li>If <code>details</code> has a member named <code>change_note</code>, that is used.</li>
-<li>Otherwise, if <code>details</code> contains a member named<br>
-<code>change_history</code>, then the <code>note</code> with the latest corresponding<br>
+<li>Otherwise, if <code>details</code> contains a member named
+<code>change_history</code>, then the <code>note</code> with the latest corresponding
 <code>public_timestamp</code> is used.</li>
 </ul>
 </li>
@@ -333,7 +333,7 @@ the details hash.
 <li>
 <code>document_type</code> <em>(required)</em>
 <ul>
-<li>A particular type of document, used to differentiate between documents that<br>
+<li>A particular type of document, used to differentiate between documents that
 are of different types but share the same schema.</li>
 </ul>
 </li>
@@ -346,17 +346,17 @@ are of different types but share the same schema.</li>
 <li>
 <code>last_edited_at</code> <em>(optional)</em>
 <ul>
-<li>An <a href="https://www.ietf.org/rfc/rfc3339.txt">RFC 3339</a> formatted timestamp should be provided, although<br>
+<li>An <a href="https://www.ietf.org/rfc/rfc3339.txt">RFC 3339</a> formatted timestamp should be provided, although
 <a href="http://apidock.com/rails/String/to_time">other formats</a> may be accepted.</li>
 <li>Specifies when this edition was last edited.</li>
-<li>If omitted and <code>update_type</code> is "major" or "minor" <code>last_edited_at</code> will be<br>
+<li>If omitted and <code>update_type</code> is "major" or "minor" <code>last_edited_at</code> will be
 set to the current time.</li>
 </ul>
 </li>
 <li>
 <code>links</code> <em>(optional, default: {})</em>
 <ul>
-<li>A JSON object containing arrays of <a href="model.md#content_id"><code>content_id</code></a>s for<br>
+<li>A JSON object containing arrays of <a href="/apis/publishing-api/model.html"><code>content_id</code></a>s for
 each <code>link_type</code>.</li>
 <li>Applicable <code>link_type</code>s are defined in the schema for this document_type.</li>
 </ul>
@@ -384,9 +384,9 @@ each <code>link_type</code>.</li>
 <li>
 <code>public_updated_at</code> <em>(optional)</em>
 <ul>
-<li>Used to override the <code>public_updated_at</code> value that would be set by the<br>
+<li>Used to override the <code>public_updated_at</code> value that would be set by the
 Publishing API.</li>
-<li>An <a href="https://www.ietf.org/rfc/rfc3339.txt">RFC 3339</a> formatted timestamp should be provided, although<br>
+<li>An <a href="https://www.ietf.org/rfc/rfc3339.txt">RFC 3339</a> formatted timestamp should be provided, although
 <a href="http://apidock.com/rails/String/to_time">other formats</a> may be accepted.</li>
 </ul>
 </li>
@@ -406,9 +406,9 @@ Publishing API.</li>
 <li>
 <code>rendering_app</code> <em>(conditionally required)</em>
 <ul>
-<li>Required for a <code>document_type</code> (or <code>format</code>) that is not "redirect" or<br>
+<li>Required for a <code>document_type</code> (or <code>format</code>) that is not "redirect" or
 "gone".</li>
-<li>The hostname for the frontend application that will eventually render this<br>
+<li>The hostname for the frontend application that will eventually render this
 content.</li>
 </ul>
 </li>
@@ -422,7 +422,7 @@ content.</li>
 <li>
 <code>schema_name</code> <em>(required)</em>
 <ul>
-<li>The name of the <a href="https://github.com/alphagov/govuk-content-schemas">GOV.UK content schema</a><br>
+<li>The name of the <a href="https://github.com/alphagov/govuk-content-schemas">GOV.UK content schema</a>
 that the request body will be validated against.</li>
 </ul>
 </li>
@@ -442,46 +442,46 @@ that the request body will be validated against.</li>
 <li>
 <code>bulk_publishing</code> <em>(optional, default: false)</em>
 <ul>
-<li>Set this to true when making multiple requests. Publishing API will use a<br>
+<li>Set this to true when making multiple requests. Publishing API will use a
 lower priority queue to avoid delays to standard publishing activity.</li>
 </ul>
 </li>
 </ul>
 <h3 id="state-changes">State changes</h3>
 <ul>
-<li>If a <code>base_path</code> is provided it is reserved for use of the given<br>
+<li>If a <code>base_path</code> is provided it is reserved for use of the given
 <code>publishing_app</code>.</li>
-<li>If this is changing the <code>base_path</code> of a draft edition the previous<br>
+<li>If this is changing the <code>base_path</code> of a draft edition the previous
 <code>base_path</code> reserved will be discarded.</li>
-<li>Any draft editions for different documents that have a matching <code>base_path</code><br>
-and have a document_type of "coming soon", "gone", "redirect" or<br>
+<li>Any draft editions for different documents that have a matching <code>base_path</code>
+and have a document_type of "coming soon", "gone", "redirect" or
 "unpublishing" will be deleted.</li>
 <li>If an edition for this document already exists in a "draft" state:
 <ul>
 <li>The existing draft edition will be updated.</li>
-<li>If the <code>base_path</code> has changed since the last update, a draft redirect<br>
+<li>If the <code>base_path</code> has changed since the last update, a draft redirect
 will be created.</li>
 </ul>
 </li>
 <li>If an edition for this document does not exist in a "draft" state:
 <ul>
 <li>A new edition will be created</li>
-<li>If the <code>base_path</code> is different to that of the published edition (if this<br>
+<li>If the <code>base_path</code> is different to that of the published edition (if this
 exists) a draft redirect will be created.</li>
 </ul>
 </li>
-<li>The draft content store will be updated with the edition and any associated<br>
+<li>The draft content store will be updated with the edition and any associated
 redirects.</li>
 </ul>
 <h2 id="post-v2contentcontent_idpublish"><code>POST /v2/content/:content_id/publish</code></h2>
 <p><a href="https://pact-broker.cloudapps.digital/pacts/provider/Publishing%20API/consumer/GDS%20API%20Adapters/latest#a_publish_request_for_version_3_given_the_content_item_bed722e6-db68-43e5-9079-063f623335a7_is_at_version_3">Request/Response detail</a></p>
-<p>Transitions an edition from a draft state to a published state. The edition<br>
-will be presented in the live content store. Uses<br>
+<p>Transitions an edition from a draft state to a published state. The edition
+will be presented in the live content store. Uses
 <a href="#optimistic-locking-previous_version">optimistic-locking</a>.</p>
 <h3 id="path-parameters">Path parameters</h3>
 <ul>
 <li>
-<a href="model.md#content_id"><code>content_id</code></a>
+<a href="/apis/publishing-api/model.html"><code>content_id</code></a>
 <ul>
 <li>Identifies the document which has an edition to publish.</li>
 </ul>
@@ -493,9 +493,9 @@ will be presented in the live content store. Uses<br>
 <code>update_type</code> <em>(conditionally required, deprecated)</em>
 <ul>
 <li>Accepts: "major", "minor", "republish"</li>
-<li>Will fallback to the <code>update_type</code> set when the draft was created if not<br>
+<li>Will fallback to the <code>update_type</code> set when the draft was created if not
 specified in the request.</li>
-<li>This is deprecated, clients should instead set the update type when<br>
+<li>This is deprecated, clients should instead set the update type when
 putting the content.</li>
 </ul>
 </li>
@@ -510,52 +510,52 @@ putting the content.</li>
 <li>
 <code>previous_version</code> <em>(optional, recommended)</em>
 <ul>
-<li>Used to ensure that the version being published is the most recent draft<br>
+<li>Used to ensure that the version being published is the most recent draft
 update to the document.</li>
 </ul>
 </li>
 </ul>
 <h3 id="state-changes">State changes</h3>
 <ul>
-<li>The draft edition for a document matching <code>content_id</code> and <code>locale</code> will<br>
+<li>The draft edition for a document matching <code>content_id</code> and <code>locale</code> will
 change state to "published"</li>
-<li>Any previously published editions for this document will have their state set<br>
+<li>Any previously published editions for this document will have their state set
 to "superseded".</li>
-<li>For an <code>update_type</code> of "major" the <code>public_updated_at</code> field will be updated<br>
+<li>For an <code>update_type</code> of "major" the <code>public_updated_at</code> field will be updated
 to the current time.</li>
 <li>For an <code>update_type</code> other than "major":
 <ul>
-<li>If it exists, the <a href="model.md#changenote">change note</a> will be<br>
+<li>If it exists, the <a href="/apis/publishing-api/model.html">change note</a> will be
 deleted, as change notes are only for major updates.</li>
 </ul>
 </li>
 <li>If the edition has a non-blank <code>base_path</code>:
 <ul>
-<li>If the <code>base_path</code> of the draft item differs to the published version of<br>
+<li>If the <code>base_path</code> of the draft item differs to the published version of
 this edition:
 <ul>
 <li>Redirects to this edition will be published.</li>
 </ul>
 </li>
-<li>Any published editions that have a matching <code>base_path</code> and have a<br>
-document_type of "coming soon", "gone", "redirect" or "unpublishing" will<br>
-have their state changed to "unpublished" with a type<br>
+<li>Any published editions that have a matching <code>base_path</code> and have a
+document_type of "coming soon", "gone", "redirect" or "unpublishing" will
+have their state changed to "unpublished" with a type
 of "substitute".</li>
-<li>The live content store will be updated with the published edition and any<br>
+<li>The live content store will be updated with the published edition and any
 associated redirects.</li>
-<li>All published editions that link to this item (directly or through a<br>
+<li>All published editions that link to this item (directly or through a
 recursive chain of links) will be updated in the live content store.</li>
 </ul>
 </li>
 </ul>
 <h2 id="post-v2contentcontent_idrepublish"><code>POST /v2/content/:content_id/republish</code></h2>
-<p>Used to set a live edition to a published state, used to remove unpublishing<br>
-or to re-send published data downstream. Uses<br>
+<p>Used to set a live edition to a published state, used to remove unpublishing
+or to re-send published data downstream. Uses
 <a href="#optimistic-locking-previous_version">optimistic-locking</a>.</p>
 <h3 id="path-parameters">Path parameters</h3>
 <ul>
 <li>
-<a href="model.md#content_id"><code>content_id</code></a>
+<a href="/apis/publishing-api/model.html"><code>content_id</code></a>
 <ul>
 <li>Identifies the document which has an edition to republish.</li>
 </ul>
@@ -574,7 +574,7 @@ or to re-send published data downstream. Uses<br>
 <li>
 <code>previous_version</code> <em>(optional, recommended)</em>
 <ul>
-<li>Used to ensure that the version being published is the most recent draft<br>
+<li>Used to ensure that the version being published is the most recent draft
 update to the document.</li>
 </ul>
 </li>
@@ -584,20 +584,20 @@ update to the document.</li>
 <li>Any unpublished editions will have their status set back to published</li>
 <li>The publishing_request_id for an edition will be updated</li>
 <li>The live content store will be updated with the published edition</li>
-<li>The draft content store will be updated unless the document has a draft<br>
+<li>The draft content store will be updated unless the document has a draft
 edition</li>
-<li>All published editions that link to this item (directly or through a<br>
+<li>All published editions that link to this item (directly or through a
 recursive chain of links) will be updated in the live content store.</li>
 </ul>
 <h2 id="post-v2contentcontent_idunpublish"><code>POST /v2/content/:content_id/unpublish</code></h2>
 <p><a href="https://pact-broker.cloudapps.digital/pacts/provider/Publishing%20API/consumer/GDS%20API%20Adapters/latest#an_unpublish_request_given_a_published_content_item_exists_with_content_id:_bed722e6-db68-43e5-9079-063f623335a7">Request/Response detail</a></p>
-<p>Transitions an edition of a document into an unpublished state. The edition will<br>
-be updated or removed from the live content store depending on the unpublishing<br>
+<p>Transitions an edition of a document into an unpublished state. The edition will
+be updated or removed from the live content store depending on the unpublishing
 type. Uses <a href="#optimistic-locking-previous_version">optimistic-locking</a>.</p>
 <h3 id="path-parameters">Path parameters</h3>
 <ul>
 <li>
-<a href="model.md#content_id"><code>content_id</code></a>
+<a href="/apis/publishing-api/model.html"><code>content_id</code></a>
 <ul>
 <li>Identifies the document which will have an edition unpublished.</li>
 </ul>
@@ -651,7 +651,7 @@ type. Uses <a href="#optimistic-locking-previous_version">optimistic-locking</a>
 <li>
 <code>previous_version</code> <em>(optional, recommended)</em>
 <ul>
-<li>Used to ensure that the version being unpublished is the most recent<br>
+<li>Used to ensure that the version being unpublished is the most recent
 version of the document.</li>
 </ul>
 </li>
@@ -665,10 +665,10 @@ version of the document.</li>
 <li>
 <code>unpublished_at</code> <em>(optional)</em>
 <ul>
-<li>An <a href="https://www.ietf.org/rfc/rfc3339.txt">RFC 3339</a> formatted timestamp should be provided, although<br>
+<li>An <a href="https://www.ietf.org/rfc/rfc3339.txt">RFC 3339</a> formatted timestamp should be provided, although
 <a href="http://apidock.com/rails/String/to_time">other formats</a> may be accepted.</li>
 <li>Specifies a publisher provided time of when this content was removed/withdrawn.</li>
-<li>Used to override the <code>withdrawn_at</code> time provided to content store, for<br>
+<li>Used to override the <code>withdrawn_at</code> time provided to content store, for
 withdrawn documents content.</li>
 </ul>
 </li>
@@ -677,15 +677,15 @@ withdrawn documents content.</li>
 <ul>
 <li>If the unpublishing <code>type</code> is "gone", "redirect" or "withdrawal":
 <ul>
-<li>If the document matching <code>content_id</code> and <code>locale</code> has a draft state and<br>
+<li>If the document matching <code>content_id</code> and <code>locale</code> has a draft state and
 <code>allow_draft</code> is <code>true</code>:
 <ul>
 <li>The draft edition state is set to "unpublished".</li>
-<li>If a previously published version of the edition exists it's state<br>
+<li>If a previously published version of the edition exists it's state
 will be set to "superseded".</li>
 </ul>
 </li>
-<li>If the document matching <code>content_id</code> and <code>locale</code> has a draft and<br>
+<li>If the document matching <code>content_id</code> and <code>locale</code> has a draft and
 <code>discard_drafts</code> is <code>true</code>:
 <ul>
 <li>The draft edition will be deleted from the Publishing API.</li>
@@ -699,7 +699,7 @@ will be set to "superseded".</li>
 </ul>
 </li>
 <li>The live content store will be updated with the unpublished edition.</li>
-<li>All published editions that link to this item (directly or through a<br>
+<li>All published editions that link to this item (directly or through a
 recursive chain of links) will be updated in the live content store.</li>
 </ul>
 </li>
@@ -711,13 +711,13 @@ recursive chain of links) will be updated in the live content store.</li>
 </ul>
 <h2 id="post-v2contentcontent_iddiscard-draft"><code>POST /v2/content/:content_id/discard-draft</code></h2>
 <p><a href="https://pact-broker.cloudapps.digital/pacts/provider/Publishing%20API/consumer/GDS%20API%20Adapters/latest#a_request_to_discard_draft_content_given_a_content_item_exists_with_content_id:_bed722e6-db68-43e5-9079-063f623335a7">Request/Response detail</a></p>
-<p>Deletes a draft edition of a document. Replaces the draft content item on<br>
-the draft content store with the published item, if one exists. Uses<br>
+<p>Deletes a draft edition of a document. Replaces the draft content item on
+the draft content store with the published item, if one exists. Uses
 <a href="#optimistic-locking-previous_version">optimistic-locking</a>.</p>
 <h3 id="path-parameters">Path parameters</h3>
 <ul>
 <li>
-<a href="model.md#content_id"><code>content_id</code></a>
+<a href="/apis/publishing-api/model.html"><code>content_id</code></a>
 <ul>
 <li>Identifies the document with a draft edition.</li>
 </ul>
@@ -749,14 +749,14 @@ the draft content store with the published item, if one exists. Uses<br>
 </ul>
 <h2 id="post-v2contentcontent_idimport"><code>POST /v2/content/:content_id/import</code></h2>
 <p><strong>Temporary Endpoint</strong></p>
-<p>The import endpoint is a temporary endpoint added for the usage of importing<br>
+<p>The import endpoint is a temporary endpoint added for the usage of importing
 Maslow. This endpoint is expected to be removed by March 2017.</p>
-<p>We are planning to introduce an import endpoint in Q4 2016, however this may<br>
+<p>We are planning to introduce an import endpoint in Q4 2016, however this may
 have a different API.</p>
 <h2 id="get-v2content"><code>GET /v2/content</code></h2>
 <p><a href="https://pact-broker.cloudapps.digital/pacts/provider/Publishing%20API/consumer/GDS%20API%20Adapters/latest#a_get_entries_request_given_a_content_item_exists_in_multiple_locales_with_content_id:_bed722e6-db68-43e5-9079-063f623335a7">Request/Response detail</a></p>
-<p>Retrieves a paginated list of editions for the provided query string<br>
-parameters. If editions exists in both a published and a draft for a document<br>
+<p>Retrieves a paginated list of editions for the provided query string
+parameters. If editions exists in both a published and a draft for a document
 and a state has been specified, the draft is returned.</p>
 <h3 id="query-string-parameters">Query string parameters</h3>
 <ul>
@@ -769,13 +769,13 @@ and a state has been specified, the draft is returned.</p>
 <li>
 <code>fields[]</code> <em>(optional)</em>
 <ul>
-<li>Accepts an array of: analytics_identifier, base_path,<br>
-content_store, description, details, document_type,<br>
-first_published_at, last_edited_at, major_published_at, phase,<br>
-public_updated_at, published_at, publishing_api_first_published_at,<br>
-publishing_api_last_edited_at, publishing_app, redirects, rendering_app,<br>
+<li>Accepts an array of: analytics_identifier, base_path,
+content_store, description, details, document_type,
+first_published_at, last_edited_at, major_published_at, phase,
+public_updated_at, published_at, publishing_api_first_published_at,
+publishing_api_last_edited_at, publishing_app, redirects, rendering_app,
 routes, schema_name, state, title, user_facing_version, update_type</li>
-<li>Determines which fields will be returned in the response, if omitted all<br>
+<li>Determines which fields will be returned in the response, if omitted all
 fields will be returned.</li>
 </ul>
 </li>
@@ -783,11 +783,11 @@ fields will be returned.</li>
 <code>link_*</code> <em>(optional)</em>
 <ul>
 <li>Accepts a content_id.</li>
-<li>Used to restrict documents to those linking to another document,<br>
-e.g. <code>link_organisations=056a9ff6-2ed1-4942-9f06-92df03da741d</code><br>
-will restrict the documents returned to those that have a link<br>
-with type <code>organisations</code> to the document with specified content<br>
-id. Query parameters matching this form can be specified multiple<br>
+<li>Used to restrict documents to those linking to another document,
+e.g. <code>link_organisations=056a9ff6-2ed1-4942-9f06-92df03da741d</code>
+will restrict the documents returned to those that have a link
+with type <code>organisations</code> to the document with specified content
+id. Query parameters matching this form can be specified multiple
 times.</li>
 </ul>
 </li>
@@ -803,7 +803,7 @@ times.</li>
 <code>order</code> <em>(optional, default: "-public_updated_at")</em>
 <ul>
 <li>The field to sort the results by.</li>
-<li>Returned in an ascending order unless prefixed with a hyphen, e.g.<br>
+<li>Returned in an ascending order unless prefixed with a hyphen, e.g.
 "-base_path".</li>
 </ul>
 </li>
@@ -829,7 +829,7 @@ times.</li>
 <code>search_in[]</code> <em>(optional, default: [title, base_path])</em>
 <ul>
 <li>Array of fields to search against.</li>
-<li>Fields supported are <code>title</code>, <code>base_path</code>, <code>description</code>, and <code>details.*</code> -<br>
+<li>Fields supported are <code>title</code>, <code>base_path</code>, <code>description</code>, and <code>details.*</code> -
 where * indicates a field within details, e.g. <code>details.internal_name</code>.</li>
 </ul>
 </li>
@@ -848,14 +848,14 @@ where * indicates a field within details, e.g. <code>details.internal_name</code
 </ul>
 <h2 id="get-v2contentcontent_id"><code>GET /v2/content/:content_id</code></h2>
 <p><a href="https://pact-broker.cloudapps.digital/pacts/provider/Publishing%20API/consumer/GDS%20API%20Adapters/latest#a_request_to_return_the_content_item_given_a_content_item_exists_with_content_id:_bed722e6-db68-43e5-9079-063f623335a7">Request/Response detail</a></p>
-<p>Retrieves a single edition of a document for a <code>content_id</code> and <code>locale</code>. By<br>
+<p>Retrieves a single edition of a document for a <code>content_id</code> and <code>locale</code>. By
 default the most recent edition is returned, which may be a draft.</p>
-<p>If the returned item is in the draft state, <a href="#warnings">warnings</a> may be<br>
+<p>If the returned item is in the draft state, <a href="#warnings">warnings</a> may be
 included within the response.</p>
 <h3 id="path-parameters">Path parameters</h3>
 <ul>
 <li>
-<a href="model.md#content_id"><code>content_id</code></a>
+<a href="/apis/publishing-api/model.html"><code>content_id</code></a>
 <ul>
 <li>Identifies the document to be returned.</li>
 </ul>
@@ -881,15 +881,15 @@ included within the response.</p>
 </ul>
 <h2 id="post-v2actionscontent_id"><code>POST /v2/actions/:content_id</code></h2>
 <p>TODO: Request/Response pact for actions</p>
-<p><strong>Note - The usage opportunities for this endpoint is currently in discovery,<br>
+<p><strong>Note - The usage opportunities for this endpoint is currently in discovery,
 this feature may change significantly in time.</strong></p>
-<p>Creates an action for the document that is specified, defaults to<br>
-targeting a draft edition but can be specified to target<br>
+<p>Creates an action for the document that is specified, defaults to
+targeting a draft edition but can be specified to target
 live version. Uses <a href="#optimistic-locking-previous_version">optimistic-locking</a>.</p>
 <h3 id="path-parameters">Path parameters</h3>
 <ul>
 <li>
-<a href="model.md#content_id"><code>content_id</code></a>
+<a href="/apis/publishing-api/model.html"><code>content_id</code></a>
 <ul>
 <li>Identifies the document of which edition will be targeted.</li>
 </ul>
@@ -900,7 +900,7 @@ live version. Uses <a href="#optimistic-locking-previous_version">optimistic-loc
 <li>
 <code>action</code> <em>(required)</em>
 <ul>
-<li>Currently an arbitrary name describing the workflow a edition has gone<br>
+<li>Currently an arbitrary name describing the workflow a edition has gone
 through</li>
 <li>Provided in CamelCase</li>
 </ul>
@@ -928,15 +928,15 @@ through</li>
 </ul>
 <h2 id="patch-v2linkscontent_id"><code>PATCH /v2/links/:content_id</code></h2>
 <p><a href="https://pact-broker.cloudapps.digital/pacts/provider/Publishing%20API/consumer/GDS%20API%20Adapters/latest#a_request_to_update_the_linkset_at_version_3_given_the_linkset_for_bed722e6-db68-43e5-9079-063f623335a7_is_at_version_3">Request/Response detail</a></p>
-<p>Creates or updates a set of links for the given <code>content_id</code>. Link sets can be<br>
-created before or after the <a href="#put_v2contentcontent-id">PUT request</a> for the<br>
-content. These are tied to documents solely by matching <code>content_id</code> and they<br>
-are not associated with a locale or a particular edition. The ordering of links<br>
+<p>Creates or updates a set of links for the given <code>content_id</code>. Link sets can be
+created before or after the <a href="#put_v2contentcontent-id">PUT request</a> for the
+content. These are tied to documents solely by matching <code>content_id</code> and they
+are not associated with a locale or a particular edition. The ordering of links
 in the request is preserved.</p>
 <h3 id="path-parameters">Path parameters</h3>
 <ul>
 <li>
-<a href="model.md#content_id"><code>content_id</code></a>
+<a href="/apis/publishing-api/model.html"><code>content_id</code></a>
 <ul>
 <li>Identifies the documents the links are for.</li>
 </ul>
@@ -947,7 +947,7 @@ in the request is preserved.</p>
 <li>
 <code>links</code> <em>(required)</em>
 <ul>
-<li>A JSON object containing arrays of <a href="model.md#content_id"><code>content_id</code></a>s for<br>
+<li>A JSON object containing arrays of <a href="/apis/publishing-api/model.html"><code>content_id</code></a>s for
 each <code>link_type</code>.</li>
 <li>An empty array for a <code>link_type</code> will delete that <code>link_type</code>.</li>
 </ul>
@@ -978,23 +978,23 @@ each <code>link_type</code>.</li>
 </ul>
 <h3 id="state-changes">State changes</h3>
 <ul>
-<li>A link set is created or updated, with the <code>lock_version</code> of the link set<br>
+<li>A link set is created or updated, with the <code>lock_version</code> of the link set
 being incremented.</li>
-<li>The draft content store is updated if there are editions of documents<br>
+<li>The draft content store is updated if there are editions of documents
 matching the <code>content_id</code> on the draft content store.</li>
-<li>The live content store is updated if there are editions of documents<br>
+<li>The live content store is updated if there are editions of documents
 matching the <code>content_id</code> on the live content store.</li>
 </ul>
 <h2 id="get-v2linkscontent_id"><code>GET /v2/links/:content_id</code></h2>
 <p><a href="https://pact-broker.cloudapps.digital/pacts/provider/Publishing%20API/consumer/GDS%20API%20Adapters/latest#a_get-links_request_given_empty_links_exist_for_content_id_bed722e6-db68-43e5-9079-063f623335a7">Request/Response detail</a></p>
-<p>Retrieves only the <a href="https://github.com/alphagov/publishing-api/blob/master/docs/link-expansion.md#patch-link-set---link-set-links">link set links</a> for the given <code>content_id</code>.<br>
-Returns arrays of <code>content_id</code>s representing documents. These are grouped by<br>
-<code>link_type</code>. The ordering of the returned links matches the ordering when they<br>
+<p>Retrieves only the <a href="/apis/publishing-api/link-expansion.html">link set links</a> for the given <code>content_id</code>.
+Returns arrays of <code>content_id</code>s representing documents. These are grouped by
+<code>link_type</code>. The ordering of the returned links matches the ordering when they
 were created.</p>
 <h3 id="path-parameters">Path parameters</h3>
 <ul>
 <li>
-<a href="model.md#content_id"><code>content_id</code></a>
+<a href="/apis/publishing-api/model.html"><code>content_id</code></a>
 <ul>
 <li>Identifies the documents links will be retrieved for.</li>
 </ul>
@@ -1002,23 +1002,23 @@ were created.</p>
 </ul>
 <h2 id="get-v2expanded-linkscontent_id"><code>GET /v2/expanded-links/:content_id</code></h2>
 <p><a href="https://pact-broker.cloudapps.digital/pacts/provider/Publishing%20API/consumer/GDS%20API%20Adapters/latest#a_get-expanded-links_request_given_empty_links_exist_for_content_id_bed722e6-db68-43e5-9079-063f623335a7">Request/Response detail</a></p>
-<p>Retrieves the expanded link set for the given <code>content_id</code>. Returns arrays of<br>
+<p>Retrieves the expanded link set for the given <code>content_id</code>. Returns arrays of
 details for each linked edition in groupings of <code>link_type</code>.</p>
-<p>To ensure fast performance the result for this is pulled from a database which<br>
-is updated whenever the content store is updated. This may mean that if you<br>
+<p>To ensure fast performance the result for this is pulled from a database which
+is updated whenever the content store is updated. This may mean that if you
 update links and then request this endpoint you may get a stale response.</p>
-<p>You can request a fresh response by adding a query string of <code>generate=true</code>,<br>
+<p>You can request a fresh response by adding a query string of <code>generate=true</code>,
 this response can be slow though for large link sets.</p>
-<p>The response includes a field of <code>generated</code> and the timestamp of when the<br>
+<p>The response includes a field of <code>generated</code> and the timestamp of when the
 expanded link set was generated.</p>
-<p>If the links are generated at runtime (which happens if use <code>generate=true</code>)<br>
-a version field will be returned which will be the <code>stale_lock_version</code> for<br>
-the LinkSet of that content_id. This is a deprecated field and should not be<br>
+<p>If the links are generated at runtime (which happens if use <code>generate=true</code>)
+a version field will be returned which will be the <code>stale_lock_version</code> for
+the LinkSet of that content_id. This is a deprecated field and should not be
 used as it is not a reliable indicate of the version of the links.</p>
 <h3 id="path-parameters">Path parameters</h3>
 <ul>
 <li>
-<a href="model.md#content_id"><code>content_id</code></a>
+<a href="/apis/publishing-api/model.html"><code>content_id</code></a>
 <ul>
 <li>Identifies the link set links will be retrieved for.</li>
 </ul>
@@ -1042,19 +1042,19 @@ used as it is not a reliable indicate of the version of the links.</p>
 <li>
 <code>generate</code> <em>(optional, default: false)</em>
 <ul>
-<li>Whether to generate the expanded links at request time, ensures a fresh<br>
+<li>Whether to generate the expanded links at request time, ensures a fresh
 response but could make the request slow</li>
 </ul>
 </li>
 </ul>
 <h2 id="get-v2linkedcontent_id"><code>GET /v2/linked/:content_id</code></h2>
 <p><a href="https://pact-broker.cloudapps.digital/pacts/provider/Publishing%20API/consumer/GDS%20API%20Adapters/latest#a_request_to_return_the_items_linked_to_it_given_no_content_exists">Request/Response detail</a></p>
-<p>Retrieves all editions that have <a href="https://github.com/alphagov/publishing-api/blob/master/docs/link-expansion.md#patch-link-set---link-set-links">link set links</a> to the given <code>content_id</code><br>
+<p>Retrieves all editions that have <a href="/apis/publishing-api/link-expansion.html">link set links</a> to the given <code>content_id</code>
 for some <code>link_type</code>.</p>
 <h3 id="path-parameters">Path parameters</h3>
 <ul>
 <li>
-<a href="model.md#content_id"><code>content_id</code></a>
+<a href="/apis/publishing-api/model.html"><code>content_id</code></a>
 <ul>
 <li>Identifies the link set editions may be linked to.</li>
 </ul>
@@ -1071,10 +1071,10 @@ for some <code>link_type</code>.</p>
 <li>
 <code>fields[]</code> <em>(required)</em>
 <ul>
-<li>Accepts an array of: analytics_identifier, base_path,<br>
-content_store, description, details, document_type,<br>
-first_published_at, last_edited_at, phase, public_updated_at,<br>
-publishing_app, redirects, rendering_app, routes, schema_name,<br>
+<li>Accepts an array of: analytics_identifier, base_path,
+content_store, description, details, document_type,
+first_published_at, last_edited_at, phase, public_updated_at,
+publishing_app, redirects, rendering_app, routes, schema_name,
 state, title, user_facing_version, update_type, state</li>
 <li>Determines which fields will be returned in the response.</li>
 </ul>
@@ -1082,9 +1082,9 @@ state, title, user_facing_version, update_type, state</li>
 </ul>
 <h2 id="get-v2linkables"><code>GET /v2/linkables</code></h2>
 <p><a href="https://pact-broker.cloudapps.digital/pacts/provider/Publishing%20API/consumer/GDS%20API%20Adapters/latest#a_get_linkables_request_given_there_is_content_with_format_'topic'">Request/Response detail</a></p>
-<p>Returns abridged versions of all editions matching the given<br>
-<code>document_type</code>. Returns <code>title</code>, <code>content_id</code>, <code>publication_state</code>, <code>base_path</code><br>
-from the document and edition. It also adds a special field <code>internal_name</code>,<br>
+<p>Returns abridged versions of all editions matching the given
+<code>document_type</code>. Returns <code>title</code>, <code>content_id</code>, <code>publication_state</code>, <code>base_path</code>
+from the document and edition. It also adds a special field <code>internal_name</code>,
 which is <code>details.internal_name</code> and falls back to <code>title</code>.</p>
 <h3 id="query-string-parameters">Query string parameters:</h3>
 <ul>
@@ -1096,11 +1096,11 @@ which is <code>details.internal_name</code> and falls back to <code>title</code>
 </li>
 </ul>
 <h2 id="get-v2linkschanges"><code>GET /v2/links/changes</code></h2>
-<p>Returns an array of changes to links, giving the information on what<br>
-changed (source and target content ids, and the link type), when the<br>
-change happened, what user was associated with the action, and if the<br>
+<p>Returns an array of changes to links, giving the information on what
+changed (source and target content ids, and the link type), when the
+change happened, what user was associated with the action, and if the
 link was created or deleted.</p>
-<p>The results will be in descending order by date, so newer changes come before<br>
+<p>The results will be in descending order by date, so newer changes come before
 older changes. A maximum of 250 changes will be returned.</p>
 <h3 id="query-string-parameters">Query string parameters</h3>
 <ul>
@@ -1130,7 +1130,7 @@ older changes. A maximum of 250 changes will be returned.</p>
 </li>
 </ul>
 <h2 id="get-v2editions"><code>GET /v2/editions</code></h2>
-<p>Retrieves a paginated list of editions for the provided query string<br>
+<p>Retrieves a paginated list of editions for the provided query string
 parameters.</p>
 <h3 id="query-string-parameters">Query string parameters</h3>
 <ul>
@@ -1143,14 +1143,14 @@ parameters.</p>
 <li>
 <code>fields[]</code> <em>(optional)</em>
 <ul>
-<li>Accepts an array of: analytics_identifier, base_path,<br>
-content_id, content_store, created_at, description, details, document_type,<br>
-first_published_at, last_edited_at, links, locale, major_published_at,<br>
-phase, public_updated_at, published_at, publishing_api_first_published_at,<br>
-publishing_api_last_edited_at, publishing_app, redirects,<br>
-rendering_app, routes, schema_name, stale_lock_version, state, title,<br>
+<li>Accepts an array of: analytics_identifier, base_path,
+content_id, content_store, created_at, description, details, document_type,
+first_published_at, last_edited_at, links, locale, major_published_at,
+phase, public_updated_at, published_at, publishing_api_first_published_at,
+publishing_api_last_edited_at, publishing_app, redirects,
+rendering_app, routes, schema_name, stale_lock_version, state, title,
 user_facing_version, update_type, updated_at</li>
-<li>Determines which fields will be returned in the response, if omitted all<br>
+<li>Determines which fields will be returned in the response, if omitted all
 fields will be returned.</li>
 </ul>
 </li>
@@ -1166,7 +1166,7 @@ fields will be returned.</li>
 <code>order</code> <em>(optional, default: "updated_at")</em>
 <ul>
 <li>The field to sort the results by.</li>
-<li>Returned in an ascending order unless prefixed with a hyphen, e.g.<br>
+<li>Returned in an ascending order unless prefixed with a hyphen, e.g.
 "-created_at".</li>
 <li>Accepts fields of: updated_at, public_updated_at, created_at, id</li>
 </ul>
@@ -1175,9 +1175,9 @@ fields will be returned.</li>
 <code>before</code> and <code>after</code> <em>(optional)</em>
 <ul>
 <li>The pagination key of the previous page to pagination before or after.</li>
-<li>Usually, you do not need to work this out manually, since it will be given<br>
+<li>Usually, you do not need to work this out manually, since it will be given
 to you in the <code>links</code> hash of the response.</li>
-<li>The format is a comma separated string of the values of the pagination keys<br>
+<li>The format is a comma separated string of the values of the pagination keys
 for the page you want.</li>
 </ul>
 </li>
@@ -1201,7 +1201,7 @@ for the page you want.</li>
 </li>
 </ul>
 <h2 id="post-v2linksby-content-id"><code>POST /v2/links/by-content-id</code></h2>
-<p>Retrieves the set of links for a given collection of content_ids. Returns a<br>
+<p>Retrieves the set of links for a given collection of content_ids. Returns a
 mapping of <code>content_id</code> to <code>links</code> hash.</p>
 <h3 id="post-parameters">POST parameters:</h3>
 <ul>
@@ -1214,7 +1214,7 @@ mapping of <code>content_id</code> to <code>links</code> hash.</p>
 </ul>
 <h2 id="post-lookup-by-base-path"><code>POST /lookup-by-base-path</code></h2>
 <p><a href="https://pact-broker.cloudapps.digital/pacts/provider/Publishing%20API/consumer/GDS%20API%20Adapters/latest#a_/lookup-by-base-path-request_given_there_are_live_content_items_with_base_paths_/foo_and_/bar">Request/Response detail</a></p>
-<p>Retrieves live editions for a given collection of base paths. Returns<br>
+<p>Retrieves live editions for a given collection of base paths. Returns
 a mapping of <code>base_path</code> to <code>content_id</code>.</p>
 <h3 id="post-parameters">POST parameters:</h3>
 <ul>
@@ -1258,19 +1258,19 @@ a mapping of <code>base_path</code> to <code>content_id</code>.</p>
 <li>
 <code>override_existing</code> <em>(optional)</em>
 <ul>
-<li>Explicitly claim a path that has already been reserved by a different<br>
+<li>Explicitly claim a path that has already been reserved by a different
 publishing_app. If not true, attempting to do this will fail.</li>
 </ul>
 </li>
 </ul>
 <h3 id="state-changes">State changes</h3>
 <ul>
-<li>If no path reservation for the supplied base_path is present, one will be<br>
+<li>If no path reservation for the supplied base_path is present, one will be
 created for the supplied publishing_app.</li>
-<li>If a path reservation exists for the supplied base_path but a different<br>
+<li>If a path reservation exists for the supplied base_path but a different
 publishing_app, and <code>override_existing</code> is not true, the command will fail.</li>
-<li>If a path reservation exists for the supplied base_path and a different a<br>
-publishing_app, and <code>override_existing</code> is true, the existing reservation will<br>
+<li>If a path reservation exists for the supplied base_path and a different a
+publishing_app, and <code>override_existing</code> is true, the existing reservation will
 be updated to the supplied publishing_app.</li>
 </ul>
 <h2 id="delete-pathsbase_path"><code>DELETE /paths/:base_path</code></h2>
@@ -1296,15 +1296,15 @@ be updated to the supplied publishing_app.</li>
 </ul>
 <h3 id="state-changes">State changes</h3>
 <ul>
-<li>If no path reservation for the supplied base_path is present, the command will<br>
+<li>If no path reservation for the supplied base_path is present, the command will
 fail.</li>
-<li>If a path reservation exists for the supplied base_path but a different<br>
+<li>If a path reservation exists for the supplied base_path but a different
 publishing_app, the command will fail.</li>
 </ul>
 <h2 id="put-publish-intentbase_path"><code>PUT /publish-intent(/*base_path)</code></h2>
 <p><a href="https://pact-broker.cloudapps.digital/pacts/provider/Publishing%20API/consumer/GDS%20API%20Adapters/latest#a_request_to_create_a_publish_intent_given_no_content_exists">Request/Response detail</a></p>
-<p>Used to create or update a publishing intent for a particular base_path and<br>
-reserve the base path in the publishing-api. A publishing intent sets when the<br>
+<p>Used to create or update a publishing intent for a particular base_path and
+reserve the base path in the publishing-api. A publishing intent sets when the
 cache should expire for a piece of content.</p>
 <h3 id="path-parameters">Path parameters</h3>
 <ul>
@@ -1339,9 +1339,9 @@ cache should expire for a piece of content.</p>
 <code>routes</code> <em>(optional)</em>
 <ul>
 <li>
-<code>Array</code> - Fields supported are path and type, the exact requirements can be<br>
-found <a href="https://github.com/alphagov/govuk-content-schemas/blob/master/formats/shared/definitions/routes_redirects.jsonnet">here</a>. This is optional as it is only<br>
-required if there needs to be a route created in router-api for the<br>
+<code>Array</code> - Fields supported are path and type, the exact requirements can be
+found <a href="https://github.com/alphagov/govuk-content-schemas/blob/master/formats/shared/definitions/routes_redirects.jsonnet">here</a>. This is optional as it is only
+required if there needs to be a route created in router-api for the
 <code>base_path</code> at the same time the publishing intent is made.</li>
 </ul>
 </li>
@@ -1350,13 +1350,13 @@ required if there needs to be a route created in router-api for the<br>
 <ul>
 <li>
 <code>base_path</code> is reserved for use of the given <code>publishing_app</code>.</li>
-<li>Creates a <code>PublishingIntent</code> in content-store to record when the cache should<br>
+<li>Creates a <code>PublishingIntent</code> in content-store to record when the cache should
 expire for a <code>base_path</code>.</li>
 <li>If <code>routes</code> are given, adds a route set in router-api.</li>
 </ul>
 <h2 id="delete-publish-intentbase_path"><code>DELETE /publish-intent(/*base_path)</code></h2>
-<p>Used to delete the publishing intent for a particular <code>base_path</code>. Removing a<br>
-publishing intent means that the content will continue to be cached as<br>
+<p>Used to delete the publishing intent for a particular <code>base_path</code>. Removing a
+publishing intent means that the content will continue to be cached as
 normal.</p>
 <p><a href="https://pact-broker.cloudapps.digital/pacts/provider/Publishing%20API/consumer/GDS%20API%20Adapters/latest#a_request_to_delete_a_publish_intent_given_no_content_exists">Request/Response detail</a></p>
 <h3 id="path-parameters">Path parameters</h3>
@@ -1370,7 +1370,7 @@ normal.</p>
 </ul>
 <h3 id="state-changes">State changes</h3>
 <ul>
-<li>The <code>PublishingIntent</code> for the passed in base_path is removed from the<br>
+<li>The <code>PublishingIntent</code> for the passed in base_path is removed from the
 content-store.</li>
 </ul>
 <h2 id="get-debugcontent_id"><code>GET /debug/:content_id</code></h2>
@@ -1378,7 +1378,7 @@ content-store.</li>
 <h3 id="path-parameters">Path parameters:</h3>
 <ul>
 <li>
-<a href="model.md#content_id"><code>content_id</code></a>
+<a href="/apis/publishing-api/model.html"><code>content_id</code></a>
 <ul>
 <li>Identifies the document to debug.</li>
 </ul>
@@ -1391,7 +1391,7 @@ content-store.</li>
 <p>Alternatively add the following host to your hosts file:</p>
 <pre><code>  127.0.0.1 publishing-api.integration.publishing.service.gov.uk
 </code></pre>
-<p>And then open<br>
+<p>And then open
 <a href="http://publishing-api.integration.publishing.service.gov.uk:8888/debug/f141fa95-0d79-4aed-8429-ed223a8f106a">http://publishing-api.integration.publishing.service.gov.uk:8888/debug/f141fa95-0d79-4aed-8429-ed223a8f106a</a></p>
 
 

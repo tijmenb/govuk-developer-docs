@@ -206,7 +206,7 @@
   <h1 class="page-title">search-api: Relevancy</h1>
 
   
-<p>This document explains how relevancy ordering works when performing a<br>
+<p>This document explains how relevancy ordering works when performing a
 search.</p>
 <h2 id="contents">Contents</h2>
 <ol>
@@ -228,7 +228,7 @@ search.</p>
 <li><a href="#finding-underperforming-queries">Finding underperforming queries</a></li>
 </ol>
 <h2 id="what-is-relevancy">What is relevancy?</h2>
-<p>A list of documents returned by Search API will include an <code>es_score</code> and<br>
+<p>A list of documents returned by Search API will include an <code>es_score</code> and
 a <code>combined_score</code> on every document.</p>
 <pre lang="ruby"><code># Response for a search for 'Harry Potter'
 [
@@ -237,185 +237,185 @@ a <code>combined_score</code> on every document.</p>
   { title: "Ron Weasley", combined_score: 1 }
 ]
 </code></pre>
-<p>The <code>combined_score</code> is used for ranking results and represents how<br>
+<p>The <code>combined_score</code> is used for ranking results and represents how
 relevant we think a result is to your query.</p>
 <h2 id="what-impacts-relevancy">What impacts relevancy?</h2>
-<p>Once Search API has <a href="#what-impacts-document-retrieval">retrieved</a> the<br>
-top scoring documents from the search indexes, it ranks the results<br>
+<p>Once Search API has <a href="#what-impacts-document-retrieval">retrieved</a> the
+top scoring documents from the search indexes, it ranks the results
 in order of relevance using a pre-trained model.</p>
-<p>See the <a href="learning-to-rank.md">learning to rank</a> documentation for<br>
+<p>See the <a href="/apis/search-api/learning-to-rank.html">learning to rank</a> documentation for
 more details.</p>
 <h2 id="what-impacts-document-retrieval">What impacts document retrieval?</h2>
-<p>Out of the box, Elasticsearch comes with a decent scoring algorithm.<br>
-They have a <a href="https://www.elastic.co/guide/en/elasticsearch/guide/master/scoring-theory.html">guide on scoring relevancy</a> which is worth<br>
+<p>Out of the box, Elasticsearch comes with a decent scoring algorithm.
+They have a <a href="https://www.elastic.co/guide/en/elasticsearch/guide/master/scoring-theory.html">guide on scoring relevancy</a> which is worth
 reading.</p>
-<p>We've done some work in Search API to <a href="https://www.elastic.co/guide/en/elasticsearch/guide/master/relevance-conclusion.html">tune relevancy</a>,<br>
-overriding the default Elasticsearch behaviour, which we go into<br>
+<p>We've done some work in Search API to <a href="https://www.elastic.co/guide/en/elasticsearch/guide/master/relevance-conclusion.html">tune relevancy</a>,
+overriding the default Elasticsearch behaviour, which we go into
 below.</p>
-<p>These following factors are combined into a single <code>es_score</code>. The<br>
+<p>These following factors are combined into a single <code>es_score</code>. The
 top scoring documents will be retrieved for ranking.</p>
 <h3 id="boosting">Boosting</h3>
-<p>We don't only use the query relevancy score to rank documents, we<br>
+<p>We don't only use the query relevancy score to rank documents, we
 apply some additional boosting factors:</p>
 <ul>
 <li>
-<strong>Popularity:</strong> more visited documents are likely to be more useful<br>
+<strong>Popularity:</strong> more visited documents are likely to be more useful
 to users.</li>
 <li>
-<strong>Recency:</strong> a more recently updated document is more likely to be<br>
+<strong>Recency:</strong> a more recently updated document is more likely to be
 useful than an older document.</li>
 <li>
-<strong>Properties:</strong> we have domain-specific knowledge about our<br>
-content, and can make judgements on what sorts of content are more<br>
+<strong>Properties:</strong> we have domain-specific knowledge about our
+content, and can make judgements on what sorts of content are more
 likely to be useful to the average user.</li>
 </ul>
 <h4 id="popularity">Popularity</h4>
-<p>This is updated nightly from recent Google Analytics data, gathered by<br>
+<p>This is updated nightly from recent Google Analytics data, gathered by
 the <a href="https://github.com/alphagov/search-analytics">search-analytics</a> application.</p>
 <p>Here is the initial reasoning for the numbers (<a href="https://github.com/alphagov/search-api/commit/6cbd84f36ff70ce1be6a368e807c72ba09c74f23">6cbd84f</a>, May 2014):</p>
 <blockquote>
-<p>This field is populated from the page-traffic index, which in turn<br>
-is populated from a dump file produced by the python scripts in the<br>
+<p>This field is populated from the page-traffic index, which in turn
+is populated from a dump file produced by the python scripts in the
 search-analytics repository.</p>
-<p>The popularity is currently defined here as 1.0 / the rank of the<br>
-page in terms of traffic.  ie, Our highest traffic page gets 1.0,<br>
-the next highest gets 0.5, the next highest gets 0.333.  This is a<br>
+<p>The popularity is currently defined here as 1.0 / the rank of the
+page in terms of traffic.  ie, Our highest traffic page gets 1.0,
+the next highest gets 0.5, the next highest gets 0.333.  This is a
 nice and stable measure.</p>
 </blockquote>
-<p>If we want to boost the popularity of a query then we do so by 0.001<br>
-(<code>POPULARITY_OFFSET = 0.001</code> in <a href="https://github.com/alphagov/search-api/blob/master/lib/search/query_components/popularity.rb">popularity.rb</a>).  It is not clear<br>
+<p>If we want to boost the popularity of a query then we do so by 0.001
+(<code>POPULARITY_OFFSET = 0.001</code> in <a href="https://github.com/alphagov/search-api/blob/master/lib/search/query_components/popularity.rb">popularity.rb</a>).  It is not clear
 where this number came from.</p>
-<p>We also boost using <code>boost_mode: :multiply</code> (multiply the <code>_score</code><br>
+<p>We also boost using <code>boost_mode: :multiply</code> (multiply the <code>_score</code>
 with the function result (default)).</p>
-<p>We store page traffic data in the <code>page-traffic</code> index.  For each page<br>
-we store its rank relative to other pages on GOV.UK in the <code>rank_14</code><br>
+<p>We store page traffic data in the <code>page-traffic</code> index.  For each page
+we store its rank relative to other pages on GOV.UK in the <code>rank_14</code>
 field and its number of page views in the <code>vc_14</code> field.</p>
 <h4 id="recency">Recency</h4>
-<p>This is an implementation of <a href="http://www.wolframalpha.com/share/clip?f=d41d8cd98f00b204e9800998ecf8427e5qr62u0si">this curve</a>, and is applied to<br>
-documents of the "announcement" type in the <a href="https://github.com/alphagov/search-api/blob/master/lib/search/query_components/booster.rb">booster.rb</a> file.  It<br>
-serves to increase the score of new documents and decrease the score<br>
+<p>This is an implementation of <a href="http://www.wolframalpha.com/share/clip?f=d41d8cd98f00b204e9800998ecf8427e5qr62u0si">this curve</a>, and is applied to
+documents of the "announcement" type in the <a href="https://github.com/alphagov/search-api/blob/master/lib/search/query_components/booster.rb">booster.rb</a> file.  It
+serves to increase the score of new documents and decrease the score
 of old documents.</p>
-<p>Only documents of <code>search_format_types</code> 'announcement' are affected by<br>
+<p>Only documents of <code>search_format_types</code> 'announcement' are affected by
 recency boosting.</p>
-<p>The curve came from the solr documentation, but the link to the<br>
-original source is broken, so it is unclear why this particular curve<br>
+<p>The curve came from the solr documentation, but the link to the
+original source is broken, so it is unclear why this particular curve
 was chosen.</p>
 <h4 id="properties">Properties</h4>
-<p>This is defined by the <a href="https://github.com/alphagov/search-api/blob/master/config/query/boosting.yml">boosting.yml</a> file, and is applied in the<br>
+<p>This is defined by the <a href="https://github.com/alphagov/search-api/blob/master/config/query/boosting.yml">boosting.yml</a> file, and is applied in the
 <a href="https://github.com/alphagov/search-api/blob/master/lib/search/query_components/booster.rb">booster.rb</a> file.</p>
-<p>For example, if a document has <code>is_historic: true</code> we downrank it, so<br>
+<p>For example, if a document has <code>is_historic: true</code> we downrank it, so
 it's less likely to appear at the top of search results.</p>
 <p>It is unclear where the numbers came from.</p>
 <h3 id="best-and-worst-bets">Best and worst bets</h3>
-<p>Some search queries have perfect answers.  For example, a search for<br>
-"HM Treasury" should have the HM Treasury organisation page as the top<br>
+<p>Some search queries have perfect answers.  For example, a search for
+"HM Treasury" should have the HM Treasury organisation page as the top
 result.</p>
 <p>To handle these cases we have a concept called "best bets".</p>
-<p>A "best bet" for a search query is a result that should be shoehorned<br>
-into the top of the results list for that query.  It's a way of<br>
-boosting that is a surefire route to having your document top the<br>
+<p>A "best bet" for a search query is a result that should be shoehorned
+into the top of the results list for that query.  It's a way of
+boosting that is a surefire route to having your document top the
 results for a given query.</p>
 <p>Best bets are managed with the <a href="https://github.com/alphagov/search-admin">Search Admin</a> application.</p>
 <p>Example best bets:</p>
 <pre><code>Algeria: /foreign-travel-advice/algeria
 Citizenship: /becoming-a-british-citizen
 </code></pre>
-<p>There's also a concept called "worst bets".  These are useful if our<br>
-search results are so bad that we have to manually downrank a result<br>
-for a given query.  For example, "vehicle" shouldn't result in<br>
+<p>There's also a concept called "worst bets".  These are useful if our
+search results are so bad that we have to manually downrank a result
+for a given query.  For example, "vehicle" shouldn't result in
 "unicycle" being the top result.</p>
 <p>Best and worst bets are implemented in the <a href="https://github.com/alphagov/search-api/blob/master/lib/search/query_components/best_bets.rb">best_bets.rb</a> file.</p>
 <h3 id="stopwords">Stopwords</h3>
-<p>Stopwords are words like "is", "and", "an", and "a".  They're words we<br>
-filter out when processing a search query, since they're so common<br>
-they're not useful.  They also enable Elasticsearch to maintain a<br>
+<p>Stopwords are words like "is", "and", "an", and "a".  They're words we
+filter out when processing a search query, since they're so common
+they're not useful.  They also enable Elasticsearch to maintain a
 smaller index.</p>
-<p>The stopwords themselves are provided by Elasticsearch.  There's<br>
-nothing in the Search API repo that looks at a list of omitted terms.<br>
+<p>The stopwords themselves are provided by Elasticsearch.  There's
+nothing in the Search API repo that looks at a list of omitted terms.
 This is handled by the default <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-stop-tokenfilter.html">stop token filter</a>.</p>
 <p><strong>History of stopwords</strong></p>
-<p>There has been some talk of not including stopwords in the past<br>
-(<a href="https://github.com/alphagov/search-api/commit/0fe6e526c78e8b115371855a91d4b39ccb22098a">0fe6e52</a>, May 2015) during this time a <code>no_stop</code> method was<br>
-implemented that seems to prevent stopwords from being used.  Again this<br>
-seems to be served by Elasticsearch because it's not defined in Search<br>
+<p>There has been some talk of not including stopwords in the past
+(<a href="https://github.com/alphagov/search-api/commit/0fe6e526c78e8b115371855a91d4b39ccb22098a">0fe6e52</a>, May 2015) during this time a <code>no_stop</code> method was
+implemented that seems to prevent stopwords from being used.  Again this
+seems to be served by Elasticsearch because it's not defined in Search
 API.</p>
 <p><strong>Potential improvements to stopwords</strong></p>
-<p>Given that we're taking a stock list of stopwords from Elasticsearch,<br>
-we may be missing out on a chance to edit them in a way that might be<br>
-more useful for users. Looking into what words to omit / not omit might<br>
+<p>Given that we're taking a stock list of stopwords from Elasticsearch,
+we may be missing out on a chance to edit them in a way that might be
+more useful for users. Looking into what words to omit / not omit might
 be a useful tuning exercise.</p>
 <p>A search with stopwords is different to a search without stopwords:</p>
 <ul>
 <li>
-<p>If you search Search API for stopwords then you get literally<br>
+<p>If you search Search API for stopwords then you get literally
 nothing: <a href="http://www.gov.uk/api/search.json?q=the+that+and+if">http://www.gov.uk/api/search.json?q=the+that+and+if</a></p>
 </li>
 <li>
-<p>If you search for nothing then you get the some of the more<br>
+<p>If you search for nothing then you get the some of the more
 frequently clicked links: <a href="http://www.gov.uk/api/search.json?q=">http://www.gov.uk/api/search.json?q=</a></p>
 </li>
 </ul>
 <h3 id="synonyms">Synonyms</h3>
-<p>A synonym is a word or phrase that means exactly or nearly the same as<br>
-another word or phrase in the same language, for example shut is a<br>
+<p>A synonym is a word or phrase that means exactly or nearly the same as
+another word or phrase in the same language, for example shut is a
 synonym of close.</p>
-<p>We use synonyms to show relevant results related to "vehicle tax" regardless<br>
+<p>We use synonyms to show relevant results related to "vehicle tax" regardless
 of whether you searched for "car tax" or "auto tax".</p>
-<p>Synonyms are defined in the <a href="https://github.com/alphagov/search-api/blob/master/config/schema/synonyms.yml">synonyms.yml</a> file and are applied to<br>
-the Elasticsearch index configuration in the <a href="https://github.com/alphagov/search-api/blob/master/lib/schema/schema_config.rb">schema_config.rb</a><br>
+<p>Synonyms are defined in the <a href="https://github.com/alphagov/search-api/blob/master/config/schema/synonyms.yml">synonyms.yml</a> file and are applied to
+the Elasticsearch index configuration in the <a href="https://github.com/alphagov/search-api/blob/master/lib/schema/schema_config.rb">schema_config.rb</a>
 file.</p>
 <h4 id="grouping-of-synonyms">Grouping of synonyms</h4>
 <p>Each group of synonyms is written in the form:</p>
 <pre><code>foo, bar, baz =&gt; bat, qux, quux
 </code></pre>
-<p>This means that each of the (comma separated) terms on the left of the<br>
+<p>This means that each of the (comma separated) terms on the left of the
 <code>=&gt;</code> map to each of the (comma separated) terms on the right.</p>
 <p>For example:</p>
 <pre><code>leap, hop =&gt; jump
 </code></pre>
-<p>means "a search for 'leap' or 'hop' should return documents with<br>
+<p>means "a search for 'leap' or 'hop' should return documents with
 'jump' in them.</p>
 <p>And:</p>
 <pre><code>run, speedwalk =&gt; sprint, gallop
 </code></pre>
-<p>means "a search for 'run' or 'speedwalk' should return documents with<br>
+<p>means "a search for 'run' or 'speedwalk' should return documents with
 'sprint' or 'gallop' in them."</p>
-<p>It must be applied both at index time and at query time, to ensure that query<br>
+<p>It must be applied both at index time and at query time, to ensure that query
 terms are mapped to the same single value that exists in the index.</p>
 <h3 id="filtering">Filtering</h3>
-<p>Additional configuration is defined in the <a href="https://github.com/alphagov/search-api/blob/master/config/schema/elasticsearch_schema.yml">elasticsearch_schema.yml</a> and<br>
-<a href="https://github.com/alphagov/search-api/blob/master/config/schema/stems.yml">stems.yml</a> files.  This configuration is merged with the JSON<br>
+<p>Additional configuration is defined in the <a href="https://github.com/alphagov/search-api/blob/master/config/schema/elasticsearch_schema.yml">elasticsearch_schema.yml</a> and
+<a href="https://github.com/alphagov/search-api/blob/master/config/schema/stems.yml">stems.yml</a> files.  This configuration is merged with the JSON
 configuration, and then passed to Elasticsearch directly.</p>
-<p><a href="https://opensourceconnections.com/blog/2016/12/02/solr-elasticsearch-synonyms-better-patterns-keyphrases/">This blog post</a> suggests that as well as using<br>
-keywords, it can be useful to use "keepwords" to only filter the<br>
+<p><a href="https://opensourceconnections.com/blog/2016/12/02/solr-elasticsearch-synonyms-better-patterns-keyphrases/">This blog post</a> suggests that as well as using
+keywords, it can be useful to use "keepwords" to only filter the
 phrases we want.</p>
-<p>The post suggests to first generate <a href="https://www.elastic.co/blog/searching-with-shingles">shingles</a>, followed by synonyms,<br>
+<p>The post suggests to first generate <a href="https://www.elastic.co/blog/searching-with-shingles">shingles</a>, followed by synonyms,
 followed by <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-keep-words-tokenfilter.html">keepwords</a>.</p>
-<p>In other words: generate candidate keyphrases by shingling, expand<br>
+<p>In other words: generate candidate keyphrases by shingling, expand
 them with synonyms, then cull out any non-synonyms with keepwords.</p>
 <h3 id="categorisation-of-fields">Categorisation of fields</h3>
 <p>We use parts of a document differently when processing a search query.</p>
-<p>We do some categorisation of document fields, to tell Elasticsearch what<br>
+<p>We do some categorisation of document fields, to tell Elasticsearch what
 we can use them for.</p>
-<p>For example <code>date</code> is used for date fields which can be returned and used<br>
-for ordering, filtering and aggregating. This lets you filter e.g.<br>
+<p>For example <code>date</code> is used for date fields which can be returned and used
+for ordering, filtering and aggregating. This lets you filter e.g.
 <code>filter_public_timestamp=from:2015-01-01</code>.</p>
-<p>There are also fields like <code>acronym</code> which is categorised as a<br>
-<code>searchable_text</code> type that Elasticsearch looks at when you submit a keyword<br>
-search. So you can search for <code>MOD</code> and get a link to that organisation as<br>
+<p>There are also fields like <code>acronym</code> which is categorised as a
+<code>searchable_text</code> type that Elasticsearch looks at when you submit a keyword
+search. So you can search for <code>MOD</code> and get a link to that organisation as
 the top result.</p>
-<p>These are configured in <a href="https://github.com/alphagov/search-api/blob/master/config/schema/field_types.json"><code>config/schema/field_types.json</code></a> and<br>
+<p>These are configured in <a href="https://github.com/alphagov/search-api/blob/master/config/schema/field_types.json"><code>config/schema/field_types.json</code></a> and
 <a href="https://github.com/alphagov/search-api/blob/master/config/schema/field_definitions.json"><code>config/schema/field_definitions.json</code></a>.</p>
 <h3 id="analyzers">Analyzers</h3>
 <p>We have a number of custom analyzers that can be invoked at index time or when querying.</p>
 <p>From the <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analyzer.html">Elasticsearch documentation</a> on analyzers:</p>
 <blockquote>
-<p>The values of analyzed string fields are passed through an analyzer<br>
-to convert the string into a stream of tokens or terms.  For<br>
-instance, the string "The quick Brown Foxes." may, depending on<br>
-which analyzer is used, be analyzed to the tokens: quick, brown,<br>
-fox.  These are the actual terms that are indexed for the field,<br>
-which makes it possible to search efficiently for individual words<br>
+<p>The values of analyzed string fields are passed through an analyzer
+to convert the string into a stream of tokens or terms.  For
+instance, the string "The quick Brown Foxes." may, depending on
+which analyzer is used, be analyzed to the tokens: quick, brown,
+fox.  These are the actual terms that are indexed for the field,
+which makes it possible to search efficiently for individual words
 within big blobs of text.</p>
 </blockquote>
 <p>This table describes what each of our analyzers do:</p>
@@ -596,9 +596,9 @@ within big blobs of text.</p>
 </tr>
 </tbody>
 </table>
-<p>Analyzers are used for different purposes, as the table describes. All of the<br>
+<p>Analyzers are used for different purposes, as the table describes. All of the
 analyzers above are used for some purpose.</p>
-<p>The main analyzer used at the moment is called <code>with_search_synonyms</code>.<br>
+<p>The main analyzer used at the moment is called <code>with_search_synonyms</code>.
 This is the same as the <code>default</code> analyzer, except it also uses synonyms.</p>
 <pre lang="yaml"><code># The default analyzer
 with_search_synonyms:
@@ -611,8 +611,8 @@ with_search_synonyms:
 <ol>
 <li>Normalise and strip quotes</li>
 </ol>
-<p>The character filters ensure that words with curly apostrophes are normalised<br>
-and in some cases removed, for consistent behaviour when searching with<br>
+<p>The character filters ensure that words with curly apostrophes are normalised
+and in some cases removed, for consistent behaviour when searching with
 quotes.</p>
 <pre lang="ruby"><code>  "It's A Small’s World" =&gt; ["it", "small", "world"],
   "H'lo ’Hallo" =&gt; ["h'lo", "h'lo hallo", "hallo"]
@@ -635,7 +635,7 @@ strip_quotes:
 <li>
 <p>Split into tokens (tokenizer)</p>
 <p>We use the default Elasticsearch tokeniser (<code>tokenizer: standard</code>).</p>
-<p>The standard tokeniser uses the unicode text segmentation algorithm.<br>
+<p>The standard tokeniser uses the unicode text segmentation algorithm.
 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-standard-tokenizer.html">https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-standard-tokenizer.html</a></p>
 </li>
 <li>
@@ -649,82 +649,82 @@ strip_quotes:
 </li>
 <li>
 <p>Apply our custom stemmer override to each token (filter)</p>
-<p>Customises stemming using this list<br>
+<p>Customises stemming using this list
 <a href="https://github.com/alphagov/search-api/blob/master/config/schema/stems.yml">https://github.com/alphagov/search-api/blob/master/config/schema/stems.yml</a></p>
 </li>
 <li>
 <p>Apply the english Stemmer to each token (filter)</p>
-<p>The <a href="http://snowball.tartarus.org/algorithms/english/stemmer.html">Porter2 stemming algorithm</a> for english text, an improvement<br>
-to the Porter algorithm.<br>
+<p>The <a href="http://snowball.tartarus.org/algorithms/english/stemmer.html">Porter2 stemming algorithm</a> for english text, an improvement
+to the Porter algorithm.
 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-stemmer-tokenfilter.html">https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-stemmer-tokenfilter.html</a></p>
 </li>
 </ol>
 <h3 id="excluded-formats">Excluded formats</h3>
-<p>There are some document formats that are not included in search results.<br>
+<p>There are some document formats that are not included in search results.
 These include smart answers, calculators, licence finders.</p>
 <p>We also exclude some paths, such as <code>/random</code>, <code>/homepage</code>, and <code>/humans.txt</code>.</p>
 <p>These no-indexed paths and formats are defined in <a href="https://github.com/alphagov/search-api/blob/master/config/govuk_index/migrated_formats.yaml"><code>config/govuk_index/migrated_formats.yaml</code></a>.</p>
 <h3 id="debugging-es_score">Debugging es_score</h3>
-<p>If you want to understand why a result has a given <code>es_score</code>, you can<br>
-use the Elasticsearch <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-explain.html">Explain API</a>.  This is exposed by the<br>
+<p>If you want to understand why a result has a given <code>es_score</code>, you can
+use the Elasticsearch <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-explain.html">Explain API</a>.  This is exposed by the
 Search API.</p>
-<p>Please note that <code>es_score</code> is just one feature used by the reranking<br>
+<p>Please note that <code>es_score</code> is just one feature used by the reranking
 model; we don't rank results using <code>es_score</code> alone.</p>
-<p>You can see the reasons behind an <code>es_score</code> by including the<br>
-<code>debug=explain</code> query parameter in your query.  This will add an<br>
+<p>You can see the reasons behind an <code>es_score</code> by including the
+<code>debug=explain</code> query parameter in your query.  This will add an
 <code>_explanation</code> field to every result, similar to a SQL-like <code>EXPLAIN</code>.</p>
-<p>For example, see the explanation produced by <a href="https://www.gov.uk/api/search.json?debug=explain&amp;q=harry%20potter">searching for "harry<br>
-potter"</a>.  This shows an example of stemming, where<br>
-"harry" becomes "harri".  This is due to the rule "replace suffix 'y'<br>
-or 'Y' by 'i' if preceded by a non-vowel which is not the first letter<br>
-of the word".  You can also see that text similarity scoring (<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules-similarity.html#bm25">BM25</a><br>
-in Elasticsearch 6) works by considering both term frequency and<br>
+<p>For example, see the explanation produced by <a href="https://www.gov.uk/api/search.json?debug=explain&amp;q=harry%20potter">searching for "harry
+potter"</a>.  This shows an example of stemming, where
+"harry" becomes "harri".  This is due to the rule "replace suffix 'y'
+or 'Y' by 'i' if preceded by a non-vowel which is not the first letter
+of the word".  You can also see that text similarity scoring (<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules-similarity.html#bm25">BM25</a>
+in Elasticsearch 6) works by considering both term frequency and
 document frequency.</p>
-<p>You can see the query Search API sends to Elasticsearch with the<br>
-<code>debug=show_query</code> parameter.  Debug parameters can be combined, like<br>
-<code>debug=show_query,explain</code>.  The debug output is verbose, so sometimes<br>
-restricting to only a handful of results, with <code>count=0</code> or <code>count=1</code>,<br>
+<p>You can see the query Search API sends to Elasticsearch with the
+<code>debug=show_query</code> parameter.  Debug parameters can be combined, like
+<code>debug=show_query,explain</code>.  The debug output is verbose, so sometimes
+restricting to only a handful of results, with <code>count=0</code> or <code>count=1</code>,
 is useful.</p>
 <h2 id="possible-problems-with-queries-and-relevance">Possible problems with queries and relevance</h2>
 <h3 id="the-way-we-handle-longer-search-terms-is-broken">The way we handle longer search terms is broken</h3>
 <p>We use <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-query-phrase.html">phrase queries</a> to take phrases into account in search queries.</p>
-<p>We're not using the <em><a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/slop.html">slop</a></em> parameter, so the phrase component will<br>
-only work where the query uses the exact same phrasing. It's not clear<br>
+<p>We're not using the <em><a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/slop.html">slop</a></em> parameter, so the phrase component will
+only work where the query uses the exact same phrasing. It's not clear
 whether this would be useful, except maybe for names of services/forms/departments.</p>
-<p>The <code>slop</code> parameter tells the <code>match_phrase</code> query how far apart terms are<br>
-allowed to be while still considering the document a match. By <em>how far<br>
-apart</em> we mean <em>how many times do you need to move a term in order to make<br>
+<p>The <code>slop</code> parameter tells the <code>match_phrase</code> query how far apart terms are
+allowed to be while still considering the document a match. By <em>how far
+apart</em> we mean <em>how many times do you need to move a term in order to make
 the query and document match?</em></p>
 <p>Explanation from the Lucene documentation:</p>
 <blockquote>
-<p>Sets the number of other words permitted between words in query phrase.<br>
+<p>Sets the number of other words permitted between words in query phrase.
 If zero, then this is an exact phrase search.</p>
 </blockquote>
 <blockquote>
-<p>The slop is in fact an edit-distance, where the units correspond to moves<br>
-of terms in the query phrase out of position. For example, to switch the<br>
-order of two words requires two moves (the first move places the words<br>
-atop one another), so to permit re-orderings of phrases, the slop must<br>
+<p>The slop is in fact an edit-distance, where the units correspond to moves
+of terms in the query phrase out of position. For example, to switch the
+order of two words requires two moves (the first move places the words
+atop one another), so to permit re-orderings of phrases, the slop must
 be at least two.</p>
 </blockquote>
 <blockquote>
-<p>More exact matches are scored higher than sloppier matches, thus<br>
+<p>More exact matches are scored higher than sloppier matches, thus
 search results are sorted by exactness.</p>
 </blockquote>
-<p>Essentially, with a <code>slop</code> value of 1, a query for 'harry potter' would<br>
+<p>Essentially, with a <code>slop</code> value of 1, a query for 'harry potter' would
 return documents with the phrase 'potter harry' in them.</p>
-<p>Although all words need to be present in phrase matching, even when using<br>
-slop, the words don’t necessarily need to be in the same sequence in order<br>
+<p>Although all words need to be present in phrase matching, even when using
+slop, the words don’t necessarily need to be in the same sequence in order
 to match. With a high enough slop value, words can be arranged in any order.</p>
-<p><a href="https://www.elastic.co/blog/searching-with-shingles">Shingles</a> are another way to take phrases into account,<br>
-which allow matching n-grams.  This was implemented in the past, but<br>
-was broken (<a href="https://github.com/alphagov/search-api/commit/6ece793190932fee31be5437c4c56773dc358ff6">6ece793</a>, May 2015) and the fixed implementation never<br>
+<p><a href="https://www.elastic.co/blog/searching-with-shingles">Shingles</a> are another way to take phrases into account,
+which allow matching n-grams.  This was implemented in the past, but
+was broken (<a href="https://github.com/alphagov/search-api/commit/6ece793190932fee31be5437c4c56773dc358ff6">6ece793</a>, May 2015) and the fixed implementation never
 went live (<a href="https://github.com/alphagov/search-api/commit/806a68cb11f926c328bf360171c754ed6fca06ac">806a68c</a>, Dec 2017).</p>
 <h3 id="there-is-no-boosting-of-individual-field-matches">There is no boosting of individual field matches</h3>
-<p>We treat a match in title, description, acronym and indexable content<br>
-the same, but these are different things.  A user might expect title<br>
+<p>We treat a match in title, description, acronym and indexable content
+the same, but these are different things.  A user might expect title
 and description matches to be much more important than body content.</p>
-<p>We're using field-specific boosts (applied in the <a href="https://github.com/alphagov/search-api/blob/master/lib/search/query_components/core_query.rb">core_query.rb</a><br>
+<p>We're using field-specific boosts (applied in the <a href="https://github.com/alphagov/search-api/blob/master/lib/search/query_components/core_query.rb">core_query.rb</a>
 file) when the query is a quoted phrase, but not for normal searches.</p>
 <pre lang="ruby"><code>PHRASE_MATCH_TITLE_BOOST = 5
 PHRASE_MATCH_ACRONYM_BOOST = 5
@@ -732,13 +732,13 @@ PHRASE_MATCH_DESCRIPTION_BOOST = 2
 PHRASE_MATCH_INDEXABLE_CONTENT_BOOST = 1
 </code></pre>
 <h3 id="popularity-is-the-main-proxy-for-good">Popularity is the main proxy for "good"</h3>
-<p>Popularity is one of the biggest factors influencing the weighting.<br>
-It's based on the overall page views, so there's a positive feedback<br>
-loop where something gets popular, which makes it more visible, which<br>
+<p>Popularity is one of the biggest factors influencing the weighting.
+It's based on the overall page views, so there's a positive feedback
+loop where something gets popular, which makes it more visible, which
 makes it even more popular.</p>
-<p>In the past this has caused problems when we know content is better<br>
+<p>In the past this has caused problems when we know content is better
 but something else still gets high traffic (<a href="https://github.com/alphagov/search-api/commit/03c4bfa0a1a816a57d38b71ac5cb22c3a107c275">03c4bfa</a>, May 2015).</p>
-<p>If we had other signals of content quality we might be able to reduce our<br>
+<p>If we had other signals of content quality we might be able to reduce our
 dependence on the page views.</p>
 <h3 id="finding-underperforming-queries">Finding underperforming queries</h3>
 <ol>
@@ -755,7 +755,7 @@ dependence on the page views.</p>
 <li><code>median_position &gt;=4</code></li>
 </ul>
 <p>Underperforming queries are ones with a significant click count and a highish median, i.e. around 4 and above.</p>
-<p><img src="images/datastudio-dash.png" alt="datastudio"></p>
+<p><img src="https://raw.githubusercontent.com/alphagov/search-api/master/docs/images/datastudio-dash.png" alt="datastudio"></p>
 <ol start="3">
 <li>Visit the Google Analytics dashboard an underperforming query</li>
 </ol>

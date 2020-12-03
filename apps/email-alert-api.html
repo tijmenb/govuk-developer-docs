@@ -369,7 +369,7 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/email_alert_api
 <div class="embedded-readme">
     
 <p>Sends emails to users that subscribe to specific GOV.UK email alerts.</p>
-<p>Provides a consistent internal interface to external email<br />
+<p>Provides a consistent internal interface to external email
 notification services. Currently supports only <a href="https://www.notifications.service.gov.uk/">GOV.UK Notify</a>.</p>
 <h2 id="nomenclature">Nomenclature</h2>
 <ul>
@@ -424,8 +424,8 @@ notification services. Currently supports only <a href="https://www.notification
 <ul>
 <li>PostgreSQL database (9.3 or higher - requires <code>json</code> with <code>json_object_keys</code> method)</li>
 <li>Redis (for <a href="http://sidekiq.org/">Sidekiq</a>)</li>
-<li>GOV.UK Notify API key and other details (see<br />
-<a href="config/email_service.yml"><code>email_service.yml</code></a> for required fields)</li>
+<li>GOV.UK Notify API key and other details (see
+<a href="https://github.com/alphagov/email-alert-api/blob/master/config/email_service.yml"><code>email_service.yml</code></a> for required fields)</li>
 </ul>
 <h3 id="running-the-application">Running the application</h3>
 <pre lang="bash"><code>bundle exec rails server
@@ -435,15 +435,15 @@ notification services. Currently supports only <a href="https://www.notification
 </code></pre>
 <h2 id="documentation">Documentation</h2>
 <ul>
-<li><a href="docs/analytics.md">Analytics</a></li>
-<li><a href="docs/api.md">API</a></li>
-<li><a href="docs/data-cleanup-mechanisms.md">Data cleanup mechanisms</a></li>
-<li><a href="docs/matching-content-to-subscriber-lists.md">Matching content to subscriber lists</a></li>
-<li><a href="docs/support-tasks.md">Support tasks</a></li>
-<li><a href="docs/env-vars.md">ENV vars</a></li>
+<li><a href="/apis/email-alert-api/analytics.html">Analytics</a></li>
+<li><a href="/apis/email-alert-api/api.html">API</a></li>
+<li><a href="/apis/email-alert-api/data-cleanup-mechanisms.html">Data cleanup mechanisms</a></li>
+<li><a href="/apis/email-alert-api/matching-content-to-subscriber-lists.html">Matching content to subscriber lists</a></li>
+<li><a href="/apis/email-alert-api/support-tasks.html">Support tasks</a></li>
+<li><a href="/apis/email-alert-api/env-vars.html">ENV vars</a></li>
 </ul>
 <h2 id="licence">Licence</h2>
-<p><a href="LICENCE">MIT License</a></p>
+<p><a href="https://github.com/alphagov/email-alert-api/blob/master/LICENCE">MIT License</a></p>
   </div>
 
 

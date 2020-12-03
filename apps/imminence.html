@@ -361,14 +361,14 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 
 <div class="embedded-readme">
     
-<p>Imminence manages sets of (somewhat) structured data for use elsewhere on GOV.UK.<br />
-It's primarily used for geographical data such as lists of registry offices, test<br />
+<p>Imminence manages sets of (somewhat) structured data for use elsewhere on GOV.UK.
+It's primarily used for geographical data such as lists of registry offices, test
 centres, and the like.</p>
-<p>The data is structured as a set of Services which represent a distinct type of<br />
-location. A Service can then have many Data Sets which are in turn collections of<br />
+<p>The data is structured as a set of Services which represent a distinct type of
+location. A Service can then have many Data Sets which are in turn collections of
 Places. Only one Data Set will be "active" at any given time.</p>
-<p>Each data set is uploaded as a CSV file. A cron job takes care of geocoding the<br />
-places within it. It can then be manually inspected or exported as CSV, JSON or KML<br />
+<p>Each data set is uploaded as a CSV file. A cron job takes care of geocoding the
+places within it. It can then be manually inspected or exported as CSV, JSON or KML
 so it can be tested using a variety of other tools.</p>
 <p>There is a simple JSON API for integrating the data with other applications.</p>
 <h2 id="nomenclature">Nomenclature</h2>
@@ -398,7 +398,7 @@ so it can be tested using a variety of other tools.</p>
 <p><code>bundle exec rake</code></p>
 <p><code>bundle exec govuk-lint-ruby app test lib</code></p>
 <h2 id="licence">Licence</h2>
-<p><a href="LICENCE">MIT License</a></p>
+<p><a href="https://github.com/alphagov/imminence/blob/master/LICENCE">MIT License</a></p>
   </div>
 
 

@@ -208,12 +208,12 @@
   
 <p>For information about how we use RabbitMQ, see <a href="https://docs.publishing.service.gov.uk/manual/rabbitmq.html">here</a>.</p>
 <h2 id="post-publishing-notifications">Post-publishing notifications</h2>
-<p>After an edition is changed, a message is published to RabbitMQ. It will be<br>
-published to the <code>published_documents</code> topic exchange with the routing_key<br>
-<code>"#{edition.schema_name}.#{event_type}"</code>. Interested parties can subscribe to<br>
-this exchange to perform post-publishing actions. For example, a search<br>
-indexing service would be able to add/update the search index based on these<br>
-messages. Or an email notification service would be able to send email updates<br>
+<p>After an edition is changed, a message is published to RabbitMQ. It will be
+published to the <code>published_documents</code> topic exchange with the routing_key
+<code>"#{edition.schema_name}.#{event_type}"</code>. Interested parties can subscribe to
+this exchange to perform post-publishing actions. For example, a search
+indexing service would be able to add/update the search index based on these
+messages. Or an email notification service would be able to send email updates
 (see <a href="https://github.com/alphagov/email-alert-service">https://github.com/alphagov/email-alert-service</a>).</p>
 <h3 id="event_type"><code>event_type</code></h3>
 <ul>
@@ -229,12 +229,12 @@ messages. Or an email notification service would be able to send email updates<b
 <code>unpublish</code>: Used when an edition is unpublished.</li>
 </ul>
 <h2 id="previewing-a-message-for-a-document_type">Previewing a message for a document_type</h2>
-<p>After content is updated, a message is generated and published to the RabbitMQ<br>
-exchange. Each message has a shared format, however the contents of the message<br>
+<p>After content is updated, a message is generated and published to the RabbitMQ
+exchange. Each message has a shared format, however the contents of the message
 is affected by the publishing app and what data it sends over.</p>
-<p>As messages for different formats can vary, we have created a rake task to<br>
-allow us to easily generate example messages. The example message is generated<br>
-from the most recently published message (based off of last public_updated_at)<br>
+<p>As messages for different formats can vary, we have created a rake task to
+allow us to easily generate example messages. The example message is generated
+from the most recently published message (based off of last public_updated_at)
 for the entered document type:</p>
 <pre lang="bash"><code>$ bundle exec rake queue:preview_recent_message[&lt;document_type&gt;]
 </code></pre>

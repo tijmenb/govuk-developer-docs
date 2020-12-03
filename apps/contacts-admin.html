@@ -368,7 +368,7 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 <ul>
 <li><a href="https://www.gov.uk/government/organisations/hm-revenue-customs/contact">https://www.gov.uk/government/organisations/hm-revenue-customs/contact</a></li>
 </ul>
-<p><a href="https://github.com/alphagov/government-frontend">government-frontend</a><br />
+<p><a href="https://github.com/alphagov/government-frontend">government-frontend</a>
 displays the contacts themselves, fetching them from content store:</p>
 <ul>
 <li><a href="https://www.gov.uk/government/organisations/hm-revenue-customs/contact/alcohol-duties-national-registration-unit">https://www.gov.uk/government/organisations/hm-revenue-customs/contact/alcohol-duties-national-registration-unit</a></li>
@@ -390,13 +390,13 @@ displays the contacts themselves, fetching them from content store:</p>
 <li>
 <a href="https://github.com/alphagov/signonotron2">signon</a> - for managing user authentication</li>
 <li>
-<a href="https://github.com/alphagov/content-store">content-store</a> - for doing some<br />
+<a href="https://github.com/alphagov/content-store">content-store</a> - for doing some
 command-line based tasks to withdraw and redirect a contact</li>
 </ul>
 <h3 id="running-the-application">Running the application</h3>
 <p><code>./startup.sh</code></p>
 <p>This runs <code>bundle install</code> to install dependencies and runs the app on port <code>3051</code>. When using the GOV.UK development VM it will be available at <a href="http://contacts-admin.dev.gov.uk/admin">http://contacts-admin.dev.gov.uk/admin</a>.</p>
-<p>By default, this application uses the GOV.UK preview environment for assets. To run against a local version of static, you need to set <code>STATIC_DEV</code> to<br />
+<p>By default, this application uses the GOV.UK preview environment for assets. To run against a local version of static, you need to set <code>STATIC_DEV</code> to
 "<a href="http://static.dev.gov.uk">http://static.dev.gov.uk</a>".</p>
 <h3 id="running-the-test-suite">Running the test suite</h3>
 <p><code>bundle exec rake</code></p>
@@ -428,7 +428,7 @@ $ sudo -u deploy govuk_setenv contacts bundle exec rake contacts:replace_gone_wi
 <li>the path constructed by <code>removed-contact-slug</code> and <code>organisation-slug</code> does not refer to a “gone” item in content store</li>
 </ol>
 <h2 id="licence">Licence</h2>
-<p><a href="LICENCE">MIT License</a></p>
+<p><a href="https://github.com/alphagov/contacts-admin/blob/master/LICENCE">MIT License</a></p>
   </div>
 
 

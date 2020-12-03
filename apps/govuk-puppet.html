@@ -346,35 +346,35 @@
     
 <p>This repository contains the puppet modules and manifests for GOV.UK.</p>
 <h2 id="getting-started">Getting started</h2>
-<p>In order to run/test the Puppet manifests you will need Ruby 1.9.x and<br />
+<p>In order to run/test the Puppet manifests you will need Ruby 1.9.x and
 Bundler.</p>
-<p>Dependencies are managed with <a href="http://bundler.io/">Bundler</a> and<br />
-<a href="http://librarian-puppet.com/">librarian-puppet</a>, but hopefully this should be<br />
+<p>Dependencies are managed with <a href="http://bundler.io/">Bundler</a> and
+<a href="http://librarian-puppet.com/">librarian-puppet</a>, but hopefully this should be
 transparent unless you need to update the dependencies yourself.</p>
 <h2 id="standards">Standards</h2>
-<p>Please familiarise yourself with our Puppet standards before contributing to<br />
+<p>Please familiarise yourself with our Puppet standards before contributing to
 this repository:</p>
 <ul>
-<li><a href="/docs/things-that-should-not-be-in-puppet.md">Things that should not be in Puppet</a></li>
-<li><a href="/docs/dependency-management.md">Dependency management</a></li>
-<li><a href="/docs/process-supervision.md">Process supervision</a></li>
-<li><a href="/docs/nagios-checks.md">Nagios checks</a></li>
+<li><a href="https://github.com/docs/things-that-should-not-be-in-puppet.md">Things that should not be in Puppet</a></li>
+<li><a href="https://github.com/docs/dependency-management.md">Dependency management</a></li>
+<li><a href="https://github.com/docs/process-supervision.md">Process supervision</a></li>
+<li><a href="https://github.com/docs/nagios-checks.md">Nagios checks</a></li>
 </ul>
 <p>Run <code>rake spec</code> and <code>rake lint</code> to run the tests and lint before checking in.</p>
 <h2 id="dependencies">Dependencies</h2>
-<p>All modules from librarian-puppet are cached in this repo under<br />
-<code>vendor/puppet/</code> in order to ensure that third-party code doesn't change<br />
+<p>All modules from librarian-puppet are cached in this repo under
+<code>vendor/puppet/</code> in order to ensure that third-party code doesn't change
 underneath us, protect us from downtime, and improve build times.</p>
 <h3 id="installing">Installing</h3>
-<p>If you're using this repo for the first time or the contents of<br />
-<code>Gemfile[.lock]</code> or <code>Puppetfile[.lock]</code> have recently changed then you'll<br />
+<p>If you're using this repo for the first time or the contents of
+<code>Gemfile[.lock]</code> or <code>Puppetfile[.lock]</code> have recently changed then you'll
 need to run:</p>
 <pre><code>$ bundle install
 $ bundle exec rake librarian:install
 </code></pre>
-<p>Please avoid using <code>librarian-puppet</code> directly because it's not very good at<br />
+<p>Please avoid using <code>librarian-puppet</code> directly because it's not very good at
 respecting or maintaining its own config file.</p>
-<p>Running these commands will often be the solution to Puppet errors about<br />
+<p>Running these commands will often be the solution to Puppet errors about
 unknown classes or functions such as:</p>
 <ul>
 <li><code>Unknown function validate_bool at …</code></li>
@@ -387,64 +387,64 @@ unknown classes or functions such as:</p>
 <li><code>chown: changing ownership of '/home/vagrant/.puppet/[…]': Operation not permitted</code></li>
 </ul>
 <h3 id="updating">Updating</h3>
-<p>If you need to add a new module to the <code>Puppetfile</code> then you will need to<br />
+<p>If you need to add a new module to the <code>Puppetfile</code> then you will need to
 run the following to install it and update the cache:</p>
 <pre><code>$ bundle exec rake librarian:package
 </code></pre>
-<p>If you need to update an existing module to a newer version, you'll need to<br />
+<p>If you need to update an existing module to a newer version, you'll need to
 run the following:</p>
 <pre><code>$ bundle exec rake 'librarian:update[alphagov/tune_ext]'
 </code></pre>
-<p>Afterwards you should commit the <code>Puppetfile</code>, <code>Puppetfile.lock</code> and any new<br />
-files in <code>vendor/puppet/</code>. If updating a module then you will need to<br />
+<p>Afterwards you should commit the <code>Puppetfile</code>, <code>Puppetfile.lock</code> and any new
+files in <code>vendor/puppet/</code>. If updating a module then you will need to
 manually delete the old tarball from the cache directory.</p>
 <p>NB: There should <em>never</em> be any changes to <code>.librarian/puppet/config</code>.</p>
 <h2 id="testing">Testing</h2>
 <p>Assuming that your dependencies are installed, run all the tests:</p>
 <pre><code>$ bundle exec rake
 </code></pre>
-<p>The module tests are located in <code>modules/&lt;module&gt;/spec</code>. See the <a href="https://github.com/rodjek/rspec-puppet">RSpec<br />
-Puppet</a> documentation for more<br />
+<p>The module tests are located in <code>modules/&lt;module&gt;/spec</code>. See the <a href="https://github.com/rodjek/rspec-puppet">RSpec
+Puppet</a> documentation for more
 details. The specs are run in parallel by default.</p>
-<p><a href="https://github.com/rodjek/puppet-lint">Puppet-lint</a> is a tool that checks various syntax and style rules common<br />
+<p><a href="https://github.com/rodjek/puppet-lint">Puppet-lint</a> is a tool that checks various syntax and style rules common
 to well written Puppet code. It can be run with:</p>
 <pre><code>$ bundle exec rake lint
 </code></pre>
-<p>This outputs a set of errors or warnings that should be fixed. See the <a href="http://docs.puppetlabs.com/guides/style_guide.html">Puppet<br />
-Style Guide</a> for more<br />
+<p>This outputs a set of errors or warnings that should be fixed. See the <a href="http://docs.puppetlabs.com/guides/style_guide.html">Puppet
+Style Guide</a> for more
 information.</p>
 <h3 id="scoped-testing">Scoped testing</h3>
-<p>You can run the tests for a specific module or modules by setting an<br />
+<p>You can run the tests for a specific module or modules by setting an
 environment variable, <code>mods</code> for the rake task, e.g.</p>
 <pre><code>$ bundle exec rake mods=nginx,varnish
 </code></pre>
-<p>The <code>manifests/</code> directory is considered one module called <code>manifests</code> for<br />
+<p>The <code>manifests/</code> directory is considered one module called <code>manifests</code> for
 this purpose.</p>
 <pre><code>$ bundle exec rake mods=manifests,govuk
 </code></pre>
 <h3 id="precommit-testing">Precommit Testing</h3>
-<p>This repo uses <a href="http://pre-commit.com/">pre-commit</a> for managing its pre-<br />
+<p>This repo uses <a href="http://pre-commit.com/">pre-commit</a> for managing its pre-
 commit hooks. This is available via brew:</p>
 <p><code>brew install pre-commit</code></p>
-<p>The pre-commit hooks are configured in the .pre-commit-config.yaml file in the<br />
-root of this repo. To make the pre-commit hooks work you first need to install<br />
+<p>The pre-commit hooks are configured in the .pre-commit-config.yaml file in the
+root of this repo. To make the pre-commit hooks work you first need to install
 the pre-commit shim in your local .git/hooks directory:</p>
 <p><code>pre-commit install</code></p>
-<p>This will run hooks configured in <code>.pre-commit-config.yaml</code> when you run a<br />
-<code>git commit</code> and will pass each hook the list of files staged as part of the<br />
+<p>This will run hooks configured in <code>.pre-commit-config.yaml</code> when you run a
+<code>git commit</code> and will pass each hook the list of files staged as part of the
 commit. You can test the hooks by doing:</p>
 <p><code>pre-commit run</code></p>
-<p>You can also run the hooks on all files to test the status of the entire repo.<br />
+<p>You can also run the hooks on all files to test the status of the entire repo.
 This might be useful, for example, as part of a PR builder job:</p>
 <p><code>pre-commit run --all-files</code></p>
 <h3 id="node-testing">Node testing</h3>
-<p>Some issues that span multiple classes or modules may not be picked up unit<br />
-testing. Duplicate resources and mislabelled dependencies are such examples.<br />
+<p>Some issues that span multiple classes or modules may not be picked up unit
+testing. Duplicate resources and mislabelled dependencies are such examples.
 To catch these, all available <code>govuk::node</code> classes can be exercised with:</p>
 <pre><code>$ bundle exec rake spec:nodes
 </code></pre>
-<p>Compiling node complete node catalogs takes quite a long time, so you may<br />
-wish to restrict it to certain classes of node by setting the environment<br />
+<p>Compiling node complete node catalogs takes quite a long time, so you may
+wish to restrict it to certain classes of node by setting the environment
 variable <code>classes</code> for the rake task, e.g.</p>
 <pre><code>$ bundle exec rake spec:nodes classes=frontend,backend
 </code></pre>
@@ -469,27 +469,27 @@ Resource coverage: 20.57%
 <p><em><strong>Warning</strong></em> using this option disables parallel running of tests and the <code>mod</code> arguments will not work.</p>
 <h3 id="vagrant-testing">Vagrant testing</h3>
 <h4 id="prerequisites">Prerequisites</h4>
-<p>You will need an up-to-date checkout of the private <code>govuk-provisioning</code><br />
+<p>You will need an up-to-date checkout of the private <code>govuk-provisioning</code>
 repository for node definitions.</p>
 <h4 id="setup">Setup</h4>
-<p>It is recommended that you use Vagrant &gt; 1.4 from a binary/system install.<br />
+<p>It is recommended that you use Vagrant &gt; 1.4 from a binary/system install.
 <code>alphagov/gds-boxen</code> can set this up for you.</p>
 <h4 id="usage">Usage</h4>
-<p>You need only bring up the subset of nodes that you're working on. For<br />
+<p>You need only bring up the subset of nodes that you're working on. For
 example, to bring up a frontend and backend:</p>
 <pre lang="sh"><code>vagrant up frontend-1.frontend backend-1.backend
 </code></pre>
-<p>Vagrant will run the Puppet provisioner against the node when it boots up.<br />
-Nodes should look almost identical to that of our real<br />
-production/staging/preview environments, including network addresses. To<br />
-access a node's services like HTTP/HTTPS you can point your <code>hosts</code> file to<br />
+<p>Vagrant will run the Puppet provisioner against the node when it boots up.
+Nodes should look almost identical to that of our real
+production/staging/preview environments, including network addresses. To
+access a node's services like HTTP/HTTPS you can point your <code>hosts</code> file to
 the host-only IP address (eth1).</p>
-<p>Physical attributes like <code>memory</code> and <code>num_cores</code> will be ignored because<br />
-they don't scale appropriately to local VMs, but can still be customised as<br />
+<p>Physical attributes like <code>memory</code> and <code>num_cores</code> will be ignored because
+they don't scale appropriately to local VMs, but can still be customised as
 described below.</p>
 <h4 id="customisation">Customisation</h4>
-<p>Node definitions can be overridden with a <code>nodes.local.yaml</code> file in this<br />
-directory. This is merged on top of all other node<br />
+<p>Node definitions can be overridden with a <code>nodes.local.yaml</code> file in this
+directory. This is merged on top of all other node
 definitions. The following keys are currently available for customisation:</p>
 <ul>
 <li>
@@ -517,10 +517,10 @@ client software not being installed on the guest machine. Please verify
 that the NFS client software is properly installed, and consult any resources
 specific to the linux distro you're using for more information on how to do this.
 </code></pre>
-<p>This seems to be caused by a combination of OSX, VirtualBox, and Cisco<br />
-AnyConnect. Try temporarily disconnecting from the VPN when bringing up a<br />
-new node. You can also set <code>VAGRANT_GOVUK_NFS=no</code> as an environment variable to<br />
-disable the use of NFS. This is less performant but fine for checking puppet<br />
+<p>This seems to be caused by a combination of OSX, VirtualBox, and Cisco
+AnyConnect. Try temporarily disconnecting from the VPN when bringing up a
+new node. You can also set <code>VAGRANT_GOVUK_NFS=no</code> as an environment variable to
+disable the use of NFS. This is less performant but fine for checking puppet
 runs.</p>
   </div>
 

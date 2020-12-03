@@ -214,33 +214,33 @@
 
   
 <h2 id="setup-search-locally">Setup search locally</h2>
-<p>The Whitehall app relies on<br>
-<a href="https://github.com/alphagov/rummager">Rummager</a> for document<br>
-indexing, and the<br>
-<a href="https://github.com/alphagov/frontend">GOV.UK frontend application</a> to<br>
+<p>The Whitehall app relies on
+<a href="https://github.com/alphagov/rummager">Rummager</a> for document
+indexing, and the
+<a href="https://github.com/alphagov/frontend">GOV.UK frontend application</a> to
 serve results.</p>
 <h2 id="rebuilding-whitehall-search-index">Rebuilding Whitehall search index</h2>
-<p>The easiest way to get a search index is to replicate it from the Integration<br>
-environment.  This will not contain local changes to your content, but will be<br>
-enough for many tests. To fetch the replica, use the <code>replicate-elasticsearch.sh</code><br>
-script from <code>govuk-docker</code> (as documented in <a href="https://github.com/alphagov/govuk-docker#how-to-replicate-data-locally">its README</a>).<br>
-If you need to have local changes in your dev environment copied into the<br>
+<p>The easiest way to get a search index is to replicate it from the Integration
+environment.  This will not contain local changes to your content, but will be
+enough for many tests. To fetch the replica, use the <code>replicate-elasticsearch.sh</code>
+script from <code>govuk-docker</code> (as documented in <a href="https://github.com/alphagov/govuk-docker#how-to-replicate-data-locally">its README</a>).
+If you need to have local changes in your dev environment copied into the
 search index, you will actually need to rebuild the search index.</p>
-<p>The whitehall search index is called 'government'. Rebuilding of the whitehall<br>
-search index can now be done with a bulk data dump. This also supports<br>
-construction of a new detached index and seamless switchover from the<br>
-existing to the new index. There are two parts to this process, a<br>
-<code>rummager_export.rb</code> script in whitehall which dumps the whitehall data to<br>
-STDOUT, and a <code>bulk_load</code> script in rummager which accepts that data on STDIN<br>
+<p>The whitehall search index is called 'government'. Rebuilding of the whitehall
+search index can now be done with a bulk data dump. This also supports
+construction of a new detached index and seamless switchover from the
+existing to the new index. There are two parts to this process, a
+<code>rummager_export.rb</code> script in whitehall which dumps the whitehall data to
+STDOUT, and a <code>bulk_load</code> script in rummager which accepts that data on STDIN
 and loads it into rummager.</p>
-<p>The <code>bulk_load</code> script also takes care of constructing the new offline index,<br>
-locking the index for writes (so that index write workers queue up waiting for<br>
-the new index to come online during indexing, avoiding data loss during<br>
+<p>The <code>bulk_load</code> script also takes care of constructing the new offline index,
+locking the index for writes (so that index write workers queue up waiting for
+the new index to come online during indexing, avoiding data loss during
 reindex), and seamlessly switching to the new index on completion.</p>
 <p>Steps:</p>
 <ol>
 <li>
-<p>Make sure you have created the search indices by running the<br>
+<p>Make sure you have created the search indices by running the
 following task from the search-api repo:</p>
 <pre><code>SEARCH_INDEX=government bundle exec rake search:migrate_schema
 </code></pre>
@@ -257,21 +257,21 @@ bundle exec ./script/rummager_export.rb --detailed &gt; detailed.dump
 </li>
 </ol>
 <h2 id="search-indexing-paths">Search indexing paths</h2>
-<p>There are currently two paths for whitehall searchable classes to be indexed.<br>
-For a list of searchable classes, please refer to <code>Whitehall.edition_classes</code><br>
-(in <a href="../lib/whitehall.rb">lib/whitehall.rb</a>).</p>
-<p>Indexing for searchable classes that inherit from <code>Edition</code> is triggered via the<br>
-<code>ServiceListeners::SearchIndexer</code> listening to the <code>force_publish</code> and <code>publish</code><br>
-events. Since <code>Edition</code> sets the <code>index_after</code> key in its searchable options hash to<br>
+<p>There are currently two paths for whitehall searchable classes to be indexed.
+For a list of searchable classes, please refer to <code>Whitehall.edition_classes</code>
+(in <a href="https://github.com/alphagov/whitehall/blob/master/lib/whitehall.rb">lib/whitehall.rb</a>).</p>
+<p>Indexing for searchable classes that inherit from <code>Edition</code> is triggered via the
+<code>ServiceListeners::SearchIndexer</code> listening to the <code>force_publish</code> and <code>publish</code>
+events. Since <code>Edition</code> sets the <code>index_after</code> key in its searchable options hash to
 <code>[]</code>, classes inheriting from it don't trigger indexing when saved.</p>
-<p>To trigger indexing for an instance of these classes in unit/integration tests,<br>
-create an instance in a valid publishing state ('submitted', 'rejected') and<br>
+<p>To trigger indexing for an instance of these classes in unit/integration tests,
+create an instance in a valid publishing state ('submitted', 'rejected') and
 call <code>EditionService.new(your_instance).perform!</code>.</p>
-<p>Indexing for additional searchable classes is triggered by save. This behaviour<br>
-is defined in <code>Searchable.searchable_options</code>, where the <code>index_after</code> is set to<br>
+<p>Indexing for additional searchable classes is triggered by save. This behaviour
+is defined in <code>Searchable.searchable_options</code>, where the <code>index_after</code> is set to
 <code>:save</code> as a default.</p>
-<p>To trigger indexing for an instance of these classes in unit/integration tests,<br>
-create an instance in a valid publishing state ('submitted', 'rejected') and<br>
+<p>To trigger indexing for an instance of these classes in unit/integration tests,
+create an instance in a valid publishing state ('submitted', 'rejected') and
 call <code>save!</code> on it.</p>
 
 

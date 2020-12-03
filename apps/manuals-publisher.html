@@ -384,11 +384,11 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 <div class="embedded-readme">
     
 <p>Manuals Publisher is a Ruby on Rails content management application for the 'manuals' format. The manuals format is currently in a rendered phase of migration, so content is stored in a local datastore but also drafted and published through the publishing-pipeline via the <a href="https://github.com/alphagov/publishing-api">Publishing API</a>.</p>
-<p>This is the renamed repository of the original Specialist<br />
-Publisher. Specialist Publisher has been divided into two publishing<br />
-applications to accommodate Specialist Documents and Manuals<br />
-separately.  <em>Specialist Document</em> or <em>Finders</em> publishing now lives<br />
-at <a href="https://github.com/alphagov/specialist-publisher">https://github.com/alphagov/specialist-publisher</a>. See <a href="docs/history.md">history</a> for more details.</p>
+<p>This is the renamed repository of the original Specialist
+Publisher. Specialist Publisher has been divided into two publishing
+applications to accommodate Specialist Documents and Manuals
+separately.  <em>Specialist Document</em> or <em>Finders</em> publishing now lives
+at <a href="https://github.com/alphagov/specialist-publisher">https://github.com/alphagov/specialist-publisher</a>. See <a href="https://github.com/alphagov/manuals-publisher/blob/master/docs/history.md">history</a> for more details.</p>
 <h2 id="purpose">Purpose</h2>
 <p>Publishing app for manuals.</p>
 <h2 id="nomenclature">Nomenclature</h2>
@@ -426,33 +426,33 @@ at <a href="https://github.com/alphagov/specialist-publisher">https://github.com
 <p>Non standard Rails directories and what they're used for:</p>
 <ul>
 <li>
-<code>app/models</code><br />
+<code>app/models</code>
 Combination of Mongoid documents and Ruby objects for handling Documents and various behaviours
 <ul>
 <li>
-<code>app/models/validators</code><br />
+<code>app/models/validators</code>
 Not validators. Decorators for providing validation logic.</li>
 </ul>
 </li>
-<li>app/presenters<br />
+<li>app/presenters
 Decorators mainly used for previewing documents</li>
 <li>
-<code>app/services</code><br />
+<code>app/services</code>
 Reusable classes for completing actions on documents</li>
 <li>
-<code>app/view_adapters</code><br />
+<code>app/view_adapters</code>
 Provide classes which allow us to have Rails like form objects in views</li>
 <li>
-<code>app/workers</code><br />
+<code>app/workers</code>
 Classes for sidekiq workers. Currently the only worker in the App is for publishing Manuals as Manual publishing was timing out due to the large number of document objects inside a Manual</li>
 </ul>
 <h2 id="documentation">Documentation</h2>
 <ul>
-<li><a href="docs/history.md">History of the development of the application</a></li>
-<li><a href="docs/current-state.md">Current state of the application</a></li>
-<li><a href="docs/rake-tasks.md">Information about Rake tasks</a></li>
-<li><a href="docs/next-steps.md">Possible next steps for development</a></li>
-<li><a href="docs/fully-migrated-spike.md">Notes on investigation into fully migrating app with respect to Publishing API</a></li>
+<li><a href="https://github.com/alphagov/manuals-publisher/blob/master/docs/history.md">History of the development of the application</a></li>
+<li><a href="https://github.com/alphagov/manuals-publisher/blob/master/docs/current-state.md">Current state of the application</a></li>
+<li><a href="https://github.com/alphagov/manuals-publisher/blob/master/docs/rake-tasks.md">Information about Rake tasks</a></li>
+<li><a href="https://github.com/alphagov/manuals-publisher/blob/master/docs/next-steps.md">Possible next steps for development</a></li>
+<li><a href="https://github.com/alphagov/manuals-publisher/blob/master/docs/fully-migrated-spike.md">Notes on investigation into fully migrating app with respect to Publishing API</a></li>
 </ul>
   </div>
 
