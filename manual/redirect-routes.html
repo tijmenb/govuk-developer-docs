@@ -134,13 +134,27 @@
     <a href="#header"><span>Redirect a route</span></a>
     <ul>
       <li>
-        <a href="#getting-information-on-current-redirects"><span>Getting information on current redirects</span></a>
+        <a href="#manually-apply-a-redirect-from-any-publishing-app"><span>Manually apply a redirect from any publishing app</span></a>
+        <ul>
+          <li>
+            <a href="#manually-re-present-the-content-item-in-publishing-api"><span>Manually re-present the content item in Publishing API</span></a>
+          </li>
+          <li>
+            <a href="#manually-register-a-route-in-content-store"><span>Manually register a route in Content Store</span></a>
+          </li>
+          <li>
+            <a href="#manually-apply-a-redirect-in-router-api"><span>Manually apply a redirect in Router API</span></a>
+          </li>
+        </ul>
       </li>
       <li>
-        <a href="#redirecting-from-the-original-publishing-app"><span>Redirecting from the original publishing app</span></a>
+        <a href="#find-out-if-the-route-exists"><span>Find out if the route exists</span></a>
       </li>
       <li>
-        <a href="#using-the-short-url-manager"><span>Using the Short URL Manager</span></a>
+        <a href="#find-out-which-app-owns-the-route"><span>Find out which app owns the route</span></a>
+      </li>
+      <li>
+        <a href="#redirect-using-the-short-url-manager"><span>Redirect using the Short URL Manager</span></a>
         <ul>
           <li>
             <a href="#removing-a-route-created-in-the-short-url-manager"><span>Removing a route created in the Short URL Manager</span></a>
@@ -173,20 +187,163 @@
             
   <p><a href='/manual.html#routing'>Routing</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/c8cff9fa2d350c2220a950536a3087f18b9df4d6">24 Nov 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/6ca2973a634bf0a669904f19b552a2441459f090">4 Dec 2020</a>
 </div>
 
- <h1 id='header'>Redirect a route</h1> <p>Sometimes, there is a need to manually redirect existing URLs to another
-internal location, usually due to content being archived or because the
-slug has been changed.</p>
+ <h1 id='header'>Redirect a route</h1> <p>There are a number of different ways of applying redirects on GOV.UK.
+Here is a guide for choosing the right one:</p>
 
-<p>There is also a regular requirement for creating short URLs on behalf of
-departments, usually for use with for campaign materials.</p>
+<ul>
+  <li>Is the redirect a short URL, such as <code>gov.uk/dfe</code>?
+<a href="#redirect-using-the-short-url-manager">Use Short URL Manager</a>.</li>
+  <li>Are you redirecting a HMRC manual?
+Read the <a href="#redirects-for-hmrc-manuals">HMRC section</a>.</li>
+  <li>Are you redirecting from a campaign site?
+Read the <a href="#redirects-from-campaign-sites">campaign sites section</a>.</li>
+</ul>
 
-<h2 id="getting-information-on-current-redirects">Getting information on current redirects</h2>
+<p>That covers the service-specific redirects. We then have several options
+for applying redirects to most GOV.UK content:</p>
 
-<p>To find if there is already a redirect for a particular path, open a router-api
-console:</p>
+<ul>
+  <li>Are you having an incident and need to apply a redirect <em>urgently</em>?
+You can <a href="#manually-apply-a-redirect-in-router-api">apply the redirect directly in Router API</a>
+(though you'll need to do some housekeeping afterwards).</li>
+  <li>Is the redirect correctly showing in Content Store, but not in Router API?
+You may just need to <a href="#manually-register-a-route-in-content-store">nudge Content Store into updating Router API</a>.</li>
+  <li>Is the redirect correctly showing in Publishing API, but not in Content Store?
+Try <a href="#manually-re-present-the-content-item-in-publishing-api">re-presenting the content item downstream</a>.</li>
+  <li>Does the redirect not exist anywhere yet?
+You'll need to <a href="#manually-apply-a-redirect-from-any-publishing-app">apply a redirect from within the relevant publishing app</a>.</li>
+</ul>
+
+<h2 id="manually-apply-a-redirect-from-any-publishing-app">Manually apply a redirect from any publishing app</h2>
+
+<p>The preferred method of creating redirects is to use the publishing app that
+originally published the content to set up the redirect. You can find out
+<a href="#find-out-if-the-route-exists">what exists at the incoming URL already</a> (if
+anything), and <a href="#find-out-which-app-owns-the-route">which app owns the route</a>.</p>
+
+<p>Once you've established which app owns the route, you should see if it is
+possible to set up the redirect from within the app UI itself. This usually
+involves unpublishing the content, whereupon the app gives the option to
+redirect the old route to another route. This approach is preferred as it
+keeps the workflow and publishing history within the app, as well as
+correctly propagating the changes through Publishing API, Content Store and
+Router API.</p>
+
+<p>Not all applications support unpublishing / setting redirects. In these
+cases, you'll need to interact with Publishing API manually - see below.</p>
+
+<blockquote>
+  <p>Note that this won't work if the thing you're redirecting originates from
+the Short URL Manager: there's <a href="#removing-a-route-created-in-the-short-url-manager">a rake task</a>
+for that.</p>
+</blockquote>
+
+<p>You'll need to get the content ID of the current thing that exists at the
+route you want to redirect from. This is generally just a case of visiting
+the route prefixed with <code>/api/content</code> to expose its Content Store
+information.</p>
+
+<p>You may want to log into the Content Store app console in another shell:</p>
+
+<p><code>$ gds govuk connect app-console -e production content_store/content-store</code></p>
+
+<p>In the Content Store console, run
+<code>content_item = ContentItem.find_by(content_id: "CONTENT_ID")</code> to get a
+handle on the current state of the content item. If the content item
+already has a <code>document_type</code> of <code>redirect</code> and the <code>redirects</code> property
+has the <code>path</code> and <code>destination</code> properties you're aiming for, then all
+you may need to do is
+<a href="#manually-register-a-route-in-content-store">nudge Content Store into talking to Router API</a>.
+If your content item doesn't have a redirect in Content Store, but you
+know a redirect has been applied in Publishing API, you may need to
+<a href="#manually-re-present-the-content-item-in-publishing-api">re-present the edition in Publishing API</a>.</p>
+
+<p>Assuming the redirect doesn't exist yet, and you know no attempt has been
+made to redirect the item in Publishing API, your next step is to open a
+console on the publishing app in question. Then run this command:</p>
+
+<div class="highlight"><pre class="highlight ruby"><code><span class="no">GdsApi</span><span class="p">.</span><span class="nf">publishing_api</span><span class="p">.</span><span class="nf">unpublish</span><span class="p">(</span>
+  <span class="n">content_id</span><span class="p">,</span>
+  <span class="ss">type: </span><span class="s2">"redirect"</span><span class="p">,</span>
+  <span class="ss">explanation: </span><span class="s2">"manually redirected by YOUR_NAME"</span><span class="p">,</span>
+  <span class="ss">alternative_path: </span><span class="s2">"/new-path"</span><span class="p">,</span>
+  <span class="ss">discard_drafts: </span><span class="kp">true</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>You should see a 200 response:</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code>#&lt;GdsApi::Response:0x00007f81feba4c30 @http_response=&lt;RestClient::Response 200 "{\"content_i..."&gt;, @web_urls_relative_to=nil&gt;
+</code></pre></div>
+<p>And you will see that the content item in the Content Store
+console has been updated, if you run <code>content_item.reload</code> in
+your other console.</p>
+
+<p>When Content Store is updated with a new route, it
+<a href="https://github.com/alphagov/content-store/blob/dd79a03d74f130650bc97d1c84aae557ccea58d3/app/models/content_item.rb#L33">talks directly to Router API</a>.
+You should now be redirected when you visit the route in your browser.</p>
+
+<h3 id="manually-re-present-the-content-item-in-publishing-api">Manually re-present the content item in Publishing API</h3>
+
+<p>Sometimes, Publishing API and Content Store can end up out of sync
+with one another, whereby a redirect has been applied to a content
+item in Publishing API but hasn't been successfully processed by
+Content Store. In these cases, there are several
+<a href="https://github.com/alphagov/publishing-api/blob/master/lib/tasks/represent_downstream.rake">rake tasks</a>
+we can use to re-present the content item from Publishing API to
+Content Store.</p>
+
+<p>First, you'll need the content ID of the content item. Here we have
+a Publishing API console and we've retrieved the Unpublishing record
+(which has the redirect information) for the content item. We find
+its associated content ID and can then use this in one of the linked
+rake tasks.</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code>unpublishing = Unpublishing.find_by(alternative_path: "/foo")
+
+unpublishing.edition.content_id
+=&gt; "ddcab6e2-8985-4646-9f3d-82d2f4770186"
+</code></pre></div>
+<h3 id="manually-register-a-route-in-content-store">Manually register a route in Content Store</h3>
+
+<p>Sometimes, our publishing platform prevents the creation of
+new routes (and the addition/removal of redirects) while we
+are scaling up certain parts of the stack.</p>
+
+<p>If the content item in Content Store is showing the correct
+route, but Router API is not, then re-publishing the item will
+not work, as the route in Content Store will be unchanged.
+Content Store only updates Router API
+<a href="https://github.com/alphagov/content-store/blob/8651b9245046f0a0ae125dde018d39f8507226c5/app/models/content_item.rb#L224-L232">if it detects the route has changed</a>.</p>
+
+<p>In such cases, you can get Content Store to register the route
+again, by opening the Content Store console and running:</p>
+
+<div class="highlight"><pre class="highlight ruby"><code><span class="no">ContentItem</span><span class="p">.</span><span class="nf">find_by</span><span class="p">(</span><span class="ss">base_path: </span><span class="s2">"/old-path-to-be-redirected"</span><span class="p">).</span><span class="nf">route_set</span><span class="p">.</span><span class="nf">register!</span>
+</code></pre></div>
+<h3 id="manually-apply-a-redirect-in-router-api">Manually apply a redirect in Router API</h3>
+
+<p>You might need to urgently apply a redirect, and Publishing API
+might have a large backlog of publishing in its downstream_high
+queue, making the Publishing API approach too slow.</p>
+
+<p>First, connect to the Router API console:</p>
+
+<p><code>$ gds govuk connect -e production app-console router_backend/router-api</code></p>
+
+<p>Then update the route directly:</p>
+
+<div class="highlight"><pre class="highlight ruby"><code><span class="no">Route</span><span class="p">.</span><span class="nf">find_by</span><span class="p">(</span><span class="ss">incoming_path: </span><span class="s2">"..."</span><span class="p">).</span><span class="nf">update!</span><span class="p">(</span><span class="ss">redirect_to: </span><span class="s2">"..."</span><span class="p">,</span> <span class="ss">handler: </span><span class="s2">"redirect"</span><span class="p">,</span> <span class="ss">redirect_type: </span><span class="s2">"permanent"</span><span class="p">)</span>
+</code></pre></div>
+<p>You should always go back and fix things properly in Publishing
+API afterwards, as a republish could easily undo any changes you've
+made.</p>
+
+<h2 id="find-out-if-the-route-exists">Find out if the route exists</h2>
+
+<p>Open a router-api console:</p>
 
 <div class="highlight"><pre class="highlight console"><code><span class="gp">$</span><span class="w"> </span>gds govuk connect app-console <span class="nt">-e</span> production router_backend/router-api
 </code></pre></div>
@@ -194,18 +351,20 @@ console:</p>
 
 <div class="highlight"><pre class="highlight console"><code><span class="gp">&gt;</span><span class="w"> </span>Route.where<span class="o">(</span>incoming_path: <span class="s1">'/path-to-item'</span><span class="o">)</span>
 </code></pre></div>
-<p>Redirect routes have the handler <code>redirect</code>.</p>
+<p>If a route is found, and it has the handler <code>redirect</code>, then there is
+already a redirect in place.</p>
 
-<h2 id="redirecting-from-the-original-publishing-app">Redirecting from the original publishing app</h2>
+<h2 id="find-out-which-app-owns-the-route">Find out which app owns the route</h2>
 
-<p>The preferred method of creating redirects is to use the publishing app that
-originally published the content to unpublish it and redirect it to another
-page using the Publishing API.</p>
+<p>Open a Content Store console:</p>
 
-<p>This ensures that the workflow and publishing history stays within the app
-wherever possible.</p>
+<div class="highlight"><pre class="highlight console"><code><span class="gp">$</span><span class="w"> </span>gds govuk connect app-console <span class="nt">-e</span> production content_store/content-store
+</code></pre></div>
+<p>Then search for the incoming path you are interested in:</p>
 
-<h2 id="using-the-short-url-manager">Using the Short URL Manager</h2>
+<div class="highlight"><pre class="highlight console"><code><span class="go">ContentItem.find_by(base_path: "/path-to-item").publishing_app
+</span></code></pre></div>
+<h2 id="redirect-using-the-short-url-manager">Redirect using the Short URL Manager</h2>
 
 <p>If the redirect is from a URL that is not a currently-published content item,
 you should first look to use the <a href="https://short-url-manager.publishing.service.gov.uk">Short URL Manager</a> to
