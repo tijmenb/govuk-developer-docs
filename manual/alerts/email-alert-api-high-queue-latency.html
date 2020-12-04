@@ -134,11 +134,13 @@
     <a href="#header"><span>Email Alert API: high latency for sidekiq queue</span></a>
     <ul>
       <li>
-        <ul>
-          <li>
-            <a href="#high-queue-latency-queue_latency"><span>High queue latency (queue_latency)</span></a>
-          </li>
-        </ul>
+        <a href="#understanding-the-alert"><span>Understanding the alert</span></a>
+      </li>
+      <li>
+        <a href="#impact"><span>Impact</span></a>
+      </li>
+      <li>
+        <a href="#how-to-investigate"><span>How to investigate</span></a>
       </li>
     </ul>
   </li>
@@ -162,35 +164,52 @@
 
      <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/582939d563aa545368a43e296f02249b32ebf357">19 Oct 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/a7b2adbd0a1b44dd3029a9b65d56dd33c0059b9f">3 Dec 2020</a>
 </div>
 
- <h1 id='header'>Email Alert API: high latency for sidekiq queue</h1> <h3 id="high-queue-latency-queue_latency">High queue latency (queue_latency)</h3>
+ <h1 id='header'>Email Alert API: high latency for sidekiq queue</h1> <p>This alert triggers when there is a significant delay in the time from the
+Email Alert API system creating an email until it is sent.</p>
 
-<p>This means the time it takes for a job to be processed is unusually high. See
-the Sidekiq <a href="https://grafana.blue.production.govuk.digital/dashboard/file/sidekiq.json?refresh=1m&amp;orgId=1&amp;var-Application=email-alert-api&amp;var-Queues=All&amp;from=now-3h&amp;to=now">'Queue Latency'</a> graph for more detail.</p>
+<h2 id="understanding-the-alert">Understanding the alert</h2>
 
-<p>For more information on the individual queues and what they do, see
-<a href="https://github.com/alphagov/email-alert-api/blob/master/config/sidekiq.yml">here</a>.</p>
+<p>The latency value itself is a measure, in seconds, of the amount of time that
+the oldest email in the <a href="https://docs.publishing.service.gov.uk/manual/sidekiq.html">Sidekiq</a> queue has been waiting. This latency builds
+up when there are more emails to send than workers to send them and this alert
+triggers once this latency reaches an alarming level.</p>
 
-<p>Some diagnostic steps you could take are below:</p>
+<h2 id="impact">Impact</h2>
+
+<p>The user impact of this alert depends on the queue. A delay for the
+<code>send_email_transactional</code> queue indicates that users are blocked from
+completing user journeys (such as sign-in or sign up), thus a delay of minutes
+is frustrating.</p>
+
+<p>For the other <a href="https://github.com/alphagov/email-alert-api/blob/master/config/sidekiq.yml">queues</a> the impact of delayed email is less significant for
+users (there aren't assurances on how rapidly an email should be sent)
+and indicates a risk that the system is experiencing significantly
+degraded performance and may become perpetually overloaded. For
+example, if there aren't sufficient resources to send all of Monday's emails
+on Monday we could find there aren't resources to send both Monday <em>and</em>
+Tuesday's emails the next day and so forth.</p>
+
+<h2 id="how-to-investigate">How to investigate</h2>
+
+<p>You should be looking for evidence of performance degradation, the presence of
+errors and whether an abnormal quantity of emails is being created. Some
+diagnostic steps you could take are:</p>
 
 <ul>
-  <li>Check the Sidekiq <a href="https://grafana.blue.production.govuk.digital/dashboard/file/sidekiq.json?refresh=1m&amp;orgId=1&amp;var-Application=email-alert-api&amp;var-Queues=All&amp;from=now-3h&amp;to=now">'Queue Length'</a> graph to see if we have a
-high number of emails queued up.</li>
-  <li>If there is a high amount of emails in the queue, are we processing them at a
-normal speed? Under high load we regularly send requests to Notify at a rate
-of ~300 email requests per second. To check this, look at the <a href="https://grafana.blue.production.govuk.digital/dashboard/file/email_alert_api_technical.json">'Email Send
-Attempts'</a> graph.</li>
-  <li>If we're sending email requests slower than usual, refer to the <a href="https://grafana.blue.production.govuk.digital/dashboard/file/machine.json?refresh=1m&amp;orgId=1&amp;var-hostname=email_alert_api*&amp;var-cpmetrics=cpu-system&amp;var-cpmetrics=cpu-user&amp;var-filesystem=All&amp;var-disk=All&amp;var-tcpconnslocal=All&amp;var-tcpconnsremote=All">Email Alert
-API machine metrics dashboard</a> or the <a href="https://grafana.production.govuk.digital/dashboard/file/aws-rds.json?orgId=1&amp;var-region=eu-west-1&amp;var-dbinstanceidentifier=blue-postgresql-primary&amp;from=now-3h&amp;to=now">AWS RDS postgres
-dashboard</a> to see if we're experiencing resourcing issues.</li>
-  <li>Are the workers reporting any problems or any issues being raised in
-<a href="https://sentry.io/organizations/govuk/issues/?project=202220&amp;statsPeriod=12h">Sentry</a>?</li>
-  <li>Check <a href="https://kibana.logit.io/s/2dd89c13-a0ed-4743-9440-825e2e52329e/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-1h,mode:quick,to:now))&amp;_a=(columns:!('@message',host),index:'*-*',interval:auto,query:(query_string:(query:'@type:%20sidekiq%20AND%20application:%20email-alert-api')),sort:!('@timestamp',desc))">Kibana</a> to see our Sidekiq logs for Email Alert API.</li>
+  <li>check the <a href="https://grafana.blue.production.govuk.digital/dashboard/file/sidekiq.json?refresh=1m&amp;orgId=1&amp;var-Application=email-alert-api&amp;var-Queues=All&amp;from=now-3h&amp;to=now">Sidekiq dashboard</a> to understand the level of work Sidekiq is
+doing and has to do;</li>
+  <li>monitor the <a href="https://grafana.blue.production.govuk.digital/dashboard/file/email_alert_api_technical.json">Email Alert API Technical dashboard</a> to see
+the rate emails are being sent at and look at broader view of Email Alert API
+status;</li>
+  <li>check whether workers are raising errors to <a href="https://sentry.io/organizations/govuk/issues/?project=202220&amp;statsPeriod=12h">Sentry</a>;</li>
+  <li>check <a href="https://kibana.logit.io/s/2dd89c13-a0ed-4743-9440-825e2e52329e/app/kibana#/discover?_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-1h,mode:quick,to:now))&amp;_a=(columns:!('@message',host),index:'*-*',interval:auto,query:(query_string:(query:'@type:%20sidekiq%20AND%20application:%20email-alert-api')),sort:!('@timestamp',desc))">Kibana</a> to see the Sidekiq logs for Email Alert API;</li>
+  <li>you can investigate the health of the <a href="https://grafana.blue.production.govuk.digital/dashboard/file/machine.json?refresh=1m&amp;orgId=1&amp;var-hostname=email_alert_api*&amp;var-cpmetrics=cpu-system&amp;var-cpmetrics=cpu-user&amp;var-filesystem=All&amp;var-disk=All&amp;var-tcpconnslocal=All&amp;var-tcpconnsremote=All">underlying application
+machines</a> and the <a href="https://grafana.production.govuk.digital/dashboard/file/aws-rds.json?orgId=1&amp;var-region=eu-west-1&amp;var-dbinstanceidentifier=blue-postgresql-primary&amp;from=now-3h&amp;to=now">RDS PostgeSQL database
+instance</a>.</li>
 </ul>
-
-<p>See <a href="https://docs.publishing.service.gov.uk/manual/sidekiq.html">here</a> for more information about Sidekiq.</p>
 
 
 
