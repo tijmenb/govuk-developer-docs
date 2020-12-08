@@ -150,6 +150,9 @@
           </li>
         </ul>
       </li>
+      <li>
+        <a href="#changing-parent-organisation-apha-not-appearing-under-defra-for-users"><span>Changing parent organisation (APHA not appearing under DEFRA for users)</span></a>
+      </li>
     </ul>
   </li>
 </ul>
@@ -164,7 +167,7 @@
             
   <p><a href='/manual.html#accounts'>Accounts</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/ac55c86ed176d7daf3b0514a0c6f41810b350c23">3 Aug 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/c622bdc053ddbae306bcb5ecd926094c94d5bc13">8 Dec 2020</a>
 </div>
 
  <h1 id='header'>Manage Signon user/API accounts and access tokens</h1> <p><a href="https://docs.publishing.service.gov.uk/apps/signon.html">Signon</a> is the
@@ -225,6 +228,16 @@ including editors, however it is only <a href="https://github.com/alphagov/signo
 </ul>
 
 <p>An account can have API tokens for multiple applications.</p>
+
+<h2 id="changing-parent-organisation-apha-not-appearing-under-defra-for-users">Changing parent organisation (APHA not appearing under DEFRA for users)</h2>
+
+<p>There is a bug in Signon for orgs that have multiple parent orgs in Whitehall. There is a <a href="https://trello.com/c/7koTf4OD">Trello card for this problem</a>.</p>
+
+<p>To address the problem for APHA, re-run the following <a href="/manual/running-rake-tasks.html">rake task</a>:</p>
+
+<p><code>db:migrate VERSION=20200805142418</code></p>
+
+<p>Otherwise raise a PR similar to <a href="https://github.com/alphagov/signon/pull/1481">https://github.com/alphagov/signon/pull/1481</a> to add a migration.</p>
 
 
   <div class='related-content'>
