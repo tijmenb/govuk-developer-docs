@@ -153,7 +153,7 @@
             
   <p><a href='/manual.html#emails'>Emails</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/709203da648b1ae443daa2446213262a00962632">21 Oct 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/0ad7082198c5a418ee531a4bbb64a10533833b5c">4 Dec 2020</a>
 </div>
 
  <h1 id='header'>How we use GOV.UK Notify</h1> <p><a href="https://www.notifications.service.gov.uk/">GOV.UK Notify</a> is a Government-as-a-Platform service that allows
@@ -212,6 +212,9 @@ entry).</p>
 
 <h2 id="receiving-emails-from-govuk-notify">Receiving emails from GOV.UK Notify</h2>
 
+<p><strong>Note:</strong> we have <a href="/manual/receiving-emails-from-email-alert-api-in-integration-and-staging.html">specific documentation</a> for
+receiving Email Alert API emails in the integration and staging.</p>
+
 <p>GOV.UK Notify services have two modes: live and <a href="https://www.notifications.service.gov.uk/using-notify/trial-mode">trial</a>. Our
 production services are all in live mode; most other services are in trial
 mode. In this mode emails will only be sent to members of the service or email
@@ -232,10 +235,6 @@ able to add you to this team.</p>
   </li>
 </ol>
 
-<p><strong>Note:</strong> some of our applications, notably Email Alert API, has an extra level
-of protection and <a href="/manual/receiving-emails-from-email-alert-api-in-integration-and-staging.html">there is an extra step</a>
-before you can receive emails through Email Alert API.</p>
-
 <p>The GOV.UK Publishing services are a special case: for these services,
 integration and staging also run in production mode. This is because
 <a href="/apps/signon.html">Signon</a> needs to be able to send emails to all users,
@@ -253,7 +252,6 @@ live key.</p>
           <h4>Learn</h4>
 
           <ul class="govuk-list">
-            <li><a href="/manual/email-alert-api-troubleshooting.html">Email Alert API troubleshooting</a></li>
             <li><a href="/manual/email-notifications-how-they-work.html">Email notifications: how they work</a></li>
           </ul>
         </div>
@@ -263,7 +261,7 @@ live key.</p>
 
           <ul class="govuk-list">
             <li><a href="/manual/load-test-email-alert-api.html">Load test Email Alert API</a></li>
-            <li><a href="/manual/receiving-emails-from-email-alert-api-in-integration-and-staging.html">Receive emails from Email Alert API in integration and staging</a></li>
+            <li><a href="/manual/receiving-emails-from-email-alert-api-in-integration-and-staging.html">Receive emails from Email Alert API in Integration and Staging</a></li>
             <li><a href="/manual/bulk-email.html">Send a bulk email</a></li>
           </ul>
         </div>

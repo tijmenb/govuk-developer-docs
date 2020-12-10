@@ -137,6 +137,9 @@
         <a href="#high-level-overview"><span>High-level overview</span></a>
       </li>
       <li>
+        <a href="#types-of-email"><span>Types of email</span></a>
+      </li>
+      <li>
         <a href="#useful-resources"><span>Useful resources</span></a>
       </li>
       <li>
@@ -156,7 +159,7 @@
             
   <p><a href='/manual.html#emails'>Emails</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/6559eed1f271362b697cb3d68115cc43b18acfb8">3 Dec 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/88d5da8b1cb3e3a6950c462ebf1558ca86d39ab2">4 Dec 2020</a>
 </div>
 
  <h1 id='header'>Email notifications: how they work</h1> <h2 id="high-level-overview">High-level overview</h2>
@@ -165,12 +168,24 @@
 
 <p><strong>Update September 2019:</strong> the email system also now supports highly customised subscriptions for users completing the <a href="https://github.com/alphagov/finder-frontend/tree/master/app/lib/brexit_checker">Brexit Checker</a>, which operates in isolation from the rest of GOV.UK, and specifies its own notifications. More information can be found in <a href="https://github.com/alphagov/email-alert-api/blob/master/docs/adr/adr-004-message-concept.md">the ADR</a> for these changes.</p>
 
+<h2 id="types-of-email">Types of email</h2>
+
+<p>The email notification system generates 3 different types of email. These are transactional, immediate and digest.</p>
+
+<p><strong>Transactional</strong> emails are sent to confirm a new subscription, and to authenticate an existing subscriber so they can manage their subscriptions.</p>
+
+<p><strong>Immediate</strong> emails are generated shortly after the email system receives a content change, or a message, that corresponds to a user's immediate subscription. It's worth noting that "immediate" is a somewhat misleading name as these emails can sometimes take a long time (hours) to be sent when the system is busy.</p>
+
+<p><strong>Digest</strong> emails are generated daily and weekly for subscribers who have opted to have their updates sent to them in batches. These collate all of a subscriber's subscriptions into a single summary of all the relevant content changes and messages that occurred over the preceding day or week.</p>
+
 <h2 id="useful-resources">Useful resources</h2>
 
 <ul>
   <li><a href="https://grafana.production.govuk.digital/dashboard/file/email_alert_api_technical.json">Technical dashboard</a></li>
   <li><a href="https://grafana.production.govuk.digital/dashboard/file/email_alert_api_product.json">Product dashboard</a></li>
-  <li><a href="https://github.com/alphagov/email-alert-api/blob/master/docs/matching-content-to-subscriber-lists.md">How we trigger emails</a></li>
+  <li><a href="https://github.com/alphagov/email-alert-api/blob/master/docs/matching-content-to-subscriber-lists.md">How content is matched to subscriber lists</a></li>
+  <li><a href="https://groups.google.com/a/digital.cabinet-office.gov.uk/forum/#!forum/govuk-email-courtesy-copies">Courtesy copies Google group</a> - provides a way to view replicas of every immediate email notification generated in production</li>
+  <li><a href="/manual/receiving-emails-from-email-alert-api-in-integration-and-staging.html">How to receive emails in Integration and Staging</a></li>
 </ul>
 
 <h2 id="email-system-apps">Email system apps</h2>
@@ -181,7 +196,7 @@
       <li>Provides a UI to sign up to filterable search results.</li>
     </ul>
   </li>
-  <li><a href="/apps/travel-advice-publisher.html">Travel Advice Publisher</a> / Specialist Publisher
+  <li><a href="/apps/travel-advice-publisher.html">Travel Advice Publisher</a> / <a href="/apps/specialist-publisher.html">Specialist Publisher</a>
     <ul>
       <li>Use Email Alert API directly to send email (<a href="https://trello.com/c/tWIZfxfc/94-travel-advice-publisher-and-specialist-publisher-talk-directly-to-email-alert-api">tech debt</a>).</li>
     </ul>
@@ -221,7 +236,6 @@
           <h4>Learn</h4>
 
           <ul class="govuk-list">
-            <li><a href="/manual/email-alert-api-troubleshooting.html">Email Alert API troubleshooting</a></li>
             <li><a href="/manual/govuk-notify.html">How we use GOV.UK Notify</a></li>
           </ul>
         </div>
@@ -231,7 +245,7 @@
 
           <ul class="govuk-list">
             <li><a href="/manual/load-test-email-alert-api.html">Load test Email Alert API</a></li>
-            <li><a href="/manual/receiving-emails-from-email-alert-api-in-integration-and-staging.html">Receive emails from Email Alert API in integration and staging</a></li>
+            <li><a href="/manual/receiving-emails-from-email-alert-api-in-integration-and-staging.html">Receive emails from Email Alert API in Integration and Staging</a></li>
             <li><a href="/manual/bulk-email.html">Send a bulk email</a></li>
           </ul>
         </div>

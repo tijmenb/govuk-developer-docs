@@ -134,10 +134,13 @@
     <a href="#header"><span>Travel Advice or Drug and Medical Device email alerts not sent</span></a>
     <ul>
       <li>
-        <a href="#troubleshooting-failed-checks"><span>Troubleshooting failed checks</span></a>
+        <a href="#determining-why-the-check-failed"><span>Determining why the check failed</span></a>
       </li>
       <li>
-        <a href="#troubleshooting-unsent-emails"><span>Troubleshooting unsent emails</span></a>
+        <a href="#verifying-whether-the-email-was-received"><span>Verifying whether the email was received</span></a>
+      </li>
+      <li>
+        <a href="#troubleshooting-emails-that-were-not-received"><span>Troubleshooting emails that were not received</span></a>
       </li>
       <li>
         <a href="#resending-travel-advice-emails"><span>Resending travel advice emails</span></a>
@@ -164,7 +167,7 @@
 
      <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/59625a7666b397e244c111cdb940dc3f93a8f2c7">1 Dec 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/64cb35420ddfa6a614df46cc616aed5da5791bfd">4 Dec 2020</a>
 </div>
 
  <h1 id='header'>Travel Advice or Drug and Medical Device email alerts not sent</h1> <p>We expect that when new GOV.UK content is published, or when existing content
@@ -181,35 +184,55 @@ been emailed. We use a Gmail account which is subscribed to all travel advice
 and medical safety alerts to check whether an email has been received within a
 sufficient time period, if not the checks will fail.</p>
 
-<h2 id="troubleshooting-failed-checks">Troubleshooting failed checks</h2>
+<h2 id="determining-why-the-check-failed">Determining why the check failed</h2>
 
-<p>First inspect the console logs for the Jenkins job to confirm the reason for the
-failure.</p>
+<p>Use the "Console Output" of the Jenkins job for this check to determine the
+reason the job failed.</p>
 
-<p>Check the mailbox that is used for the check to rule out an issue searching for
-the message: <code>govuk_email_check@digital.cabinet-office.gov.uk</code>. Its credentials
-can be found in the <a href="https://github.com/alphagov/govuk-secrets/tree/master/pass/2ndline">2nd line password store</a> under
-<code>google-accounts/govuk_email_check@digital.cabinet-office.gov.uk</code>.</p>
+<p>Assuming it has failed due to not being able to find emails there should be a
+list of email subjects that were expected to exist.</p>
 
-<p>If the email has been received by the mailbox but the subject of the email
-doesn't match the title of the content item, this means that the title of the
-content was updated after it was first published and after the emails went out.
-To stop the check from constantly failing, add the updated content item title
-to the <a href="https://github.com/alphagov/email-alert-monitoring/blob/master/lib/email_verifier.rb#L6-L14">acknowledged email list</a> and then re-run the Jenkins job.</p>
+<h2 id="verifying-whether-the-email-was-received">Verifying whether the email was received</h2>
 
-<h2 id="troubleshooting-unsent-emails">Troubleshooting unsent emails</h2>
+<p>To verify if the Gmail account has received the email or not you can log into
+the Gmail account, <code>govuk_email_check@digital.cabinet-office.gov.uk</code>, using
+the credentials in the <a href="https://github.com/alphagov/govuk-secrets/tree/master/pass/2ndline">2nd line password store</a> under
+<code>google-accounts/govuk_email_check@digital.cabinet-office.gov.uk</code>. Then you can
+use the previously noted subjects to try identify the email(s).</p>
 
-<p>If the check is reporting correctly then emails are not being sent. Try the
-<a href="/manual/email-alert-api-troubleshooting.html">general troubleshooting tips for unsent emails</a>.</p>
+<p>This check has been susceptible to a number of false positive scenarios in the
+past (there are <a href="https://github.com/alphagov/email-alert-api/blob/master/docs/adr/adr-008-monitoring-and-alerting.md#removal-of-email-alert-monitoring">plans</a> to retire this check due, in part,
+to it's fragility), examples of these are:</p>
 
-<blockquote>
-  <p>Previously we had <a href="https://docs.google.com/document/d/1AwpXPF1c7fbsOL8KX10ko_wLok4YykabmRfkHJjRqfA/edit#">an incident</a> where new types of medical
-safety alert were added, but the list <code>govuk_email_check</code> was subscribed to was
-specific to only the older types. This meant <code>govuk_email_check</code> never got an
-email about content for one of the new  types, because no email was generated.
-It's possible this could happen again, since the underlying functionality means
-the lists are all specific to the types when they were created.</p>
-</blockquote>
+<ul>
+  <li>the email contents didn't exactly match what was searched for due to the
+content being edited, these can be resolved by updating the <a href="https://github.com/alphagov/email-alert-monitoring/blob/master/lib/email_verifier.rb#L6-L14">acknowledged email
+list</a> and re-running the Jenkins job;</li>
+  <li>Gmail decided the email was spam;</li>
+  <li>Gmail experienced service problems which delayed email receiving
+(<a href="https://www.google.co.uk/appsstatus#hl=en-GB&amp;v=status">status dashboard</a>).</li>
+</ul>
+
+<h2 id="troubleshooting-emails-that-were-not-received">Troubleshooting emails that were not received</h2>
+
+<p>If you have verified that the email hasn't been received you should then
+investigate was the email sent. Some avenues to explore are:</p>
+
+<ul>
+  <li>determine whether Email Alert API has a backlog of work to do using the
+<a href="https://grafana.blue.production.govuk.digital/dashboard/file/sidekiq.json?refresh=1m&amp;orgId=1&amp;var-Application=email-alert-api&amp;var-Interval=$__auto_interval">Sidekiq dashboard</a> and <a href="https://grafana.blue.production.govuk.digital/dashboard/file/email_alert_api_technical.json?refresh=1m&amp;orgId=1">Email Alert API Technical
+dashboard</a> - the email may just be delayed;</li>
+  <li>whether the change was a result of a new type of medical safety content
+sub-type, this was the previous cause of an <a href="https://docs.google.com/document/d/1AwpXPF1c7fbsOL8KX10ko_wLok4YykabmRfkHJjRqfA/edit#">incident</a> and
+is recorded as <a href="https://trello.com/c/v2ees2fD/199-all-checkbox-is-misleading-for-finderemailsignups">GOV.UK Tech Debt</a>;</li>
+  <li>check whether the email was sent as a <a href="/manual/email-notifications-how-they-work.html#courtesy-copies">courtesy copy</a> to
+determine if Email Alert API processed the change;</li>
+  <li>verify whether Notify sent the expected email using <a href="https://github.com/alphagov/email-alert-api/blob/master/docs/support-tasks.md#view-subscribers-recent-emails">the <code>support:view_emails</code>
+rake task</a>;</li>
+  <li>check the <a href="https://kibana.logit.io/s/2dd89c13-a0ed-4743-9440-825e2e52329e/goto/43fc79ee47ac49f248e0f29a174be240">Kibana logs</a> and <a href="https://sentry.io/organizations/govuk/issues/?project=202220&amp;statsPeriod=12h">Sentry</a> for any errors or clues;</li>
+  <li>if all else fails you may need to investigate the Email Alert API database
+to determine whether the content change was received and what state it is in.</li>
+</ul>
 
 <h2 id="resending-travel-advice-emails">Resending travel advice emails</h2>
 
