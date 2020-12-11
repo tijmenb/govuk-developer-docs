@@ -200,7 +200,7 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
               <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/email-alert-api/commit/bc7a0e8699b87863494a63299629e8f118260429">8 Dec 2020</a>
+  Last updated: <a href="https://github.com/alphagov/email-alert-api/commit/ad9a19fe6aae7110e4fa293ed9963a431685f1c8">9 Dec 2020</a>
 </div>
 
   <h1 class="page-title">email-alert-api: Available endpoints</h1>
@@ -359,12 +359,15 @@ new email address.</p>
   "address": "email@address.com",
   "subscriber_list_id": "The id of a subscriber list",
   "frequency": "weekly"
+  "skip_confirmation_email": true (optional)
 }
 </code></pre>
 <p>It will create a new subscription between the email address and the subscriber
-list. It will respond with a <code>201 Created</code> if it's a new subscription or a <code>200 OK</code> if the subscription already exists. If a subscription already exists but
-the frequency is different, the current subscription is ended and a new one
-with the updated frequency is created. A confirmation email will be sent.</p>
+list. If a subscription already exists but the frequency is different, the
+current subscription is ended and a new one with the updated frequency is created.
+It will respond with the details of the subscription.</p>
+<p>A confirmation email will be sent unless the "skip_confirmation_email" flag is
+set (e.g. if the calling app is going to send it's own confirmation email).</p>
 <blockquote>
 <p>Note: using any email address that ends with <code>@notifications.service.gov.uk</code>
 will not create a subscriber or a subscription, however will return a <code>201 Created</code> response.</p>
