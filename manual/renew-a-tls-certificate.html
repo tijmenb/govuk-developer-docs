@@ -145,13 +145,11 @@
             
   <p><a href='/manual.html#infrastructure'>Infrastructure</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/60151304589ababdd68463c83f70238d30c12f6d">3 Aug 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/809e230b39a9262da2f94f25a17c857beed05713">14 Dec 2020</a>
 </div>
 
- <h1 id='header'>Renew a TLS certificate for GOV.UK</h1> <p>This document covers how to renew wildcard TLS certificates for
-<code>*.publishing.service.gov.uk</code>, <code>*.staging.publishing.service.gov.uk</code>
-and <code>*.integration.publishing.service.gov.uk</code>. It is a task performed
-by Reliability Engineering.</p>
+ <h1 id='header'>Renew a TLS certificate for GOV.UK</h1> <p>This document covers how to renew Gandi wildcard TLS certificates (<code>*.publishing.service.gov.uk</code>, <code>*.staging.publishing.service.gov.uk</code>
+and <code>*.integration.publishing.service.gov.uk</code>) and <code>www.gov.uk</code>.</p>
 
 <p>Credentials for the Fastly dashboard and Zendesk support sites are in the
 <a href="https://github.com/alphagov/govuk-secrets/blob/master/pass/2ndline/fastly">2nd line password store</a>.</p>
@@ -164,32 +162,57 @@ store</a>.</li>
   <li>Go to the account dashboard and find the list of TLS certificates on the
 account.</li>
   <li>Find the certificate you wish to renew and click Renew. You need to
-request a wildcard certificate (for example, <code>*.publishing.service.gov.uk</code>).</li>
+request either a wildcard certificate (for example, <code>*.publishing.service.gov.uk</code>)
+or a standard one (for example, <code>www.gov.uk</code>).</li>
   <li>Go through the steps on the renewal form until you reach a page requesting a
 Certificate Signing Request.</li>
   <li>Upload the CSR to Gandi by pasting the contents of the .csr file into the
 text box.</li>
   <li>Next, choose DNS validation to validate it and follow the instructions to add
-the relevant DNS records.</li>
+the relevant DNS records.
+For DNS validation of certificate request for <code>www.gov.uk</code>, you need to ask a
+senior GOV.UK member to request JISC to add the new DNS record.</li>
   <li>Pay for it - we don't have a stored payment method, so find the person with
 the GDS credit card. Or raise a request for temporary credit card details from
 PMO by sending an email to pmo@digital.cabinet-office.gov.uk.</li>
-  <li>Once the certificate has been renewed, paste the contents of the resulting
-.crt file into Puppet hieradata for the relevant environment in the
-<a href="https://github.com/alphagov/govuk-secrets/puppet">govuk-secrets</a> repository.</li>
-  <li>Deploy Puppet to update the certificate in the relevant environment.</li>
-  <li>Import the certificate to AWS ACM. Login to the AWS console in the appropriate
-environment and follow the instructions <a href="https://docs.aws.amazon.com/acm/latest/userguide/import-certificate-api-cli.html">here</a>.
-The chain cert is the second certificate under "wildcard_publishing_certificate"
-in <a href="https://github.com/alphagov/govuk-secrets/puppet">govuk-secrets</a>.</li>
-  <li><em>For staging and integration only:</em>
-Go to the Fastly interface and then to Configure -&gt; HTTPS and network.
-Go to TLS certificates and upload your new cert.
+  <li>
+    <p>Import the certificate to AWS ACM (Ireland/eu-west-1 region):</p>
+
+    <ul>
+      <li>
+        <p>Login to the AWS console in the appropriate environment and follow the instructions    <a href="https://docs.aws.amazon.com/acm/latest/userguide/import-certificate-api-cli.html">here</a>.</p>
+      </li>
+      <li>
+        <p>The chain cert can be retrieved from Gandi by follow the instructions
+<a href="https://docs.gandi.net/en/ssl/common_operations/get_intermediate_certificate.html">here</a>.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>For staging and integration only:</strong></p>
+
+    <ul>
+      <li>
+        <p>Go to the Fastly interface and then to Configure -&gt; HTTPS and network.</p>
+      </li>
+      <li>
+        <p>Go to TLS certificates and upload your new cert.
 (You do not need to do this for production because we use a different certificate
-there)</li>
-  <li><em>For staging and integration only:</em>
-In TLS domains click on more details and then select your new certificate
-under CERTIFICATE BEING USED.</li>
+there)</p>
+      </li>
+      <li>
+        <p>In TLS domains, click on more details and then select your new certificate
+under CERTIFICATE BEING USED.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>For production only:</strong></p>
+
+    <ul>
+      <li>You need to also import the certificate in the <code>North Virginia</code> AWS ACM for use with our disaster recovery AWS CloudFront.</li>
+    </ul>
+  </li>
 </ol>
 
 
