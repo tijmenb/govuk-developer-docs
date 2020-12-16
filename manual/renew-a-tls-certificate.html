@@ -145,7 +145,7 @@
             
   <p><a href='/manual.html#infrastructure'>Infrastructure</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/809e230b39a9262da2f94f25a17c857beed05713">14 Dec 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/1a0e57f0f58cd2c688331d044031b3a3e7a73f75">16 Dec 2020</a>
 </div>
 
  <h1 id='header'>Renew a TLS certificate for GOV.UK</h1> <p>This document covers how to renew Gandi wildcard TLS certificates (<code>*.publishing.service.gov.uk</code>, <code>*.staging.publishing.service.gov.uk</code>
@@ -175,6 +175,9 @@ senior GOV.UK member to request JISC to add the new DNS record.</li>
   <li>Pay for it - we don't have a stored payment method, so find the person with
 the GDS credit card. Or raise a request for temporary credit card details from
 PMO by sending an email to pmo@digital.cabinet-office.gov.uk.</li>
+  <li>Add the Certificate, Private Key, Certificate Signing Request and Intermediate Certificate
+to the <a href="https://github.com/alphagov/govuk-secrets/tree/master/pass/2ndline"><code>2ndline</code> pass store</a>
+under the <code>certificates</code> directory.</li>
   <li>
     <p>Import the certificate to AWS ACM (Ireland/eu-west-1 region):</p>
 
