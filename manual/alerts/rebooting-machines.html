@@ -213,7 +213,7 @@
             
   <p><a href='/manual.html#infrastructure'>Infrastructure</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/2ce1b49a3b465e7b90d199b5ec0d01bac13b0201">17 Sep 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/b226bb3e14b150511a732a5b8c62f82a4d449dc4">16 Dec 2020</a>
 </div>
 
  <h1 id='header'>Reboot a machine</h1> <p>Under normal circumstances most machines reboot automatically when an update is required.
@@ -314,22 +314,32 @@ more info.</p>
 
 <p>The <code>cache</code> machines run the <code>router</code> app which handles live user traffic.
 To safely reboot them without serving too many errors to users, we must
-remove them from the AWS load balancer target groups before rebooting:</p>
+remove them from the AWS load balancer target groups before rebooting.</p>
+
+<p>The tool for rebooting cache machines is in the govuk-puppet repository. This
+is the recommended way to reboot a cache machine:</p>
+
+<div class="highlight"><pre class="highlight plaintext"><code>cd govuk-puppet
+gds govuk-integration-poweruser -- ./tools/reboot-cache-instances.sh -e integration ip-1-2-3-4.eu-west-1.compute.internal
+</code></pre></div>
+<p>The tool takes an environment and a private DNS name, which are provided by the
+Icinga alert.</p>
+
+<p>You can also follow this process manually:</p>
 
 <ol>
   <li>Login to the AWS Console for the relevant environment (<code>gds aws govuk-&lt;environment&gt;-&lt;your-role&gt; -l</code>).</li>
-  <li>Find the <a href="https://eu-west-1.console.aws.amazon.com/ec2/home?region=eu-west-1#Instances:sort=desc:launchTime">Instance ID</a> of the critical machine(s) (probably all 8 <code>blue-cache</code> machines)</li>
-  <li>Remove the machine from the following <a href="https://eu-west-1.console.aws.amazon.com/ec2/home?region=eu-west-1#TargetGroups:sort=targetGroupName">Target Groups</a>:
-    <ol>
-      <li>cache-assets-origin</li>
-      <li>cache-www</li>
-      <li>cache-www-origin</li>
-    </ol>
-  </li>
-  <li>SSH onto the machine (find this from the reboots required alert listing)</li>
+  <li>Find the <a href="https://eu-west-1.console.aws.amazon.com/ec2/home?region=eu-west-1#Instances:sort=desc:launchTime">Instance ID</a>
+of the critical machine(s) (probably all 8 <code>blue-cache</code> machines)</li>
+  <li>Navigate to the <code>blue-cache</code> Auto Scaling Group (ASG)</li>
+  <li>Put the instance into a "Standby" state, which will detach the instance
+from its Target Groups</li>
+  <li>Once the instance is in a Standby state, SSH onto the machine (find this
+from the reboots required alert listing)</li>
   <li>Check the traffic has reduced to only be the Smokey healthchecks now: <code>tail -f /var/log/nginx/lb-access.log</code>.</li>
   <li>Run the <code>vm.reboot</code> fab script on your local machine like normal.</li>
-  <li>Re-add the machine to the above target groups.</li>
+  <li>In the <code>blue-cache</code> ASG, move the instance back to the "InService" state,
+which will re-add the instance to the Target Groups</li>
   <li>Check the traffic is flowing from the load balancer with <code>tail -f /var/log/nginx/lb-access.log</code> again.</li>
 </ol>
 
