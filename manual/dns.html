@@ -173,10 +173,10 @@
             
   <p><a href='/manual.html#infrastructure'>Infrastructure</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/ed58809e0c6d6c971d2afd965496691495208098">2 Dec 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/59915b476a3d23c02a6000bda58344a9cbe14f52">16 Dec 2020</a>
 </div>
 
- <h1 id='header'>Domain Name System (DNS) records</h1> <p>The Reliability Engineering team is responsible for managing several DNS zones.</p>
+ <h1 id='header'>Domain Name System (DNS) records</h1> <p>The GOV.UK Replatforming team is responsible for managing several DNS zones.</p>
 
 <p>By default, zones are hosted by AWS (Route 53) and Google Cloud Platform (Cloud DNS)</p>
 
@@ -293,7 +293,7 @@ re-run the GCP <code>apply</code> job.</li>
 <p>These DNS zones are hosted in Route53 and managed by Terraform. Changes can be
 made in the <a href="https://github.com/alphagov/govuk-aws/">govuk-aws</a> and
 <a href="https://github.com/alphagov/govuk-aws-data/">govuk-aws-data</a> repositories.
-While GOV.UK migrates to AWS speak with Reliability Engineering for support
+While GOV.UK migrates to AWS speak with GOV.UK Replatforming for support
 making your changes.</p>
 
 <h2 id="dns-for-the-govuk-top-level-domain">DNS for the <code>gov.uk</code> top level domain</h2>
@@ -301,10 +301,11 @@ making your changes.</p>
 <p><a href="https://www.jisc.ac.uk/">Jisc</a> is a non-profit which provides networking to
 UK education and government. They control the <code>gov.uk.</code> top-level domain.</p>
 
-<p>Requests to modify the DNS records for <code>gov.uk.</code> should be sent by email to
-<code>naming@ja.net</code> from someone on Jisc's approved contacts list. Speak to a
-senior technologist member of GOV.UK or Reliability Engineering if you need to
-make a change and don't have access.</p>
+<p>Requests to modify the DNS records for <code>gov.uk.</code> should be sent by
+email to <code>naming@ja.net</code> from someone on Jisc's approved contacts
+list. Speak to a senior technologist member of GOV.UK or someone in
+GOV.UK Replatforming if you need to make a change and don't have
+access.</p>
 
 <p>2nd line should be notified of any planned changes via email.</p>
 
@@ -319,7 +320,7 @@ the CNAME points to.</li>
 
 <h2 id="delegating-servicegovuk-domains">Delegating <code>service.gov.uk</code> domains</h2>
 
-<p>At the moment Reliability Engineering are also responsible for delegating DNS
+<p>At the moment GOV.UK Replatforming are also responsible for delegating DNS
 to other government services.</p>
 
 <p>The request will arrive by email or Zendesk from a member of the GOV.UK Proposition

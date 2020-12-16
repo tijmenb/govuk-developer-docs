@@ -161,7 +161,7 @@
 
      <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/dfa013543d8aa692adf3afa475300ab2ec1127de">3 Aug 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/59915b476a3d23c02a6000bda58344a9cbe14f52">16 Dec 2020</a>
 </div>
 
  <h1 id='header'>Check the TLS certificate is valid and not due to expire</h1> <p>These checks look at the validity of the TLS certificates for:</p>
@@ -179,19 +179,19 @@ expire.</p>
 
 <p>See <a href="/manual/renew-a-tls-certificate.html">renew a TLS certificate for GOV.UK</a>
 for details of how to renew the relevant certificate. This is normally done by
-Reliability Engineering.</p>
+GOV.UK Replatforming.</p>
 
 <h2 id="production-wwwgovuk-certificate">Production www.gov.uk certificate</h2>
 
 <p>The TLS certificate for www.gov.uk is managed by Fastly. They will open a support
 ticket when the certificate is due for renewal. This ticket will be picked up by
-Reliability Engineering, who will co-ordinate with Fastly to renew the
+GOV.UK Replatforming, who will co-ordinate with Fastly to renew the
 certificate.</p>
 
 <h2 id="production-staging-and-integration-wildcard-certificates">Production, staging and integration wildcard certificates</h2>
 
 <p>The wildcard TLS certificates for production, staging and integration are
-managed by Reliability Engineering. Once the alert appears, they will work to
+managed by GOV.UK Replatforming. Once the alert appears, they will work to
 renew the relevant certificate and make it live. For staging and integration,
 the certificates are also provided to Fastly to enable TLS for our staging and
 integration CDN environments.</p>

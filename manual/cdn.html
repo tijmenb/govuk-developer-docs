@@ -172,7 +172,7 @@
             
   <p><a href='/manual.html#cdn-caching'>CDN & Caching</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/1e41bdde54ce9c3e343b1ab5b98e980183eb3da5">26 Oct 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/59915b476a3d23c02a6000bda58344a9cbe14f52">16 Dec 2020</a>
 </div>
 
  <h1 id='header'>Our content delivery network (CDN)</h1> <p>GOV.UK uses Fastly as a CDN. Public users aren't accessing GOV.UK servers directly, they connect via the CDN. This is better because:</p>
@@ -245,7 +245,7 @@
   <li>Our <a href="https://github.com/alphagov/govuk-cdn-config/">Fastly Varnish config</a> restricts HTTP purges to specific IP addresses (otherwise anyone would be able to purge the cache).</li>
 </ul>
 
-<p>We have <a href="https://deploy.publishing.service.gov.uk/job/Check_CDN_IP_Ranges/">a Jenkins job "Check CDN IP Ranges"</a> which will start to fail if our Fastly IPs don't match the IPs returned from the Fastly API. If you see this alert, you can <a href="/manual/raising-issues-with-reliability-engineering.html">let Reliability Engineering know</a> and they will update our list of Fastly IPs to match the ones listed by Fastly.</p>
+<p>We have <a href="https://deploy.publishing.service.gov.uk/job/Check_CDN_IP_Ranges/">a Jenkins job "Check CDN IP Ranges"</a> which will start to fail if our Fastly IPs don't match the IPs returned from the Fastly API. If you see this alert, you can <a href="/manual/raising-issues-with-reliability-engineering.html">let GOV.UK Replatforming know</a> and they will update our list of Fastly IPs to match the ones listed by Fastly.</p>
 
 <p>Updating the firewall rules in Carrenza with new Fastly IPs used to be done by committing the change to the <a href="https://github.com/alphagov/govuk-provisioning">govuk-provisioning</a> repo and to then deploy the firewall through a Jenkins job. This process is broken at the moment since the code base has diverged from the state of the firewall. While this is remedied we have to add the new rules manually - this is how to do it:</p>
 
