@@ -200,7 +200,7 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
               <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/email-alert-api/commit/ad9a19fe6aae7110e4fa293ed9963a431685f1c8">9 Dec 2020</a>
+  Last updated: <a href="https://github.com/alphagov/email-alert-api/commit/597dd45cfbb97c4bc679ff9c9922b68d84f73640">16 Dec 2020</a>
 </div>
 
   <h1 class="page-title">email-alert-api: Available endpoints</h1>
@@ -215,7 +215,6 @@
     "title": "Title of topic",
     "subscription_url": "https://public-url/subscribe-here?topic_id=123",
     "gov_delivery_id": "123",
-    "group_id": "f513e107-b2c6-44a6-8d8a-9e6a3ea37b9d",
     "document_type": "",
     "created_at": "20141010T12:00:00",
     "updated_at": "20141010T12:00:00",
@@ -230,7 +229,6 @@
 <h3 id="post-subscriber-lists"><code>POST /subscriber-lists</code></h3>
 <pre lang="json"><code>{
   "title": "My title",
-  "group_id": "f513e107-b2c6-44a6-8d8a-9e6a3ea37b9d",
   "tags": {
     "any": {
       "organisations": ["my-org"],
@@ -246,8 +244,6 @@
 email sent to a user;</li>
 <li>url: A url to a page that reflects what the user signed up to and can be
 linked to with their list;</li>
-<li>group_id: A UUID that can be provided by an application to group together
-lists for the same resource with different criteria;</li>
 <li>links: An object where keys are a link type and the value is an object
 containing a key of "any" or "all" associated with an array of link values,
 this is used to match content changes and messages to the list;</li>
