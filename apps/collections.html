@@ -379,6 +379,13 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/draft_frontend
 <div class="embedded-readme">
     
 <p>Collections serves the GOV.UK navigation pages and organisation pages.</p>
+<p>At time of writing, it also serves the priority campaign pages ie:</p>
+<ul>
+<li>Coronavirus pages</li>
+<li>Transition landing page (<a href="https://www.gov.uk/transition"> gov.uk/transition</a> )</li>
+<li>DIT landing page ( <a href="https://www.gov.uk/transition">gov.uk/eubusiness </a>)</li>
+</ul>
+<p>See the <a href="#campaign-pages">Campaign pages</a> section below for more information.</p>
 <h2 id="screenshots">Screenshots</h2>
 <h3 id="browse-page">Browse page</h3>
 <p><img src="https://raw.githubusercontent.com/alphagov/collections/master/docs/browse-page.jpg" alt="Browse page" /></p>
@@ -468,11 +475,22 @@ in which case we display an accordion view:
 include content that is directly tagged to it and also content that has been
 tagged to any of the associated taxons.</li>
 </ul>
+<h2 id="campaign-pages">Campaign pages</h2>
+<p>Collections currently renders the following campaign pages:</p>
+<h4 id="transition-landing-page-transition-">Transition landing page (<a href="https://www.gov.uk/transition"> /transition </a>)</h4>
+<p>All content for the transition landing pages are currently read from yaml files. <a href="https://github.com/alphagov/collections/blob/master/config/locales/cy/transition_landing_page.yml">Welsh</a> and <a href="https://github.com/alphagov/collections/blob/master/config/locales/en/transition_landing_page.yml">English</a> translations are available.</p>
+<h4 id="dit-landing-page-eubusiness-">DIT landing page (<a href="https://www.gov.uk/eubusiness"> /eubusiness </a>)</h4>
+<p>All content for the DIT landing pages are currently read from yaml files e.g. for <a href="https://github.com/alphagov/collections/blob/master/config/locales/en/dit_landing_page.yml">English</a>. See the <a href="https://www.gov.uk/api/content/eubusiness">content item's available translations</a> for the current list.</p>
+<h4 id="coronavirus-pages">Coronavirus pages:</h4>
+<ul>
+<li>Landing page ( <a href="https://www.gov.uk/coronavirus">gov.uk/coronavirus</a> )</li>
+<li>Postcode lookup service( <a href="https://www.gov.uk/find-coronavirus-local-restrictions">gov.uk/find-coronavirus-local-restrictions</a> )</li>
+<li>Hub pages ( <a href="https://www.gov.uk/getting-tested-for-coronavirus">/getting-tested-for-coronavirus</a>, <a href="https://www.gov.uk/coronavirus/worker-support">/worker-support</a>, <a href="https://www.gov.uk/coronavirus/business-support">/business-support</a> and <a href="https://www.gov.uk/coronavirus/education-and-childcare">/education-and-childcare</a> )</li>
+</ul>
 <h2 id="technical-documentation">Technical documentation</h2>
-<p>This is a public facing Ruby on Rails application that retrieves browse content from APIs and presents it.
-There is no underlying persistence layer and all content is retrieved from external sources.</p>
+<p>This is a public facing Ruby on Rails application that retrieves browse content from APIs and presents it. There is no underlying persistence layer, and (with the exception of the <a href="#campaign-pages">campaign pages</a>) all content is retrieved from external sources.</p>
 <h3 id="content-for-taxon-pages">Content for taxon pages</h3>
-<p>Content for taxon pages is returned by a search in Rummager based on content_ids for world taxonomy pages and content_ids and <a href="https://docs.publishing.service.gov.uk/document-types/content_purpose_supergroup.html">supergroups</a> for all other taxonomy pages.</p>
+<p>Content for taxon pages is returned by Search API based on content_ids for world taxonomy pages and content_ids and <a href="https://docs.publishing.service.gov.uk/document-types/content_purpose_supergroup.html">supergroups</a> for all other taxonomy pages.</p>
 <h3 id="dependencies">Dependencies</h3>
 <ul>
 <li>
@@ -484,7 +502,7 @@ There is no underlying persistence layer and all content is retrieved from exter
 </ul>
 </li>
 <li>
-<a href="https://github.com/alphagov/rummager">rummager</a>, provides:
+<a href="https://github.com/alphagov/search-api">search api</a>, provides:
 <ul>
 <li>latest changes for Topics</li>
 <li>content tagged to a particular Topic, Mainstream browse page or Organisation</li>
@@ -498,18 +516,36 @@ There is no underlying persistence layer and all content is retrieved from exter
 </li>
 </ul>
 <h3 id="running-the-application">Running the application</h3>
+<ul>
+<li>
+<h4 id="with-startup-scripts">With startup scripts</h4>
+</li>
+</ul>
 <pre><code>./startup.sh
 </code></pre>
-<p>The app should start on <a href="http://localhost:3070">http://localhost:3070</a> or
-<a href="http://collections.dev.gov.uk">http://collections.dev.gov.uk</a> on GOV.UK development machines.</p>
+<p>The app should start on <a href="http://localhost:3070">http://localhost:3070</a></p>
 <pre><code>./startup.sh --live
 </code></pre>
 <p>This will run the app and point it at the production GOV.UK <code>content-store</code> and <code>static</code> instances.</p>
 <pre><code>./startup.sh --dummy
 </code></pre>
 <p>This will run the app and point it at the <a href="https://govuk-content-store-examples.herokuapp.com/">dummy content store</a>, which serves the content schema examples and random content.</p>
+<ul>
+<li>
+<h4 id="with-govuk-docker">With govuk-docker</h4>
+</li>
+</ul>
+<p>Once you have installed <a href="https://github.com/alphagov/govuk-docker#installation">govuk-docker</a>, do the following</p>
+<pre><code>&gt; cd govuk/govuk-docker
+&gt; git pull origin master
+&gt; make collections
+
+&gt; cd govuk/collections
+&gt; govuk-docker-up
+</code></pre>
+<p>Collections will be running locally at collections.dev.gov.uk.</p>
 <h3 id="running-the-test-suite">Running the test suite</h3>
-<p>Use <code>bundle exec rake</code> to run the test suite, excluding JavaScript</p>
+<p>Use <code>bundle exec rake</code> to run the test suite, excluding JavaScript. Or if you are running in docker, <code>govuk-docker-run bundle exec rake</code></p>
 <h4 id="javascript-tests">Javascript tests</h4>
 <p>Use <code>bundle exec rake jasmine:ci</code> to run Jasmine tests</p>
 <h2 id="license">License</h2>
