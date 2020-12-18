@@ -134,10 +134,10 @@
     <a href="#header"><span>Local frontend development</span></a>
     <ul>
       <li>
-        <a href="#using-startup-scripts"><span>Using startup scripts</span></a>
+        <a href="#using-govuk-docker"><span>Using govuk-docker</span></a>
       </li>
       <li>
-        <a href="#using-govuk-docker"><span>Using govuk-docker</span></a>
+        <a href="#using-startup-scripts"><span>Using startup scripts</span></a>
       </li>
       <li>
         <a href="#components-pulled-in-by-static"><span>Components pulled in by Static</span></a>
@@ -167,26 +167,10 @@
             
   <p><a href='/manual.html#frontend'>Frontend</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/30acb35afd0e31e82d017f42c7863191e5e8c41d">23 Nov 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/d4a254f694231a690a2f8189a398c56ee808f060">15 Dec 2020</a>
 </div>
 
- <h1 id='header'>Local frontend development</h1> <h2 id="using-startup-scripts">Using startup scripts</h2>
-
-<p>If you are making changes to a frontend app and nothing else, you can view these changes by running the application's <code>./startup.sh</code> script. This example is for <a href="https://github.com/alphagov/government-frontend">government-frontend</a>, but these instructions apply to any frontend app.</p>
-
-<div class="highlight"><pre class="highlight shell"><code><span class="nb">cd</span> /govuk/government-frontend
-./startup.sh <span class="nt">--live</span>
-<span class="c"># Check the output to see what port the app is running on, e.g: localhost:3005</span>
-</code></pre></div>
-<p>If you want to test changes in <a href="https://github.com/alphagov/govuk_publishing_components">govuk_publishing_components</a> against a frontend app, you need to edit your frontend app Gemfile and then run the startup script:</p>
-
-<div class="highlight"><pre class="highlight ruby"><code><span class="n">gem</span> <span class="s1">'govuk_publishing_components'</span><span class="p">,</span> <span class="ss">path: </span><span class="s1">'../govuk_publishing_components'</span>
-</code></pre></div>
-<div class="highlight"><pre class="highlight shell"><code>bundle <span class="nb">install</span>
-./startup.sh <span class="nt">--live</span>
-<span class="c"># Check the output to see what port the app is running on, e.g: localhost:3005</span>
-</code></pre></div>
-<h2 id="using-govuk-docker">Using govuk-docker</h2>
+ <h1 id='header'>Local frontend development</h1> <h2 id="using-govuk-docker">Using govuk-docker</h2>
 
 <p>This assumes that you have already installed and setup <a href="https://github.com/alphagov/govuk-docker/blob/master/README.md">govuk-docker</a>. We will use <a href="https://github.com/alphagov/government-frontend">government-frontend</a> as an example here, but these instructions apply to any frontend app.</p>
 
@@ -196,7 +180,7 @@
 make government-frontend
 
 <span class="nb">cd</span> /govuk/government-frontend
-govuk-docker up government-frontend-app-live <span class="c"># or govuk-docker-up app-live</span>
+govuk-docker-up app-live
 <span class="c"># You can now view the app on government-frontend.dev.gov.uk</span>
 </code></pre></div>
 <p>If you want to test changes in <a href="https://github.com/alphagov/govuk_publishing_components">govuk_publishing_components</a> against a frontend app, you need to edit your frontend app Gemfile first:</p>
@@ -205,7 +189,7 @@ govuk-docker up government-frontend-app-live <span class="c"># or govuk-docker-u
 </code></pre></div>
 <div class="highlight"><pre class="highlight shell"><code><span class="nb">cd</span> /govuk/government-frontend
 govuk-docker-run bundle <span class="nb">install
-</span>govuk-docker up government-frontend-app-live
+</span>govuk-docker-up app-live
 <span class="c"># You can now view the app on government-frontend.dev.gov.uk</span>
 </code></pre></div>
 <p>If you want to test changes in static against a frontend app, you need to tell Docker to look at your local version of static rather than live:</p>
@@ -230,8 +214,25 @@ govuk-docker-run bundle <span class="nb">install
 make government-frontend
 
 <span class="nb">cd</span> /govuk/government-frontend
-govuk-docker up government-frontend-app-live
+govuk-docker-up app-live
 <span class="c"># You can now view the app on government-frontend.dev.gov.uk</span>
+</code></pre></div>
+<h2 id="using-startup-scripts">Using startup scripts</h2>
+
+<p><strong>NOTE:</strong> this approach only works for frontend development and relies on live APIs. You will need to find and install any dependencies yourself. Consider using the general GOV.UK Docker environment in the first instance.</p>
+
+<p>If you are making changes to certain frontend apps you can also view these changes by running the application's <code>./startup.sh</code> script - if it has one. This example is for <a href="https://github.com/alphagov/government-frontend">government-frontend</a>, but these instructions may apply to other frontend apps.</p>
+
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">cd</span> /govuk/government-frontend
+./startup.sh <span class="nt">--live</span>
+<span class="c"># Check the output to see what port the app is running on, e.g: localhost:3005</span>
+</code></pre></div>
+<p>If you want to test changes in <a href="https://github.com/alphagov/govuk_publishing_components">govuk_publishing_components</a> against a frontend app, you need to edit your frontend app Gemfile and then run the startup script:</p>
+
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">gem</span> <span class="s1">'govuk_publishing_components'</span><span class="p">,</span> <span class="ss">path: </span><span class="s1">'../govuk_publishing_components'</span>
+</code></pre></div>
+<div class="highlight"><pre class="highlight shell"><code>./startup.sh <span class="nt">--live</span>
+<span class="c"># Check the output to see what port the app is running on, e.g: localhost:3005</span>
 </code></pre></div>
 <h2 id="components-pulled-in-by-static">Components pulled in by Static</h2>
 
