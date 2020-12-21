@@ -181,7 +181,7 @@
             
   <p><a href='/manual.html#testing'>Testing</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/8720f30d4107e82c2b7bcc9d016f7e51beff7d43">1 Jul 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/0f0067be547a6af42e018189be87b6a948e0a0b7">21 Dec 2020</a>
 </div>
 
  <h1 id='header'>Test & build a project with GitHub Actions</h1> <p><a href="https://github.com/features/actions">GitHub Actions</a> is an automated workflow
@@ -283,12 +283,8 @@ project in a different direction and losing consistency.</p>
     <span class="na">steps</span><span class="pi">:</span>
       <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v2</span>
       <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">ruby/setup-ruby@v1</span>
-      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v1</span>
         <span class="na">with</span><span class="pi">:</span>
-          <span class="na">path</span><span class="pi">:</span> <span class="s">vendor/bundle</span>
-          <span class="na">key</span><span class="pi">:</span> <span class="s">bundle-${{ hashFiles('**/Gemfile.lock') }}</span>
-          <span class="na">restore-keys</span><span class="pi">:</span> <span class="s">bundle</span>
-      <span class="pi">-</span> <span class="na">run</span><span class="pi">:</span> <span class="s">bundle install --jobs 4 --retry 3 --deployment</span>
+          <span class="na">bundler-cache</span><span class="pi">:</span> <span class="no">true</span>
       <span class="pi">-</span> <span class="na">run</span><span class="pi">:</span> <span class="s">bundle exec rake</span>
 </code></pre></div>
 <p>Notes:</p>
@@ -296,12 +292,12 @@ project in a different direction and losing consistency.</p>
 <ul>
   <li><a href="https://github.com/ruby/setup-ruby">ruby/setup-ruby</a> will automatically
 select the Ruby version based on a <code>.ruby-version</code> file and will install
-bundler if a necessary.</li>
-  <li>This use <a href="https://github.com/actions/cache">actions/cache</a> to cache gems
-between runs.</li>
-  <li>This uses the <a href="https://bundler.io/man/bundle-install.1.html#DEPLOYMENT-MODE">deployment</a> flag for bundler to be
-configured for CI environments, the jobs flag allows parallel installs and
-retries allows re-attempts on failures.</li>
+bundler if a necessary.
+    <ul>
+      <li>The <a href="https://github.com/ruby/setup-ruby#caching-bundle-install-automatically"><code>bundler-cache: true</code> option</a>
+automatically runs <code>bundle install</code> and caches the result between builds.</li>
+    </ul>
+  </li>
 </ul>
 
 <h3 id="a-ruby-gem">A Ruby Gem</h3>
@@ -324,20 +320,13 @@ still be achieved through Jenkins.</p>
       <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v2</span>
       <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">ruby/setup-ruby@v1</span>
         <span class="na">with</span><span class="pi">:</span>
+          <span class="na">bundler-cache</span><span class="pi">:</span> <span class="no">true</span>
           <span class="na">ruby-version</span><span class="pi">:</span> <span class="s">${{ matrix.ruby }}</span>
-      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v1</span>
-        <span class="na">with</span><span class="pi">:</span>
-          <span class="na">path</span><span class="pi">:</span> <span class="s">vendor/bundle</span>
-          <span class="na">key</span><span class="pi">:</span> <span class="s">bundle-${{ matrix.ruby }}-${{ hashFiles('**/*.gemspec') }}</span>
-          <span class="na">restore-keys</span><span class="pi">:</span> <span class="s">bundle-${{ matrix.ruby }}</span>
-      <span class="pi">-</span> <span class="na">run</span><span class="pi">:</span> <span class="s">bundle install --jobs 4 --retry 3 --path vendor/bundle</span>
       <span class="pi">-</span> <span class="na">run</span><span class="pi">:</span> <span class="s">bundle exec rake</span>
 </code></pre></div>
 <p>Notes:</p>
 
 <ul>
-  <li>The <a href="https://bundler.io/man/bundle-install.1.html#DEPLOYMENT-MODE">deployment</a> flag for bundler cannot be used for gems
-as they should not have a Gemfile.lock committed.</li>
   <li>Our preference is to test the gems we publish against the latest version of
 <a href="https://www.ruby-lang.org/en/downloads/branches/">all currently supported minor versions of Ruby MRI</a>.</li>
 </ul>
@@ -382,13 +371,8 @@ management.</p>
           <span class="na">ref</span><span class="pi">:</span> <span class="s">deployed-to-production</span>
           <span class="na">path</span><span class="pi">:</span> <span class="s">vendor/govuk-content-schemas</span>
       <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">ruby/setup-ruby@v1</span>
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Check for cached bundler</span>
-        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v1</span>
         <span class="na">with</span><span class="pi">:</span>
-          <span class="na">path</span><span class="pi">:</span> <span class="s">vendor/bundle</span>
-          <span class="na">key</span><span class="pi">:</span> <span class="s">bundle-${{ hashFiles('**/Gemfile.lock') }}</span>
-          <span class="na">restore-keys</span><span class="pi">:</span> <span class="s">bundle</span>
-      <span class="pi">-</span> <span class="na">run</span><span class="pi">:</span> <span class="s">bundle install --jobs 4 --retry 3 --deployment</span>
+          <span class="na">bundler-cache</span><span class="pi">:</span> <span class="no">true</span>
       <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/setup-node@v1</span>
       <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Check for cached node modules</span>
         <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v1</span>
