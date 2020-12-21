@@ -145,10 +145,16 @@
         </ul>
       </li>
       <li>
-        <a href="#fastlys-ip-ranges"><span>Fastly's IP ranges</span></a>
+        <a href="#access-controls-on-cache-clearing"><span>Access controls on cache clearing</span></a>
+      </li>
+      <li>
+        <a href="#fastlys-ip-ranges-and-our-access-controls-on-origin-servers"><span>Fastly's IP ranges and our access controls on origin servers</span></a>
       </li>
       <li>
         <a href="#banning-ip-addresses-at-the-cdn-edge"><span>Banning IP addresses at the CDN edge</span></a>
+      </li>
+      <li>
+        <a href="#blocking-problematic-traffic-at-the-cdn-edge"><span>Blocking problematic traffic at the CDN edge</span></a>
       </li>
       <li>
         <a href="#bouncers-fastly-service"><span>Bouncer's Fastly service</span></a>
@@ -172,13 +178,13 @@
             
   <p><a href='/manual.html#cdn-caching'>CDN & Caching</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/59915b476a3d23c02a6000bda58344a9cbe14f52">16 Dec 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/b487c2304b74cccf18d45312f7274354a6a663ed">18 Dec 2020</a>
 </div>
 
  <h1 id='header'>Our content delivery network (CDN)</h1> <p>GOV.UK uses Fastly as a CDN. Public users aren't accessing GOV.UK servers directly, they connect via the CDN. This is better because:</p>
 
 <ul>
-  <li>The CDN "edge nodes" (webservers) are closer to end users. Fastly has servers all around the world but our "origin" servers are only in the UK.</li>
+  <li>The CDN "edge nodes" (webservers) are closer to end users. Fastly has servers all around the world but our "origin" servers are only in the AWS eu-west-1 region (Ireland).</li>
   <li>It reduces load on our origin. Fastly uses Varnish to cache responses.</li>
 </ul>
 
@@ -221,7 +227,7 @@
 
 <p>You can also use Fastly's <a href="https://fiddle.fastlydemo.net/">Fiddle tool</a> to manually test, and you can also test your changes with cURL by including a debug header:</p>
 
-<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>curl <span class="nt">-svo</span> /dev/null <span class="nt">-H</span> <span class="s2">"Fastly-Debug:1"</span> https://www.gov.uk
+<div class="highlight"><pre class="highlight shell"><code><span class="nv">$ </span>curl <span class="nt">-svo</span> /dev/null <span class="nt">-H</span> <span class="s2">"Fastly-Debug: 1"</span> https://www.gov.uk/
 </code></pre></div>
 <p>This will give you various debugging headers that may be useful:</p>
 
@@ -236,18 +242,22 @@
 </code></pre></div>
 <p>See the Varnish/Fastly docs for what these mean. Check out the Fastly <a href="https://docs.fastly.com/guides/debugging/checking-cache#using-curl">debugging guide</a> for more details on testing.</p>
 
-<h2 id="fastlys-ip-ranges">Fastly's IP ranges</h2>
+<h2 id="access-controls-on-cache-clearing">Access controls on cache clearing</h2>
 
-<p>Fastly publish their cache node <a href="https://api.fastly.com/public-ip-list">IP address ranges as JSON from their API</a>. We use these IP addresses in 2 places:</p>
+<p>Our <a href="https://github.com/alphagov/govuk-cdn-config/">Fastly Varnish config</a> restricts HTTP purges to specific IP addresses (otherwise anyone would be able to purge the cache).</p>
+
+<h2 id="fastlys-ip-ranges-and-our-access-controls-on-origin-servers">Fastly's IP ranges and our access controls on origin servers</h2>
+
+<p>Fastly publish their cache node <a href="https://api.fastly.com/public-ip-list">IP address ranges as JSON from their API</a>. We use these IP addresses in two places:</p>
 
 <ul>
-  <li>Origin has <a href="https://github.com/alphagov/govuk-provisioning/blob/master/vcloud-edge_gateway/vars/production_carrenza_vars.yaml">firewall rules</a> in place so that only our office and Fastly can connect.</li>
-  <li>Our <a href="https://github.com/alphagov/govuk-cdn-config/">Fastly Varnish config</a> restricts HTTP purges to specific IP addresses (otherwise anyone would be able to purge the cache).</li>
+  <li>Origin has <a href="https://github.com/alphagov/govuk-provisioning/blob/master/vcloud-edge_gateway/vars/production_carrenza_vars.yaml">firewall rules</a> in place so that only our office and Fastly can connect. This is updated automatically using the <a href="https://registry.terraform.io/providers/fastly/fastly/latest/docs">Fastly Terraform provider</a> when the <a href="https://github.com/alphagov/govuk-aws/tree/master/terraform/projects/infra-security-groups">infra-security-groups</a> module is deployed. Triggering the deployment is still a manual step though.</li>
+  <li>Performance Platform, which is still hosted in Carrenza/6degrees, has similar restrictions in place but this list is updated manually - see below.</li>
 </ul>
 
-<p>We have <a href="https://deploy.publishing.service.gov.uk/job/Check_CDN_IP_Ranges/">a Jenkins job "Check CDN IP Ranges"</a> which will start to fail if our Fastly IPs don't match the IPs returned from the Fastly API. If you see this alert, you can <a href="/manual/raising-issues-with-reliability-engineering.html">let GOV.UK Replatforming know</a> and they will update our list of Fastly IPs to match the ones listed by Fastly.</p>
+<p>We have <a href="https://deploy.publishing.service.gov.uk/job/Check_CDN_IP_Ranges/">a Jenkins job "Check CDN IP Ranges"</a> which will start to fail if the Fastly IPs in our Carrenza/6degrees firewall rules don't match the ones returned from the Fastly API. This check is only relevant for Carrenza/6degrees, which hosts Performance Platform. It does not apply to the rest of GOV.UK.</p>
 
-<p>Updating the firewall rules in Carrenza with new Fastly IPs used to be done by committing the change to the <a href="https://github.com/alphagov/govuk-provisioning">govuk-provisioning</a> repo and to then deploy the firewall through a Jenkins job. This process is broken at the moment since the code base has diverged from the state of the firewall. While this is remedied we have to add the new rules manually - this is how to do it:</p>
+<p>Updating the firewall rules in Carrenza with new Fastly IPs is a manual process. The <a href="/manual/raising-issues-with-reliability-engineering.html">SREs currently in Replatforming team</a> can help with this:</p>
 
 <ol>
   <li>You will need to install <a href="https://github.com/vmware/vcd-cli">vcd-cli</a> to use the following scripts.</li>
@@ -311,9 +321,15 @@ done</span>
   <li>making suspicious requests like attempting SQL injection queries</li>
 </ul>
 
-<p>Banning IPs shouldn't be taken lightly as IP address can be shared by multiple user devices and the user behind an IP address can change over time, so there's always a chance that we may block a legitimate user.</p>
+<p>Banning IPs shouldn't be taken lightly because many users can share the same IP address and the user behind an IP address can change over time, so there's always a chance that we may block legitimate users.</p>
 
-<p>You can change the list of banned IP addresses by modifying the <a href="https://github.com/alphagov/govuk-cdn-config-secrets/blob/master/fastly/dictionaries/config/ip_address_blacklist.yaml">YAML config file</a> and <a href="https://deploy.blue.production.govuk.digital/job/Update_CDN_Dictionaries/build">deploying the configuration</a>.</p>
+<p>You can change the list of banned IP addresses by modifying the <a href="https://github.com/alphagov/govuk-cdn-config-secrets/blob/master/fastly/dictionaries/config/ip_address_denylist.yaml">YAML config file</a> and <a href="https://deploy.blue.production.govuk.digital/job/Update_CDN_Dictionaries/build">deploying the configuration</a>.</p>
+
+<h2 id="blocking-problematic-traffic-at-the-cdn-edge">Blocking problematic traffic at the CDN edge</h2>
+
+<p>As well as blocking based on source IP address, we can also block abusive traffic based on headers, URL paths or any arbitrary criteria about the request that we can specify using VCL. This requires care and testing, but can be nonetheless a valueable incident response tool for mitigating DoS and spam attacks.</p>
+
+<p>We have a mechanism for including VCL code from the private <code>govuk-cdn-config-secrets</code> repo into the Fastly config, so that mitigations we make during an attack are not published to the public repo for the attacker to see and work around. An example of this is <a href="https://github.com/alphagov/govuk-cdn-config-secrets/pull/133/files">alphagov/govuk-cdn-secrets#133</a>.</p>
 
 <h2 id="bouncers-fastly-service">Bouncer's Fastly service</h2>
 
