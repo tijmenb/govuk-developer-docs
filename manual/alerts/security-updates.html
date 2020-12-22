@@ -153,7 +153,7 @@
 
      <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/772dee304bcf3e65921a16ec44d11f8308209db9">27 Jul 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/adc9c977b71f3bcedc00f0ceceb93ebdc93ad3fc">22 Dec 2020</a>
 </div>
 
  <h1 id='header'>Outstanding security updates</h1> <p>Machines are configured to <a href="https://help.ubuntu.com/community/AutomaticSecurityUpdates#Using_the_.22unattended-upgrades.22_package">automatically install security updates</a> on a daily basis.</p>
@@ -163,13 +163,16 @@
   <li>Relevant config can be found in <code>/etc/apt/apt.conf.d</code>.</li>
 </ul>
 
-<p>This alert indicates automatic updates have stopped working. While this is not normally a critical issue, it becomes so if we start missing out on security patches. Some commands to start debugging with:</p>
+<p>This alert indicates automatic updates have stopped working. While this is not normally a critical issue, it becomes so if we start missing out on security patches.</p>
 
-<div class="highlight"><pre class="highlight shell"><code><span class="c"># check the output of the last automatic upgrade</span>
-less /var/log/unattended-upgrades/unattended-upgrades.log
+<p>Check the output of the last automatic upgrade:</p>
 
-<span class="c"># try running the upgrade manually</span>
-<span class="nb">sudo </span>unattended-upgrade <span class="nt">-d</span> <span class="nt">--dry-run</span>
+<div class="highlight"><pre class="highlight shell"><code>less /var/log/unattended-upgrades/unattended-upgrades.log
+</code></pre></div>
+<p>If you get <code>No such file or directory</code>, it's likely this is a new instance that has not been triggered to update via cron yet.
+You could acknowledge it until it is next scheduled to run, or you could try running the upgrade manually:</p>
+
+<div class="highlight"><pre class="highlight shell"><code><span class="nb">sudo </span>unattended-upgrade <span class="nt">-d</span> <span class="nt">--dry-run</span>
 </code></pre></div>
 <p>If the unattended upgrades log looks okay, check which security updates are outstanding:</p>
 
