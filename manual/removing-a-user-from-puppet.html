@@ -132,6 +132,11 @@
   <ul>
   <li>
     <a href="#header"><span>Remove a user from Puppet</span></a>
+    <ul>
+      <li>
+        <a href="#what-to-do-if-you-miss-the-ensure-absent-step"><span>What to do if you miss the 'ensure absent' step</span></a>
+      </li>
+    </ul>
   </li>
 </ul>
 
@@ -145,14 +150,14 @@
             
   <p><a href='/manual.html#accounts'>Accounts</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/c70bebe695255cf2450914df1c968ec81d635ae7">10 Sep 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/2fcf27d392177a6bbc482db5e511659bc5bf436b">22 Dec 2020</a>
 </div>
 
  <h1 id='header'>Remove a user from Puppet</h1> <p>Removing a user from our infrastructure via Puppet is a 2 change process that
 requires a deploy in the middle. The first change ensures that when Puppet
 runs the user's home directory is removed; the second change removes the
 user from Puppet itself. If the user is just removed from Puppet their files
-will remain on our servers forever more.</p>
+will remain on our servers forever more, <a href="#what-to-do-if-you-miss-the-ensure-absent-step">unless you perform a workaround</a>.</p>
 
 <ol>
   <li>First find the user manifest in: <a href="https://github.com/alphagov/govuk-puppet/tree/master/modules/users/manifests">modules/users/manifests</a>.</li>
@@ -175,6 +180,21 @@ environments.</li>
   <li>Once these have been merged, deploy Puppet again to all environments.</li>
 </ol>
 
+<h2 id="what-to-do-if-you-miss-the-ensure-absent-step">What to do if you miss the 'ensure absent' step</h2>
+
+<p>If you forgot to apply the <code>ensure =&gt; absent</code> step in the instructions above,
+the user's home directory will persist on any machine they have SSH'd into in
+the past. This isn't inherently bad, but has caused issues with disk space in
+the past where user had large files in that directory.</p>
+
+<p>Machines will eventually get recycled as they're scaled up or down, so these
+directories should naturally start to disappear over time. If there is a need
+to remove the directories more quickly, you can consider using a
+<a href="https://github.com/alphagov/fabric-scripts#readme">fabric script</a>.</p>
+
+<p>Unfortunately it's <a href="https://github.com/alphagov/govuk-puppet/pull/10892#issuecomment-749678673">not possible to retrospectively reintroduce</a>
+the user with a <code>ensure =&gt; absent</code> argument, as the user will already have
+been deleted. Filesystem permissions are done through user IDs rather than names.</p>
 
 
   <div class='related-content'>
