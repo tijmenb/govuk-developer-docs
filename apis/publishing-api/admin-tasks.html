@@ -199,15 +199,8 @@
         <div class="app-pane__content toc-open-disabled">
           <main id="content" class="technical-documentation" data-module="anchored-headings">
               <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
-    <div class="govuk-warning-text">
-      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-      <strong class="govuk-warning-text__text">
-        <span class="govuk-warning-text__assistive">Warning</span>
-        This document has not been updated for a while now. It may be out of date.
-      </strong>
-    </div>
 
-  Last updated: <a href="https://github.com/alphagov/publishing-api/commit/fc2e037432f0371940a14e853644b89ef2ad88d0">9 Jun 2020</a>
+  Last updated: <a href="https://github.com/alphagov/publishing-api/commit/d46ad53d419fe2e4e66eb8b37bb3abb5509a9514">22 Dec 2020</a>
 </div>
 
   <h1 class="page-title">publishing-api: Admin Tasks</h1>
@@ -296,6 +289,16 @@ a couple of rake commands.</p>
 <li>To purge the expanded links cache</li>
 </ul>
 <pre><code>bundle exec rake expanded_links:truncate
+</code></pre>
+<h2 id="generating-csv-reports-of-publishings-and-unpublishing-by-date-range">Generating CSV reports of publishings and unpublishing by date range</h2>
+<p>There are two tasks provided which create CSV reports of publishings and
+unpublishings within a given time range. Both task require a <code>from</code> timestamp
+argument and a <code>until</code> timestamp argument.</p>
+<p>To see all the editions that were published between two times run:</p>
+<pre><code>bundle exec rake "csv_report:publishings_by_date_range['2020-10-01 10:00', '2020-12-31 10:00']"
+</code></pre>
+<p>To see all the editions that were unpublished between two times run:</p>
+<pre><code>bundle exec rake "csv_report:unpublishings_by_date_range['2020-10-01 10:00', '2020-12-31 10:00']"
 </code></pre>
 
 
