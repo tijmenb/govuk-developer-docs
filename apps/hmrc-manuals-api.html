@@ -82,9 +82,6 @@
               <a class="govuk-header__link" href="/manual.html">Manual</a>
             </li>
             <li class="govuk-header__navigation-item">
-              <a class="govuk-header__link" href="/apis.html">APIs</a>
-            </li>
-            <li class="govuk-header__navigation-item">
               <a class="govuk-header__link" href="/content-schemas.html">Schemas</a>
             </li>
             <li class="govuk-header__navigation-item">
@@ -386,10 +383,10 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 <h2 id="nomenclature">Nomenclature</h2>
 <ul>
 <li>
-<p><strong>Manual</strong>: HMRC manual with title and description, contains many Sections. See <a href="https://github.com/alphagov/hmrc-manuals-api/blob/master/docs/extended_documentation.md#adding-or-updating-a-manual">Adding or updating a manual</a> for more details. Before adding a manual through the api, a <a href="#adding-a-new-slug">new slug should be added</a> to the list of known slugs.</p>
+<p><strong>Manual</strong>: HMRC manual with title and description, contains many Sections. See <a href="/apps/hmrc-manuals-api/extended_documentation.html">Adding or updating a manual</a> for more details. Before adding a manual through the api, a <a href="#adding-a-new-slug">new slug should be added</a> to the list of known slugs.</p>
 </li>
 <li>
-<p><strong>Section</strong>: Sections can contain sub-sections and/or a content body. See <a href="https://github.com/alphagov/hmrc-manuals-api/blob/master/docs/extended_documentation.md#adding-or-updating-a-manual-section">Adding or updating a section</a> for more details.</p>
+<p><strong>Section</strong>: Sections can contain sub-sections and/or a content body. See <a href="/apps/hmrc-manuals-api/extended_documentation.html">Adding or updating a section</a> for more details.</p>
 </li>
 </ul>
 <p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
@@ -399,19 +396,19 @@ gds govuk connect ssh <span class="nt">-e</span> production aws/backend
 then add the slug and re-deploy the application and inform HMRC that the slug is ready to be published against.</p>
 <h2 id="technical-documentation">Technical documentation</h2>
 <p>Provides an API for a system built by HMRC to publish tax manuals onto GOV.UK. In many ways it is analogous to a backend/admin app for publishing on GOV.UK. Content which passes validation and checks for unsanitary content is submitted to the GOV.UK Publishing API application. The application does not have a database itself. An HMRC manual consists of two document types: the manual itself and manual sections.</p>
-<p>See the <a href="https://github.com/alphagov/hmrc-manuals-api/blob/master/docs/extended_documentation.md">extended documentation</a> for details:</p>
+<p>See the <a href="/apps/hmrc-manuals-api/extended_documentation.html">extended documentation</a> for details:</p>
 <ul>
-<li><a href="https://github.com/alphagov/hmrc-manuals-api/blob/master/docs/extended_documentation.md#connecting-to-the-api">Connecting to the API</a></li>
-<li><a href="https://github.com/alphagov/hmrc-manuals-api/blob/master/docs/extended_documentation.md#adding-or-updating-a-manual">Adding or updating a manual</a></li>
-<li><a href="https://github.com/alphagov/hmrc-manuals-api/blob/master/docs/extended_documentation.md#adding-or-updating-a-manual-section">Adding or updating a section</a></li>
-<li><a href="https://github.com/alphagov/hmrc-manuals-api/blob/master/docs/extended_documentation.md#possible-responses-to-put-requests">Responses to PUT requests</a></li>
-<li><a href="https://github.com/alphagov/hmrc-manuals-api/blob/master/docs/extended_documentation.md#slugs-section-ids-and-urls">Slugs, Section Ids and Urls</a></li>
-<li><a href="https://github.com/alphagov/hmrc-manuals-api/blob/master/docs/extended_documentation.md#content-ids">Content Ids</a></li>
-<li><a href="https://github.com/alphagov/hmrc-manuals-api/blob/master/docs/extended_documentation.md#markup">Markup</a></li>
-<li><a href="https://github.com/alphagov/hmrc-manuals-api/blob/master/docs/extended_documentation.md#manual-tags">Manual Tags</a></li>
-<li><a href="https://github.com/alphagov/hmrc-manuals-api/blob/master/docs/extended_documentation.md#removing-published-manuals">Removing published manuals</a></li>
-<li><a href="https://github.com/alphagov/hmrc-manuals-api/blob/master/docs/extended_documentation.md#testing-publishing-in-the-govuk-development-vm">Testing publishing in the GOVUK dev vm</a></li>
-<li><a href="https://github.com/alphagov/hmrc-manuals-api/blob/master/docs/extended_documentation.md#managing-manuals-and-sections-with-rake">Managing manuals and sections with rake</a></li>
+<li><a href="/apps/hmrc-manuals-api/extended_documentation.html">Connecting to the API</a></li>
+<li><a href="/apps/hmrc-manuals-api/extended_documentation.html">Adding or updating a manual</a></li>
+<li><a href="/apps/hmrc-manuals-api/extended_documentation.html">Adding or updating a section</a></li>
+<li><a href="/apps/hmrc-manuals-api/extended_documentation.html">Responses to PUT requests</a></li>
+<li><a href="/apps/hmrc-manuals-api/extended_documentation.html">Slugs, Section Ids and Urls</a></li>
+<li><a href="/apps/hmrc-manuals-api/extended_documentation.html">Content Ids</a></li>
+<li><a href="/apps/hmrc-manuals-api/extended_documentation.html">Markup</a></li>
+<li><a href="/apps/hmrc-manuals-api/extended_documentation.html">Manual Tags</a></li>
+<li><a href="/apps/hmrc-manuals-api/extended_documentation.html">Removing published manuals</a></li>
+<li><a href="/apps/hmrc-manuals-api/extended_documentation.html">Testing publishing in the GOVUK dev vm</a></li>
+<li><a href="/apps/hmrc-manuals-api/extended_documentation.html">Managing manuals and sections with rake</a></li>
 </ul>
 <h3 id="dependencies">Dependencies</h3>
 <ul>
@@ -429,7 +426,7 @@ then add the slug and re-deploy the application and inform HMRC that the slug is
 <h3 id="any-deviations-from-idiomatic-railsgo-etc-">Any deviations from idiomatic Rails/Go etc.</h3>
 <p>The application does not have a database itself, it sends on requests to the Publishing API.</p>
 <h3 id="example-api-output">Example API output</h3>
-<p><a href="https://github.com/alphagov/hmrc-manuals-api/blob/master/docs/extended_documentation.md#possible-responses-to-put-requests">Responses to PUT requests</a></p>
+<p><a href="/apps/hmrc-manuals-api/extended_documentation.html">Responses to PUT requests</a></p>
 <h2 id="licence">Licence</h2>
 <p><a href="https://github.com/alphagov/hmrc-manuals-api/blob/master/LICENCE">MIT License</a></p>
   </div>

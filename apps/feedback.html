@@ -82,9 +82,6 @@
               <a class="govuk-header__link" href="/manual.html">Manual</a>
             </li>
             <li class="govuk-header__navigation-item">
-              <a class="govuk-header__link" href="/apis.html">APIs</a>
-            </li>
-            <li class="govuk-header__navigation-item">
               <a class="govuk-header__link" href="/content-schemas.html">Schemas</a>
             </li>
             <li class="govuk-header__navigation-item">
@@ -405,11 +402,11 @@ or a Zendesk ticket will be created.</li>
 <li>A certain subset of tickets ('assisted digital') have a special workflow: they're
 sent once to a Google spreadsheet via the Google API, and then a subset of the data
 is sent to <code>support-api</code> which will save them in its database. More documentation about
-that here: <a href="https://github.com/alphagov/feedback/blob/master/docs/assisted_digital_feedback.md">docs/assisted_digital_feedback.md</a>.</li>
+that here: <a href="/apps/feedback/assisted_digital_feedback.html">docs/assisted_digital_feedback.md</a>.</li>
 <li>Handles email survey signups. A banner that shows up on <code>gov.uk</code> will ask you to
 provide an email to signup to a survey. <code>feedback</code> will then email you a link to the
 survey. However, it does not collect the answers. More documentation about that here:
-<a href="https://github.com/alphagov/feedback/blob/master/docs/email_survey_signups.md">docs/email_survey_signups.md</a>
+<a href="/apps/feedback/email_survey_signups.html">docs/email_survey_signups.md</a>
 </li>
 </ol>
 <h3 id="dependencies">Dependencies</h3>
@@ -443,14 +440,14 @@ bearer token for authorization because <code>support</code> is a backend app pro
 <code>signon</code>.  The same is not true for the feedback that is sent to <code>support-api</code>
 because it's not protected by <code>signon</code>.</p>
 <p>You can read more about how to obtain authorization in the docs:
-<a href="https://github.com/alphagov/feedback/blob/master/docs/testing_with_real_authorization.md">docs/testing_with_real_authorization</a>.</p>
+<a href="/apps/feedback/testing_with_real_authorization.html">docs/testing_with_real_authorization</a>.</p>
 <h3 id="assisted-digital-feedback">Assisted Digital Feedback</h3>
 <p>Assisted Digital feedback is stored twice.  The standard service feedback
 component is sent to support-api like other tickets, but the rest of the
 feedback specifically about assisted digital support is stored in a google
 spreadsheet.</p>
 <p>A more thorough explanation about how assisted digital feedback works can
-be found in the docs: <a href="https://github.com/alphagov/feedback/blob/master/docs/assisted_digital_feedback.md">docs/assisted_digital_feedback.md</a>.</p>
+be found in the docs: <a href="/apps/feedback/assisted_digital_feedback.html">docs/assisted_digital_feedback.md</a>.</p>
 <h3 id="email-survey-signups">Email Survey Signups</h3>
 <p>This type of feedback is not actually feedback, it's a response from a banner
 displayed by static asking users to provide an email address where we can send
@@ -458,7 +455,7 @@ them a link to a survey. The survey will then be emailed to them via the
 <code>feedback</code> app. Please be aware that the answers we get back on the survey will
 NOT be stored in <code>feedback</code>.</p>
 <p>A more thorough explanation of how email surveys work can be found in the docs:
-<a href="https://github.com/alphagov/feedback/blob/master/docs/email_survey_signups.md">docs/email_survey_signup.md</a>.</p>
+<a href="/apps/feedback/email_survey_signups.html">docs/email_survey_signup.md</a>.</p>
   </div>
 
 
