@@ -1,6 +1,7 @@
 # These sections are magically populated from applications.yml
 - name: "Applications"
   sections:
+    - name: Accounts
     - name: Publishing apps
     - name: APIs
     - name: Services

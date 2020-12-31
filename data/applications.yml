@@ -1,3 +1,17 @@
+# Accounts
+- github_repo_name: govuk-account-manager-prototype
+  type: Accounts
+  team: "#govuk-accounts-tech"
+  production_hosted_on: paas
+  sentry_url: https://sentry.io/organizations/govuk/issues/?project=5370953
+  dashboard_url: false
+- github_repo_name: govuk-attribute-service-prototype
+  type: Accounts
+  team: "#govuk-accounts-tech"
+  production_hosted_on: paas
+  sentry_url: https://sentry.io/organizations/govuk/issues/?project=5371008
+  dashboard_url: false
+
 # publishing apps
 
 - github_repo_name: collections-publisher
