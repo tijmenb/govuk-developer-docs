@@ -568,7 +568,7 @@
           <main id="content" class="technical-documentation" data-module="anchored-headings">
               <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/email-alert-api/commit/c8296d164cd6f1dfe043408ac2f34a2a59ed36e4">31 Dec 2020</a>
+  Last updated: <a href="https://github.com/alphagov/email-alert-api/commit/a04d11df4eda52febdb130b277c42812ab88aed4">4 Jan 2021</a>
 </div>
 
   <h1 class="page-title">email-alert-api: Available endpoints</h1>
@@ -653,14 +653,6 @@ slowness in the external notifications API).</p>
 <p>It will respond with <code>202 Accepted</code> (the call is queued).</p>
 <p>The following fields are accepted on this endpoint: <code>sender_message_id</code>,
 <code>title</code>, <code>url</code>, <code>body</code>, <code>criteria_rules</code>, and <code>priority</code>.</p>
-<h3 id="post-emails"><code>POST /emails</code></h3>
-<pre lang="json"><code>{
-  "subject": "This is the subject/title of my bulletin",
-  "body": "Email body here",
-  "address": "recipient-email@address.com"
-}
-</code></pre>
-<p>It will respond with <code>202 Accepted</code> (the call is queued).</p>
 <h3 id="get-subscribersxxxsubscriptions"><code>GET /subscribers/xxx/subscriptions</code></h3>
 <p>Gets a subscriber's subscriptions, in the form:</p>
 <pre lang="json"><code>{
