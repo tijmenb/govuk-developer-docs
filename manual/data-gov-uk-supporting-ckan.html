@@ -191,7 +191,7 @@
             
   <p><a href='/manual.html#data-gov-uk'>data.gov.uk</a></p>   <div class="govuk-!-font-size-16 govuk-!-margin-top-6">
 
-  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/49f4b5f7ea8c9cb9f0502cd906c37addfdd98910">30 Nov 2020</a>
+  Last updated: <a href="https://github.com/alphagov/govuk-developer-docs/commit/214a8de7f86d225de4a3a781abdd6d9703e58839">5 Jan 2021</a>
 </div>
 
  <h1 id='header'>Common 2nd line support tasks for CKAN</h1> 
@@ -368,12 +368,9 @@ UUID.</p>
 
 <div class="highlight"><pre class="highlight plaintext"><code>paster --plugin=ckan dataset purge DATASET_NAME -c /var/ckan/ckan.ini
 </code></pre></div>
-<p>There may be times when a large number of datasets must be deleted.  This can be done remotely from your
-machine using the CKAN API.  Your API key is required, which can be obtained from your user profile on
-the web interface.  Put a list of dataset slugs or GUIDs in a text file, with one dataset per line, then
-run the following.</p>
+<p>There may be times when a large number of datasets must be deleted. This needs to be done on the CKAN machine, since <a href="https://github.com/alphagov/govuk-puppet/blob/91471d86c0aa52aea4044835311ae9ba860281f5/modules/govuk/manifests/apps/ckan.pp#L210">the deletion API is protected from external access</a>. Your API key is required, which can be obtained from your user profile on the web interface. Put a list of dataset slugs or GUIDs in a text file, with one dataset per line, then run the following.</p>
 
-<div class="highlight"><pre class="highlight plaintext"><code>while read p; do curl --request POST --data "{\"id\": \"$p\"}" --header "Authorization: &lt;your_api_key&gt;" https://data.gov.uk/api/3/action/package_delete; done &lt; list_of_ids.txt
+<div class="highlight"><pre class="highlight plaintext"><code>while read p; do curl --request POST --data "{\"id\": \"$p\"}" --header "Authorization: &lt;your_api_key&gt;" http://localhost:&lt;ckan_port&gt;/api/3/action/package_delete; done &lt; list_of_ids.txt
 </code></pre></div>
 <p>After deleting or purging a dataset, it will take up to 10 minutes to update on Find, due to the sync process.</p>
 
